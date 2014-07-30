@@ -35,7 +35,7 @@ You use that same write function for inserting, modifying and deleting (by passi
 
 You can also pass a complex object to `write()`:
 
-   `
+```
    mystore.write("foo", {   
       pinky: [],   
       perky: true,   
@@ -46,7 +46,7 @@ You can also pass a complex object to `write()`:
         {}   
       ]   
     } );
-    ` 
+```
 
 All the array modifying functions work without any substitution required:
 
