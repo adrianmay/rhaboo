@@ -1,0 +1,4 @@
+rhaboo
+======
+
+Persistent JavaScript Objecs
