@@ -1,7 +1,10 @@
 
 var _rhaboo_trace = function(s) { console.log(s); }
 
-QUnit.test( "Phase 1", function( assert ) {
+QUnit.test( "Simple restore", function( assert ) {
+
+  assert.ok (Number(localStorage.getItem("nextPhase")) === 2, "Please run tests in sequence");
+  localStorage.setItem("nextPhase", 3);
 
   var store1 = new Rhaboo("test");
   assert.ok( typeof store1 === "object", "Store1 exists");
