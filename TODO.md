@@ -3,8 +3,10 @@ TODO
 
 * Upload syncronous version
 * Tests
-* Array modifiers & tests
 * Async version
+* Array modifiers & tests
+* Design doc, FAQ
 * Minify
 * Package stuff
+* Web site, group, stackoverflow tag
 
