@@ -15,13 +15,20 @@ Persistence code runs in a background thread so the user interface remains snapp
 How do I use it?
 ----------------
 
-You make a persistent object like this:
+First include the library and its one dependency, namely Q (https://github.com/kriskowal/q):
+
+```
+   <script src="q.js"></script>
+   <script src="rhaboo.js"></script>
+```
+
+then make a persistent object like this:
 
 ```
    var mystore = new Rhaboo("Some unique name");
 ```
 
-The library immediately attempts to restore this object from localStorage. If it's empty then this must be the first time your program was run on this machine so you detect that fact and populate your store. On subsequent runs the contents of mystore will be as you left them.
+The library immediately attempts to restore this object from localStorage. If it remains empty then this must be the first time your program was run on this machine, so you detect that fact and populate your store. On subsequent runs the contents of mystore will be as you left them.
 
 You can read from it exactly like any other object, but to modify it, instead of writing:
  
@@ -58,7 +65,7 @@ You can also pass a complex object to `write()`:
    } );
 ```
 
-All the array modifying functions work without any substitution required:
+All the standard array modifying functions work persistently:
 
 ```
    mystore.foo.pinky.push("bar");  
