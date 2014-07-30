@@ -17,46 +17,50 @@ How do I use it?
 
 You make a persistent object like this:
 
-   `var mystore = new Rhaboo("Some unique name");`
+   var mystore = new Rhaboo("Some unique name");
 
 The library immediately attempts to restore this object from localStorage. If it's empty then this must be the first time your program was run on this machine so you detect that fact and populate your store. On subsequent runs the contents of mystore will be as you left them.
 
 You can read from it exactly like any other object, but to modify it, instead of writing:
  
-   `mystore.foo = 123;` or equivalently `mystore["foo"] = 123;`
+   mystore.foo = 123; or equivalently mystore["foo"] = 123;
 
 you should write:
 
-   `mystore.write("foo", 123);`
+   mystore.write("foo", 123);
 
 It's an ugly substitution but at least it's one-to-one so it doesn't affect your overall design.
 
-You use that same write function for inserting, modifying and deleting (by passing `undefined`) the properties in your store.
+You use that same write function for inserting, modifying and deleting (by passing ```undefined```) the properties in your store.
 
 You can also pass a complex object to `write()`:
 
 ```
    mystore.write("foo", {   
-      pinky: [],   
-      perky: true,   
-      porky: [   
-        "The",   
-        3,   
-        "Musketeers",   
-        {}   
-      ]   
-    } );
+     pinky: [],   
+     perky: true,   
+     porky: [   
+       "The",   
+       3,   
+       "Musketeers",   
+       {}   
+     ]   
+   } );
 ```
 
 All the array modifying functions work without any substitution required:
 
-   `mystore.foo.pinky.push("bar");`  
-   `mystore.foo.pinky.reverse();`
+```
+   mystore.foo.pinky.push("bar");  
+   mystore.foo.pinky.reverse();
+```
 
 You can also take an exsting object and make it persistent:
 
-`var mystore = { 1: "man", went: [2, "mow"] };`  
-`mystore._rhaboo_restore("Some unique name");`
+```
+   var mystore = { 1: "man", went: [2, "mow"] };  
+   mystore._rhaboo_restore("Some unique name");
+```
 
 but this is discouraged because it begs the question of whether initialised entries should override stored ones or vice versa. The answer is the latter, but the question can be avoided altogether by using the Rhaboo constructor instead.
 
