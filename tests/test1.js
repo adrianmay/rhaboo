@@ -7,7 +7,7 @@ for (var k in localStorage)
 localStorage.setItem("nextPhase", 2);
 
 QUnit.test( "Write simple stuff", function( assert ) {
-  var store1 = new Rhaboo("test");
+  var store1 = new Rhaboo("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
   assert.ok (store1._rhaboo_size() === 1, "Store1 empty");
 
