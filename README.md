@@ -39,12 +39,12 @@ You can also pass a complex object to `write()`:
 
 All the array modifying functions work without any substitution required:
 
-   `mystore.foo.pinky.push("bar");`
+   `mystore.foo.pinky.push("bar");`  
    `mystore.foo.pinky.reverse();`
 
 You can also take an exsting object and make it persistent:
 
-`var mystore = { 1: "man", went: [2, "mow"] };`
+`var mystore = { 1: "man", went: [2, "mow"] };`  
 `mystore._rhaboo_restore("Some unique name");`
 
 but this is discouraged because it begs the question of whether initialised entries should override stored ones or vice versa. The answer is the latter, but the question can be avoided altogether by using the Rhaboo constructor instead.
