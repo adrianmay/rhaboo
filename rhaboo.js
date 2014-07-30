@@ -39,19 +39,19 @@ var _rhaboo_stashers = {
   "nothing": function (key, what) { },
   "leaf"   : function (key, what) { _rhaboo_store_setItem(key, typeof what + "|" + String(what)); },
   "object" : function (key, what) { what._rhaboo_stash(key); },
-  "bad"    : function (key, what) { },
+  "bad"    : function (key, what) { }
 }
 
 var _rhaboo_forgetters = {
   "nothing": function (key, old) { },
   "leaf"   : function (key, old) { _rhaboo_store_removeItem(key); },
   "object" : function (key, old) { old._rhaboo_forget(); },
-  "bad"    : function (key, old) { },
+  "bad"    : function (key, old) { }
 }
 
 Object.prototype._rhaboo_stash = function (key) {
-  var storedsomething = false;
   this._rhaboo_key=key;
+  _rhaboo_store_setItem(this._rhaboo_childKey(""), "|");
   for (var where in this) {
     if (where !== "_rhaboo_key" && this.hasOwnProperty(where)) {
       var what = this[where];
@@ -59,8 +59,6 @@ Object.prototype._rhaboo_stash = function (key) {
       storedsomething = true;
     }
   }
-  if (!storedsomething)
-    _rhaboo_store_setItem(this._rhaboo_childKey(""), "empty|0");
 }
 
 Object.prototype._rhaboo_forget = function () {
@@ -87,8 +85,7 @@ Object.prototype._rhaboo_restore = function (key) {
           var newkeypart = keyparts.shift();
           var newname = newkeypart.slice(0, length-1);
           if (insertee[newname] === undefined) {
-            var newclasssig = newkeypart.charAt(newkeypart.length-1)
-            insertee[newname] = newclasssig === Array.prototype._rhaboo_classcode ? [] : {}
+            insertee[newname] = newkeypart.charAt(newkeypart.length-1) === Array.prototype._rhaboo_classcode ? [] : {}
             insertee[newname]._rhaboo_key = insertee._rhaboo_childKey(newname)
           }
           insertee = insertee[newname];
