@@ -30,5 +30,15 @@ QUnit.test( "Write simple stuff", function( assert ) {
   assert.ok( typeof store1.empty_ob === 'object', "Insert empty object");
   assert.ok (store1.empty_ob._rhaboo_size() === 1, "Check its empty");
 
+  var store2 = new Rhaboo("Another Unique Name");
+  assert.ok( typeof store2 === "object", "Store2 exists");
+  assert.ok (store2._rhaboo_size() === 1, "Store2 empty");
+
+  store2.write("colour", "red");
+  store2.write("lue", 42);
+  store2.write("too", true);
+
+  store2.write("rhyme", { 1: "man", went: [2, "mow"] } );
+
 });
 
