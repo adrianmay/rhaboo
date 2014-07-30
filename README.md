@@ -1,6 +1,8 @@
 Rhaboo
 ======
 
+*This is still very alpha: don't use it yet*
+
 What is it?
 -----------
 
@@ -80,6 +82,7 @@ You can also take an exsting object and make it persistent:
 ```
 
 but this is discouraged because it begs the question of whether initialised entries should override stored ones or vice versa. The answer is the latter, but the question can be avoided altogether by using the Rhaboo constructor instead.
+
 
 
 
