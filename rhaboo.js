@@ -56,7 +56,6 @@ Object.prototype._rhaboo_stash = function (key) {
     if (where !== "_rhaboo_key" && this.hasOwnProperty(where)) {
       var what = this[where];
       _rhaboo_stashers [_rhaboo_getTypeOf(what)] (this._rhaboo_childKey(where), what);
-      storedsomething = true;
     }
   }
 }
@@ -125,6 +124,13 @@ Object.prototype._rhaboo_isArray = function () {
     !(this.propertyIsEnumerable('length'));
 }
 
+Object.prototype._rhaboo_size = function () {
+  var count = 0;
+  for (var key in this) {
+    if (this.hasOwnProperty(key)) count++;
+  }
+  return count;
+}
 
 
 
