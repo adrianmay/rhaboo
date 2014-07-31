@@ -1,10 +1,11 @@
 TODO
 ====
 
-* Array modifiers & more tests
+* Test rest of array modifiers
+* Minify, concat
+* More tests
 * Moz layout
 * Design doc, FAQ
-* Minify, concat
 * Package stuff
 * Web site, group, stackoverflow tag
 
