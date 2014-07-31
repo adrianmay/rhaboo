@@ -1,8 +1,8 @@
 TODO
 ====
 
-* Async version
 * Array modifiers & more tests
+* Moz layout
 * Design doc, FAQ
 * Minify, concat
 * Package stuff
