@@ -29,7 +29,9 @@ QUnit.test( "Write simple stuff", function( assert ) {
 
   store1.write("empty_ob", {});
   assert.ok( typeof store1.empty_ob === 'object', "Insert empty object");
-  assert.ok (store1.empty_ob._rhaboo_size() === 1, "Check its empty");
+  var size = store1.empty_ob._rhaboo_size();
+  //Insertion of key into new object might still be pending...
+  assert.ok (size <= 1, "Check its empty");
 
   var store2 = new Rhaboo("Another Unique Name");
   assert.ok( typeof store2 === "object", "Store2 exists");

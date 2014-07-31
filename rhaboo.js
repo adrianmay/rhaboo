@@ -30,8 +30,15 @@ Object.prototype.write = function (where, what) {
   var old = this[where];
   this[where] = what;
   if (this._rhaboo_key !== undefined) {
-    _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (this._rhaboo_childKey(where), old);
-    _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (this._rhaboo_childKey(where), what);
+    var childkey = this._rhaboo_childKey(where);
+    enq( function(deferred) {
+      _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old);
+      deferred.resolve();
+    });
+    enq( function(deferred) {
+      _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (childkey, what);
+      deferred.resolve();
+    });
   }
   return this;
 }
