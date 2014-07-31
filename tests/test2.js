@@ -1,5 +1,6 @@
+"use strict"
 
-var _rhaboo_trace = function(s) { console.log(s); }
+_rhaboo_trace = function(s) { console.log(s); }
 
 QUnit.test( "Simple restore", function( assert ) {
 

@@ -1,5 +1,6 @@
+"use strict"
 
-var _rhaboo_trace = function(s) { console.log(s); }
+_rhaboo_trace = function(s) { console.log(s); }
 
 for (var k in localStorage)
   if (localStorage.hasOwnProperty(k))

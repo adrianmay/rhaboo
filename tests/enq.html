@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html>
+  <script src="../other_peoples/q.js"></script>
+  <script src="../enq.js"></script>
+  <script>
+
+function wait1(deferred) {
+  setTimeout( function () { 
+    console.log("tock 1000");
+    deferred.resolve(); 
+  }, 1000);
+}
+
+function wait2(deferred) {
+  setTimeout( function () { 
+    console.log("tock 2000");
+    deferred.resolve(); 
+  }, 2000);
+}
+
+function wait3(deferred) {
+  setTimeout( function () { 
+    console.log("tock 3000");
+    deferred.resolve(); 
+  }, 3000);
+}
+
+enq(wait1);
+enq(wait2);
+enq(wait3);
+
+console.log("Enqueued all");
+
+  </script>
+  <body>
+    <h1>Enq Test</h1>
+    <p>See the console
+  </body>
+</html>
+

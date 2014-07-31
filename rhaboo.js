@@ -1,3 +1,4 @@
+"use strict"
 
 var _rhaboo_trace = function(s) { /* console.log(s); */ } //Turn this on in test code if you like
 
