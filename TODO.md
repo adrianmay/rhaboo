@@ -1,10 +1,8 @@
 TODO
 ====
 
-* Upload syncronous version
-* Tests
 * Async version
-* Array modifiers & tests
+* Array modifiers & more tests
 * Design doc, FAQ
 * Minify
 * Package stuff
