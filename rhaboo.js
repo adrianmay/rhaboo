@@ -23,31 +23,35 @@ var _rhaboo_store_removeItem = function (where) {
 Object.prototype._rhaboo_classcode = '&';
 Array .prototype._rhaboo_classcode = '#';
 Object.prototype._rhaboo_childKey = function (where) {
-  return this._rhaboo_key + this._rhaboo_classcode + "|" + String(where);
+  return this._rhaboo.key + this._rhaboo_classcode + "|" + String(where);
 }
 
 Object.prototype.write = function (where, what) {
   var old = this[where];
   this[where] = what;
-  if (this._rhaboo_key !== undefined) {
+  this._rhaboo_persist(where, what, old);
+  return this;
+}
+
+Object.prototype._rhaboo_persist = function(where, what, old) {
+  if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
     enq( function(deferred) {
       _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old);
       deferred.resolve();
     });
     enq( function(deferred) {
-      _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (childkey, what);
+      _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this);
       deferred.resolve();
     });
   }
-  return this;
 }
 
 var _rhaboo_stashers = {
-  "nothing": function (key, what) { },
-  "leaf"   : function (key, what) { _rhaboo_store_setItem(key, typeof what + "|" + String(what)); },
-  "object" : function (key, what) { what._rhaboo_stash(key); },
-  "bad"    : function (key, what) { }
+  "nothing": function (where, key, what, parent) { },
+  "leaf"   : function (where, key, what, parent) { _rhaboo_store_setItem(key, typeof what + "|" + String(what)); },
+  "object" : function (where, key, what, parent) { what._rhaboo_stash(where, key, parent); },
+  "bad"    : function (where, key, what, parent) { }
 }
 
 var _rhaboo_forgetters = {
@@ -57,21 +61,24 @@ var _rhaboo_forgetters = {
   "bad"    : function (key, old) { }
 }
 
-Object.prototype._rhaboo_stash = function (key) {
-  this._rhaboo_key=key;
+Object.prototype._rhaboo_stash = function (where, key, parent) {
+  this._rhaboo = this._rhaboo || {};
+  this._rhaboo.key=key;
+  this._rhaboo.parent=parent;
+  this._rhaboo.where=where;
   _rhaboo_store_setItem(this._rhaboo_childKey(""), "|");
   for (var where in this) {
-    if (where !== "_rhaboo_key" && this.hasOwnProperty(where)) {
+    if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
       var what = this[where];
-      _rhaboo_stashers [_rhaboo_getTypeOf(what)] (this._rhaboo_childKey(where), what);
+      _rhaboo_stashers [_rhaboo_getTypeOf(what)] (where, this._rhaboo_childKey(where), what, this);
     }
   }
 }
 
 Object.prototype._rhaboo_forget = function () {
-  if (this._rhaboo_key === undefined) return;
+  if (this._rhaboo === undefined || this._rhaboo.key === undefined) return;
   for (var where in this) {
-    if (where !== "_rhaboo_key" && this.hasOwnProperty(where)) {
+    if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
       var what = this[where];
       _rhaboo_forgetters [_rhaboo_getTypeOf(what)] (this._rhaboo_childKey(where), what);
     }
@@ -82,7 +89,8 @@ Object.prototype._rhaboo_forget = function () {
 function Rhaboo(key) { this._rhaboo_restore(key); }
 
 Object.prototype._rhaboo_restore = function (key) {
-  this._rhaboo_key=key;
+  this._rhaboo = this._rhaboo || {};
+  this._rhaboo.key=key;
   for (var k in _rhaboo_store) {
     if (_rhaboo_store.hasOwnProperty(k)) {
       var keyparts = k.split('|');
@@ -93,7 +101,10 @@ Object.prototype._rhaboo_restore = function (key) {
           var newname = newkeypart.slice(0, length-1);
           if (insertee[newname] === undefined) {
             insertee[newname] = newkeypart.charAt(newkeypart.length-1) === Array.prototype._rhaboo_classcode ? [] : {}
-            insertee[newname]._rhaboo_key = insertee._rhaboo_childKey(newname)
+            insertee[newname]._rhaboo = insertee[newname]._rhaboo || {}; 
+            insertee[newname]._rhaboo.key = insertee._rhaboo_childKey(newname)
+            insertee[newname]._rhaboo.parent = insertee;
+            insertee[newname]._rhaboo.where = newname;
           }
           insertee = insertee[newname];
         }

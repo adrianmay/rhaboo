@@ -7,6 +7,7 @@ for (var k in localStorage)
 localStorage.setItem("nextPhase", 2);
 
 QUnit.test( "Write simple stuff", function( assert ) {
+
   var store1 = new Rhaboo("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
   assert.ok (store1._rhaboo_size() === 1, "Store1 empty");
@@ -67,7 +68,12 @@ QUnit.test( "Haven't clobbered regular arrays", function( assert ) {
   //a.fill(99, 2, 6);
   //assert.ok(a[0]===20 && a[1]===34 && a[2]===99 && a[3]===99 && a[4]===99 && a[5]===99 && a[6]===undefined, "fill");
 
+});
 
-
-
+QUnit.test( "Array mutators", function( assert ) {
+  var storeA = new Rhaboo("Try Arrays");
+  storeA.write("arr", [1,2]);
+  storeA.arr.push(3,4);
+  storeA.arr.reverse();
+  assert.ok(storeA.arr[0]==4 && storeA.arr[3]==1, "mutated ok");
 });

@@ -17,9 +17,11 @@ QUnit.test( "Simple restore", function( assert ) {
   assert.ok( store1.empty_ob._rhaboo_size() === 1, "... and still empty" );
 
   var store2 = new Rhaboo("Another Unique Name");
+
   assert.ok( store2.colour === "red", "Colour remembered" );
   assert.ok( store2.lue === 42, "Lue remembered" );
   assert.ok( store2.too === true, "Too remembered" );
+
   assert.ok( store2.rhyme[1] === "man", "Rhyme's man remembered" );
   assert.ok( store2.rhyme.went[0] === 2, "Rhyme's 2 remembered" );
   assert.ok( store2.rhyme.went[1] === "mow", "Rhyme's mow remembered" );
@@ -29,4 +31,8 @@ QUnit.test( "Simple restore", function( assert ) {
 
 });
 
+QUnit.test( "Array mutators", function( assert ) {
+  var storeA = new Rhaboo("Try Arrays");
+  assert.ok(storeA.arr[0]==4 && storeA.arr[3]==1, "mutated and remebered ok");
+});
 

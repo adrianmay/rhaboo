@@ -27,6 +27,10 @@ function wait3(deferred) {
   }, 3000);
 }
 
+enq(function(deferred) { 
+  //this._rhaboo.parent._rhaboo_persist(_this._rhaboo.where, this, old);
+  deferred.resolve();
+});
 enq(wait1);
 enq(wait2);
 enq(wait3);
