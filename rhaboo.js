@@ -38,9 +38,6 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
     var childkey = this._rhaboo_childKey(where);
     enq( function(deferred) {
       _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old);
-      deferred.resolve();
-    });
-    enq( function(deferred) {
       _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this);
       deferred.resolve();
     });

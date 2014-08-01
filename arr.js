@@ -11,13 +11,15 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   //fill : Array.prototype.fill,
 };
 
+//Very, very slow....
 Array.prototype._rhaboo_defensively = function(mutator) {
   return function () { 
-    _rhaboo_trace("Overriding "+mutator);
-    var old = this;
+    var old = this.slice();
+    old._rhaboo = this._rhaboo;
     var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
+   // _rhaboo_trace("Overriding "+mutator+"... Old="+JSON.stringify(old));
     if (this._rhaboo !== undefined) {
-      this._rhaboo.parent._rhaboo_persist(_this._rhaboo.where, this, old);
+      this._rhaboo.parent._rhaboo_persist(this._rhaboo.where, this, old);
     }
     return retval;
   }

@@ -1,7 +1,7 @@
 TODO
 ====
 
-* Test rest of array modifiers
+* Array modifiers slow. Efficiency says reimplement them altogether.
 * Minify, concat
 * More tests
 * Moz layout

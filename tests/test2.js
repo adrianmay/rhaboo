@@ -33,6 +33,9 @@ QUnit.test( "Simple restore", function( assert ) {
 
 QUnit.test( "Array mutators", function( assert ) {
   var storeA = new Rhaboo("Try Arrays");
-  assert.ok(storeA.arr[0]==4 && storeA.arr[3]==1, "mutated and remebered ok");
+  assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]==1, "mutated and remebered ok");
+  storeA.arr.pop()
+  assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]==undefined, "popped");
+
 });
 
