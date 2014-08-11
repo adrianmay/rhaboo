@@ -3,6 +3,8 @@ Rhaboo
 
 *This is still very alpha: don't use it yet*
 
+*Website at http://adrianmay.github.io/rhaboo*
+
 What is it?
 -----------
 
