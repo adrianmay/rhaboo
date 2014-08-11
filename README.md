@@ -12,7 +12,7 @@ The usual approach to this problem is to stringify and parse the entire object, 
 
 It's highly portable because it only relies on HTML5's localStorage.
 
-Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring.
+Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. Browsers nevertheless resist closing the window until the persistence code has completed.
 
 How do I use it?
 ----------------

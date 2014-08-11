@@ -2,7 +2,7 @@
 
 _rhaboo_trace = function(s) { console.log(s); }
 
-QUnit.test( "Dunno yet", function( assert ) {
+QUnit.test( "Complex object after post-restore manipulation", function( assert ) {
 
   assert.ok (Number(localStorage.getItem("nextPhase")) === 3, "Please run tests in sequence");
   localStorage.setItem("nextPhase", 4);
