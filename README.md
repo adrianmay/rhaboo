@@ -4,6 +4,7 @@ Rhaboo
 *This is still very alpha: don't use it yet*
 
 *Website at http://adrianmay.github.io/rhaboo*
+*Tests/examples at http://adrianmay.github.io/rhaboo/tests*
 
 What is it?
 -----------
