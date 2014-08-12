@@ -1,0 +1,37 @@
+{
+  "name": "rhaboo",
+  "version": "0.1.0",
+  "description": "Persistent JS Objects",
+  "main": "test/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adrianmay/rhaboo.git"
+  },
+  "keywords": [
+    "javascript",
+    "persistence",
+    "persistent",
+    "objects",
+    "localStorage"
+  ],
+  "author": "Adrian May",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adrianmay/rhaboo/issues"
+  },
+  "homepage": "http://adrianmay.github.io/rhaboo",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.5.1"
+  },
+  "dependencies": {
+    "q": "^1.0.1",
+    "qunit": "^0.7.2"
+  }
+}

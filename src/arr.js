@@ -1,4 +1,3 @@
-"use strict"
 
 Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   pop : Array.prototype.pop,
