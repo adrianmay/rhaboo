@@ -18,8 +18,8 @@ It's highly portable because it only relies on HTML5's localStorage.
 
 Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. Browsers nevertheless resist closing the window until the persistence code has completed.
 
-How do I use it?
-----------------
+Installation
+------------
 
 Install with 
 
@@ -27,22 +27,24 @@ Install with
    npm install rhaboo
 ```
 
-and point your browser at 
+and point your browser at: 
 
 ```
 file://<wherever it is>/node_modules/rhaboo/tests/index.html
 ```
 
-to check that it installed ok. Include the library and its one dependency, namely Q (https://github.com/kriskowal/q):
+to check that it installed ok. Include the library and its one dependency, namely Q (https://github.com/kriskowal/q), in your HTML file:
 
 ```
    <script src="node_modules/rhaboo/node_modules/q/q.js"></script>
    <script src="node_modules/rhaboo/rhaboo.min.js"></script>
-
 ```
 or you can just grab rhaboo.min.js and q.js and put them wherever you like.
 
-Then make a persistent object like this:
+Usage
+-----
+
+Make a persistent object like this:
 
 ```
    var mystore = new Rhaboo("Some unique name");
