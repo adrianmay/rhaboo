@@ -1,9 +1,13 @@
 TODO
 ====
 
-* Array modifiers slow. Efficiency says reimplement them altogether.
-* Minify, concat
-* More tests
+* Packaging etc:
+*  node
+*  npm
+*  grunt: browserify, minify
+*  jshint
+*  bower
+* Generate tests in grunt
 * Moz layout
 * Design doc, FAQ
 * Package stuff

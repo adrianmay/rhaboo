@@ -1,6 +1,4 @@
 //Provides a sequential queue of background tasks using the q promises library
-//
-"use strict" 
 
 var _enq_head = emptyPromise();
 
@@ -10,23 +8,9 @@ function emptyPromise() {
   return defer.promise;
 }
 
-function enq(step) {
-  var f = function() {
-    var d = Q.defer();
-    step(d);
-    return d.promise;
-  }
-  _enq_head = _enq_head.then(f);
-  _handle_business();
-}
-
 var _business_promise = undefined;
 var _business_callback = undefined;
 var _business_reported = false;
-
-function enqOnBusiness(callback) {
-  _business_callback = callback;
-}
 
 function _handle_business() {
   if (!_business_callback) {
@@ -48,3 +32,19 @@ function _handle_business() {
   }
   return 0;
 }
+
+function enqOnBusiness (callback) {
+  _business_callback = callback;
+}
+
+function enq (step) {
+  var f = function() {
+    var d = Q.defer();
+    step(d);
+    return d.promise;
+  }
+  _enq_head = _enq_head.then(f);
+  _handle_business();
+}
+
+
