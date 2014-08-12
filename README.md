@@ -21,14 +21,22 @@ Persistence code runs in a background thread so the user interface remains snapp
 How do I use it?
 ----------------
 
-First include the library and its one dependency, namely Q (https://github.com/kriskowal/q):
+Install with 
 
 ```
-   <script src="q.js"></script>
-   <script src="rhaboo.js"></script>
+   npm install rhaboo
 ```
 
-then make a persistent object like this:
+and include the library and its one dependency, namely Q (https://github.com/kriskowal/q):
+
+```
+   <script src="node_modules/rhaboo/node_modules/q/q.js"></script>
+   <script src="node_modules/rhaboo/rhaboo.min.js"></script>
+
+```
+or you can just grab rhaboo.min.js and q.js and put them wherever you like.
+
+Then make a persistent object like this:
 
 ```
    var mystore = new Rhaboo("Some unique name");
