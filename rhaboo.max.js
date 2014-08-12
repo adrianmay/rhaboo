@@ -216,10 +216,6 @@ Object.prototype._rhaboo_size = function () {
 }
 
 
-module.exports = {
-  Rhaboo: Rhaboo
-}
-
 
 //Provides a sequential queue of background tasks using the q promises library
 

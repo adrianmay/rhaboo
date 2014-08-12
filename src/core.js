@@ -148,7 +148,3 @@ Object.prototype._rhaboo_size = function () {
 }
 
 
-module.exports = {
-  Rhaboo: Rhaboo
-}
-
