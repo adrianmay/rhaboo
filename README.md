@@ -27,7 +27,13 @@ Install with
    npm install rhaboo
 ```
 
-and include the library and its one dependency, namely Q (https://github.com/kriskowal/q):
+and point your browser at 
+
+```
+file://<wherever it is>/node_modules/rhaboo/tests/index.html
+```
+
+to check that it installed ok. Include the library and its one dependency, namely Q (https://github.com/kriskowal/q):
 
 ```
    <script src="node_modules/rhaboo/node_modules/q/q.js"></script>
