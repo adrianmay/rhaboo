@@ -1,6 +1,6 @@
 {
   "name": "rhaboo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Persistent JS Objects",
   "main": "test/index.js",
   "directories": {
