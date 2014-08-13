@@ -1,6 +1,6 @@
 {
   "name": "rhaboo",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Persistent JS Objects",
   "main": "rhaboo.min.js",
   "directories": {
@@ -29,6 +29,5 @@
     "grunt-contrib-uglify": "^0.5.1",
     "q": "^1.0.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
