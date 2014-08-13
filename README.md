@@ -52,7 +52,12 @@ Make a persistent object like this:
 
 The library immediately attempts to restore this object from localStorage. If it remains empty then this must be the first time your program was run on this machine, so you detect that fact and populate your store. On subsequent runs the contents of mystore will be as you left them.
 
-You can read from it exactly like any other object, but to modify it, instead of writing:
+You can read from it exactly like any other object:
+
+```
+   console.log(mystore.foo); 
+```
+but to modify it, instead of writing:
  
 ```
    mystore.foo = 123; 
