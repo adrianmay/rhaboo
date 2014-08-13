@@ -38,7 +38,7 @@ to check that it installed ok. Include the library in your HTML file:
 ```
    <script src="node_modules/rhaboo/rhaboo.min.js"></script>
 ```
-or you can just grab rhaboo.min.js and put them wherever you like.
+or you can just grab rhaboo.min.js and put it wherever you like.
 
 Usage
 -----
