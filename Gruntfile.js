@@ -2,14 +2,17 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
-      options: {
-        banner: '"use strict"',
+    browserify: {
+      rhaboo: {
+        files: {
+          '<%= pkg.name %>.max.js' : ['src/unbrowserify.js']
+        }
       },
-      dist: {
-        src: ['src/*.js'],
-        dest: '<%= pkg.name %>.max.js',
-      },
+      enq: {
+        files: {
+          'enq.js' : ['src/unbrowserify-enq.js']
+        }
+      }
     },
     uglify: {
       build: {
@@ -19,9 +22,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['concat', 'uglify']);
+  grunt.registerTask('default', ['browserify', 'uglify']);
 
 }

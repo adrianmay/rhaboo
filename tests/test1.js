@@ -8,7 +8,7 @@ localStorage.setItem("nextPhase", 2);
 
 QUnit.test( "Write simple stuff", function( assert ) {
 
-  var store1 = new Rhaboo("A Unique Name");
+  var store1 = new Rhaboo.Persistent("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
   assert.ok (store1._rhaboo_size() === 1, "Store1 empty");
 
@@ -33,7 +33,7 @@ QUnit.test( "Write simple stuff", function( assert ) {
   //Insertion of key into new object might still be pending...
   assert.ok (size <= 1, "Check its empty");
 
-  var store2 = new Rhaboo("Another Unique Name");
+  var store2 = new Rhaboo.Persistent("Another Unique Name");
   assert.ok( typeof store2 === "object", "Store2 exists");
   assert.ok (store2._rhaboo_size() === 1, "Store2 empty");
 
@@ -71,7 +71,7 @@ QUnit.test( "Haven't clobbered regular arrays", function( assert ) {
 });
 
 QUnit.test( "Array mutators", function( assert ) {
-  var storeA = new Rhaboo("Try Arrays");
+  var storeA = new Rhaboo.Persistent("Try Arrays");
   storeA.write("arr", [1,2]);
   storeA.arr.push(3,4);
   storeA.arr.reverse();

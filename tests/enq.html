@@ -2,8 +2,7 @@
 <!DOCTYPE html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <html>
-  <script src="../node_modules/q/q.js"></script>
-  <script src="../src/enq.js"></script>
+  <script src="../enq.js"></script>
   <script>
 
 function wait1(deferred) {
@@ -27,13 +26,10 @@ function wait3(deferred) {
   }, 3000);
 }
 
-enq(function(deferred) { 
-  //this._rhaboo.parent._rhaboo_persist(_this._rhaboo.where, this, old);
-  deferred.resolve();
-});
-enq(wait1);
-enq(wait2);
-enq(wait3);
+Enq.enq(function(deferred) { deferred.resolve(); });
+Enq.enq(wait1);
+Enq.enq(wait2);
+Enq.enq(wait3);
 
 console.log("Enqueued all");
 

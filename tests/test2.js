@@ -1,4 +1,3 @@
-"use strict"
 
 _rhaboo_trace = function(s) { console.log(s); }
 
@@ -7,7 +6,7 @@ QUnit.test( "Simple restore", function( assert ) {
   assert.ok (Number(localStorage.getItem("nextPhase")) === 2, "Please run tests in sequence");
   localStorage.setItem("nextPhase", 3);
 
-  var store1 = new Rhaboo("A Unique Name");
+  var store1 = new Rhaboo.Persistent("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
 
   assert.ok( store1.a_string === "perky", "String remembered" );
@@ -16,7 +15,7 @@ QUnit.test( "Simple restore", function( assert ) {
   assert.ok( typeof store1.empty_ob === 'object', "Empty object still there ...");
   assert.ok( store1.empty_ob._rhaboo_size() === 1, "... and still empty" );
 
-  var store2 = new Rhaboo("Another Unique Name");
+  var store2 = new Rhaboo.Persistent("Another Unique Name");
 
   assert.ok( store2.colour === "red", "Colour remembered" );
   assert.ok( store2.lue === 42, "Lue remembered" );
@@ -32,7 +31,7 @@ QUnit.test( "Simple restore", function( assert ) {
 });
 
 QUnit.test( "Array mutators", function( assert ) {
-  var storeA = new Rhaboo("Try Arrays");
+  var storeA = new Rhaboo.Persistent("Try Arrays");
   assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]==1, "mutated and remebered ok");
   storeA.arr.pop()
   assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]==undefined, "popped");

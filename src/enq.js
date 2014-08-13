@@ -1,5 +1,7 @@
 //Provides a sequential queue of background tasks using the q promises library
 
+var Q = require('q');
+
 var _enq_head = emptyPromise();
 
 function emptyPromise() {
@@ -46,5 +48,11 @@ function enq (step) {
   _enq_head = _enq_head.then(f);
   _handle_business();
 }
+
+
+module.exports = {
+  enq:enq,
+  onBusiness:enqOnBusiness
+};
 
 

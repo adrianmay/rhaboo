@@ -1,4 +1,6 @@
 
+var E = require('./enq');
+
 var _rhaboo_trace = function(s) { /* console.log(s); */ } //Turn this on in test code if you like
 
 var _rhaboo_store = localStorage; //Or sessionStorage perhaps.
@@ -35,7 +37,7 @@ Object.prototype.write = function (where, what) {
 Object.prototype._rhaboo_persist = function(where, what, old) {
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
-    enq( function(deferred) {
+    E.enq( function(deferred) {
       _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old);
       _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this);
       deferred.resolve();
@@ -82,7 +84,7 @@ Object.prototype._rhaboo_forget = function () {
   _rhaboo_store_removeItem(this._rhaboo_childKey(""));
 }
 
-function Rhaboo(key) { this._rhaboo_restore(key); }
+function Persistent(key) { this._rhaboo_restore(key); }
 
 Object.prototype._rhaboo_restore = function (key) {
   this._rhaboo = this._rhaboo || {};
@@ -147,4 +149,13 @@ Object.prototype._rhaboo_size = function () {
   return count;
 }
 
+
+module.exports = {
+  Persistent : Persistent,
+  enq : E.enq,
+  onBusiness : E.onBusiness,
+  _rhaboo_getTypeOf : _rhaboo_getTypeOf,
+  _rhaboo_stashers : _rhaboo_stashers,
+  _rhaboo_forgetters : _rhaboo_forgetters
+};
 
