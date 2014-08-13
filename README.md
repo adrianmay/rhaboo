@@ -33,13 +33,12 @@ and point your browser at:
 file://<wherever it is>/node_modules/rhaboo/tests/index.html
 ```
 
-to check that it installed ok. Include the library and its one dependency, namely Q (https://github.com/kriskowal/q), in your HTML file:
+to check that it installed ok. Include the library in your HTML file:
 
 ```
-   <script src="node_modules/rhaboo/node_modules/q/q.js"></script>
    <script src="node_modules/rhaboo/rhaboo.min.js"></script>
 ```
-or you can just grab rhaboo.min.js and q.js and put them wherever you like.
+or you can just grab rhaboo.min.js and put them wherever you like.
 
 Usage
 -----
@@ -47,8 +46,9 @@ Usage
 Make a persistent object like this:
 
 ```
-   var mystore = new Rhaboo("Some unique name");
+   var mystore = new Rhaboo.Persistent("Some unique name");
 ```
+(If you forget the "new", expect Armageddon.)
 
 The library immediately attempts to restore this object from localStorage. If it remains empty then this must be the first time your program was run on this machine, so you detect that fact and populate your store. On subsequent runs the contents of mystore will be as you left them.
 
@@ -103,6 +103,9 @@ You can also take an exsting object and make it persistent:
 
 but this is discouraged because it begs the question of whether initialised entries should override stored ones or vice versa. The answer is the latter, but the question can be avoided altogether by using the Rhaboo constructor instead.
 
+Browserification
+----------------
 
+If you use node.js modules or browserify, you can treat src/arr.js as the module which delivers all of rhaboo. In src/unbrowserify.js you can see how the module.exports from arr.js is assigned to something called Rhaboo at global scope. This is to hand rhaboo's facilities to people who can't write "require" cos they're in a browser and don't use browserify. A similar trick is done to the src/enq.js module to make a non-modularised version at ./enq.js.
 
 
