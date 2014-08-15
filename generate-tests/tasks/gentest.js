@@ -38,7 +38,7 @@ var m = {
       m.el('style', {}, '.big { font-size:xx-large; }', true),
       m.script_ex('http://code.jquery.com/qunit/qunit-1.14.0.js') +
       m.script_ex('page.'+page+'.js') +
-      m.script_ex('runner.js') +
+      m.script_ex('../runner.js') +
       m.biglink('Start','page.0.html') + 
       m.biglink('Next','page.'+(parseInt(page)+1)+'.html') + 
       m.el('h4', { id: 'business'}, "Busy or not") +
