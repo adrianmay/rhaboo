@@ -2224,7 +2224,6 @@ Object.prototype._rhaboo_restore = function (key) {
   }
 }
 
-/*
 Object.prototype._rhaboo_size = function () {
   var count = 0;
   for (var key in this) {
@@ -2232,7 +2231,6 @@ Object.prototype._rhaboo_size = function () {
   }
   return count;
 }
-*/
 
 module.exports = {
   Persistent : Persistent,
