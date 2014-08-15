@@ -47,7 +47,6 @@ Using npm to download the devDependencies seems to pull the entire npm database,
 
 ```
 npm install grunt rhaboo
-+
 cd node_modules/rhaboo
 npm install q grunt-contrib-uglify grunt-browserify seedrandom
 grunt
