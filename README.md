@@ -3,7 +3,7 @@ Rhaboo
 
 *Website at http://adrianmay.github.io/rhaboo*
 
-*Tests/examples at http://adrianmay.github.io/rhaboo/examples/index.html*
+*Tests/examples at http://adrianmay.github.io/rhaboo/examples/index.html and http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html*
 
 What is it?
 -----------
