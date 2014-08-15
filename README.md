@@ -1,6 +1,8 @@
 Rhaboo
 ======
 
+*This is fairly solid now, but the array functions have yet to be tested exhaustively*
+
 *Website at http://adrianmay.github.io/rhaboo*
 
 *Tests/examples at http://adrianmay.github.io/rhaboo/examples/index.html and http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html*
@@ -41,11 +43,12 @@ or you can just grab rhaboo.min.js and put it wherever you like.
 Installation for building or running generated tests
 ----------------------------------------------------
 
-This is fun:
+Using npm to download the devDependencies seems to pull the entire npm database, so I prefer:
 
 ```
 npm install grunt rhaboo
-cd node_ modules/rhaboo
++
+cd node_modules/rhaboo
 npm install q grunt-contrib-uglify grunt-browserify seedrandom
 grunt
 firefox generate-tests/generated-pages/page.0.html
@@ -110,14 +113,12 @@ All the standard array modifying functions work persistently:
    mystore.foo.pinky.reverse();
 ```
 
-You can also take an exsting object and make it persistent:
+There's no function to delete everything in a persistent, but that could be made simple by keeping everything in a single property of the persistent:
 
 ```
-   var mystore = { 1: "man", went: [2, "mow"] };  
-   mystore._rhaboo_restore("Some unique name");
+   mystore.write('killable', { game: 'tiddlywinks', player: { name: 'zorro', gender: 'm', hiscore: 10 } );
+   mystore.write('killable', {} /* or undefined */ );
 ```
-
-but this is discouraged because it begs the question of whether initialised entries should override stored ones or vice versa. The answer is the latter, but the question can be avoided altogether by using the Rhaboo constructor instead.
 
 Browserification
 ----------------
