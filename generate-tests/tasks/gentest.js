@@ -287,7 +287,6 @@ module.exports = function(grunt) {
       grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));
       grunt.log.write(oblen(script4[pa]) + ", ");
     }
-    grunt.file.write("generate-tests/generated-pages/script4.json", JSON.stringify(script4, null, 3)+"\n");
   });
 
 };
