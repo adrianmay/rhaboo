@@ -30,6 +30,8 @@ Object.prototype._rhaboo_childKey = function (where) {
 Object.prototype.write = function (where, what) {
   var old = this[where];
   this[where] = what;
+  if (what===undefined)
+    delete this[where];
   this._rhaboo_persist(where, what, old);
   return this;
 }
@@ -46,17 +48,19 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
 }
 
 var _rhaboo_stashers = {
-  "nothing": function (where, key, what, parent) { },
-  "leaf"   : function (where, key, what, parent) { _rhaboo_store_setItem(key, typeof what + "|" + String(what)); },
-  "object" : function (where, key, what, parent) { what._rhaboo_stash(where, key, parent); },
-  "bad"    : function (where, key, what, parent) { }
+  "undefined" : function (where, key, what, parent) { },
+  "null"      : function (where, key, what, parent) { _rhaboo_store_setItem(key, "null|null" ); },
+  "leaf"      : function (where, key, what, parent) { _rhaboo_store_setItem(key, typeof what + "|" + String(what)); },
+  "object"    : function (where, key, what, parent) { what._rhaboo_stash(where, key, parent); },
+  "bad"       : function (where, key, what, parent) { }
 }
 
 var _rhaboo_forgetters = {
-  "nothing": function (key, old) { },
-  "leaf"   : function (key, old) { _rhaboo_store_removeItem(key); },
-  "object" : function (key, old) { old._rhaboo_forget(); },
-  "bad"    : function (key, old) { }
+  "undefined" : function (key, old) { },
+  "null"      : function (key, old) { _rhaboo_store_removeItem(key); },
+  "leaf"      : function (key, old) { _rhaboo_store_removeItem(key); },
+  "object"    : function (key, old) { old._rhaboo_forget(); },
+  "bad"       : function (key, old) { }
 }
 
 Object.prototype._rhaboo_stash = function (where, key, parent) {
@@ -111,6 +115,7 @@ Object.prototype._rhaboo_restore = function (key) {
           var type_val = _rhaboo_store_getItem(k).split("|");
           insertee[leafkey] = {
             "number" : function (s) { return Number(s);},
+            "null" : function (s) { return null;},
             "string" : function (s) { return s;},
             "boolean" : function (s) { return s==='true'?true:false;}
           } [type_val[0]] (type_val[1]);
@@ -120,8 +125,18 @@ Object.prototype._rhaboo_restore = function (key) {
   }
 }
 
+/*
 var _rhaboo_getTypeOf = function (what) {
   if (what === null || what === undefined) return 'nothing';
+  var ty = typeof what;
+  if (ty === 'string' || ty === 'number' || ty === 'boolean') return 'leaf';
+  if (ty === 'object') return 'object';
+  return 'bad';
+}
+*/
+var _rhaboo_getTypeOf = function (what) {
+  if (what === undefined) return 'undefined';
+  if (what === null) return 'null';
   var ty = typeof what;
   if (ty === 'string' || ty === 'number' || ty === 'boolean') return 'leaf';
   if (ty === 'object') return 'object';

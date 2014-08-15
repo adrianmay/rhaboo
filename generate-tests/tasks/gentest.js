@@ -1,17 +1,64 @@
 //Now lets run them on regular objects (ignoring yields) to get the values we expect after each step. (Notice rhaboo has not been required into this test generator.)
 
+"use strict"
+
 var SR = require('seedrandom');
 var rng = SR('squaggle.');
 function roll(sides) { return Math.floor(rng()*sides); }
+
+//Some simple markup-writing stuff
+
+var m = {
+  attlist:   function (atts) { 
+    var ret = "";
+    for (var name in atts) 
+      if (atts.hasOwnProperty(name)) 
+        ret += " "+name+"='"+atts[name]+"'";
+    return ret;
+  },
+  el:        function(el,atts, body, multiline) { return "<"+el+m.attlist(atts)+">"+(multiline?"\n":"")+ body + (multiline?"\n":"") + "</"+el+">\n"; },
+
+  script_ex: function(src)  { return m.el('script', { 'src': src }, '' ); },
+  script_in: function(code) { return m.el('script', {}, code, true); },
+  css:       function(url)  { return m.el('link', { rel:'stylesheet', type:'text/css', href:url }, ''); },
+  testout:   function()     { return m.el('div',{id:'qunit'},'') + m.el('div',{id:'qunit-fixture'},''); },
+  html:      function(head, body) {
+    return "<!DOCTYPE html>\n" +
+      //"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n" +
+      m.el('meta', { 'http-equiv':'Content-Type', content:'text/html; charset:utf-8'}, "") +
+      m.el('html', {}, 
+         m.el('head', {}, head, true) + m.el('body', {}, body, true));
+  },
+  biglink:   function(cap,url) { return m.el('a', { class:'big',href:url },cap ); },
+  //This will make more sense later....
+  test_page: function(page) {
+    return m.html(
+      m.css('http://code.jquery.com/qunit/qunit-1.14.0.css') +
+      m.script_ex('../../rhaboo.max.js') +
+      m.el('style', {}, '.big { font-size:xx-large; }', true),
+      m.script_ex('http://code.jquery.com/qunit/qunit-1.14.0.js') +
+      m.script_ex('page.'+page+'.js') +
+      m.script_ex('runner.js') +
+      m.biglink('Start','page.0.html') + 
+      m.biglink('Next','page.'+(parseInt(page)+1)+'.html') + 
+      m.el('h4', { id: 'business'}, "Busy or not") +
+      m.el('h1', {}, 'Rhaboo Generated Tests '+page) +
+      m.el('a', {href: 'page.'+page+'.js'}, 'Test Code') +
+      m.testout()
+    );
+  }
+}
+
 
 module.exports = function(grunt) {
 
   //This is a bunch of values organised by type which the test automat will draw on...
   //They'll be used cyclically and the leading 0s keep track of which was used last
+  //  (although pseudo-random selection would be simpler and also fine)
   //The keys here introduce a notation used throughout
   var values = {
     B : [0, [true, false, false, true]],
-    S : [0, ["ohjwfv", "je e", " o3r83rg", "Ee efwdfb ", "    ", "23232323", "5t5t5t", "ng9u13htgjonn kjwfvojwv woef\nefbkjnbwrv w efb", "foo" ]],
+    S : [0, ["ohjwfv", "je e", " o3r83rg", "ee efwdfb ", "    ", "23232323", "5t5t5t", "ng9u13htgjonn kjwfvojwv woef\nefbkjnbwrv w efb", "foo" ]],
     I : [0, [1, 43, 844758, -2, 0, -6385, 65535, 4]],
     F : [0, [0.0, 1.04, -75.64, 7340.10, -84.0, 123.0]],
     o : [0, [{}]],
@@ -52,7 +99,7 @@ module.exports = function(grunt) {
   }
 
   var expectName=1000000;
-  function getExpectName() {
+  function getExpectname() {
     expectName++;
     return "E" + expectName.toString();
   }
@@ -61,11 +108,11 @@ module.exports = function(grunt) {
   //y means yield, i.e., close browser window and test persistence
   var yon = {"" : true, "y" : true};
 
-  Array.prototype.insertRandom = function (what) {
+  Array.prototype.insertrandom = function (what) {
     this.splice(roll(this.length), 0, what);
   }
 
-  var stories = ["dummy to make insertRandom fair"];
+  var stories = ["dummy to make insertrandom fair"];
 
   for (var s1k in values)
     for (var s2k in yon)
@@ -73,7 +120,7 @@ module.exports = function(grunt) {
         for (var s4k in yon)
           for (var s5k in values)
             for (var s6k in yon)
-              stories.insertRandom(s1k+s2k+s3k+s4k+s5k+s6k);
+              stories.insertrandom(s1k+s2k+s3k+s4k+s5k+s6k);
 
   stories.pop();
 
@@ -82,7 +129,7 @@ module.exports = function(grunt) {
 
   //Instead of these stories all happening to different persistents, we'd like to apply them to the contents of persistents we already made
   //so we'll start by making ~30 different persistents using the first 30 stories. Then we find the X objects and arrays in the result
-  //and apply the next N*X stories to N members each of those objects, and so on until we run out of stories. But N doesn't have to be constant.
+  //and apply the next n*x stories to n members each of those objects, and so on until we run out of stories. But N doesn't have to be constant.
 
   var script = [];
   var pers = getPersName();
@@ -158,15 +205,15 @@ module.exports = function(grunt) {
 
 
   //Now we have an array called script containing entries like:
-  // { pers:    "Name of persistent",
+  // { pers:    "name of persistent",
   //   action:  "yield" or "write",
   //   path:    [steps, into, persistent],
   //   vehicle: " { val: 123 } ",
   //   expect:  " { contents of persistent after operation } "
   // }
 
-  //Eventually we'll have a bunch of HTML pages each containing a QUnit test script whose steps 
-  //correspond to a single persistent. So lets sort them out. First we separate each persistent
+  //Eventually we'll have a bunch of html pages each containing a qunit test script whose steps 
+  //correspond to a single persistent. so lets sort them out. first we separate each persistent
   //into its own story:
 
   var script2 = {};
@@ -180,7 +227,7 @@ module.exports = function(grunt) {
 
   var script = undefined;
 
-  //Now we break each pers-story into pages. On each page, we'll check stuff and 
+  //Now we break each pers-story into pages. on each page, we'll check stuff and 
   //then make the changes and checks up to the next yield.
 
   for (var pe in script2) if (script2.hasOwnProperty(pe)) {
@@ -192,6 +239,7 @@ module.exports = function(grunt) {
       var step = pers[st];
       if (step.action=="write") {
         pers3[page].push({
+          action : "write",
           path : step.path,
           vehicle : step.vehicle,
           expect: step.expect
@@ -220,18 +268,26 @@ module.exports = function(grunt) {
     for (var pa in pers) if (pers.hasOwnProperty(pa)) {
       var page = pers[pa];
       script4[pa] = script4[pa] || {};
-      script4[pa][pe] = script4[pa][pe] || [];
-      script4[pa][pe].push(page);
+      script4[pa][pe] = page;
     }
   }
 
+  //Phew! Generator is done, over to the runner.
+
+  function oblen(ob) {
+    var count = 0;
+    for (var x in ob) if (ob.hasOwnProperty(x)) count++;
+    return count;
+  }
 
   grunt.registerTask('gentest', function() {
     if (true) {
       for (var pa in script4) if (script4.hasOwnProperty(pa)) {
-        grunt.file.write("generate-tests/generated-pages/page." + pa + ".json", JSON.stringify(script4[pa], null, 3)+"\n");
+        grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
+        grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));
+        grunt.log.write(oblen(script4[pa]) + ", ");
       }
-      grunt.log.writeln(script4.length + " pages\n");
+      grunt.file.write("generate-tests/generated-pages/script4.json", JSON.stringify(script4, null, 3)+"\n");
     } else {
       var out = "";
       for (var s in script) if (script.hasOwnProperty(s)) {
@@ -243,12 +299,10 @@ module.exports = function(grunt) {
         }
         out += step.pers + ":" + step.path + ":" + step.action + ":" + step.type + ":" + step.vehicle + "\n   " + step.expect + "\n";
       }
-      grunt.file.write("tests.json", out);
+      grunt.file.write("tests.JSON", out);
 
     }
   });
 
 };
-
-
 
