@@ -30,7 +30,7 @@ Install with
 and point your browser at: 
 
 ```
-file://<wherever it is>/node_modules/rhaboo/tests/index.html
+file://<wherever it is>/node_modules/rhaboo/examples/index.html
 ```
 
 to check that it installed ok. Include the library in your HTML file:
@@ -39,6 +39,19 @@ to check that it installed ok. Include the library in your HTML file:
    <script src="node_modules/rhaboo/rhaboo.min.js"></script>
 ```
 or you can just grab rhaboo.min.js and put it wherever you like.
+
+Installation for building or running generated tests
+----------------------------------------------------
+
+This is fun:
+
+```
+npm install grunt rhaboo
+cd node_ modules/rhaboo
+npm install q grunt-contrib-uglify grunt-browserify seedrandom
+grunt
+firefox generate-tests/generated-pages/page.0.html
+```
 
 Usage
 -----
@@ -114,16 +127,6 @@ Browserification
 If you use node.js modules or browserify, you can treat src/arr.js as the module which delivers all of rhaboo. In src/unbrowserify.js (which is what browserify renders into ./rhaboo.max.js) you can see how the module.exports from arr.js is assigned to something called Rhaboo at global scope. This is to hand rhaboo's facilities to people who can't write "require" cos they're in a browser and don't use browserify. A similar trick is done to the src/enq.js module to make a non-modularised version at ./enq.js.
 
 
-Generaed Tests
---------------
-
-These are huge so you have to build them. Do this in rhaboo's root directory, i.e. the directory containing this README: 
-
-```
-   npm install grunt-cli
-   grunt
-   firefox generate-tests/generated-pages/page.0.html
-```
 
 
 

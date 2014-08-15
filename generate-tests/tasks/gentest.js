@@ -281,27 +281,13 @@ module.exports = function(grunt) {
   }
 
   grunt.registerTask('gentest', function() {
-    if (true) {
-      for (var pa in script4) if (script4.hasOwnProperty(pa)) {
-        grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
-        grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));
-        grunt.log.write(oblen(script4[pa]) + ", ");
-      }
-      grunt.file.write("generate-tests/generated-pages/script4.json", JSON.stringify(script4, null, 3)+"\n");
-    } else {
-      var out = "";
-      for (var s in script) if (script.hasOwnProperty(s)) {
-        var step = script[s];
-        var val = "";
-        if (step.action == "write") {
-          var vehicle = JSON.parse(step.vehicle);
-          val = vehicle.val;
-        }
-        out += step.pers + ":" + step.path + ":" + step.action + ":" + step.type + ":" + step.vehicle + "\n   " + step.expect + "\n";
-      }
-      grunt.file.write("tests.JSON", out);
-
+    grunt.log.write("Persistents per page: ");
+    for (var pa in script4) if (script4.hasOwnProperty(pa)) {
+      grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
+      grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));
+      grunt.log.write(oblen(script4[pa]) + ", ");
     }
+    grunt.file.write("generate-tests/generated-pages/script4.json", JSON.stringify(script4, null, 3)+"\n");
   });
 
 };
