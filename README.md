@@ -18,8 +18,8 @@ It's highly portable because it only relies on HTML5's localStorage.
 
 Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. Browsers nevertheless resist closing the window until the persistence code has completed.
 
-Installation
-------------
+Quick Installation
+------------------
 
 Install with 
 
@@ -30,7 +30,7 @@ Install with
 and point your browser at: 
 
 ```
-file://<wherever it is>/node_modules/rhaboo/examples/index.html
+   file://<wherever you npm-installed it>/node_modules/rhaboo/generate-tests/generated-pages/page.0.html
 ```
 
 to check that it installed ok. Include the library in your HTML file:
@@ -40,17 +40,17 @@ to check that it installed ok. Include the library in your HTML file:
 ```
 or you can just grab rhaboo.min.js and put it wherever you like.
 
-Installation for building or running generated tests
-----------------------------------------------------
+Installation for building or generating tests
+---------------------------------------------
 
 Using npm to download the devDependencies seems to pull the entire npm database, so I prefer:
 
 ```
-npm install grunt rhaboo
-cd node_modules/rhaboo
-npm install q grunt-contrib-uglify grunt-browserify seedrandom
-grunt
-firefox generate-tests/generated-pages/page.0.html
+   npm install grunt rhaboo
+   cd node_modules/rhaboo
+   npm install q grunt-contrib-uglify grunt-browserify seedrandom
+   grunt
+   firefox generate-tests/generated-pages/page.0.html
 ```
 
 Usage
@@ -73,17 +73,17 @@ You can read from it exactly like any other object:
 but to modify it, instead of writing:
  
 ```
-   mystore.foo = 123; 
+   mystore.foo = 123;  //Wrong!!!
 ```
 or equivalently: 
 ```
-   mystore["foo"] = 123;
+   mystore["foo"] = 123;  //Wrong!!!
 ```
 
 you should write:
 
 ```
-   mystore.write("foo", 123);
+   mystore.write("foo", 123);  //Right!!!
 ```
 
 It's an ugly substitution but at least it's one-to-one so it doesn't affect your overall design.
@@ -115,7 +115,10 @@ All the standard array modifying functions work persistently:
 There's no function to delete everything in a persistent, but that could be made simple by keeping everything in a single property of the persistent:
 
 ```
-   mystore.write('killable', { game: 'tiddlywinks', player: { name: 'zorro', gender: 'm', hiscore: 10 } );
+   mystore.write('killable', { 
+      game: 'tiddlywinks', 
+      player: { name: 'zorro', gender: 'm', hiscore: 10 
+   } );
    mystore.write('killable', {} /* or undefined */ );
 ```
 
