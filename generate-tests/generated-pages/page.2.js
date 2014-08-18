@@ -2,12 +2,17 @@ var page = 2;
 var persistents = {
    "P1000001": [
       {
-         "expect": "{\"P1000002\":0}"
+         "expect": "{\"P1000002\":1,\"P1000003\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      }
+   ],
+   "P1000022": [
+      {
+         "expect": "{\"P1000023\":null}"
       },
       {
          "action": "write",
          "path": [
-            "P1000002"
+            "P1000023"
          ],
          "vehicle": "{}",
          "expect": "{}"
@@ -15,92 +20,51 @@ var persistents = {
       {
          "action": "write",
          "path": [
-            "P1000002"
+            "P1000023"
          ],
-         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
-         "expect": "{\"P1000002\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+         "vehicle": "{}",
+         "expect": "{}"
       },
       {
          "action": "write",
          "path": [
-            "P1000002"
+            "P1000023"
          ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1000002\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000002",
-            "P1000003"
-         ],
-         "vehicle": "{\"val\":1}",
-         "expect": "{\"P1000002\":{\"P1000003\":1}}"
-      }
-   ],
-   "P1000020": [
-      {
-         "expect": "{\"P1000021\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000022"
-         ],
-         "vehicle": "{\"val\":123}",
-         "expect": "{\"P1000021\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]},\"P1000022\":123}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000022"
-         ],
-         "vehicle": "{\"val\":43}",
-         "expect": "{\"P1000021\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]},\"P1000022\":43}"
-      }
-   ],
-   "P1000030": [
-      {
-         "expect": "{\"P1000031\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000033"
-         ],
-         "vehicle": "{\"val\":844758}",
-         "expect": "{\"P1000031\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]},\"P1000033\":844758}"
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000023\":null}"
       }
    ],
    "P1000038": [
       {
-         "expect": "{\"P1000039\":null}"
+         "expect": "{\"P1000039\":[null]}"
       },
       {
          "action": "write",
          "path": [
-            "P1000039"
+            "P1000040"
          ],
-         "vehicle": "{\"val\":7340.1}",
-         "expect": "{\"P1000039\":7340.1}"
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1000039\":[null],\"P1000040\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
       }
    ],
-   "P1000088": [
+   "P1000058": [
       {
-         "expect": "{}"
+         "expect": "{\"P1000059\":[],\"P1000060\":[]}"
+      }
+   ],
+   "P1000076": [
+      {
+         "expect": "{\"P1000077\":[2,3,4,5],\"P1000078\":[]}"
+      }
+   ],
+   "P1000093": [
+      {
+         "expect": "{\"P1000094\":[]}"
       },
       {
          "action": "write",
          "path": [
-            "P1000089"
-         ],
-         "vehicle": "{\"val\":{\"a\":\"asdf\",\"b\":true}}",
-         "expect": "{\"P1000089\":{\"a\":\"asdf\",\"b\":true}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000089"
+            "P1000094"
          ],
          "vehicle": "{}",
          "expect": "{}"
@@ -108,1549 +72,2148 @@ var persistents = {
       {
          "action": "write",
          "path": [
-            "P1000090"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1000090\":null}"
-      }
-   ],
-   "P1000165": [
-      {
-         "expect": "{\"P1000166\":false,\"P1000167\":-84}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000167"
-         ],
-         "vehicle": "{\"val\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}",
-         "expect": "{\"P1000166\":false,\"P1000167\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000167"
-         ],
-         "vehicle": "{\"val\":\"blah\"}",
-         "expect": "{\"P1000166\":false,\"P1000167\":\"blah\"}"
-      }
-   ],
-   "P1000178": [
-      {
-         "expect": "{\"P1000180\":-84}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000180"
+            "P1000094"
          ],
          "vehicle": "{\"val\":true}",
-         "expect": "{\"P1000180\":true}"
+         "expect": "{\"P1000094\":true}"
       }
    ],
-   "P1000209": [
+   "P1000118": [
       {
-         "expect": "{\"P1000210\":\"foo\"}"
+         "expect": "{\"P1000119\":[]}"
+      }
+   ],
+   "P1000125": [
+      {
+         "expect": "{\"P1000126\":{}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000211"
+            "P1000126"
          ],
-         "vehicle": "{\"val\":0}",
-         "expect": "{\"P1000210\":\"foo\",\"P1000211\":0}"
-      }
-   ],
-   "P1000242": [
-      {
-         "expect": "{}"
+         "vehicle": "{\"val\":\"23232323\"}",
+         "expect": "{\"P1000126\":\"23232323\"}"
       },
       {
          "action": "write",
          "path": [
-            "P1000243"
+            "P1000126"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000126\":null}"
+      }
+   ],
+   "P1000144": [
+      {
+         "expect": "{\"P1000145\":[10,20,30]}"
+      }
+   ],
+   "P1000158": [
+      {
+         "expect": "{\"P1000159\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000159"
+         ],
+         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
+         "expect": "{\"P1000159\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      }
+   ],
+   "P1000180": [
+      {
+         "expect": "{\"P1000181\":[[[[[1,2,3]]]]],\"P1000182\":0}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000182"
+         ],
+         "vehicle": "{\"val\":true}",
+         "expect": "{\"P1000181\":[[[[[1,2,3]]]]],\"P1000182\":true}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000182"
+         ],
+         "vehicle": "{}",
+         "expect": "{\"P1000181\":[[[[[1,2,3]]]]]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000182"
+         ],
+         "vehicle": "{\"val\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}",
+         "expect": "{\"P1000181\":[[[[[1,2,3]]]]],\"P1000182\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      }
+   ],
+   "P1000200": [
+      {
+         "expect": "{\"P1000201\":[\"the\",\"quick\",\"brown\",\"fox\",\"\",\"foo\",{\"1\":\"man\",\"went\":[2,\"mow\"]}]}"
+      }
+   ],
+   "P1000217": [
+      {
+         "expect": "{\"P1000218\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000218"
+         ],
+         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
+         "expect": "{\"P1000218\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000218"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000218\":[]}"
+      }
+   ],
+   "P1000238": [
+      {
+         "expect": "{\"P1000239\":[2,3,4,5],\"P1000240\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000240"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000239\":[2,3,4,5],\"P1000240\":[]}"
+      }
+   ],
+   "P1000265": [
+      {
+         "expect": "{\"P1000266\":[2,3,4,5]}"
+      }
+   ],
+   "P1000279": [
+      {
+         "expect": "{\"P1000280\":-75.64}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000280"
+         ],
+         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
+         "expect": "{\"P1000280\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000280",
+            "P1000282"
+         ],
+         "vehicle": "{\"val\":\"5t5t5t\"}",
+         "expect": "{\"P1000280\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[],\"P1000282\":\"5t5t5t\"}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000280",
+            "P1000282"
          ],
          "vehicle": "{\"val\":7340.1}",
-         "expect": "{\"P1000243\":7340.1}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000243"
-         ],
-         "vehicle": "{\"val\":[3,true,\"ecky\"]}",
-         "expect": "{\"P1000243\":[3,true,\"ecky\"]}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000243"
-         ],
-         "vehicle": "{\"val\":65535}",
-         "expect": "{\"P1000243\":65535}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000244"
-         ],
-         "vehicle": "{\"val\":4}",
-         "expect": "{\"P1000243\":65535,\"P1000244\":4}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000244"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000243\":65535}"
+         "expect": "{\"P1000280\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[],\"P1000282\":7340.1}}"
       }
    ],
-   "P1000260": [
+   "P1000302": [
       {
-         "expect": "{\"P1000261\":{}}"
+         "expect": "{\"P1000303\":[]}"
+      }
+   ],
+   "P1000324": [
+      {
+         "expect": "{}"
       },
       {
          "action": "write",
          "path": [
-            "P1000261"
+            "P1000325"
          ],
-         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
-         "expect": "{\"P1000261\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
+         "expect": "{\"P1000325\":{\"a\":[],\"b\":[]}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000261"
-         ],
-         "vehicle": "{\"val\":[3,true,\"ecky\"]}",
-         "expect": "{\"P1000261\":[3,true,\"ecky\"]}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000261"
+            "P1000325"
          ],
          "vehicle": "{\"val\":null}",
-         "expect": "{\"P1000261\":null}"
+         "expect": "{\"P1000325\":null}"
       }
    ],
-   "P1000262": [
+   "P1000348": [
       {
-         "expect": "{\"P1000263\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000264"
-         ],
-         "vehicle": "{\"val\":65535}",
-         "expect": "{\"P1000263\":true,\"P1000264\":65535}"
+         "expect": "{\"P1000349\":[\"the\",123,\"brown\",\"fox\",\"\"]}"
       }
    ],
-   "P1000299": [
+   "P1000367": [
       {
-         "expect": "{\"P1000300\":null}"
+         "expect": "{\"P1000368\":[\"quick\",\"brown\",\"fox\",\"\"]}"
       },
       {
          "action": "write",
          "path": [
-            "P1000300"
+            "P1000368"
          ],
-         "vehicle": "{\"val\":\"    \"}",
-         "expect": "{\"P1000300\":\"    \"}"
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000368\":[]}"
       }
    ],
-   "P1000395": [
+   "P1000388": [
       {
-         "expect": "{\"P1000396\":true}"
+         "expect": "{\"P1000389\":[[[[[1,2,3]]]]],\"P1000390\":123}"
       },
       {
          "action": "write",
          "path": [
-            "P1000396"
+            "P1000390"
          ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000396\":false}"
+         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
+         "expect": "{\"P1000389\":[[[[[1,2,3]]]]],\"P1000390\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      }
+   ],
+   "P1000411": [
+      {
+         "expect": "{\"P1000412\":[[[[[1,2,3]]]]]}"
+      }
+   ],
+   "P1000432": [
+      {
+         "expect": "{\"P1000433\":\"5t5t5t\",\"P1000434\":{}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000396"
+            "P1000434"
          ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000396\":false}"
+         "vehicle": "{\"val\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}",
+         "expect": "{\"P1000433\":\"5t5t5t\",\"P1000434\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
+      }
+   ],
+   "P1000457": [
+      {
+         "expect": "{\"P1000458\":null}"
       },
       {
          "action": "write",
          "path": [
-            "P1000396"
+            "P1000458"
+         ],
+         "vehicle": "{\"val\":123}",
+         "expect": "{\"P1000458\":123}"
+      }
+   ],
+   "P1000477": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000479"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000479\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000479"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000479\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000479"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000479\":[]}"
+      }
+   ],
+   "P1000504": [
+      {
+         "expect": "{\"P1000505\":[1,2,3,4,5]}"
+      }
+   ],
+   "P1000519": [
+      {
+         "expect": "{\"P1000520\":[\"foo\",{\"1\":\"man\",\"went\":[2,\"mow\"]},[[[[1,2,3]]]]]}"
+      }
+   ],
+   "P1000533": [
+      {
+         "expect": "{\"P1000534\":[null]}"
+      }
+   ],
+   "P1000542": [
+      {
+         "expect": "{\"P1000543\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000543",
+            "P1000544"
+         ],
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1000543\":{\"P1000544\":[[[[[1,2,3]]]]]}}"
+      }
+   ],
+   "P1000564": [
+      {
+         "expect": "{\"P1000565\":[],\"P1000566\":123}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000566"
+         ],
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1000565\":[],\"P1000566\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      }
+   ],
+   "P1000579": [
+      {
+         "expect": "{\"P1000580\":null,\"P1000581\":123}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000582"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000580\":null,\"P1000581\":123,\"P1000582\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000582"
+         ],
+         "vehicle": "{}",
+         "expect": "{\"P1000580\":null,\"P1000581\":123}"
+      }
+   ],
+   "P1000609": [
+      {
+         "expect": "{\"P1000610\":null,\"P1000611\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000611",
+            "P1000612"
+         ],
+         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
+         "expect": "{\"P1000610\":null,\"P1000611\":{\"P1000612\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000611",
+            "P1000612"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000610\":null,\"P1000611\":{\"P1000612\":null}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000611",
+            "P1000612"
+         ],
+         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
+         "expect": "{\"P1000610\":null,\"P1000611\":{\"P1000612\":{\"a\":[],\"b\":[]}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000611",
+            "P1000612",
+            "P1000613"
+         ],
+         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
+         "expect": "{\"P1000610\":null,\"P1000611\":{\"P1000612\":{\"a\":[],\"b\":[],\"P1000613\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}}}"
+      }
+   ],
+   "P1000635": [
+      {
+         "expect": "{\"P1000636\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000636",
+            "P1000637"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000636\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}],\"P1000637\":{}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000636",
+            "P1000637"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000636\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}],\"P1000637\":{}}}"
+      }
+   ],
+   "P1000639": [
+      {
+         "expect": "{\"P1000640\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true},1,2,3,4,5]}"
+      }
+   ],
+   "P1000641": [
+      {
+         "expect": "{\"P1000642\":[2,3,4,5]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000643"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000642\":[2,3,4,5],\"P1000643\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000643"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000642\":[2,3,4,5],\"P1000643\":null}"
+      }
+   ],
+   "P1000668": [
+      {
+         "expect": "{\"P1000669\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000669"
          ],
          "vehicle": "{}",
          "expect": "{}"
       }
    ],
-   "P1000418": [
+   "P1000675": [
       {
-         "expect": "{\"P1000419\":false}"
+         "expect": "{\"P1000676\":1}"
       },
       {
          "action": "write",
          "path": [
-            "P1000420"
-         ],
-         "vehicle": "{\"val\":65535}",
-         "expect": "{\"P1000419\":false,\"P1000420\":65535}"
-      }
-   ],
-   "P1000445": [
-      {
-         "expect": "{\"P1000446\":7340.1}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000446"
-         ],
-         "vehicle": "{\"val\":65535}",
-         "expect": "{\"P1000446\":65535}"
-      }
-   ],
-   "P1000449": [
-      {
-         "expect": "{\"P1000450\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000450"
-         ],
-         "vehicle": "{\"val\":123}",
-         "expect": "{\"P1000450\":123}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000451"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000450\":123}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000451"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000450\":123,\"P1000451\":false}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000451"
-         ],
-         "vehicle": "{\"val\":0}",
-         "expect": "{\"P1000450\":123,\"P1000451\":0}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000452"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000450\":123,\"P1000451\":0,\"P1000452\":false}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000452"
-         ],
-         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
-         "expect": "{\"P1000450\":123,\"P1000451\":0,\"P1000452\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000452"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000450\":123,\"P1000451\":0}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000452"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000450\":123,\"P1000451\":0}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000452"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000450\":123,\"P1000451\":0}"
-      }
-   ],
-   "P1000453": [
-      {
-         "expect": "{\"P1000454\":{\"a\":\"asdf\",\"b\":true}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000454"
-         ],
-         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
-         "expect": "{\"P1000454\":{\"a\":[],\"b\":[]}}"
-      }
-   ],
-   "P1000481": [
-      {
-         "expect": "{\"P1000482\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000482"
-         ],
-         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
-         "expect": "{\"P1000482\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
-      }
-   ],
-   "P1000515": [
-      {
-         "expect": "{\"P1000516\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000516"
-         ],
-         "vehicle": "{\"val\":-2}",
-         "expect": "{\"P1000516\":-2}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000516"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1000516\":null}"
-      }
-   ],
-   "P1000578": [
-      {
-         "expect": "{\"P1000579\":2}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000580"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000579\":2,\"P1000580\":false}"
-      }
-   ],
-   "P1000625": [
-      {
-         "expect": "{\"P1000626\":0}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000626"
+            "P1000676"
          ],
          "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1000626\":{}}"
+         "expect": "{\"P1000676\":{}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000626"
+            "P1000677"
          ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000626\":false}"
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1000676\":{},\"P1000677\":[2,3,4,5]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000677"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000676\":{},\"P1000677\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000677"
+         ],
+         "vehicle": "{\"val\":\"ee efwdfb \"}",
+         "expect": "{\"P1000676\":{},\"P1000677\":\"ee efwdfb \"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000678"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000676\":{},\"P1000677\":\"ee efwdfb \",\"P1000678\":[]}"
       }
    ],
-   "P1000627": [
+   "P1000700": [
       {
-         "expect": "{\"P1000628\":-6385}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000629"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000628\":-6385}"
+         "expect": "{\"P1000701\":[]}"
       }
    ],
-   "P1000713": [
+   "P1000712": [
       {
-         "expect": "{\"P1000714\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+         "expect": "{\"P1000713\":43}"
       },
       {
          "action": "write",
          "path": [
-            "P1000715"
+            "P1000713"
          ],
-         "vehicle": "{\"val\":-84}",
-         "expect": "{\"P1000714\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1000715\":-84}"
+         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
+         "expect": "{\"P1000713\":{\"a\":[],\"b\":[]}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000715"
+            "P1000713"
          ],
          "vehicle": "{}",
-         "expect": "{\"P1000714\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+         "expect": "{}"
+      }
+   ],
+   "P1000736": [
+      {
+         "expect": "{\"P1000737\":\"foo\",\"P1000738\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000715"
+            "P1000738"
          ],
-         "vehicle": "{\"val\":-6385}",
-         "expect": "{\"P1000714\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1000715\":-6385}"
+         "vehicle": "{\"val\":\"ohjwfv\"}",
+         "expect": "{\"P1000737\":\"foo\",\"P1000738\":\"ohjwfv\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000738"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000737\":\"foo\",\"P1000738\":[]}"
       }
    ],
    "P1000747": [
       {
-         "expect": "{\"P1000748\":null,\"P1000749\":1}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000749"
-         ],
-         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
-         "expect": "{\"P1000748\":null,\"P1000749\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
+         "expect": "{\"P1000748\":[]}"
       }
    ],
-   "P1000879": [
+   "P1000766": [
       {
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{\"P1000882\":-75.64}}"
+         "expect": "{\"P1000767\":true}"
       },
       {
          "action": "write",
          "path": [
-            "P1000881",
-            "P1000882"
+            "P1000767"
          ],
-         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{\"P1000882\":{\"a\":[],\"b\":[]}}}"
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1000767\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
       },
       {
          "action": "write",
          "path": [
-            "P1000881",
-            "P1000882"
+            "P1000767"
          ],
          "vehicle": "{}",
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000881",
-            "P1000883"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000881",
-            "P1000883"
-         ],
-         "vehicle": "{\"val\":0}",
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{\"P1000883\":0}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000881",
-            "P1000883"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000881",
-            "P1000884"
-         ],
-         "vehicle": "{\"val\":7340.1}",
-         "expect": "{\"P1000880\":1.04,\"P1000881\":{\"P1000884\":7340.1}}"
-      }
-   ],
-   "P1000916": [
-      {
-         "expect": "{\"P1000917\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000917"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1000917\":null}"
-      }
-   ],
-   "P1000989": [
-      {
-         "expect": "{\"P1000990\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1000991\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000991"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1000990\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1000991\":false}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1000991"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1000990\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1000991\":null}"
-      }
-   ],
-   "P1001010": [
-      {
          "expect": "{}"
       },
       {
          "action": "write",
          "path": [
-            "P1001011"
+            "P1000767"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000767\":[]}"
+      }
+   ],
+   "P1000783": [
+      {
+         "expect": "{\"P1000784\":[\"\",\"brown\",\"fox\",\"quick\",\"the\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000785"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000784\":[\"\",\"brown\",\"fox\",\"quick\",\"the\"],\"P1000785\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000785"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000784\":[\"\",\"brown\",\"fox\",\"quick\",\"the\"],\"P1000785\":[]}"
+      }
+   ],
+   "P1000786": [
+      {
+         "expect": "{\"P1000787\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000787"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000787\":[]}"
+      }
+   ],
+   "P1000790": [
+      {
+         "expect": "{\"P1000791\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000791"
          ],
          "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
-         "expect": "{\"P1001011\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+         "expect": "{\"P1000791\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
       },
       {
          "action": "write",
          "path": [
-            "P1001011"
+            "P1000791"
          ],
-         "vehicle": "{\"val\":-84}",
-         "expect": "{\"P1001011\":-84}"
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000791\":{}}"
       }
    ],
-   "P1001131": [
+   "P1000809": [
       {
-         "expect": "{\"P1001132\":123}"
+         "expect": "{\"P1000810\":[\"the\",\"quick\",\"brown\",\"fox\"]}"
       },
       {
          "action": "write",
          "path": [
-            "P1001133"
-         ],
-         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
-         "expect": "{\"P1001132\":123,\"P1001133\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
-      }
-   ],
-   "P1001345": [
-      {
-         "expect": "{\"P1001347\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001347"
-         ],
-         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
-         "expect": "{\"P1001347\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001347"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      }
-   ],
-   "P1001348": [
-      {
-         "expect": "{\"P1001349\":7340.1}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001349"
-         ],
-         "vehicle": "{\"val\":\"    \"}",
-         "expect": "{\"P1001349\":\"    \"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001349"
-         ],
-         "vehicle": "{\"val\":-84}",
-         "expect": "{\"P1001349\":-84}"
-      }
-   ],
-   "P1001365": [
-      {
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001367"
-         ],
-         "vehicle": "{\"val\":\"    \"}",
-         "expect": "{\"P1001367\":\"    \"}"
-      }
-   ],
-   "P1001427": [
-      {
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001428"
-         ],
-         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
-         "expect": "{\"P1001428\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001428"
-         ],
-         "vehicle": "{\"val\":\"ee efwdfb \"}",
-         "expect": "{\"P1001428\":\"ee efwdfb \"}"
-      }
-   ],
-   "P1001440": [
-      {
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001441"
-         ],
-         "vehicle": "{\"val\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}",
-         "expect": "{\"P1001441\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001441"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      }
-   ],
-   "P1001495": [
-      {
-         "expect": "{\"P1001496\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001496",
-            "P1001497"
-         ],
-         "vehicle": "{\"val\":-2}",
-         "expect": "{\"P1001496\":{\"P1001497\":-2}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001496",
-            "P1001497"
+            "P1000810"
          ],
          "vehicle": "{\"val\":null}",
-         "expect": "{\"P1001496\":{\"P1001497\":null}}"
+         "expect": "{\"P1000810\":null}"
       },
       {
          "action": "write",
          "path": [
-            "P1001496",
-            "P1001497"
+            "P1000811"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1000810\":null,\"P1000811\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000811"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000810\":null,\"P1000811\":[]}"
+      }
+   ],
+   "P1000830": [
+      {
+         "expect": "{\"P1000831\":[\"the\",\"quick\",\"brown\",\"fox\",\"\",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,\"abcdefg\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000832"
          ],
          "vehicle": "{}",
-         "expect": "{\"P1001496\":{}}"
+         "expect": "{\"P1000831\":[\"the\",\"quick\",\"brown\",\"fox\",\"\",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,\"abcdefg\"]}"
       }
    ],
-   "P1001587": [
+   "P1000848": [
       {
-         "expect": "{\"P1001588\":false}"
+         "expect": "{\"P1000849\":[1,\"bar\",[]]}"
+      }
+   ],
+   "P1000869": [
+      {
+         "expect": "{\"P1000870\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}},\"P1000871\":[],\"P1000872\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
       },
       {
          "action": "write",
          "path": [
-            "P1001588"
+            "P1000872"
          ],
-         "vehicle": "{\"val\":\" o3r83rg\"}",
-         "expect": "{\"P1001588\":\" o3r83rg\"}"
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1000870\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}},\"P1000871\":[],\"P1000872\":[[[[[1,2,3]]]]]}"
+      }
+   ],
+   "P1000877": [
+      {
+         "expect": "{\"P1000878\":{}}"
       },
       {
          "action": "write",
          "path": [
-            "P1001588"
+            "P1000878"
          ],
-         "vehicle": "{\"val\":\"ee efwdfb \"}",
-         "expect": "{\"P1001588\":\"ee efwdfb \"}"
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1000878\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
       }
    ],
-   "P1001639": [
+   "P1000892": [
       {
+         "expect": "{\"P1000893\":null,\"P1000894\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000894"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000893\":null,\"P1000894\":{}}"
+      }
+   ],
+   "P1000913": [
+      {
+         "expect": "{\"P1000914\":[3,4,5]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000915"
+         ],
+         "vehicle": "{}",
+         "expect": "{\"P1000914\":[3,4,5]}"
+      }
+   ],
+   "P1000919": [
+      {
+         "expect": "{\"P1000920\":[1,2,3]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000920"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000920\":[]}"
+      }
+   ],
+   "P1000938": [
+      {
+         "expect": "{\"P1000939\":[]}"
+      }
+   ],
+   "P1000957": [
+      {
+         "expect": "{\"P1000958\":{\"a\":[],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000958"
+         ],
+         "vehicle": "{}",
          "expect": "{}"
       },
       {
          "action": "write",
          "path": [
-            "P1001640"
+            "P1000958"
          ],
-         "vehicle": "{\"val\":[3,true,\"ecky\"]}",
-         "expect": "{\"P1001640\":[3,true,\"ecky\"]}"
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000958\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000958"
+         ],
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1000958\":[[[[[1,2,3]]]]]}"
       }
    ],
-   "P1001668": [
+   "P1000964": [
       {
-         "expect": "{\"P1001669\":true}"
+         "expect": "{\"P1000965\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true],\"P1000967\":null}}"
       },
       {
          "action": "write",
          "path": [
-            "P1001670"
-         ],
-         "vehicle": "{\"val\":\"5t5t5t\"}",
-         "expect": "{\"P1001669\":true,\"P1001670\":\"5t5t5t\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001670"
-         ],
-         "vehicle": "{\"val\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}",
-         "expect": "{\"P1001669\":true,\"P1001670\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001670"
-         ],
-         "vehicle": "{\"val\":\"foo\"}",
-         "expect": "{\"P1001669\":true,\"P1001670\":\"foo\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001670"
+            "P1000965",
+            "P1000967"
          ],
          "vehicle": "{\"val\":\"ohjwfv\"}",
-         "expect": "{\"P1001669\":true,\"P1001670\":\"ohjwfv\"}"
+         "expect": "{\"P1000965\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true],\"P1000967\":\"ohjwfv\"}}"
+      }
+   ],
+   "P1000981": [
+      {
+         "expect": "{\"P1000983\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000984"
+         ],
+         "vehicle": "{\"val\":false}",
+         "expect": "{\"P1000983\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1000984\":false}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000984"
+         ],
+         "vehicle": "{\"val\":43}",
+         "expect": "{\"P1000983\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1000984\":43}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000984"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1000983\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1000984\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1000984",
+            "P1000985"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1000983\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1000984\":{\"P1000985\":[]}}"
+      }
+   ],
+   "P1001001": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001002"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001002\":[]}"
+      }
+   ],
+   "P1001017": [
+      {
+         "expect": "{\"P1001018\":[2,3,4,5]}"
+      }
+   ],
+   "P1001043": [
+      {
+         "expect": "{\"P1001044\":[10,20,30]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001044"
+         ],
+         "vehicle": "{\"val\":65535}",
+         "expect": "{\"P1001044\":65535}"
+      }
+   ],
+   "P1001065": [
+      {
+         "expect": "{\"P1001066\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001066"
+         ],
+         "vehicle": "{\"val\":true}",
+         "expect": "{\"P1001066\":true}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001066"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1001066\":null}"
+      }
+   ],
+   "P1001088": [
+      {
+         "expect": "{\"P1001089\":[]}"
+      }
+   ],
+   "P1001110": [
+      {
+         "expect": "{\"P1001111\":[]}"
+      }
+   ],
+   "P1001133": [
+      {
+         "expect": "{\"P1001134\":[1,2,3]}"
+      }
+   ],
+   "P1001154": [
+      {
+         "expect": "{\"P1001155\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001155"
+         ],
+         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
+         "expect": "{\"P1001155\":{\"a\":[],\"b\":[]}}"
+      }
+   ],
+   "P1001180": [
+      {
+         "expect": "{\"P1001181\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001182"
+         ],
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1001181\":null,\"P1001182\":[2,3,4,5]}"
+      }
+   ],
+   "P1001198": [
+      {
+         "expect": "{\"P1001199\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001199"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1001199\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001199"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001199\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001199"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1001199\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      }
+   ],
+   "P1001215": [
+      {
+         "expect": "{\"P1001216\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1001217\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001217"
+         ],
+         "vehicle": "{}",
+         "expect": "{\"P1001216\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001217"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001216\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1001217\":[]}"
+      }
+   ],
+   "P1001230": [
+      {
+         "expect": "{\"P1001231\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001231"
+         ],
+         "vehicle": "{}",
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001231"
+         ],
+         "vehicle": "{\"val\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}",
+         "expect": "{\"P1001231\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      }
+   ],
+   "P1001252": [
+      {
+         "expect": "{\"P1001253\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001254"
+         ],
+         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
+         "expect": "{\"P1001253\":{},\"P1001254\":{\"a\":[],\"b\":[]}}"
+      }
+   ],
+   "P1001264": [
+      {
+         "expect": "{\"P1001265\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001266\":[]}"
+      }
+   ],
+   "P1001287": [
+      {
+         "expect": "{\"P1001288\":[1,2,3,2,3,4,5],\"P1001289\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001289"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1001288\":[1,2,3,2,3,4,5],\"P1001289\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001289"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1001288\":[1,2,3,2,3,4,5],\"P1001289\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001290"
+         ],
+         "vehicle": "{\"val\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}",
+         "expect": "{\"P1001288\":[1,2,3,2,3,4,5],\"P1001289\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001290\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001290"
+         ],
+         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
+         "expect": "{\"P1001288\":[1,2,3,2,3,4,5],\"P1001289\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001290\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001290"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1001288\":[1,2,3,2,3,4,5],\"P1001289\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001290\":{}}"
+      }
+   ],
+   "P1001310": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001311"
+         ],
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1001311\":[2,3,4,5]}"
+      }
+   ],
+   "P1001328": [
+      {
+         "expect": "{\"P1001329\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001330\":43}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001330"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1001329\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001330\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001330"
+         ],
+         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
+         "expect": "{\"P1001329\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001330\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001330",
+            "P1001332"
+         ],
+         "vehicle": "{\"val\":\"ee efwdfb \"}",
+         "expect": "{\"P1001329\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"],\"P1001330\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}],\"P1001332\":\"ee efwdfb \"}}"
+      }
+   ],
+   "P1001351": [
+      {
+         "expect": "{\"P1001352\":[]}"
+      }
+   ],
+   "P1001359": [
+      {
+         "expect": "{\"P1001360\":[\"quick\",\"brown\",\"fox\",\"\"]}"
+      }
+   ],
+   "P1001380": [
+      {
+         "expect": "{\"P1001381\":\" o3r83rg\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001381"
+         ],
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1001381\":[[[[[1,2,3]]]]]}"
+      }
+   ],
+   "P1001402": [
+      {
+         "expect": "{\"P1001403\":[]}"
+      }
+   ],
+   "P1001425": [
+      {
+         "expect": "{\"P1001426\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001426",
+            "P1001428"
+         ],
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1001426\":{\"P1001428\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001426",
+            "P1001428"
+         ],
+         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
+         "expect": "{\"P1001426\":{\"P1001428\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001426",
+            "P1001428"
+         ],
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1001426\":{\"P1001428\":[[[[[1,2,3]]]]]}}"
+      }
+   ],
+   "P1001452": [
+      {
+         "expect": "{\"P1001453\":4}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001453"
+         ],
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1001453\":[[[[[1,2,3]]]]]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001454"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001453\":[[[[[1,2,3]]]]],\"P1001454\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001454"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1001453\":[[[[[1,2,3]]]]],\"P1001454\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001454"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1001453\":[[[[[1,2,3]]]]],\"P1001454\":{}}"
+      }
+   ],
+   "P1001468": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001469"
+         ],
+         "vehicle": "{\"val\":-2}",
+         "expect": "{\"P1001469\":-2}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001470"
+         ],
+         "vehicle": "{\"val\":0}",
+         "expect": "{\"P1001469\":-2,\"P1001470\":0}"
+      }
+   ],
+   "P1001487": [
+      {
+         "expect": "{\"P1001488\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001488"
+         ],
+         "vehicle": "{\"val\":-75.64}",
+         "expect": "{\"P1001488\":-75.64}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001489"
+         ],
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1001488\":-75.64,\"P1001489\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001489"
+         ],
+         "vehicle": "{\"val\":7340.1}",
+         "expect": "{\"P1001488\":-75.64,\"P1001489\":7340.1}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001489"
+         ],
+         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
+         "expect": "{\"P1001488\":-75.64,\"P1001489\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
+      }
+   ],
+   "P1001508": [
+      {
+         "expect": "{\"P1001509\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001509"
+         ],
+         "vehicle": "{}",
+         "expect": "{}"
+      }
+   ],
+   "P1001521": [
+      {
+         "expect": "{\"P1001522\":[\"the\",\"quick\",\"brown\",\"fox\",\"\",1,2,3,4,5]}"
+      }
+   ],
+   "P1001544": [
+      {
+         "expect": "{\"P1001545\":43}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001545"
+         ],
+         "vehicle": "{\"val\":true}",
+         "expect": "{\"P1001545\":true}"
+      }
+   ],
+   "P1001552": [
+      {
+         "expect": "{\"P1001553\":-2}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001553"
+         ],
+         "vehicle": "{}",
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001553"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001553\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001553"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001553\":[]}"
+      }
+   ],
+   "P1001573": [
+      {
+         "expect": "{\"P1001574\":844758,\"P1001575\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001575"
+         ],
+         "vehicle": "{}",
+         "expect": "{\"P1001574\":844758}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001575"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001574\":844758,\"P1001575\":[]}"
+      }
+   ],
+   "P1001581": [
+      {
+         "expect": "{\"P1001582\":null,\"P1001583\":[]}"
+      }
+   ],
+   "P1001599": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001600"
+         ],
+         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
+         "expect": "{\"P1001600\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+      }
+   ],
+   "P1001619": [
+      {
+         "expect": "{\"P1001620\":{\"P1001622\":[\"the\",\"quick\",\"brown\",\"fox\"]}}"
+      }
+   ],
+   "P1001633": [
+      {
+         "expect": "{\"P1001634\":[3,4,5]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001635"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1001634\":[3,4,5],\"P1001635\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      }
+   ],
+   "P1001651": [
+      {
+         "expect": "{\"P1001652\":[\"quick\",\"brown\",\"fox\",\"\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001652"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1001652\":null}"
+      }
+   ],
+   "P1001665": [
+      {
+         "expect": "{\"P1001667\":[]}"
+      }
+   ],
+   "P1001690": [
+      {
+         "expect": "{\"P1001691\":[1,2,3]}"
+      }
+   ],
+   "P1001692": [
+      {
+         "expect": "{\"P1001693\":[\"\",\"fox\",\"brown\",\"quick\",\"the\"],\"P1001694\":false}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001694"
+         ],
+         "vehicle": "{\"val\":[[[[[1,2,3]]]]]}",
+         "expect": "{\"P1001693\":[\"\",\"fox\",\"brown\",\"quick\",\"the\"],\"P1001694\":[[[[[1,2,3]]]]]}"
+      }
+   ],
+   "P1001697": [
+      {
+         "expect": "{\"P1001698\":-75.64}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001699"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1001698\":-75.64,\"P1001699\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      }
+   ],
+   "P1001724": [
+      {
+         "expect": "{\"P1001725\":null,\"P1001726\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001726"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1001725\":null,\"P1001726\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001726"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1001725\":null,\"P1001726\":{}}"
+      }
+   ],
+   "P1001741": [
+      {
+         "expect": "{\"P1001742\":[]}"
       }
    ],
    "P1001765": [
       {
-         "expect": "{\"P1001767\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001767"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1001767\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001767"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001767"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1001767\":{}}"
+         "expect": "{\"P1001766\":[\"quick\",\"brown\",\"fox\",\"\"]}"
       }
    ],
-   "P1001867": [
+   "P1001784": [
       {
-         "expect": "{}"
+         "expect": "{\"P1001785\":7340.1}"
       },
       {
          "action": "write",
          "path": [
-            "P1001869"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1001869\":false}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001869"
-         ],
-         "vehicle": "{\"val\":true}",
-         "expect": "{\"P1001869\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001869"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1001869\":{}}"
-      }
-   ],
-   "P1001908": [
-      {
-         "expect": "{\"P1001909\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001909"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001909"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1001909\":false}"
-      }
-   ],
-   "P1001934": [
-      {
-         "expect": "{\"P1001935\":0}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1001936"
-         ],
-         "vehicle": "{\"val\":\"ee efwdfb \"}",
-         "expect": "{\"P1001935\":0,\"P1001936\":\"ee efwdfb \"}"
-      }
-   ],
-   "P1002046": [
-      {
-         "expect": "{\"P1002047\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002047"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      }
-   ],
-   "P1002069": [
-      {
-         "expect": "{\"P1002070\":65535,\"P1002071\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002071"
-         ],
-         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
-         "expect": "{\"P1002070\":65535,\"P1002071\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002071"
-         ],
-         "vehicle": "{\"val\":[3,true,\"ecky\"]}",
-         "expect": "{\"P1002070\":65535,\"P1002071\":[3,true,\"ecky\"]}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002071"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1002070\":65535}"
-      }
-   ],
-   "P1002107": [
-      {
-         "expect": "{\"P1002108\":-2,\"P1002109\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002109"
-         ],
-         "vehicle": "{\"val\":{\"a\":\"asdf\",\"b\":true}}",
-         "expect": "{\"P1002108\":-2,\"P1002109\":{\"a\":\"asdf\",\"b\":true}}"
-      }
-   ],
-   "P1002122": [
-      {
-         "expect": "{\"P1002123\":[3,true,\"ecky\"]}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002123"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1002123\":null}"
-      }
-   ],
-   "P1002124": [
-      {
-         "expect": "{\"P1002125\":false,\"P1002126\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002126"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1002125\":false,\"P1002126\":null}"
-      }
-   ],
-   "P1002149": [
-      {
-         "expect": "{\"P1002150\":{\"P1002151\":\"foo\"}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002150",
-            "P1002151"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1002150\":{\"P1002151\":{}}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002150",
-            "P1002151"
-         ],
-         "vehicle": "{\"val\":1}",
-         "expect": "{\"P1002150\":{\"P1002151\":1}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002150",
-            "P1002151"
-         ],
-         "vehicle": "{\"val\":\"ohjwfv\"}",
-         "expect": "{\"P1002150\":{\"P1002151\":\"ohjwfv\"}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002150",
-            "P1002151"
-         ],
-         "vehicle": "{\"val\":43}",
-         "expect": "{\"P1002150\":{\"P1002151\":43}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002150",
-            "P1002151"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1002150\":{}}"
-      }
-   ],
-   "P1002248": [
-      {
-         "expect": "{\"P1002249\":1.04}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002249"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1002249\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002249"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1002249\":{}}"
-      }
-   ],
-   "P1002299": [
-      {
-         "expect": "{\"P1002300\":0}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002300"
-         ],
-         "vehicle": "{\"val\":\"blah\"}",
-         "expect": "{\"P1002300\":\"blah\"}"
-      }
-   ],
-   "P1002323": [
-      {
-         "expect": "{\"P1002324\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002324"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1002324\":null}"
-      }
-   ],
-   "P1002374": [
-      {
-         "expect": "{\"P1002375\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002375"
-         ],
-         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
-         "expect": "{\"P1002375\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
-      }
-   ],
-   "P1002382": [
-      {
-         "expect": "{\"P1002383\":43}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002384"
+            "P1001785"
          ],
          "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
-         "expect": "{\"P1002383\":43,\"P1002384\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002384"
-         ],
-         "vehicle": "{\"val\":7340.1}",
-         "expect": "{\"P1002383\":43,\"P1002384\":7340.1}"
+         "expect": "{\"P1001785\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
       }
    ],
-   "P1002411": [
+   "P1001803": [
       {
-         "expect": "{\"P1002412\":\"23232323\"}"
+         "expect": "{\"P1001804\":true}"
       },
       {
          "action": "write",
          "path": [
-            "P1002412"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      }
-   ],
-   "P1002444": [
-      {
-         "expect": "{\"P1002445\":true,\"P1002446\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002446"
-         ],
-         "vehicle": "{\"val\":[3,true,\"ecky\"]}",
-         "expect": "{\"P1002445\":true,\"P1002446\":[3,true,\"ecky\"]}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002446"
-         ],
-         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
-         "expect": "{\"P1002445\":true,\"P1002446\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002446"
-         ],
-         "vehicle": "{\"val\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}",
-         "expect": "{\"P1002445\":true,\"P1002446\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
-      }
-   ],
-   "P1002447": [
-      {
-         "expect": "{\"P1002448\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002449"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1002448\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1002449\":null}"
-      }
-   ],
-   "P1002573": [
-      {
-         "expect": "{\"P1002574\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002575"
-         ],
-         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
-         "expect": "{\"P1002574\":true,\"P1002575\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
-      }
-   ],
-   "P1002605": [
-      {
-         "expect": "{\"P1002606\":123}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002607"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1002606\":123,\"P1002607\":false}"
-      }
-   ],
-   "P1002713": [
-      {
-         "expect": "{\"P1002714\":\"5t5t5t\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002715"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1002714\":\"5t5t5t\",\"P1002715\":false}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002715"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1002714\":\"5t5t5t\"}"
-      }
-   ],
-   "P1002752": [
-      {
-         "expect": "{\"P1002753\":123}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002753"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      }
-   ],
-   "P1002794": [
-      {
-         "expect": "{\"P1002795\":1.04}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002795"
-         ],
-         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
-         "expect": "{\"P1002795\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
-      }
-   ],
-   "P1002805": [
-      {
-         "expect": "{\"P1002806\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002806"
-         ],
-         "vehicle": "{\"val\":[3,true,\"ecky\"]}",
-         "expect": "{\"P1002806\":[3,true,\"ecky\"]}"
-      }
-   ],
-   "P1002828": [
-      {
-         "expect": "{\"P1002829\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002830"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1002829\":null}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002830"
-         ],
-         "vehicle": "{\"val\":true}",
-         "expect": "{\"P1002829\":null,\"P1002830\":true}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002830"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1002829\":null,\"P1002830\":null}"
-      }
-   ],
-   "P1002840": [
-      {
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002841"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002842"
-         ],
-         "vehicle": "{\"val\":2}",
-         "expect": "{\"P1002842\":2}"
-      }
-   ],
-   "P1002899": [
-      {
-         "expect": "{\"P1002900\":\"23232323\",\"P1002901\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002901"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1002900\":\"23232323\"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002901"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1002900\":\"23232323\",\"P1002901\":false}"
-      }
-   ],
-   "P1002936": [
-      {
-         "expect": "{\"P1002937\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\",\"P1002938\":{\"ridiculously long and unsociable key\":true,\"arr\":[{\"another\":[{\"foo\":4}]}]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002938"
-         ],
-         "vehicle": "{\"val\":null}",
-         "expect": "{\"P1002937\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\",\"P1002938\":null}"
-      }
-   ],
-   "P1002983": [
-      {
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002984"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1002984\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002984"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1002984\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1002984"
+            "P1001805"
          ],
          "vehicle": "{\"val\":1.04}",
-         "expect": "{\"P1002984\":1.04}"
-      }
-   ],
-   "P1003003": [
-      {
-         "expect": "{\"P1003004\":-6385}"
+         "expect": "{\"P1001804\":true,\"P1001805\":1.04}"
       },
       {
          "action": "write",
          "path": [
-            "P1003005"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1003004\":-6385,\"P1003005\":false}"
-      }
-   ],
-   "P1003061": [
-      {
-         "expect": "{\"P1003062\":null,\"P1003063\":{\"a\":\"asdf\",\"b\":true}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003064"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1003062\":null,\"P1003063\":{\"a\":\"asdf\",\"b\":true}}"
-      }
-   ],
-   "P1003156": [
-      {
-         "expect": "{\"P1003157\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003157"
-         ],
-         "vehicle": "{\"val\":0}",
-         "expect": "{\"P1003157\":0}"
-      }
-   ],
-   "P1003228": [
-      {
-         "expect": "{\"P1003229\":65535,\"P1003230\":1}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003230"
-         ],
-         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
-         "expect": "{\"P1003229\":65535,\"P1003230\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003231"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1003229\":65535,\"P1003230\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]},\"P1003231\":{}}"
-      }
-   ],
-   "P1003240": [
-      {
-         "expect": "{\"P1003241\":\"ee efwdfb \"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003242"
-         ],
-         "vehicle": "{\"val\":4}",
-         "expect": "{\"P1003241\":\"ee efwdfb \",\"P1003242\":4}"
-      }
-   ],
-   "P1003257": [
-      {
-         "expect": "{\"P1003258\":-2}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003258"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003259"
-         ],
-         "vehicle": "{\"val\":\"blah\"}",
-         "expect": "{\"P1003259\":\"blah\"}"
-      }
-   ],
-   "P1003261": [
-      {
-         "expect": "{\"P1003262\":-75.64}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003262"
-         ],
-         "vehicle": "{}",
-         "expect": "{}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003262"
-         ],
-         "vehicle": "{\"val\":\"ee efwdfb \"}",
-         "expect": "{\"P1003262\":\"ee efwdfb \"}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003262"
-         ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1003262\":false}"
-      }
-   ],
-   "P1003292": [
-      {
-         "expect": "{\"P1003293\":true,\"P1003294\":false,\"P1003295\":{\"a\":[],\"b\":[]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003295"
-         ],
-         "vehicle": "{}",
-         "expect": "{\"P1003293\":true,\"P1003294\":false}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003295"
-         ],
-         "vehicle": "{\"val\":\"blah\"}",
-         "expect": "{\"P1003293\":true,\"P1003294\":false,\"P1003295\":\"blah\"}"
-      }
-   ],
-   "P1003339": [
-      {
-         "expect": "{\"P1003341\":1,\"P1003342\":43}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003342"
-         ],
-         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
-         "expect": "{\"P1003341\":1,\"P1003342\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003342"
+            "P1001805"
          ],
          "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
-         "expect": "{\"P1003341\":1,\"P1003342\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+         "expect": "{\"P1001804\":true,\"P1001805\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001805"
+         ],
+         "vehicle": "{\"val\":-75.64}",
+         "expect": "{\"P1001804\":true,\"P1001805\":-75.64}"
       }
    ],
-   "P1003351": [
+   "P1001824": [
       {
-         "expect": "{\"P1003352\":0}"
+         "expect": "{\"P1001825\":null}"
       },
       {
          "action": "write",
          "path": [
-            "P1003354"
+            "P1001825"
          ],
          "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1003352\":0,\"P1003354\":{}}"
+         "expect": "{\"P1001825\":{}}"
+      }
+   ],
+   "P1001841": [
+      {
+         "expect": "{\"P1001843\":[10,20,30],\"P1001844\":{}}"
       },
       {
          "action": "write",
          "path": [
-            "P1003354"
-         ],
-         "vehicle": "{\"val\":43}",
-         "expect": "{\"P1003352\":0,\"P1003354\":43}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003354"
-         ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1003352\":0,\"P1003354\":{}}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003354"
-         ],
-         "vehicle": "{\"val\":844758}",
-         "expect": "{\"P1003352\":0,\"P1003354\":844758}"
-      },
-      {
-         "action": "write",
-         "path": [
-            "P1003354"
+            "P1001844"
          ],
          "vehicle": "{\"val\":null}",
-         "expect": "{\"P1003352\":0,\"P1003354\":null}"
+         "expect": "{\"P1001843\":[10,20,30],\"P1001844\":null}"
       },
       {
          "action": "write",
          "path": [
-            "P1003354"
+            "P1001844"
          ],
-         "vehicle": "{\"val\":false}",
-         "expect": "{\"P1003352\":0,\"P1003354\":false}"
-      }
-   ],
-   "P1003378": [
-      {
-         "expect": "{\"P1003379\":4}"
+         "vehicle": "{}",
+         "expect": "{\"P1001843\":[10,20,30]}"
       },
       {
          "action": "write",
          "path": [
-            "P1003379"
+            "P1001845"
          ],
-         "vehicle": "{\"val\":{}}",
-         "expect": "{\"P1003379\":{}}"
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1001843\":[10,20,30],\"P1001845\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
       },
       {
          "action": "write",
          "path": [
-            "P1003379"
+            "P1001845"
+         ],
+         "vehicle": "{\"val\":1}",
+         "expect": "{\"P1001843\":[10,20,30],\"P1001845\":1}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001845"
          ],
          "vehicle": "{\"val\":true}",
-         "expect": "{\"P1003379\":true}"
+         "expect": "{\"P1001843\":[10,20,30],\"P1001845\":true}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001846"
+         ],
+         "vehicle": "{\"val\":43}",
+         "expect": "{\"P1001843\":[10,20,30],\"P1001845\":true,\"P1001846\":43}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001846"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1001843\":[10,20,30],\"P1001845\":true,\"P1001846\":null}"
+      }
+   ],
+   "P1001870": [
+      {
+         "expect": "{\"P1001871\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001871"
+         ],
+         "vehicle": "{\"val\":7340.1}",
+         "expect": "{\"P1001871\":7340.1}"
+      }
+   ],
+   "P1001890": [
+      {
+         "expect": "{\"P1001891\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001891"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001891\":[]}"
+      }
+   ],
+   "P1001894": [
+      {
+         "expect": "{\"P1001895\":[],\"P1001896\":{\"a\":[],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001896"
+         ],
+         "vehicle": "{\"val\":true}",
+         "expect": "{\"P1001895\":[],\"P1001896\":true}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001896"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1001895\":[],\"P1001896\":[]}"
+      }
+   ],
+   "P1001917": [
+      {
+         "expect": "{\"P1001918\":\"je e\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001918"
+         ],
+         "vehicle": "{\"val\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}",
+         "expect": "{\"P1001918\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      }
+   ],
+   "P1001944": [
+      {
+         "expect": "{\"P1001945\":844758}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001945"
+         ],
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1001945\":[2,3,4,5]}"
+      }
+   ],
+   "P1001963": [
+      {
+         "expect": "{\"P1001964\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}},\"P1001965\":[[[[[1,2,3]]]]]}"
+      }
+   ],
+   "P1001976": [
+      {
+         "expect": "{\"P1001977\":\"je e\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001978"
+         ],
+         "vehicle": "{\"val\":-6385}",
+         "expect": "{\"P1001977\":\"je e\",\"P1001978\":-6385}"
+      }
+   ],
+   "P1001997": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001998"
+         ],
+         "vehicle": "{\"val\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}",
+         "expect": "{\"P1001998\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1001999"
+         ],
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1001998\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\",\"P1001999\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      }
+   ],
+   "P1002020": [
+      {
+         "expect": "{\"P1002021\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002021"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1002021\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002021",
+            "P1002022"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002021\":{\"P1002022\":[]}}"
+      }
+   ],
+   "P1002041": [
+      {
+         "expect": "{\"P1002042\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002043"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1002042\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}],\"P1002043\":null}"
+      }
+   ],
+   "P1002059": [
+      {
+         "expect": "{\"P1002060\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true],\"P1002062\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}}"
+      }
+   ],
+   "P1002084": [
+      {
+         "expect": "{\"P1002085\":{\"P1002087\":0}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002085",
+            "P1002087"
+         ],
+         "vehicle": "{\"val\":true}",
+         "expect": "{\"P1002085\":{\"P1002087\":true}}"
+      }
+   ],
+   "P1002104": [
+      {
+         "expect": "{\"P1002105\":1}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002105"
+         ],
+         "vehicle": "{\"val\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}",
+         "expect": "{\"P1002105\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      }
+   ],
+   "P1002126": [
+      {
+         "expect": "{\"P1002127\":\"23232323\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002127"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1002127\":{}}"
+      }
+   ],
+   "P1002145": [
+      {
+         "expect": "{\"P1002146\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true},\"foo\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002147"
+         ],
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1002146\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true},\"foo\"],\"P1002147\":[2,3,4,5]}"
+      }
+   ],
+   "P1002172": [
+      {
+         "expect": "{\"P1002173\":[]}"
+      }
+   ],
+   "P1002192": [
+      {
+         "expect": "{\"P1002193\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002193"
+         ],
+         "vehicle": "{\"val\":-2}",
+         "expect": "{\"P1002193\":-2}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002193"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002193\":[]}"
+      }
+   ],
+   "P1002212": [
+      {
+         "expect": "{\"P1002213\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002213"
+         ],
+         "vehicle": "{\"val\":43}",
+         "expect": "{\"P1002213\":43}"
+      }
+   ],
+   "P1002232": [
+      {
+         "expect": "{\"P1002233\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}},\"P1002234\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002233",
+            "P1002234"
+         ],
+         "vehicle": "{\"val\":4}",
+         "expect": "{\"P1002233\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}},\"P1002234\":4}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002233",
+            "P1002235"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002233\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}},\"P1002234\":4,\"P1002235\":[]}}"
+      }
+   ],
+   "P1002249": [
+      {
+         "expect": "{\"P1002250\":[],\"P1002251\":{\"n\":{\"n\":{\"n\":{\"the\":\"who\"}}}}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002251"
+         ],
+         "vehicle": "{\"val\":4}",
+         "expect": "{\"P1002250\":[],\"P1002251\":4}"
+      }
+   ],
+   "P1002268": [
+      {
+         "expect": "{\"P1002270\":\"ng9u13htgjonn kjwfvojwv woef\\nefbkjnbwrv w efb\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002270"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002270\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002270"
+         ],
+         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
+         "expect": "{\"P1002270\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002271"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1002270\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]},\"P1002271\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      }
+   ],
+   "P1002287": [
+      {
+         "expect": "{\"P1002288\":\" o3r83rg\"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002288"
+         ],
+         "vehicle": "{\"val\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}",
+         "expect": "{\"P1002288\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}"
+      }
+   ],
+   "P1002308": [
+      {
+         "expect": "{\"P1002309\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002309"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1002309\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002309"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1002309\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002309"
+         ],
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1002309\":[2,3,4,5]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002310"
+         ],
+         "vehicle": "{\"val\":{}}",
+         "expect": "{\"P1002309\":[2,3,4,5],\"P1002310\":{}}"
+      }
+   ],
+   "P1002332": [
+      {
+         "expect": "{\"P1002333\":[[[[[1,2,3]]]]]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002334"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002333\":[[[[[1,2,3]]]]],\"P1002334\":[]}"
+      }
+   ],
+   "P1002356": [
+      {
+         "expect": "{\"P1002357\":\"    \"}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002357"
+         ],
+         "vehicle": "{\"val\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}",
+         "expect": "{\"P1002357\":{\"foo\":2,\"bar\":[\"the\",3,\"little\",true]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002357"
+         ],
+         "vehicle": "{\"val\":7340.1}",
+         "expect": "{\"P1002357\":7340.1}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002357"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002357\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002358"
+         ],
+         "vehicle": "{\"val\":-84}",
+         "expect": "{\"P1002357\":[],\"P1002358\":-84}"
+      }
+   ],
+   "P1002378": [
+      {
+         "expect": "{\"P1002379\":[2,3,4,5]}"
+      }
+   ],
+   "P1002402": [
+      {
+         "expect": "{\"P1002403\":{},\"P1002404\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002404"
+         ],
+         "vehicle": "{\"val\":true}",
+         "expect": "{\"P1002403\":{},\"P1002404\":true}"
+      }
+   ],
+   "P1002422": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002424"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1002424\":null}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002424"
+         ],
+         "vehicle": "{\"val\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}",
+         "expect": "{\"P1002424\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002424"
+         ],
+         "vehicle": "{}",
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002425"
+         ],
+         "vehicle": "{\"val\":123}",
+         "expect": "{\"P1002425\":123}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002425"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1002425\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002425"
+         ],
+         "vehicle": "{\"val\":false}",
+         "expect": "{\"P1002425\":false}"
+      }
+   ],
+   "P1002439": [
+      {
+         "expect": "{\"P1002440\":43,\"P1002441\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002441"
+         ],
+         "vehicle": "{\"val\":null}",
+         "expect": "{\"P1002440\":43,\"P1002441\":null}"
+      }
+   ],
+   "P1002457": [
+      {
+         "expect": "{\"P1002458\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,\"abcdefg\"]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002459"
+         ],
+         "vehicle": "{\"val\":[2,3,4,5]}",
+         "expect": "{\"P1002458\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,\"abcdefg\"],\"P1002459\":[2,3,4,5]}"
+      }
+   ],
+   "P1002461": [
+      {
+         "expect": "{}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002462"
+         ],
+         "vehicle": "{}",
+         "expect": "{}"
+      }
+   ],
+   "P1002484": [
+      {
+         "expect": "{\"P1002485\":{\"c\":[{\"x\":2,\"y\":true}],\"b\":[],\"P1002487\":[2,false,\"blah\",[3,true,\"ecky\"],{\"a\":\"asdf\",\"b\":true}]}}"
+      }
+   ],
+   "P1002498": [
+      {
+         "expect": "{\"P1002499\":[\"foo\",{\"1\":\"man\",\"went\":[2,\"mow\"]},3,4,5]}"
+      }
+   ],
+   "P1002518": [
+      {
+         "expect": "{\"P1002519\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002519"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002519\":[]}"
+      }
+   ],
+   "P1002538": [
+      {
+         "expect": "{\"P1002539\":[]}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002540"
+         ],
+         "vehicle": "{\"val\":[]}",
+         "expect": "{\"P1002539\":[],\"P1002540\":[]}"
+      }
+   ],
+   "P1002549": [
+      {
+         "expect": "{\"P1002550\":{}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002550"
+         ],
+         "vehicle": "{\"val\":\"ee efwdfb \"}",
+         "expect": "{\"P1002550\":\"ee efwdfb \"}"
+      }
+   ],
+   "P1002577": [
+      {
+         "expect": "{\"P1002578\":-75.64}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002578"
+         ],
+         "vehicle": "{\"val\":{\"a\":[],\"b\":[]}}",
+         "expect": "{\"P1002578\":{\"a\":[],\"b\":[]}}"
+      },
+      {
+         "action": "write",
+         "path": [
+            "P1002578"
+         ],
+         "vehicle": "{\"val\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}",
+         "expect": "{\"P1002578\":[\"the\",\"quick\",\"brown\",\"fox\",\"\"]}"
       }
    ]
 }

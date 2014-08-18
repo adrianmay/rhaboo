@@ -1,4 +1,4 @@
-//Now lets run them on regular objects (ignoring yields) to get the values we expect after each step. (Notice rhaboo has not been required into this test generator.)
+//This rather eccentric hack seems to chuck out a wide variety of test cases.
 
 "use strict"
 
@@ -57,10 +57,8 @@ module.exports = function(grunt) {
   //  (although pseudo-random selection would be simpler and also fine)
   //The keys here introduce a notation used throughout
   var values = {
-    B : [0, [true, false, false, true]],
-    S : [0, ["ohjwfv", "je e", " o3r83rg", "ee efwdfb ", "    ", "23232323", "5t5t5t", "ng9u13htgjonn kjwfvojwv woef\nefbkjnbwrv w efb", "foo" ]],
-    I : [0, [1, 43, 844758, -2, 0, -6385, 65535, 4]],
-    F : [0, [0.0, 1.04, -75.64, 7340.10, -84.0, 123.0]],
+    S : [0, ["ohjwfv", "je e", true, false, false, true, " o3r83rg", "ee efwdfb ", "    ", "23232323", "5t5t5t", "ng9u13htgjonn kjwfvojwv woef\nefbkjnbwrv w efb", "foo" ]],
+    N : [0, [1, 43, 844758, -2, 0, -6385, 65535, 4, 0.0, 1.04, -75.64, 7340.10, -84.0, 123.0]],
     o : [0, [{}]],
     O : [0, [
       {foo:2, bar:["the", 3, "little", true]},
@@ -69,13 +67,13 @@ module.exports = function(grunt) {
       {n:{n:{n:{the:"who"}}}},
       {'ridiculously long and unsociable key' : true, arr : [{ another : [{ foo:4 }] }] }
     ]],
-    a : [0, []],
-    A : [0, 
+    a : [0, [[]]],
+    A : [0, [
       [2, false, "blah", [3, true, "ecky"], {a: "asdf", b: true}], 
       [2,3,4,5], 
       ["the","quick","brown","fox",""], 
       [[[[[1,2,3]]]]] 
-    ],
+    ]],
     u : [0, [undefined]],
     n : [0, [null]]
   };
@@ -92,6 +90,50 @@ module.exports = function(grunt) {
     return ret;
   }
 
+  //If the script finds itself with an array in the firing line, it might interpret the ten codes to mean operations that only make sense for arrays
+  var arrayOperations = {
+    S : ['push', 0, [
+      [1,2,3,4,5],
+      [1,"bar", []],
+      ["foo", { 1: "man", "went": [2,"mow"]}],
+      []
+    ]],
+    N : ["pop", 0, [[]]],
+    o : ['unshift', 0, [
+      [1,2,3,4,5],
+      [1,"bar", []],
+      ["foo", { 1: "man", "went": [2,"mow"]}],
+      []
+    ]],
+    O : ["shift", 0, [[]]],
+    a : ["write", 0, [
+      [0, undefined],
+      [2, { the : "quick", brown: "fox"}],
+      [20, "abcdefg"],
+      [1, 123]
+    ]],
+    A : ["sort", 0, [[]]],
+    u : ["reverse", 0, [[]]],
+    n : ["splice", 0, [
+      [0,0,1,2,3],
+      [10,4,"foo"],
+      [0,1000],
+      [1000,0,10,20,30]
+    ]],
+  };
+
+  function getArrayOperation(type) {
+    if (!arrayOperations.hasOwnProperty(type))
+      throw "Asking getArrayOperation for goofy type: " +type ;
+    var set = arrayOperations[type][2];
+    var max = set.length;
+    var ret = set[arrayOperations[type][1]];
+    arrayOperations[type][1]++;
+    if (arrayOperations[type][1]>=max)
+      arrayOperations[type][1]=0;
+    return [arrayOperations[type][0], ret];
+  }
+
   var persName=1000000;
   function getPersName() {
     persName++;
@@ -104,12 +146,15 @@ module.exports = function(grunt) {
     return "E" + expectName.toString();
   }
 
-
   //y means yield, i.e., close browser window and test persistence
   var yon = {"" : true, "y" : true};
 
   Array.prototype.insertrandom = function (what) {
     this.splice(roll(this.length), 0, what);
+  }
+
+  Array.prototype.write = function (where, what) {
+    this[where] = what;
   }
 
   var stories = ["dummy to make insertrandom fair"];
@@ -124,7 +169,7 @@ module.exports = function(grunt) {
 
   stories.pop();
 
-  //stories is now 8000 possible stories: 3 writes in each, each write assigning one of the ten types to some property of a persistent and each write optionally being followed by a yield
+  //stories is now 2048 possible stories: 3 writes in each, each write assigning one of the 8 types to some property of a persistent and each write optionally being followed by a yield.
   //The test automat will paranoically check everything after every write and yield, so we don't need to put checking assertions in these stories: they are assumed.
 
   //Instead of these stories all happening to different persistents, we'd like to apply them to the contents of persistents we already made
@@ -134,45 +179,106 @@ module.exports = function(grunt) {
   var script = [];
   var pers = getPersName();
   var path = [getPersName()];
-  var lastwrite = '';
+  var page = 0;
+
+  //Gotta keep a register of what types our script will create under what names
+  
+  var thesearearrays = [];
+  var theseareobjects = [];
+  function findis(register, who) {
+    for (var i in register) if (register.hasOwnProperty(i)) 
+      if (register[i] == who)
+        return i;
+    return null;
+  }
+  function findisarray(who) { return findis(thesearearrays, who); }
+  function findisobject(who) { return findis(theseareobjects, who); }
+  function whatisthis(who) {
+    var find = findisarray(who);
+    if (find !== null) 
+      return ['a', find];
+    find = findisobject(who);
+    if (find !== null) 
+      return ['o', find];
+    return ['l', null];
+  }
+  function thisis(what, who) {
+    var its = whatisthis(who);
+    if (its[0]===what) 
+      return;
+    if (its[0]=='a')
+      delete thesearearrays[its[1]];
+    if (its[0]=='o')
+      delete theseareobjects[its[1]];
+    if (what==='a')
+      thesearearrays.push(who);
+    if (what==='o')
+      theseareobjects.push(who);
+  }
+  
+  function conscript(ob) {
+    script.push(ob);
+    //grunt.log.write(JSON.stringify(ob)+"\n");
+  }
   for (var st in stories) if (stories.hasOwnProperty(st)) {
     var story = stories[st].split('');
-    for (var a in story) if (story.hasOwnProperty(a)) {
-      var action = story[a];
-      if (action=="y") {
-        script.push({
+    for (var e in story) if (story.hasOwnProperty(e)) {
+      var curtype = whatisthis(path[path.length-1])[0];
+      var episode = story[e];
+      if (episode=="y") {
+        conscript({
           action : "yield",
-          pers: pers
-        });
-      } else {
-        lastwrite = action;
-        var val = getValue(action);
-        script.push({
-          action : "write",
           pers: pers,
-          path: path.slice(),
-          vehicle : JSON.stringify({"val":val})
         });
-      }
-    }
-    if (lastwrite=='o') {
-      if (roll(2)==0) {
-          path.push(getPersName());
-      }
-    } else {
-      if (roll(2)==0) {
-        if (roll(50)==0) {
-          pers = getPersName();
-          var path = [getPersName()];
-        } else if (roll(5)==0) {
-          if (path.length>1)
-            path.pop();
+        page++;
+      } else {
+        if ( curtype === 'a' && (roll(3)>0) ) {
+          var op = getArrayOperation(episode);
+          conscript({
+            action : "array",
+            pers: pers,
+            path: path.slice(),
+            vehicle : JSON.stringify(op),
+          });
+
         } else {
-          path.pop();
-          path.push(getPersName());
+          var val = getValue(episode);
+          conscript({
+            action : "write",
+            pers: pers,
+            path: path.slice(),
+            vehicle : JSON.stringify({"val":val}),
+          });
+          if (episode=='a' || episode=='A')
+            thisis('a', path[path.length-1] );
+          else if (episode=='o' || episode=='O')
+            thisis('o', path[path.length-1] );
+          else
+            thisis('l', path[path.length-1] );
+
         }
       }
     }
+    if (whatisthis(path[path.length-1])[0] === 'o') {
+      //If we just made an object, maybe apply imminent tests inside it
+      if (roll(2)==0) {
+          path.push(getPersName());
+      }
+    } 
+    if (roll(100)==0 || page > 50) {
+      //Sometimes start a whole new persistent
+      pers = getPersName();
+      var path = [getPersName()];
+      //thisis('o', pers);
+      page = 0;
+    } else if (roll(40)==0) {
+      if (path.length>1)
+        path.pop();
+    } else if (roll(2)==0) {
+      path.pop();
+      path.push(getPersName());
+    }
+
   }
 
   //Now we run it on a normal object to see what values to expect
@@ -183,7 +289,8 @@ module.exports = function(grunt) {
     box[step.pers] = box[step.pers] || {};
     if (step.action=="yield") {
       ;
-    } else {
+    } else if (step.action=="write"){
+      //grunt.log.write(JSON.stringify(step)+"\n");
       var vehicle = JSON.parse(step.vehicle);
       var val = vehicle.val;
       var path = step.path.slice();
@@ -193,6 +300,18 @@ module.exports = function(grunt) {
         if (path.hasOwnProperty(dir)) 
           target=target[path[dir]];
       target[where] = val;
+      //grunt.log.write("   "+JSON.stringify(target[where])+"\n");
+    } else if (step.action=="array"){
+      grunt.log.write(JSON.stringify(step)+"\n");
+      var vehicle = JSON.parse(step.vehicle);
+      var op = vehicle[0];
+      var arglist = vehicle[1];
+      var path = step.path.slice();
+      var target=box[step.pers];
+      for (var dir in path) 
+        if (path.hasOwnProperty(dir)) 
+          target=target[path[dir]];
+      Array.prototype[op].apply(target, arglist);
     }
   }
 
@@ -225,7 +344,7 @@ module.exports = function(grunt) {
     script2[step.pers].push(step);
   }
 
-  var script = undefined;
+  //var script = undefined;
 
   //Now we break each pers-story into pages. on each page, we'll check stuff and 
   //then make the changes and checks up to the next yield.
@@ -282,6 +401,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('gentest', function() {
     grunt.log.write("Persistents per page: ");
+    grunt.file.write("generate-tests/generated-pages/script.json", JSON.stringify(script, null, 3)+"\n");
     for (var pa in script4) if (script4.hasOwnProperty(pa)) {
       grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
       grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));

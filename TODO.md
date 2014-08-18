@@ -1,7 +1,7 @@
 TODO
 ====
 
-* Array tests
+* Array and non-persistent tests
 * Packaging etc:
 *  jshint
 *  bower

@@ -122,6 +122,8 @@ There's no function to delete everything in a persistent, but that could be made
    mystore.write('killable', {} /* or undefined */ );
 ```
 
+For now, please don't populate arrays with properties whose names are non numerical. The reason is that JSON.stringify ignores them so they don't persist. This will be worked on soon. You can also expect deleted members of an array to be reincarnated as "null" for similar reasons.
+
 Browserification
 ----------------
 
