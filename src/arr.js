@@ -62,7 +62,10 @@ Array.prototype._rhaboo_defensively = function(mutator) {
     var old;
     if (this._rhaboo !== undefined) {
       old = this.slice();
-      old._rhaboo = this._rhaboo;
+      old._rhaboo = {};
+      old._rhaboo.key = this._rhaboo.key;
+      old._rhaboo.parent = this._rhaboo.parent;
+      old._rhaboo.where = this._rhaboo.where;
     }
     var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
    // _rhaboo_trace("Overriding "+mutator+"... Old="+JSON.stringify(old));
