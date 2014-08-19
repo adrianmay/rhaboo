@@ -2177,8 +2177,8 @@ Object.prototype.write = function (where, what) {
 function _rhaboo_do(script) {
   for (var s in script) if (script.hasOwnProperty(s)) {
     var step = script[s];
-    yalsvl[script[s][0]].apply(null, script[s][1]);
-    //localStorage[step[0]].apply(localStorage, step[1]);
+    //yalsvl[script[s][0]].apply(null, script[s][1]);
+    localStorage[step[0]].apply(localStorage, step[1]);
   }
 }
 
@@ -2186,10 +2186,10 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
-    var s1 = _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old);
-    console.log("s1");
-    console.log(s1);
-    var s2 = _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this);
+    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
+    //console.log("s1");
+    //console.log(s1);
+    var s2 = (_rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this)).slice();
     //console.log("s2");
     //console.log(s2);
     E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
