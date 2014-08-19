@@ -3,6 +3,7 @@
 "use strict"
 
 var SR = require('seedrandom');
+var AJON = require('ajon');
 var rng = SR('squaggle.');
 function roll(sides) { return Math.floor(rng()*sides); }
 
@@ -38,6 +39,7 @@ var m = {
       m.el('style', {}, '.big { font-size:xx-large; }', true),
       m.script_ex('http://code.jquery.com/qunit/qunit-1.14.0.js') +
       m.script_ex('page.'+page+'.js') +
+      m.script_ex('../../node_modules/ajon/src/ajon.js') +
       m.script_ex('../runner.js') +
       m.biglink('Start','page.0.html') + 
       m.biglink('Next','page.'+(parseInt(page)+1)+'.html') + 
@@ -153,8 +155,21 @@ module.exports = function(grunt) {
     this.splice(roll(this.length), 0, what);
   }
 
+  Array.prototype.remove = function(where) {
+    var rest = this.slice(where + 1);
+    this.length = where;
+    return this.push.apply(this, rest);
+  };
+
   Array.prototype.write = function (where, what) {
     this[where] = what;
+    if (what===undefined) {
+      if (typeof parseInt(where) === 'number')
+        this.remove(where);
+      else
+        delete this[where];
+    }
+    return this;
   }
 
   var stories = ["dummy to make insertrandom fair"];
@@ -229,6 +244,7 @@ module.exports = function(grunt) {
         conscript({
           action : "yield",
           pers: pers,
+          path: path.slice(),
         });
         page++;
       } else {
@@ -238,7 +254,7 @@ module.exports = function(grunt) {
             action : "array",
             pers: pers,
             path: path.slice(),
-            vehicle : JSON.stringify(op),
+            vehicle : AJON.stringify(op),
           });
 
         } else {
@@ -247,7 +263,7 @@ module.exports = function(grunt) {
             action : "write",
             pers: pers,
             path: path.slice(),
-            vehicle : JSON.stringify({"val":val}),
+            vehicle : AJON.stringify({"val":val}),
           });
           if (episode=='a' || episode=='A')
             thisis('a', path[path.length-1] );
@@ -265,7 +281,7 @@ module.exports = function(grunt) {
           path.push(getPersName());
       }
     } 
-    if (roll(100)==0 || page > 50) {
+    if (roll(100)==0 || page > 10) {
       //Sometimes start a whole new persistent
       pers = getPersName();
       var path = [getPersName()];
@@ -291,7 +307,7 @@ module.exports = function(grunt) {
       ;
     } else if (step.action=="write"){
       //grunt.log.write(JSON.stringify(step)+"\n");
-      var vehicle = JSON.parse(step.vehicle);
+      var vehicle = AJON.parse(step.vehicle);
       var val = vehicle.val;
       var path = step.path.slice();
       var where = path.pop();
@@ -300,10 +316,12 @@ module.exports = function(grunt) {
         if (path.hasOwnProperty(dir)) 
           target=target[path[dir]];
       target[where] = val;
+      if (val === undefined)
+        delete target[where];
       //grunt.log.write("   "+JSON.stringify(target[where])+"\n");
     } else if (step.action=="array"){
-      grunt.log.write(JSON.stringify(step)+"\n");
-      var vehicle = JSON.parse(step.vehicle);
+      //grunt.log.write(JSON.stringify(step)+"\n");
+      var vehicle = AJON.parse(step.vehicle);
       var op = vehicle[0];
       var arglist = vehicle[1];
       var path = step.path.slice();
@@ -319,7 +337,7 @@ module.exports = function(grunt) {
   for (var st in script) if (script.hasOwnProperty(st)) {
     var step = script[st];
     run(persistents, step);
-    step.expect = JSON.stringify(persistents[step.pers]);
+    step.expect = AJON.stringify(persistents[step.pers]);
   }
 
 
@@ -356,9 +374,9 @@ module.exports = function(grunt) {
     pers3[page] = pers3[page] || [];
     for (var st in pers) if (pers.hasOwnProperty(st)) {
       var step = pers[st];
-      if (step.action=="write") {
+      if (step.action=="write" || step.action=="array") {
         pers3[page].push({
-          action : "write",
+          action :step.action,
           path : step.path,
           vehicle : step.vehicle,
           expect: step.expect

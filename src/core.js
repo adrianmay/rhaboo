@@ -116,6 +116,20 @@ Object.prototype._rhaboo_stash = function (where, key, parent) {
     var what = this[where];
     _rhaboo_stashers [_rhaboo_getTypeOf(what)] (where, this._rhaboo_childKey(where), what, this);
   }
+  this._rhaboo_storeLength(true);
+}
+
+Object.prototype._rhaboo_storeLength = function (store) {
+  //Preserve length of sparse arrays...
+  if (this._rhaboo_isArray()) {
+    var wh = 'length'; 
+    var l = this.length.toString();
+    if (store) {
+      _rhaboo_stashers ['leaf'] (wh, this._rhaboo_childKey(wh), l, this);
+    } else {
+      _rhaboo_forgetters ['leaf'] (this._rhaboo_childKey(wh), l);
+    }
+  }
 }
 
 Object.prototype._rhaboo_forget = function () {
@@ -125,6 +139,7 @@ Object.prototype._rhaboo_forget = function () {
     var what = this[where];
     _rhaboo_forgetters [_rhaboo_getTypeOf(what)] (this._rhaboo_childKey(where), what);
   }
+  this._rhaboo_storeLength(false);
   _rhaboo_store_removeItem(this._rhaboo_childKey("")); //That was the declaration of the object per-se
 }
 

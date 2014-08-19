@@ -1,5 +1,6 @@
+"use strict"
 
-_rhaboo_trace = function(s) { console.log(s); }
+//_rhaboo_trace = function(s) { console.log(s); }
 
 Rhaboo.onBusiness(function (busy) {
   document.getElementById("business").innerHTML = busy?"Busy":"Idle";
@@ -15,8 +16,11 @@ if (page === 0) {
 
 
 function same_ (p,e) {
-  if (typeof p !== 'object')
+  if (typeof p !== 'object' || typeof e !== 'object')
     return (p === e);
+  if (typeof 0 === 'object')
+    if (p.length !== e.length)
+      return false;
 
   var en = 0, pn = 0;
   for (var ec in e) if (e.hasOwnProperty(ec)) en++;
@@ -34,8 +38,8 @@ function same(p,e) {
   var ret = same_(p,e);
   if (!ret) {
     console.log("FAILED");
-    console.log("P : " + JSON.stringify(p));
-    console.log("E : " + JSON.stringify(e));
+    console.log("P("+p.length+") : " + ajon.stringify(p, ['_rhaboo']));
+    console.log("E("+p.length+") : " + ajon.stringify(e));
   }
   return ret;
 }
@@ -52,21 +56,29 @@ for (var pe in persistents) if (persistents.hasOwnProperty(pe)) {
     for (var st in steps) if (steps.hasOwnProperty(st)) { 
    //   console.log("B");
       var step = steps[st];
-      if (step.action=="write") {
+      if (step.action=="write" || step.action=="array") {
         var path = step.path.slice();
-        var where = path.pop();
         var target = store;
+        var where;
+        if (step.action==="write") 
+          where = path.pop();
         var x;
-        for (x = path.shift(); x; x=path.shift())
+        for (x = path.shift(); x; x=path.shift()) {
           target = target[x];
-        var vehicle = JSON.parse(step.vehicle);
-        var val = vehicle.val;
-        target.write(where, val);
+        }
+        var vehicle = ajon.parse(step.vehicle);
+        if (step.action==="write") {
+          target.write(where, vehicle.val);
+        } else if (step.action=="array") {
+          Array.prototype[vehicle[0]].apply(target, vehicle[1])
+        }
       }
-      var expect = JSON.parse(step.expect);
+
+      var expect = ajon.parse(step.expect);
+      if (expect===undefined)
+        console.log("No expectation: "+step.expect);
       assert.ok(same(store, expect));
-    }
-  }};
+    }   }};
 }
 
 for (var p in tests) if (tests.hasOwnProperty(p)) {
