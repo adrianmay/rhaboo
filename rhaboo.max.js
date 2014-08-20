@@ -2146,8 +2146,8 @@ function _rhaboo_enqueue (sc) {
 }
 
 function _rhaboo_bottomLine(ss, inst) {
-  //ss.push(inst);
-  _rhaboo_enqueue([inst]);
+  ss.push(inst);
+  //_rhaboo_enqueue([inst]);
 }
 
 //Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
