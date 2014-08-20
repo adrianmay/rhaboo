@@ -1,7 +1,7 @@
 Rhaboo
 ======
 
-*This is fairly solid now, but the array functions have yet to be tested exhaustively*
+*This is very solid now. Go ahead and use it.*
 
 *Website at http://adrianmay.github.io/rhaboo*
 
@@ -48,7 +48,7 @@ Using npm to download the devDependencies seems to pull the entire npm database,
 ```
    npm install grunt rhaboo
    cd node_modules/rhaboo
-   npm install q grunt-contrib-uglify grunt-browserify seedrandom
+   npm install q grunt-contrib-uglify grunt-browserify seedrandom ajon
    grunt
    firefox generate-tests/generated-pages/page.0.html
 ```
