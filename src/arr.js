@@ -11,6 +11,8 @@ Array.prototype.remove = function(from) {
   return Array.prototype.push.apply(this, rest);
 };
 
+/*
+ 
 Array.prototype.write = function (where, what) {
   var alldone = false;
   var old = this[where];
@@ -30,6 +32,7 @@ Array.prototype.write = function (where, what) {
   return this;
 }
 */
+
 Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   pop : Array.prototype.pop,
   push : Array.prototype.push,
@@ -38,6 +41,7 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   splice : Array.prototype.splice,
   reverse : Array.prototype.reverse,
   sort : Array.prototype.sort,
+  /*
   remove :  function(where) {
     var rest = this.slice(where + 1);
     this.length = where;
@@ -45,6 +49,7 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   },
   write : function (where, what) {
     this[where] = what;
+    /*
     if (what===undefined) {
       if (typeof parseInt(where) === 'number')
         Array.prototype._rhaboo_originals.remove.apply(this, [where]);
@@ -53,6 +58,7 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
     }
     return this;
   }
+    */
   //fill : Array.prototype.fill,
 };
 

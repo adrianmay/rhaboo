@@ -46,12 +46,7 @@ function same(p,e) {
 
 var tests = {};
 
-var bored=10;
-
 for (var pe in persistents) if (persistents.hasOwnProperty(pe)) {
-//  bored = bored - 1;
-  if (bored<=0)
-    break;
   //console.log("A");
   tests[pe] = function (pe) { return function (assert) {
     var store = new Rhaboo.Persistent(pe);

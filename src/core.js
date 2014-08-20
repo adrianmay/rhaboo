@@ -67,21 +67,27 @@ Object.prototype._rhaboo_childKey = function (where) {
 Object.prototype.write = function (where, what) {
   var old = this[where];
   this[where] = what;
+  /*
   if (what===undefined) //Gotta be careful not to trash the 'old' copy
     delete this[where]; //Without this we're left with a property whose value is undefined
+    */
   this._rhaboo_persist(where, what, old);
   return this;
 }
 
-//Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
+var spyon = 'P1000036'
 
 function _rhaboo_do(script) {
   for (var s in script) if (script.hasOwnProperty(s)) {
     var step = script[s];
-    //yalsvl[script[s][0]].apply(null, script[s][1]);
+    var tr = JSON.stringify(step);
+    if (spyon !== null && tr.indexOf(spyon) !== -1)
+      console.log(tr);
     localStorage[step[0]].apply(localStorage, step[1]);
   }
 }
+
+//Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
 
 Object.prototype._rhaboo_persist = function(where, what, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
@@ -106,7 +112,7 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
 //For objects, we call a function that recurses back into THIS TABLE
 
 var _rhaboo_stashers = {
-  "undefined" : function (where, key, what, parent) { return []; },
+  "undefined" : function (where, key, what, parent) { return [['setItem',[key, 'undefined|undefined']]]; },
   "null"      : function (where, key, what, parent) { return [['setItem',[key, 'null|null']]]; },
   "leaf"      : function (where, key, what, parent) { return [['setItem',[key, typeof what + "|" + String(what)]]]; },
   "object"    : function (where, key, what, parent) { return what._rhaboo_stash(where, key, parent); },
@@ -114,7 +120,7 @@ var _rhaboo_stashers = {
 }
 
 var _rhaboo_forgetters = {
-  "undefined" : function (key, old) { return []; },
+  "undefined" : function (key, old) { return [['removeItem', [key]]]; },
   "null"      : function (key, old) { return [['removeItem', [key]]]; },
   "leaf"      : function (key, old) { return [['removeItem', [key]]]; },
   "object"    : function (key, old) { return old._rhaboo_forget(); },
@@ -145,7 +151,7 @@ Object.prototype._rhaboo_storeLength = function (store) {
   //Preserve length of sparse arrays...
   if (this._rhaboo_isArray()) {
     var wh = 'length'; 
-    var l = this.length.toString();
+    var l = this.length;
     if (store) {
       return _rhaboo_stashers ['leaf'] (wh, this._rhaboo_childKey(wh), l, this);
     } else {
@@ -203,10 +209,11 @@ Object.prototype._rhaboo_restore = function (key) {
         //The value of the localStorage entry is of the form type|value
         var type_val = _rhaboo_store_getItem(k).split("|");
         insertee[leafkey] = {
-          "number"  : function (s) { return Number(s); },
-          "null"    : function (s) { return null; },
-          "string"  : function (s) { return s; },
-          "boolean" : function (s) { return s==='true'?true:false; }
+          "number"   : function (s) { return Number(s); },
+          "null"     : function (s) { return null; },
+          "undefined": function (s) { return undefined; },
+          "string"   : function (s) { return s; },
+          "boolean"  : function (s) { return s==='true'?true:false; }
         } [type_val[0]] (type_val[1]);
       }
     }

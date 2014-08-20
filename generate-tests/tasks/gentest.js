@@ -155,20 +155,24 @@ module.exports = function(grunt) {
     this.splice(roll(this.length), 0, what);
   }
 
+  /*
   Array.prototype.remove = function(where) {
     var rest = this.slice(where + 1);
     this.length = where;
     return this.push.apply(this, rest);
   };
 
+ */
   Array.prototype.write = function (where, what) {
     this[where] = what;
+    /*
     if (what===undefined) {
       if (typeof parseInt(where) === 'number')
         this.remove(where);
       else
         delete this[where];
     }
+    */
     return this;
   }
 
@@ -316,8 +320,10 @@ module.exports = function(grunt) {
         if (path.hasOwnProperty(dir)) 
           target=target[path[dir]];
       target[where] = val;
+      /*
       if (val === undefined)
         delete target[where];
+        */
       //grunt.log.write("   "+JSON.stringify(target[where])+"\n");
     } else if (step.action=="array"){
       //grunt.log.write(JSON.stringify(step)+"\n");

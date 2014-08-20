@@ -88,7 +88,9 @@ you should write:
 
 It's an ugly substitution but at least it's one-to-one so it doesn't affect your overall design.
 
-You use that same write function for inserting, modifying and deleting (by passing `undefined`) the properties in your store.
+You use that same write function for inserting new properties and modifying existing ones.  
+
+Something for deleting properties will be defined soon. (Contrary to popular belief, setting a property to undefined is not the same as deleting it.) For arrays, splice should be used. 
 
 You can also pass a complex object to `write()`:
 
@@ -122,7 +124,7 @@ There's no function to delete everything in a persistent, but that could be made
    mystore.write('killable', {} /* or undefined */ );
 ```
 
-For now, please don't populate arrays with properties whose names are non numerical. The reason is that JSON.stringify ignores them so they don't persist. This will be worked on soon. You can also expect deleted members of an array to be reincarnated as "null" for similar reasons.
+You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory.
 
 Browserification
 ----------------

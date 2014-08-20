@@ -1,6 +1,8 @@
 TODO
 ====
 
+* Delete/remove
+* Test terminating page
 * Array and non-persistent tests
 * Packaging etc:
 *  jshint

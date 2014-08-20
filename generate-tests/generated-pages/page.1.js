@@ -73,7 +73,7 @@ var persistents = {
    ],
    "P1000017": [
       {
-         "expect": "{}"
+         "expect": "{<P1000018>=_;}"
       },
       {
          "action": "write",
@@ -81,7 +81,7 @@ var persistents = {
             "P1000018"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000018>=_;}"
       }
    ],
    "P1000020": [
@@ -273,7 +273,7 @@ var persistents = {
    ],
    "P1000083": [
       {
-         "expect": "{}"
+         "expect": "{<P1000084>=_;}"
       },
       {
          "action": "write",
@@ -441,7 +441,7 @@ var persistents = {
    ],
    "P1000141": [
       {
-         "expect": "{}"
+         "expect": "{<P1000142>=_;}"
       },
       {
          "action": "write",
@@ -462,7 +462,7 @@ var persistents = {
    ],
    "P1000147": [
       {
-         "expect": "{<P1000148>=[(2):<0>=(4);<1>=(5);];}"
+         "expect": "{<P1000148>=[(3):<0>=(3);<1>=(4);<2>=(5);];}"
       },
       {
          "action": "array",
@@ -470,7 +470,7 @@ var persistents = {
             "P1000148"
          ],
          "vehicle": "[(2):<0>=<unshift>;<1>=[(3):<0>=(1);<1>=<bar>;<2>=[(0):];];]",
-         "expect": "{<P1000148>=[(5):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=(4);<4>=(5);];}"
+         "expect": "{<P1000148>=[(6):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=(3);<4>=(4);<5>=(5);];}"
       },
       {
          "action": "array",
@@ -478,7 +478,7 @@ var persistents = {
             "P1000148"
          ],
          "vehicle": "[(2):<0>=<reverse>;<1>=[(0):];]",
-         "expect": "{<P1000148>=[(5):<0>=(5);<1>=(4);<2>=[(0):];<3>=<bar>;<4>=(1);];}"
+         "expect": "{<P1000148>=[(6):<0>=(5);<1>=(4);<2>=(3);<3>=[(0):];<4>=<bar>;<5>=(1);];}"
       }
    ],
    "P1000154": [
@@ -525,7 +525,7 @@ var persistents = {
             "P1000168"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000168>=_;}"
       },
       {
          "action": "write",
@@ -599,7 +599,7 @@ var persistents = {
             "P1000180"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000180>=_;}"
       },
       {
          "action": "write",
@@ -607,12 +607,12 @@ var persistents = {
             "P1000180"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000180>=_;}"
       }
    ],
    "P1000187": [
       {
-         "expect": "{<P1000189>={};}"
+         "expect": "{<P1000188>=_;<P1000189>={};}"
       },
       {
          "action": "write",
@@ -620,7 +620,7 @@ var persistents = {
             "P1000189"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000188>=_;<P1000189>=_;}"
       },
       {
          "action": "write",
@@ -628,7 +628,7 @@ var persistents = {
             "P1000189"
          ],
          "vehicle": "{<val>=~;}",
-         "expect": "{<P1000189>=~;}"
+         "expect": "{<P1000188>=_;<P1000189>=~;}"
       },
       {
          "action": "write",
@@ -636,7 +636,7 @@ var persistents = {
             "P1000189"
          ],
          "vehicle": "{<val>=[(0):];}",
-         "expect": "{<P1000189>=[(0):];}"
+         "expect": "{<P1000188>=_;<P1000189>=[(0):];}"
       }
    ],
    "P1000193": [
@@ -649,7 +649,7 @@ var persistents = {
             "P1000194"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000194>=_;}"
       },
       {
          "action": "write",
@@ -657,7 +657,7 @@ var persistents = {
             "P1000195"
          ],
          "vehicle": "{<val>=[(0):];}",
-         "expect": "{<P1000195>=[(0):];}"
+         "expect": "{<P1000194>=_;<P1000195>=[(0):];}"
       },
       {
          "action": "write",
@@ -665,7 +665,7 @@ var persistents = {
             "P1000195"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000194>=_;<P1000195>=_;}"
       }
    ],
    "P1000200": [
@@ -678,7 +678,7 @@ var persistents = {
             "P1000202"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000201>=<je e>;}"
+         "expect": "{<P1000201>=<je e>;<P1000202>=_;}"
       },
       {
          "action": "write",
@@ -699,7 +699,7 @@ var persistents = {
             "P1000210"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000210>=_;}"
       },
       {
          "action": "write",
@@ -707,7 +707,7 @@ var persistents = {
             "P1000210"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000210>=_;}"
       },
       {
          "action": "write",
@@ -762,7 +762,7 @@ var persistents = {
             "P1000229"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000229>=_;}"
       },
       {
          "action": "write",
@@ -865,7 +865,7 @@ var persistents = {
             "P1000244"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000243>=[(0):];}"
+         "expect": "{<P1000243>=[(0):];<P1000244>=_;}"
       }
    ],
    "P1000248": [
@@ -948,7 +948,7 @@ var persistents = {
    ],
    "P1000283": [
       {
-         "expect": "{}"
+         "expect": "{<P1000284>=_;}"
       },
       {
          "action": "write",
@@ -985,7 +985,7 @@ var persistents = {
             "P1000288"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000288>=_;}"
       },
       {
          "action": "write",
@@ -1009,7 +1009,7 @@ var persistents = {
             "P1000288"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000288>=_;}"
       },
       {
          "action": "write",
@@ -1169,7 +1169,7 @@ var persistents = {
    ],
    "P1000338": [
       {
-         "expect": "{}"
+         "expect": "{<P1000339>=_;}"
       },
       {
          "action": "write",
@@ -1177,7 +1177,7 @@ var persistents = {
             "P1000339"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000339>=_;}"
       },
       {
          "action": "write",
@@ -1211,7 +1211,7 @@ var persistents = {
    ],
    "P1000345": [
       {
-         "expect": "{<P1000347>=[(0):];}"
+         "expect": "{<P1000346>=_;<P1000347>=[(0):];}"
       },
       {
          "action": "write",
@@ -1219,7 +1219,7 @@ var persistents = {
             "P1000348"
          ],
          "vehicle": "{<val>=~;}",
-         "expect": "{<P1000347>=[(0):];<P1000348>=~;}"
+         "expect": "{<P1000346>=_;<P1000347>=[(0):];<P1000348>=~;}"
       },
       {
          "action": "write",
@@ -1227,7 +1227,7 @@ var persistents = {
             "P1000348"
          ],
          "vehicle": "{<val>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}",
-         "expect": "{<P1000347>=[(0):];<P1000348>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}"
+         "expect": "{<P1000346>=_;<P1000347>=[(0):];<P1000348>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}"
       },
       {
          "action": "write",
@@ -1235,7 +1235,7 @@ var persistents = {
             "P1000348"
          ],
          "vehicle": "{<val>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}",
-         "expect": "{<P1000347>=[(0):];<P1000348>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
+         "expect": "{<P1000346>=_;<P1000347>=[(0):];<P1000348>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
          "action": "write",
@@ -1244,7 +1244,7 @@ var persistents = {
             "P1000349"
          ],
          "vehicle": "{<val>={};}",
-         "expect": "{<P1000347>=[(0):];<P1000348>={<P1000349>={};<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
+         "expect": "{<P1000346>=_;<P1000347>=[(0):];<P1000348>={<P1000349>={};<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       }
    ],
    "P1000355": [
@@ -1283,7 +1283,7 @@ var persistents = {
    ],
    "P1000366": [
       {
-         "expect": "{}"
+         "expect": "{<P1000367>=_;}"
       },
       {
          "action": "write",
@@ -1333,7 +1333,7 @@ var persistents = {
             "P1000381"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000381>=_;}"
       },
       {
          "action": "write",
@@ -1402,7 +1402,7 @@ var persistents = {
    ],
    "P1000406": [
       {
-         "expect": "{}"
+         "expect": "{<P1000407>=_;}"
       },
       {
          "action": "write",
@@ -1426,7 +1426,7 @@ var persistents = {
             "P1000408"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000407>={};}"
+         "expect": "{<P1000407>={};<P1000408>=_;}"
       }
    ],
    "P1000410": [
@@ -1486,7 +1486,7 @@ var persistents = {
    ],
    "P1000428": [
       {
-         "expect": "{<P1000429>={<b>=[(0):];<c>=[(1):<0>={<x>=(2);<y>=@;};];};}"
+         "expect": "{<P1000429>={<P1000431>=_;<b>=[(0):];<c>=[(1):<0>={<x>=(2);<y>=@;};];};}"
       },
       {
          "action": "write",
@@ -1518,7 +1518,7 @@ var persistents = {
    ],
    "P1000434": [
       {
-         "expect": "{}"
+         "expect": "{<P1000435>=_;}"
       },
       {
          "action": "write",
@@ -1547,7 +1547,7 @@ var persistents = {
             "P1000443"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000443>=_;}"
       },
       {
          "action": "write",
@@ -1576,7 +1576,7 @@ var persistents = {
             "P1000451"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000451>=_;}"
       },
       {
          "action": "write",
@@ -1584,7 +1584,7 @@ var persistents = {
             "P1000452"
          ],
          "vehicle": "{<val>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}",
-         "expect": "{<P1000452>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}"
+         "expect": "{<P1000451>=_;<P1000452>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}"
       },
       {
          "action": "array",
@@ -1592,7 +1592,7 @@ var persistents = {
             "P1000452"
          ],
          "vehicle": "[(2):<0>=<unshift>;<1>=[(5):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);];]",
-         "expect": "{<P1000452>=[(10):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<5>=(2);<6>=!;<7>=<blah>;<8>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<9>={<a>=<asdf>;<b>=@;};];}"
+         "expect": "{<P1000451>=_;<P1000452>=[(10):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<5>=(2);<6>=!;<7>=<blah>;<8>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<9>={<a>=<asdf>;<b>=@;};];}"
       },
       {
          "action": "write",
@@ -1600,12 +1600,12 @@ var persistents = {
             "P1000452"
          ],
          "vehicle": "{<val>=(1.04);}",
-         "expect": "{<P1000452>=(1.04);}"
+         "expect": "{<P1000451>=_;<P1000452>=(1.04);}"
       }
    ],
    "P1000456": [
       {
-         "expect": "{}"
+         "expect": "{<P1000457>=_;}"
       },
       {
          "action": "write",
@@ -1655,7 +1655,7 @@ var persistents = {
             "P1000472"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000472>=_;}"
       }
    ],
    "P1000478": [
@@ -1713,7 +1713,7 @@ var persistents = {
    ],
    "P1000492": [
       {
-         "expect": "{}"
+         "expect": "{<P1000493>=_;}"
       },
       {
          "action": "write",
@@ -1787,7 +1787,7 @@ var persistents = {
             "P1000508"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000507>=~;}"
+         "expect": "{<P1000507>=~;<P1000508>=_;}"
       }
    ],
    "P1000510": [
@@ -1894,7 +1894,7 @@ var persistents = {
             "P1000545"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000545>=_;}"
       }
    ],
    "P1000550": [
@@ -1933,7 +1933,7 @@ var persistents = {
             "P1000563"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000563>=_;}"
       },
       {
          "action": "write",
@@ -1975,7 +1975,7 @@ var persistents = {
    ],
    "P1000574": [
       {
-         "expect": "{}"
+         "expect": "{<P1000575>=_;}"
       },
       {
          "action": "write",
@@ -2004,7 +2004,7 @@ var persistents = {
             "P1000582"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000582>=_;}"
       },
       {
          "action": "write",
@@ -2020,7 +2020,7 @@ var persistents = {
             "P1000582"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000582>=_;}"
       },
       {
          "action": "write",
@@ -2073,7 +2073,7 @@ var persistents = {
             "P1000586"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000586>=_;}"
       }
    ],
    "P1000591": [
@@ -2173,7 +2173,7 @@ var persistents = {
             "P1000605"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000605>=_;}"
       },
       {
          "action": "write",
@@ -2202,7 +2202,7 @@ var persistents = {
             "P1000610"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000610>=_;}"
       },
       {
          "action": "write",
@@ -2231,7 +2231,7 @@ var persistents = {
    ],
    "P1000613": [
       {
-         "expect": "{}"
+         "expect": "{<P1000614>=_;}"
       },
       {
          "action": "write",
@@ -2294,7 +2294,7 @@ var persistents = {
             "P1000635"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000634>=[(21):<13>=<foo>;<14>=!;<15>=<blah>;<16>=<abcdefg>;<17>={<a>=<asdf>;<b>=@;};<18>={<brown>=<fox>;<the>=<quick>;};<19>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<20>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];];}"
+         "expect": "{<P1000634>=[(21):<13>=<foo>;<14>=!;<15>=<blah>;<16>=<abcdefg>;<17>={<a>=<asdf>;<b>=@;};<18>={<brown>=<fox>;<the>=<quick>;};<19>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<20>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];];<P1000635>=_;}"
       },
       {
          "action": "write",
@@ -2315,7 +2315,7 @@ var persistents = {
             "P1000640"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000639>=[(0):];}"
+         "expect": "{<P1000639>=[(0):];<P1000640>=_;}"
       },
       {
          "action": "write",
@@ -2323,7 +2323,7 @@ var persistents = {
             "P1000640"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1000639>=[(0):];}"
+         "expect": "{<P1000639>=[(0):];<P1000640>=_;}"
       }
    ],
    "P1000643": [
@@ -2349,7 +2349,7 @@ var persistents = {
    ],
    "P1000651": [
       {
-         "expect": "{}"
+         "expect": "{<P1000652>=_;}"
       },
       {
          "action": "write",
@@ -2383,7 +2383,7 @@ var persistents = {
    ],
    "P1000662": [
       {
-         "expect": "{}"
+         "expect": "{<P1000663>=_;}"
       },
       {
          "action": "write",
@@ -2459,7 +2459,7 @@ var persistents = {
    ],
    "P1000683": [
       {
-         "expect": "{}"
+         "expect": "{<P1000684>=_;}"
       },
       {
          "action": "write",
@@ -2543,12 +2543,12 @@ var persistents = {
             "P1000711"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000711>=_;}"
       }
    ],
    "P1000714": [
       {
-         "expect": "{<P1000715>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);];}"
+         "expect": "{<P1000715>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);];<P1000716>=_;}"
       },
       {
          "action": "write",
@@ -2556,7 +2556,7 @@ var persistents = {
             "P1000717"
          ],
          "vehicle": "{<val>=~;}",
-         "expect": "{<P1000715>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);];<P1000717>=~;}"
+         "expect": "{<P1000715>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);];<P1000716>=_;<P1000717>=~;}"
       }
    ],
    "P1000722": [
@@ -2634,7 +2634,7 @@ var persistents = {
    ],
    "P1000743": [
       {
-         "expect": "{}"
+         "expect": "{<P1000744>=_;}"
       },
       {
          "action": "write",
@@ -2699,7 +2699,7 @@ var persistents = {
    ],
    "P1000769": [
       {
-         "expect": "{}"
+         "expect": "{<P1000770>=_;}"
       },
       {
          "action": "write",
@@ -2707,7 +2707,7 @@ var persistents = {
             "P1000771"
          ],
          "vehicle": "{<val>=~;}",
-         "expect": "{<P1000771>=~;}"
+         "expect": "{<P1000770>=_;<P1000771>=~;}"
       },
       {
          "action": "write",
@@ -2715,7 +2715,7 @@ var persistents = {
             "P1000771"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000770>=_;<P1000771>=_;}"
       }
    ],
    "P1000779": [
@@ -2813,7 +2813,7 @@ var persistents = {
    ],
    "P1000804": [
       {
-         "expect": "{}"
+         "expect": "{<P1000805>=_;}"
       },
       {
          "action": "write",
@@ -2837,7 +2837,7 @@ var persistents = {
             "P1000805"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000805>=_;}"
       },
       {
          "action": "write",
@@ -2913,7 +2913,7 @@ var persistents = {
    ],
    "P1000832": [
       {
-         "expect": "{}"
+         "expect": "{<P1000833>=_;}"
       },
       {
          "action": "write",
@@ -2968,7 +2968,7 @@ var persistents = {
    ],
    "P1000851": [
       {
-         "expect": "{}"
+         "expect": "{<P1000852>=_;}"
       },
       {
          "action": "write",
@@ -2976,7 +2976,7 @@ var persistents = {
             "P1000853"
          ],
          "vehicle": "{<val>=<ee efwdfb >;}",
-         "expect": "{<P1000853>=<ee efwdfb >;}"
+         "expect": "{<P1000852>=_;<P1000853>=<ee efwdfb >;}"
       },
       {
          "action": "write",
@@ -2984,7 +2984,7 @@ var persistents = {
             "P1000853"
          ],
          "vehicle": "{<val>=[(0):];}",
-         "expect": "{<P1000853>=[(0):];}"
+         "expect": "{<P1000852>=_;<P1000853>=[(0):];}"
       },
       {
          "action": "write",
@@ -2992,7 +2992,7 @@ var persistents = {
             "P1000853"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000852>=_;<P1000853>=_;}"
       },
       {
          "action": "write",
@@ -3000,7 +3000,7 @@ var persistents = {
             "P1000854"
          ],
          "vehicle": "{<val>=<    >;}",
-         "expect": "{<P1000854>=<    >;}"
+         "expect": "{<P1000852>=_;<P1000853>=_;<P1000854>=<    >;}"
       },
       {
          "action": "write",
@@ -3008,7 +3008,7 @@ var persistents = {
             "P1000854"
          ],
          "vehicle": "{<val>=(123);}",
-         "expect": "{<P1000854>=(123);}"
+         "expect": "{<P1000852>=_;<P1000853>=_;<P1000854>=(123);}"
       }
    ],
    "P1000861": [
@@ -3021,7 +3021,7 @@ var persistents = {
             "P1000862"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000862>=_;}"
       },
       {
          "action": "write",
@@ -3034,7 +3034,7 @@ var persistents = {
    ],
    "P1000869": [
       {
-         "expect": "{}"
+         "expect": "{<P1000870>=_;}"
       },
       {
          "action": "write",
@@ -3142,7 +3142,7 @@ var persistents = {
             "P1000891"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000891>=_;}"
       }
    ],
    "P1000895": [
@@ -3160,7 +3160,7 @@ var persistents = {
    ],
    "P1000902": [
       {
-         "expect": "{}"
+         "expect": "{<P1000903>=_;}"
       },
       {
          "action": "write",
@@ -3272,7 +3272,7 @@ var persistents = {
             "P1000930"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000930>=_;}"
       },
       {
          "action": "write",
@@ -3319,7 +3319,7 @@ var persistents = {
    ],
    "P1000947": [
       {
-         "expect": "{}"
+         "expect": "{<P1000948>=_;}"
       },
       {
          "action": "write",
@@ -3382,7 +3382,7 @@ var persistents = {
    ],
    "P1000966": [
       {
-         "expect": "{}"
+         "expect": "{<P1000967>=_;}"
       },
       {
          "action": "write",
@@ -3461,7 +3461,7 @@ var persistents = {
             "P1000979"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1000979>=_;}"
       }
    ],
    "P1000982": [
@@ -3613,7 +3613,7 @@ var persistents = {
             "P1001019"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001018>=[(2):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};];}"
+         "expect": "{<P1001018>=[(2):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};];<P1001019>=_;}"
       },
       {
          "action": "write",
@@ -3629,7 +3629,7 @@ var persistents = {
             "P1001019"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001018>=[(2):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};];}"
+         "expect": "{<P1001018>=[(2):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};];<P1001019>=_;}"
       }
    ],
    "P1001024": [
@@ -3677,7 +3677,7 @@ var persistents = {
             "P1001036"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001036>=_;}"
       },
       {
          "action": "write",
@@ -3685,7 +3685,7 @@ var persistents = {
             "P1001037"
          ],
          "vehicle": "{<val>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}",
-         "expect": "{<P1001037>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}"
+         "expect": "{<P1001036>=_;<P1001037>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}"
       },
       {
          "action": "write",
@@ -3693,7 +3693,7 @@ var persistents = {
             "P1001037"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001036>=_;<P1001037>=_;}"
       },
       {
          "action": "write",
@@ -3701,7 +3701,7 @@ var persistents = {
             "P1001037"
          ],
          "vehicle": "{<val>=[(0):];}",
-         "expect": "{<P1001037>=[(0):];}"
+         "expect": "{<P1001036>=_;<P1001037>=[(0):];}"
       }
    ],
    "P1001042": [
@@ -3722,7 +3722,7 @@ var persistents = {
             "P1001044"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001043>=[(5):<0>=<the>;<1>=<quick>;<2>={<brown>=<fox>;<the>=<quick>;};<3>=<fox>;<4>=<>;];}"
+         "expect": "{<P1001043>=[(5):<0>=<the>;<1>=<quick>;<2>={<brown>=<fox>;<the>=<quick>;};<3>=<fox>;<4>=<>;];<P1001044>=_;}"
       }
    ],
    "P1001047": [
@@ -3740,7 +3740,7 @@ var persistents = {
    ],
    "P1001049": [
       {
-         "expect": "{}"
+         "expect": "{<P1001050>=_;}"
       },
       {
          "action": "write",
@@ -3748,7 +3748,7 @@ var persistents = {
             "P1001050"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001050>=_;}"
       },
       {
          "action": "write",
@@ -3756,7 +3756,7 @@ var persistents = {
             "P1001051"
          ],
          "vehicle": "{<val>=~;}",
-         "expect": "{<P1001051>=~;}"
+         "expect": "{<P1001050>=_;<P1001051>=~;}"
       }
    ],
    "P1001055": [
@@ -3798,7 +3798,7 @@ var persistents = {
             "P1001063"
          ],
          "vehicle": "[(2):<0>=<write>;<1>=[(2):<0>=(0);<1>=_;];]",
-         "expect": "{<P1001063>=[(0):];}"
+         "expect": "{<P1001063>=[(1):<0>=_;];}"
       }
    ],
    "P1001070": [
@@ -3840,7 +3840,7 @@ var persistents = {
             "P1001077"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001077>=_;}"
       },
       {
          "action": "write",
@@ -3848,7 +3848,7 @@ var persistents = {
             "P1001078"
          ],
          "vehicle": "{<val>=<je e>;}",
-         "expect": "{<P1001078>=<je e>;}"
+         "expect": "{<P1001077>=_;<P1001078>=<je e>;}"
       },
       {
          "action": "write",
@@ -3856,7 +3856,7 @@ var persistents = {
             "P1001078"
          ],
          "vehicle": "{<val>={};}",
-         "expect": "{<P1001078>={};}"
+         "expect": "{<P1001077>=_;<P1001078>={};}"
       },
       {
          "action": "write",
@@ -3864,7 +3864,7 @@ var persistents = {
             "P1001078"
          ],
          "vehicle": "{<val>=(43);}",
-         "expect": "{<P1001078>=(43);}"
+         "expect": "{<P1001077>=_;<P1001078>=(43);}"
       }
    ],
    "P1001081": [
@@ -3890,7 +3890,7 @@ var persistents = {
             "P1001091"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001091>=_;}"
       }
    ],
    "P1001098": [
@@ -3916,7 +3916,7 @@ var persistents = {
    ],
    "P1001102": [
       {
-         "expect": "{}"
+         "expect": "{<P1001103>=_;}"
       },
       {
          "action": "write",
@@ -4052,7 +4052,7 @@ var persistents = {
    ],
    "P1001142": [
       {
-         "expect": "{}"
+         "expect": "{<P1001143>=_;}"
       },
       {
          "action": "write",
@@ -4118,7 +4118,7 @@ var persistents = {
             "P1001153"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001152>=[(9):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<1>=(1);<2>=<bar>;<3>=[(0):];<4>=<foo>;<5>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<6>=(10);<7>=(20);<8>=(30);];}"
+         "expect": "{<P1001152>=[(9):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<1>=(1);<2>=<bar>;<3>=[(0):];<4>=<foo>;<5>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<6>=(10);<7>=(20);<8>=(30);];<P1001153>=_;}"
       }
    ],
    "P1001154": [
@@ -4144,7 +4144,7 @@ var persistents = {
             "P1001161"
          ],
          "vehicle": "[(2):<0>=<write>;<1>=[(2):<0>=(0);<1>=_;];]",
-         "expect": "{<P1001161>=[(0):];}"
+         "expect": "{<P1001161>=[(1):<0>=_;];}"
       },
       {
          "action": "array",
@@ -4152,7 +4152,7 @@ var persistents = {
             "P1001161"
          ],
          "vehicle": "[(2):<0>=<write>;<1>=[(2):<0>=(2);<1>={<brown>=<fox>;<the>=<quick>;};];]",
-         "expect": "{<P1001161>=[(3):<2>={<brown>=<fox>;<the>=<quick>;};];}"
+         "expect": "{<P1001161>=[(3):<0>=_;<2>={<brown>=<fox>;<the>=<quick>;};];}"
       },
       {
          "action": "write",
@@ -4252,7 +4252,7 @@ var persistents = {
    ],
    "P1001188": [
       {
-         "expect": "{}"
+         "expect": "{<P1001189>=_;}"
       },
       {
          "action": "write",
@@ -4391,7 +4391,7 @@ var persistents = {
             "P1001227"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001227>=_;}"
       }
    ],
    "P1001232": [
@@ -4412,7 +4412,7 @@ var persistents = {
             "P1001233"
          ],
          "vehicle": "[(2):<0>=<write>;<1>=[(2):<0>=(0);<1>=_;];]",
-         "expect": "{<P1001233>=[(7):<0>=(2);<1>=(3);<2>=(1);<3>=(2);<4>=(3);<5>=(4);<6>=(5);];}"
+         "expect": "{<P1001233>=[(8):<0>=_;<1>=(2);<2>=(3);<3>=(1);<4>=(2);<5>=(3);<6>=(4);<7>=(5);];}"
       },
       {
          "action": "write",
@@ -4420,7 +4420,7 @@ var persistents = {
             "P1001233"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001233>=_;}"
       },
       {
          "action": "write",
@@ -4436,7 +4436,7 @@ var persistents = {
             "P1001233"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001233>=_;}"
       }
    ],
    "P1001237": [
@@ -4486,7 +4486,7 @@ var persistents = {
             "P1001244"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001243>=[(0):];}"
+         "expect": "{<P1001243>=[(0):];<P1001244>=_;}"
       },
       {
          "action": "write",
@@ -4494,7 +4494,7 @@ var persistents = {
             "P1001244"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001243>=[(0):];}"
+         "expect": "{<P1001243>=[(0):];<P1001244>=_;}"
       }
    ],
    "P1001246": [
@@ -4620,7 +4620,7 @@ var persistents = {
             "P1001279"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001278>=[(3):<0>=(1);<1>=(2);<2>=(3);];}"
+         "expect": "{<P1001278>=[(3):<0>=(1);<1>=(2);<2>=(3);];<P1001279>=_;}"
       },
       {
          "action": "write",
@@ -4691,12 +4691,12 @@ var persistents = {
             "P1001303"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001303>=_;}"
       }
    ],
    "P1001306": [
       {
-         "expect": "{<P1001307>={};}"
+         "expect": "{<P1001307>={};<P1001308>=_;}"
       },
       {
          "action": "write",
@@ -4903,7 +4903,7 @@ var persistents = {
    ],
    "P1001381": [
       {
-         "expect": "{}"
+         "expect": "{<P1001382>=_;}"
       },
       {
          "action": "write",
@@ -4945,7 +4945,7 @@ var persistents = {
    ],
    "P1001395": [
       {
-         "expect": "{}"
+         "expect": "{<P1001396>=_;}"
       },
       {
          "action": "write",
@@ -5000,12 +5000,12 @@ var persistents = {
             "P1001411"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001411>=_;}"
       }
    ],
    "P1001416": [
       {
-         "expect": "{}"
+         "expect": "{<P1001417>=_;}"
       },
       {
          "action": "write",
@@ -5068,7 +5068,7 @@ var persistents = {
             "P1001433"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001432>=[(0):];}"
+         "expect": "{<P1001432>=[(0):];<P1001433>=_;}"
       },
       {
          "action": "write",
@@ -5296,7 +5296,7 @@ var persistents = {
             "P1001505"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001505>=_;}"
       },
       {
          "action": "write",
@@ -5325,7 +5325,7 @@ var persistents = {
             "P1001513"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001513>=_;}"
       }
    ],
    "P1001519": [
@@ -5461,7 +5461,7 @@ var persistents = {
             "P1001557"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001557>=_;}"
       },
       {
          "action": "write",
@@ -5524,7 +5524,7 @@ var persistents = {
    ],
    "P1001575": [
       {
-         "expect": "{}"
+         "expect": "{<P1001576>=_;}"
       },
       {
          "action": "write",
@@ -5600,7 +5600,7 @@ var persistents = {
    ],
    "P1001590": [
       {
-         "expect": "{}"
+         "expect": "{<P1001591>=_;}"
       },
       {
          "action": "write",
@@ -5621,7 +5621,7 @@ var persistents = {
             "P1001597"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001597>=_;}"
       },
       {
          "action": "write",
@@ -5700,7 +5700,7 @@ var persistents = {
             "P1001617"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001617>=_;}"
       }
    ],
    "P1001623": [
@@ -5768,7 +5768,7 @@ var persistents = {
             "P1001644"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001644>=_;}"
       },
       {
          "action": "write",
@@ -5855,7 +5855,7 @@ var persistents = {
             "P1001662"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001662>=_;}"
       },
       {
          "action": "write",
@@ -6073,7 +6073,7 @@ var persistents = {
             "P1001735"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001735>=_;}"
       },
       {
          "action": "write",
@@ -6167,7 +6167,7 @@ var persistents = {
    ],
    "P1001767": [
       {
-         "expect": "{}"
+         "expect": "{<P1001768>=_;}"
       },
       {
          "action": "write",
@@ -6183,7 +6183,7 @@ var persistents = {
             "P1001768"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001768>=_;}"
       },
       {
          "action": "write",
@@ -6212,7 +6212,7 @@ var persistents = {
             "P1001776"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001775>=[(0):];}"
+         "expect": "{<P1001775>=[(0):];<P1001776>=_;}"
       },
       {
          "action": "write",
@@ -6225,7 +6225,7 @@ var persistents = {
    ],
    "P1001782": [
       {
-         "expect": "{}"
+         "expect": "{<P1001783>=_;}"
       },
       {
          "action": "write",
@@ -6328,7 +6328,7 @@ var persistents = {
             "P1001818"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001818>=_;}"
       },
       {
          "action": "write",
@@ -6357,7 +6357,7 @@ var persistents = {
             "P1001827"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001827>=_;}"
       },
       {
          "action": "write",
@@ -6373,7 +6373,7 @@ var persistents = {
             "P1001827"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001827>=_;}"
       },
       {
          "action": "write",
@@ -6434,7 +6434,7 @@ var persistents = {
    ],
    "P1001847": [
       {
-         "expect": "{}"
+         "expect": "{<P1001848>=_;}"
       },
       {
          "action": "write",
@@ -6456,7 +6456,7 @@ var persistents = {
    ],
    "P1001853": [
       {
-         "expect": "{}"
+         "expect": "{<P1001854>=_;}"
       },
       {
          "action": "write",
@@ -6464,7 +6464,7 @@ var persistents = {
             "P1001854"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001854>=_;}"
       },
       {
          "action": "write",
@@ -6498,7 +6498,7 @@ var persistents = {
    ],
    "P1001863": [
       {
-         "expect": "{}"
+         "expect": "{<P1001864>=_;}"
       },
       {
          "action": "write",
@@ -6506,7 +6506,7 @@ var persistents = {
             "P1001865"
          ],
          "vehicle": "{<val>={<a>=[(0):];<b>=[(0):];};}",
-         "expect": "{<P1001865>={<a>=[(0):];<b>=[(0):];};}"
+         "expect": "{<P1001864>=_;<P1001865>={<a>=[(0):];<b>=[(0):];};}"
       }
    ],
    "P1001868": [
@@ -6791,7 +6791,7 @@ var persistents = {
             "P1001940"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001940>=_;}"
       },
       {
          "action": "write",
@@ -6849,7 +6849,7 @@ var persistents = {
             "P1001949"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001948>=< o3r83rg>;}"
+         "expect": "{<P1001948>=< o3r83rg>;<P1001949>=_;}"
       },
       {
          "action": "write",
@@ -6925,7 +6925,7 @@ var persistents = {
             "P1001972"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001972>=_;}"
       }
    ],
    "P1001977": [
@@ -6938,7 +6938,7 @@ var persistents = {
             "P1001979"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1001978>=<5t5t5t>;}"
+         "expect": "{<P1001978>=<5t5t5t>;<P1001979>=_;}"
       }
    ],
    "P1001984": [
@@ -6985,7 +6985,7 @@ var persistents = {
             "P1001996"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1001996>=_;}"
       },
       {
          "action": "write",
@@ -7019,7 +7019,7 @@ var persistents = {
             "P1002005"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002005>=_;}"
       }
    ],
    "P1002012": [
@@ -7032,7 +7032,7 @@ var persistents = {
             "P1002013"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002013>=_;}"
       },
       {
          "action": "write",
@@ -7048,7 +7048,7 @@ var persistents = {
             "P1002013"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002013>=_;}"
       }
    ],
    "P1002017": [
@@ -7205,7 +7205,7 @@ var persistents = {
    ],
    "P1002069": [
       {
-         "expect": "{}"
+         "expect": "{<P1002070>=_;}"
       },
       {
          "action": "write",
@@ -7373,7 +7373,7 @@ var persistents = {
             "P1002114"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002113>={};}"
+         "expect": "{<P1002113>={};<P1002114>=_;}"
       },
       {
          "action": "write",
@@ -7394,7 +7394,7 @@ var persistents = {
             "P1002119"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002119>=_;}"
       }
    ],
    "P1002120": [
@@ -7429,7 +7429,7 @@ var persistents = {
             "P1002128"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002127>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
+         "expect": "{<P1002127>={<P1002128>=_;<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       }
    ],
    "P1002133": [
@@ -7442,7 +7442,7 @@ var persistents = {
             "P1002134"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002134>=_;}"
       }
    ],
    "P1002138": [
@@ -7460,7 +7460,7 @@ var persistents = {
    ],
    "P1002143": [
       {
-         "expect": "{}"
+         "expect": "{<P1002144>=_;}"
       },
       {
          "action": "write",
@@ -7502,7 +7502,7 @@ var persistents = {
             "P1002155"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002155>=_;}"
       },
       {
          "action": "write",
@@ -7510,7 +7510,7 @@ var persistents = {
             "P1002156"
          ],
          "vehicle": "{<val>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}",
-         "expect": "{<P1002156>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
+         "expect": "{<P1002155>=_;<P1002156>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
       }
    ],
    "P1002163": [
@@ -7562,7 +7562,7 @@ var persistents = {
    ],
    "P1002179": [
       {
-         "expect": "{<P1002180>=[(3):<0>=(3);<1>=(4);<2>=(5);];}"
+         "expect": "{<P1002180>=[(4):<0>=_;<1>=(3);<2>=(4);<3>=(5);];}"
       },
       {
          "action": "array",
@@ -7570,7 +7570,7 @@ var persistents = {
             "P1002180"
          ],
          "vehicle": "[(2):<0>=<reverse>;<1>=[(0):];]",
-         "expect": "{<P1002180>=[(3):<0>=(5);<1>=(4);<2>=(3);];}"
+         "expect": "{<P1002180>=[(4):<0>=(5);<1>=(4);<2>=(3);<3>=_;];}"
       },
       {
          "action": "array",
@@ -7578,7 +7578,7 @@ var persistents = {
             "P1002180"
          ],
          "vehicle": "[(2):<0>=<shift>;<1>=[(0):];]",
-         "expect": "{<P1002180>=[(2):<0>=(4);<1>=(3);];}"
+         "expect": "{<P1002180>=[(3):<0>=(4);<1>=(3);<2>=_;];}"
       }
    ],
    "P1002183": [
@@ -7612,7 +7612,7 @@ var persistents = {
             "P1002191"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002191>=_;}"
       },
       {
          "action": "write",
@@ -7620,7 +7620,7 @@ var persistents = {
             "P1002191"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002191>=_;}"
       },
       {
          "action": "write",
@@ -7628,7 +7628,7 @@ var persistents = {
             "P1002192"
          ],
          "vehicle": "{<val>=[(0):];}",
-         "expect": "{<P1002192>=[(0):];}"
+         "expect": "{<P1002191>=_;<P1002192>=[(0):];}"
       }
    ],
    "P1002195": [
@@ -7761,7 +7761,7 @@ var persistents = {
    ],
    "P1002235": [
       {
-         "expect": "{<P1002237>=[(0):];}"
+         "expect": "{<P1002236>=_;<P1002237>=[(0):];}"
       },
       {
          "action": "array",
@@ -7769,7 +7769,7 @@ var persistents = {
             "P1002237"
          ],
          "vehicle": "[(2):<0>=<sort>;<1>=[(0):];]",
-         "expect": "{<P1002237>=[(0):];}"
+         "expect": "{<P1002236>=_;<P1002237>=[(0):];}"
       }
    ],
    "P1002243": [
@@ -7926,7 +7926,7 @@ var persistents = {
             "P1002284"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002284>=_;}"
       }
    ],
    "P1002290": [
@@ -7963,7 +7963,7 @@ var persistents = {
             "P1002291"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002291>=_;}"
       }
    ],
    "P1002295": [
@@ -8055,7 +8055,7 @@ var persistents = {
    ],
    "P1002309": [
       {
-         "expect": "{}"
+         "expect": "{<P1002310>=_;}"
       },
       {
          "action": "write",
@@ -8097,7 +8097,7 @@ var persistents = {
             "P1002320"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002319>=(4);}"
+         "expect": "{<P1002319>=(4);<P1002320>=_;}"
       }
    ],
    "P1002326": [
@@ -8123,7 +8123,7 @@ var persistents = {
    ],
    "P1002334": [
       {
-         "expect": "{<P1002335>=~;}"
+         "expect": "{<P1002335>=~;<P1002336>=_;}"
       },
       {
          "action": "write",
@@ -8144,7 +8144,7 @@ var persistents = {
             "P1002344"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002343>=[(0):];}"
+         "expect": "{<P1002343>=[(0):];<P1002344>=_;}"
       },
       {
          "action": "write",
@@ -8258,7 +8258,7 @@ var persistents = {
             "P1002374"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002372>={};}"
+         "expect": "{<P1002372>={<P1002374>=_;};}"
       },
       {
          "action": "write",
@@ -8323,7 +8323,7 @@ var persistents = {
             "P1002388"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002388>=_;}"
       }
    ],
    "P1002391": [
@@ -8362,7 +8362,7 @@ var persistents = {
    ],
    "P1002403": [
       {
-         "expect": "{}"
+         "expect": "{<P1002404>=_;}"
       },
       {
          "action": "write",
@@ -8370,7 +8370,7 @@ var persistents = {
             "P1002404"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002404>=_;}"
       }
    ],
    "P1002413": [
@@ -8396,7 +8396,7 @@ var persistents = {
             "P1002420"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002420>=_;}"
       }
    ],
    "P1002426": [
@@ -8545,7 +8545,7 @@ var persistents = {
             "P1002474"
          ],
          "vehicle": "[(2):<0>=<write>;<1>=[(2):<0>=(0);<1>=_;];]",
-         "expect": "{<P1002474>=[(0):];}"
+         "expect": "{<P1002474>=[(1):<0>=_;];}"
       },
       {
          "action": "write",
@@ -8657,7 +8657,7 @@ var persistents = {
    ],
    "P1002515": [
       {
-         "expect": "{}"
+         "expect": "{<P1002516>=_;}"
       },
       {
          "action": "write",
@@ -8665,12 +8665,12 @@ var persistents = {
             "P1002517"
          ],
          "vehicle": "{<val>={};}",
-         "expect": "{<P1002517>={};}"
+         "expect": "{<P1002516>=_;<P1002517>={};}"
       }
    ],
    "P1002521": [
       {
-         "expect": "{}"
+         "expect": "{<P1002522>=_;}"
       },
       {
          "action": "write",
@@ -8746,7 +8746,7 @@ var persistents = {
    ],
    "P1002539": [
       {
-         "expect": "{<P1002540>={};}"
+         "expect": "{<P1002540>={<P1002541>=_;};}"
       },
       {
          "action": "write",
@@ -8760,7 +8760,7 @@ var persistents = {
    ],
    "P1002548": [
       {
-         "expect": "{<P1002549>=~;}"
+         "expect": "{<P1002549>=~;<P1002550>=_;}"
       },
       {
          "action": "write",
@@ -8813,7 +8813,7 @@ var persistents = {
             "P1002555"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002555>=_;}"
       },
       {
          "action": "write",
@@ -8842,7 +8842,7 @@ var persistents = {
    ],
    "P1002561": [
       {
-         "expect": "{<P1002562>=[(7):<0>=<quick>;<1>=<brown>;<2>=<fox>;<3>=<>;<4>=(1);<5>=<bar>;<6>=[(0):];];}"
+         "expect": "{<P1002562>=[(8):<0>=_;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;<5>=(1);<6>=<bar>;<7>=[(0):];];}"
       },
       {
          "action": "write",
@@ -8855,7 +8855,7 @@ var persistents = {
    ],
    "P1002566": [
       {
-         "expect": "{}"
+         "expect": "{<P1002567>=_;}"
       },
       {
          "action": "write",
@@ -8879,7 +8879,7 @@ var persistents = {
             "P1002568"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002567>=[(5):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;];}"
+         "expect": "{<P1002567>=[(5):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;];<P1002568>=_;}"
       },
       {
          "action": "write",
@@ -8901,7 +8901,7 @@ var persistents = {
    ],
    "P1002575": [
       {
-         "expect": "{}"
+         "expect": "{<P1002576>=_;}"
       },
       {
          "action": "write",
@@ -8909,7 +8909,7 @@ var persistents = {
             "P1002577"
          ],
          "vehicle": "{<val>=~;}",
-         "expect": "{<P1002577>=~;}"
+         "expect": "{<P1002576>=_;<P1002577>=~;}"
       }
    ],
    "P1002582": [
@@ -8969,7 +8969,7 @@ var persistents = {
    ],
    "P1002604": [
       {
-         "expect": "{}"
+         "expect": "{<P1002605>=_;}"
       },
       {
          "action": "write",
@@ -9003,7 +9003,7 @@ var persistents = {
             "P1002618"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002618>=_;}"
       },
       {
          "action": "write",
@@ -9058,7 +9058,7 @@ var persistents = {
             "P1002631"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002630>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
+         "expect": "{<P1002630>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];<P1002631>=_;}"
       },
       {
          "action": "write",
@@ -9100,7 +9100,7 @@ var persistents = {
    ],
    "P1002642": [
       {
-         "expect": "{}"
+         "expect": "{<P1002643>=_;}"
       },
       {
          "action": "write",
@@ -9218,7 +9218,7 @@ var persistents = {
    ],
    "P1002677": [
       {
-         "expect": "{}"
+         "expect": "{<P1002678>=_;}"
       },
       {
          "action": "write",
@@ -9260,7 +9260,7 @@ var persistents = {
             "P1002689"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002688>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
+         "expect": "{<P1002688>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};<P1002689>=_;}"
       }
    ],
    "P1002692": [
@@ -9404,7 +9404,7 @@ var persistents = {
    ],
    "P1002724": [
       {
-         "expect": "{}"
+         "expect": "{<P1002725>=_;}"
       },
       {
          "action": "write",
@@ -9491,7 +9491,7 @@ var persistents = {
             "P1002746"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002745>=[(4):<0>=(5);<1>=(4);<2>=(3);<3>=(2);];}"
+         "expect": "{<P1002745>=[(4):<0>=(5);<1>=(4);<2>=(3);<3>=(2);];<P1002746>=_;}"
       }
    ],
    "P1002749": [
@@ -9568,7 +9568,7 @@ var persistents = {
             "P1002764"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002763>={};}"
+         "expect": "{<P1002763>={<P1002764>=_;};}"
       },
       {
          "action": "write",
@@ -9663,7 +9663,7 @@ var persistents = {
    ],
    "P1002784": [
       {
-         "expect": "{}"
+         "expect": "{<P1002785>=_;}"
       },
       {
          "action": "write",
@@ -9718,7 +9718,7 @@ var persistents = {
             "P1002800"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002800>=_;}"
       },
       {
          "action": "write",
@@ -9760,7 +9760,7 @@ var persistents = {
    ],
    "P1002809": [
       {
-         "expect": "{}"
+         "expect": "{<P1002810>=_;}"
       },
       {
          "action": "write",
@@ -9900,7 +9900,7 @@ var persistents = {
    ],
    "P1002832": [
       {
-         "expect": "{}"
+         "expect": "{<P1002833>=_;}"
       },
       {
          "action": "write",
@@ -9913,7 +9913,7 @@ var persistents = {
    ],
    "P1002839": [
       {
-         "expect": "{}"
+         "expect": "{<P1002840>=_;}"
       },
       {
          "action": "write",
@@ -9934,12 +9934,12 @@ var persistents = {
             "P1002846"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{<P1002844>=[(5):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;];<P1002845>={<a>=[(0):];<b>=[(0):];};}"
+         "expect": "{<P1002844>=[(5):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;];<P1002845>={<a>=[(0):];<b>=[(0):];};<P1002846>=_;}"
       }
    ],
    "P1002848": [
       {
-         "expect": "{}"
+         "expect": "{<P1002849>=_;}"
       },
       {
          "action": "write",
@@ -9968,7 +9968,7 @@ var persistents = {
    ],
    "P1002854": [
       {
-         "expect": "{}"
+         "expect": "{<P1002855>=_;}"
       },
       {
          "action": "write",
@@ -10013,7 +10013,7 @@ var persistents = {
    ],
    "P1002861": [
       {
-         "expect": "{}"
+         "expect": "{<P1002862>=_;}"
       },
       {
          "action": "write",
@@ -10042,7 +10042,7 @@ var persistents = {
    ],
    "P1002866": [
       {
-         "expect": "{}"
+         "expect": "{<P1002867>=_;}"
       },
       {
          "action": "write",
@@ -10368,7 +10368,7 @@ var persistents = {
             "P1002938"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1002938>=_;}"
       }
    ],
    "P1002941": [
@@ -10723,7 +10723,7 @@ var persistents = {
             "P1003066"
          ],
          "vehicle": "[(2):<0>=<write>;<1>=[(2):<0>=(0);<1>=_;];]",
-         "expect": "{<P1003066>=[(0):];}"
+         "expect": "{<P1003066>=[(1):<0>=_;];}"
       },
       {
          "action": "write",
@@ -10739,7 +10739,7 @@ var persistents = {
             "P1003066"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1003066>=_;}"
       }
    ],
    "P1003072": [
@@ -10884,7 +10884,7 @@ var persistents = {
             "P1003095"
          ],
          "vehicle": "{<val>=_;}",
-         "expect": "{}"
+         "expect": "{<P1003095>=_;}"
       },
       {
          "action": "write",
@@ -11136,7 +11136,7 @@ var persistents = {
    ],
    "P1003157": [
       {
-         "expect": "{}"
+         "expect": "{<P1003158>=_;}"
       },
       {
          "action": "write",
@@ -11178,7 +11178,7 @@ var persistents = {
    ],
    "P1003171": [
       {
-         "expect": "{}"
+         "expect": "{<P1003172>=_;}"
       },
       {
          "action": "write",
