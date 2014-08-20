@@ -37,13 +37,13 @@ if (true) {
     var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
     var l2 = this.length;
     if ( this._rhaboo !== undefined && l2>l1 ) {
-      var s1 = [];
+      var ss = [];
       for (var i=l1; i<l2; i++) {
         var k = this._rhaboo_childKey(i);
-        s1 = s1.concat( R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](i, k, this[i], this) );
+        R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](ss, i, k, this[i], this) ;
       }
-      s1 = s1.concat(this._rhaboo_storeLength(true));
-      R._rhaboo_enqueue(s1);
+      this._rhaboo_storeLength(ss, true);
+      R._rhaboo_enqueue(ss);
     }
   }
   Array.prototype.pop = function () {
@@ -51,9 +51,10 @@ if (true) {
     var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
     if ( this._rhaboo !== undefined && l>0 ) {
       var k = this._rhaboo_childKey(l-1);
-      var s1 = R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](k, retval);
-      s1 = s1.concat(this._rhaboo_storeLength(true));
-      R._rhaboo_enqueue(s1);
+      var ss = [];
+      R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](ss, k, retval);
+      this._rhaboo_storeLength(ss, true);
+      R._rhaboo_enqueue(ss);
     } 
     return retval;
   }

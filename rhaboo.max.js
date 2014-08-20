@@ -2011,13 +2011,13 @@ if (true) {
     var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
     var l2 = this.length;
     if ( this._rhaboo !== undefined && l2>l1 ) {
-      var s1 = [];
+      var ss = [];
       for (var i=l1; i<l2; i++) {
         var k = this._rhaboo_childKey(i);
-        s1 = s1.concat( R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](i, k, this[i], this) );
+        R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](ss, i, k, this[i], this) ;
       }
-      s1 = s1.concat(this._rhaboo_storeLength(true));
-      R._rhaboo_enqueue(s1);
+      this._rhaboo_storeLength(ss, true);
+      R._rhaboo_enqueue(ss);
     }
   }
   Array.prototype.pop = function () {
@@ -2025,9 +2025,10 @@ if (true) {
     var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
     if ( this._rhaboo !== undefined && l>0 ) {
       var k = this._rhaboo_childKey(l-1);
-      var s1 = R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](k, retval);
-      s1 = s1.concat(this._rhaboo_storeLength(true));
-      R._rhaboo_enqueue(s1);
+      var ss = [];
+      R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](ss, k, retval);
+      this._rhaboo_storeLength(ss, true);
+      R._rhaboo_enqueue(ss);
     } 
     return retval;
   }
@@ -2138,13 +2139,15 @@ function _rhaboo_do(script) {
 }
 
 function _rhaboo_enqueue (sc) {
-  _rhaboo_do(sc); //We might have to recurse into old
-  return;
   E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
     _rhaboo_do(sc); //We might have to recurse into old
     deferred.resolve(); //This is just q mantra to mean we're done.
   });
+}
 
+function _rhaboo_bottomLine(ss, inst) {
+  //ss.push(inst);
+  _rhaboo_enqueue([inst]);
 }
 
 //Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
@@ -2153,10 +2156,10 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
-    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old));//.slice();
-    var s2 = (_rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this));//.slice();
-    _rhaboo_enqueue(s1);
-    _rhaboo_enqueue(s2);
+    var ss = [];
+    _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (ss, childkey, old);
+    _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (ss, where, childkey, what, this);
+    _rhaboo_enqueue(ss);
   }
 }
 
@@ -2164,8 +2167,9 @@ Object.prototype._rhaboo_kill = function(where, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
-    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
-    _rhaboo_enqueue(s1);
+    var ss = [];
+    _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (ss, childkey, old);
+    _rhaboo_enqueue(ss);
   }
 }
 
@@ -2174,65 +2178,61 @@ Object.prototype._rhaboo_kill = function(where, old) {
 //For objects, we call a function that recurses back into THIS TABLE
 
 var _rhaboo_stashers = {
-  "undefined" : function (where, key, what, parent) { return [['setItem',[key, 'undefined|undefined']]]; },
-  "null"      : function (where, key, what, parent) { return [['setItem',[key, 'null|null']]]; },
-  "leaf"      : function (where, key, what, parent) { return [['setItem',[key, typeof what + "|" + String(what)]]]; },
-  "object"    : function (where, key, what, parent) { return what._rhaboo_stash(where, key, parent); },
-  "bad"       : function (where, key, what, parent) { return []; }
+  "undefined" : function (ss, where, key, what, parent) { _rhaboo_bottomLine(ss, ['setItem',[key, 'undefined|undefined']]); },
+  "null"      : function (ss, where, key, what, parent) { _rhaboo_bottomLine(ss, ['setItem',[key, 'null|null']]); },
+  "leaf"      : function (ss, where, key, what, parent) { _rhaboo_bottomLine(ss, ['setItem',[key, typeof what + "|" + String(what)]]); },
+  "object"    : function (ss, where, key, what, parent) { what._rhaboo_stash(ss, where, key, parent); },
+  "bad"       : function (ss, where, key, what, parent) { }
 }
 
 var _rhaboo_forgetters = {
-  "undefined" : function (key, old) { return [['removeItem', [key]]]; },
-  "null"      : function (key, old) { return [['removeItem', [key]]]; },
-  "leaf"      : function (key, old) { return [['removeItem', [key]]]; },
-  "object"    : function (key, old) { return old._rhaboo_forget(); },
-  "bad"       : function (key, old) { return []; }
+  "undefined" : function (ss, key, old) { _rhaboo_bottomLine(ss, ['removeItem', [key]]); },
+  "null"      : function (ss, key, old) { _rhaboo_bottomLine(ss, ['removeItem', [key]]); },
+  "leaf"      : function (ss, key, old) { _rhaboo_bottomLine(ss, ['removeItem', [key]]); },
+  "object"    : function (ss, key, old) { old._rhaboo_forget(ss); },
+  "bad"       : function (ss, key, old) { }
 }
 
 //Make a normal OBJECT persistent...
 
-Object.prototype._rhaboo_stash = function (where, key, parent) {
-  var ret = [];
+Object.prototype._rhaboo_stash = function (ss, where, key, parent) {
   this._rhaboo = this._rhaboo || {};
   this._rhaboo.key=key;
   this._rhaboo.parent=parent;
   this._rhaboo.where=where;
   //The following line declares the object per-se. That's not necessary as long as it contains 
   //something, but it is necessary to persist empty objects. For simplicity it's always present.
-  ret.push(['setItem', [ this._rhaboo_childKey(""), "|" ]]);
+  _rhaboo_bottomLine(ss, ['setItem', [ this._rhaboo_childKey(""), "|" ]]);
   //Recurse for all properties except _rhaboo
   for (var where in this) if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
     var what = this[where];
-    ret = ret.concat(_rhaboo_stashers [_rhaboo_getTypeOf(what)] (where, this._rhaboo_childKey(where), what, this));
+    _rhaboo_stashers [_rhaboo_getTypeOf(what)] (ss, where, this._rhaboo_childKey(where), what, this);
   }
-  ret = ret.concat(this._rhaboo_storeLength(true));
-  return ret;
+  this._rhaboo_storeLength(ss, true);
 }
 
-Object.prototype._rhaboo_storeLength = function (store) {
+Object.prototype._rhaboo_forget = function (ss) {
+  if (this._rhaboo === undefined || this._rhaboo.key === undefined) 
+    return;
+  for (var where in this) if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
+    var what = this[where];
+    _rhaboo_forgetters [_rhaboo_getTypeOf(what)] (ss, this._rhaboo_childKey(where), what);
+  }
+  this._rhaboo_storeLength(ss, false);
+  _rhaboo_bottomLine(ss, ['removeItem', [ this._rhaboo_childKey("") ]]); //That was the declaration of the object per-se
+}
+
+Object.prototype._rhaboo_storeLength = function (ss, store) {
   //Preserve length of sparse arrays...
   if (this._rhaboo_isArray()) {
     var wh = 'length'; 
     var l = this.length;
     if (store) {
-      return _rhaboo_stashers ['leaf'] (wh, this._rhaboo_childKey(wh), l, this);
+      _rhaboo_stashers ['leaf'] (ss, wh, this._rhaboo_childKey(wh), l, this);
     } else {
-      return _rhaboo_forgetters ['leaf'] (this._rhaboo_childKey(wh), l);
+      _rhaboo_forgetters ['leaf'] (ss, this._rhaboo_childKey(wh), l);
     }
-  } else return [];
-}
-
-Object.prototype._rhaboo_forget = function () {
-  var ret = [];
-  if (this._rhaboo === undefined || this._rhaboo.key === undefined) 
-    return ret;
-  for (var where in this) if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
-    var what = this[where];
-    ret = ret.concat(_rhaboo_forgetters [_rhaboo_getTypeOf(what)] (this._rhaboo_childKey(where), what));
-  }
-  ret = ret.concat(this._rhaboo_storeLength(false));
-  ret.push(['removeItem', [ this._rhaboo_childKey("") ]]); //That was the declaration of the object per-se
-  return ret;
+  } 
 }
 
 //The constructor. Use of "this" means that use of "new" client-side is essential.
