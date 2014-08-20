@@ -14,9 +14,13 @@ This library gives a JS programmer persistence whilst staying close to the JS ob
 
 The usual approach to this problem is to stringify and parse the entire object, but that gives lousy performance on large datasets. For instance, if you had an array of 999 diary entries and the user added a 1000th, then the entire history would have to be parsed and re-stringified. Rhaboo is more cunning than that.
 
+Another problem with stringify/parse is that they innacurately recreate objects, especially arrays. For instance, properties of arrays with non-numeric names are ignored and all sparse positions are filled with null. This library recreates objects and arrays precisely, except that it doesn't handle function- or regex-valued properties, nor does it do anything with the prototype.
+
 It's highly portable because it only relies on HTML5's localStorage.
 
 Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. Browsers nevertheless resist closing the window until the persistence code has completed.
+
+The performance seems undetectable in comparison with QUnit, in other words, the time taken to run the tests seems to be mainly attributable to QUnit and not to rhaboo's activities. Better performance testing is planned.
 
 Quick Installation
 ------------------
@@ -76,10 +80,10 @@ but to modify it, instead of writing:
    mystore.foo = 123;  //Wrong!!!
 ```
 or equivalently: 
+
 ```
    mystore["foo"] = 123;  //Wrong!!!
 ```
-
 you should write:
 
 ```
@@ -90,10 +94,16 @@ It's an ugly substitution but at least it's one-to-one so it doesn't affect your
 
 You use that same write function for inserting new properties and modifying existing ones.  
 
-Delete properties like this:  
+Deletion of properties calls for another substitution. Instead of:
 
 ```
-   mystore.kill("foo");
+   delete mystore.foo;  //Wrong!!!
+```
+
+you should write:
+
+```
+   mystore.kill("foo");  //Right!!!
 ```
 
 (Contrary to popular belief, setting a property to undefined is not the same as deleting it.) For arrays, splice should be used. 
