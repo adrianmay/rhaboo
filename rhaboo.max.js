@@ -1974,39 +1974,6 @@ return Q;
 },{"JkpR2F":1}],3:[function(require,module,exports){
 var R = require('./core');
 
-/*
-Array.prototype.remove = function(from) {
-  var rest = this.slice(from + 1);
-  var newlen = from;
-  for (var i = from; i < this.length; i++) {
-    this._rhaboo_persist(i.toString(), undefined, this[i]);
-  }
-  this.length = from;
-  return Array.prototype.push.apply(this, rest);
-};
-
-/*
- 
-Array.prototype.write = function (where, what) {
-  var alldone = false;
-  var old = this[where];
-  this[where] = what;
-  if (what===undefined) {
-    if (typeof parseInt(where) === 'number') {
-      if (this._rhaboo)
-        console.log("Resiging " + where + " from " + this._rhaboo.key);
-      this.remove(where);
-      alldone=true;
-    }
-    else
-      delete this[where];
-  }
-  if (!alldone)
-    this._rhaboo_persist(where, what, old);
-  return this;
-}
-*/
-
 Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   pop : Array.prototype.pop,
   push : Array.prototype.push,
@@ -2015,24 +1982,6 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   splice : Array.prototype.splice,
   reverse : Array.prototype.reverse,
   sort : Array.prototype.sort,
-  /*
-  remove :  function(where) {
-    var rest = this.slice(where + 1);
-    this.length = where;
-    return this.push.apply(this, rest);
-  },
-  write : function (where, what) {
-    this[where] = what;
-    /*
-    if (what===undefined) {
-      if (typeof parseInt(where) === 'number')
-        Array.prototype._rhaboo_originals.remove.apply(this, [where]);
-      else
-        delete this[where]; 
-    }
-    return this;
-  }
-    */
   //fill : Array.prototype.fill,
 };
 
@@ -2062,13 +2011,13 @@ if (true) {
     var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
     var l2 = this.length;
     if ( this._rhaboo !== undefined && l2>l1 ) {
+      var s1 = [];
       for (var i=l1; i<l2; i++) {
         var k = this._rhaboo_childKey(i);
-        R.enq( function(deferred) {
-          R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](i, k, this[i], this);
-          deferred.resolve();
-        });
+        s1 = s1.concat( R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](i, k, this[i], this) );
       }
+      s1 = s1.concat(this._rhaboo_storeLength(true));
+      R._rhaboo_enqueue(s1);
     }
   }
   Array.prototype.pop = function () {
@@ -2076,16 +2025,15 @@ if (true) {
     var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
     if ( this._rhaboo !== undefined && l>0 ) {
       var k = this._rhaboo_childKey(l-1);
-      R.enq( function(deferred) {
-        R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](k, retval);
-        deferred.resolve();
-      });
+      var s1 = R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](k, retval);
+      s1 = s1.concat(this._rhaboo_storeLength(true));
+      R._rhaboo_enqueue(s1);
     } 
     return retval;
   }
   //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-  Array.prototype.push = Array.prototype._rhaboo_defensively("push");
-  Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
+  //Array.prototype.push = Array.prototype._rhaboo_defensively("push");
+  //Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
   Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
   Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
   Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
@@ -2126,12 +2074,6 @@ var _rhaboo_store_getItem = function (where) {
 var _rhaboo_store_removeItem = function (where) {
   _rhaboo_trace("STORE: killing "  + where);
   return _rhaboo_store.removeItem(where);
-}
-
-var yalsvl = {
-  getItem : _rhaboo_store_getItem,
-  setItem : _rhaboo_store_setItem,
-  removeItem : _rhaboo_store_removeItem
 }
 
 //More accurate typeof stuff...
@@ -2195,23 +2137,26 @@ function _rhaboo_do(script) {
   }
 }
 
+function _rhaboo_enqueue (sc) {
+  _rhaboo_do(sc); //We might have to recurse into old
+  return;
+  E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
+    _rhaboo_do(sc); //We might have to recurse into old
+    deferred.resolve(); //This is just q mantra to mean we're done.
+  });
+
+}
+
 //Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
 
 Object.prototype._rhaboo_persist = function(where, what, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
-    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
-    //console.log("s1");
-    //console.log(s1);
-    var s2 = (_rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this)).slice();
-    //console.log("s2");
-    //console.log(s2);
-    E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
-      _rhaboo_do(s1); //We might have to recurse into old
-      _rhaboo_do(s2); //Various reasons why all these parameters are required
-      deferred.resolve(); //This is just q mantra to mean we're done.
-    });
+    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old));//.slice();
+    var s2 = (_rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this));//.slice();
+    _rhaboo_enqueue(s1);
+    _rhaboo_enqueue(s2);
   }
 }
 
@@ -2220,12 +2165,7 @@ Object.prototype._rhaboo_kill = function(where, old) {
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
     var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
-    //console.log("s1");
-    //console.log(s1);
-    E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
-      _rhaboo_do(s1); //We might have to recurse into old
-      deferred.resolve(); //This is just q mantra to mean we're done.
-    });
+    _rhaboo_enqueue(s1);
   }
 }
 
@@ -2300,7 +2240,6 @@ Object.prototype._rhaboo_forget = function () {
 function Persistent(key) { this._rhaboo_restore(key); }
 
 //Normally this should be empty now
-//
 
 Object.prototype._rhaboo_restore = function (key) {
   this._rhaboo = this._rhaboo || {};
@@ -2356,7 +2295,8 @@ module.exports = {
   onBusiness : E.onBusiness,
   _rhaboo_getTypeOf : _rhaboo_getTypeOf,
   _rhaboo_stashers : _rhaboo_stashers,
-  _rhaboo_forgetters : _rhaboo_forgetters
+  _rhaboo_forgetters : _rhaboo_forgetters,
+  _rhaboo_enqueue : _rhaboo_enqueue,
 };
 
 

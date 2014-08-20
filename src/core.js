@@ -23,12 +23,6 @@ var _rhaboo_store_removeItem = function (where) {
   return _rhaboo_store.removeItem(where);
 }
 
-var yalsvl = {
-  getItem : _rhaboo_store_getItem,
-  setItem : _rhaboo_store_setItem,
-  removeItem : _rhaboo_store_removeItem
-}
-
 //More accurate typeof stuff...
 
 var _rhaboo_getTypeOf = function (what) {
@@ -90,23 +84,24 @@ function _rhaboo_do(script) {
   }
 }
 
+function _rhaboo_enqueue (sc) {
+  E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
+    _rhaboo_do(sc); //We might have to recurse into old
+    deferred.resolve(); //This is just q mantra to mean we're done.
+  });
+
+}
+
 //Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
 
 Object.prototype._rhaboo_persist = function(where, what, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
-    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
-    //console.log("s1");
-    //console.log(s1);
-    var s2 = (_rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this)).slice();
-    //console.log("s2");
-    //console.log(s2);
-    E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
-      _rhaboo_do(s1); //We might have to recurse into old
-      _rhaboo_do(s2); //Various reasons why all these parameters are required
-      deferred.resolve(); //This is just q mantra to mean we're done.
-    });
+    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old));//.slice();
+    var s2 = (_rhaboo_stashers   [_rhaboo_getTypeOf(what)] (where, childkey, what, this));//.slice();
+    _rhaboo_enqueue(s1);
+    _rhaboo_enqueue(s2);
   }
 }
 
@@ -115,12 +110,7 @@ Object.prototype._rhaboo_kill = function(where, old) {
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
     var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
-    //console.log("s1");
-    //console.log(s1);
-    E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
-      _rhaboo_do(s1); //We might have to recurse into old
-      deferred.resolve(); //This is just q mantra to mean we're done.
-    });
+    _rhaboo_enqueue(s1);
   }
 }
 
@@ -195,7 +185,6 @@ Object.prototype._rhaboo_forget = function () {
 function Persistent(key) { this._rhaboo_restore(key); }
 
 //Normally this should be empty now
-//
 
 Object.prototype._rhaboo_restore = function (key) {
   this._rhaboo = this._rhaboo || {};
@@ -251,6 +240,7 @@ module.exports = {
   onBusiness : E.onBusiness,
   _rhaboo_getTypeOf : _rhaboo_getTypeOf,
   _rhaboo_stashers : _rhaboo_stashers,
-  _rhaboo_forgetters : _rhaboo_forgetters
+  _rhaboo_forgetters : _rhaboo_forgetters,
+  _rhaboo_enqueue : _rhaboo_enqueue,
 };
 

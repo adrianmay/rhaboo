@@ -7,6 +7,8 @@ var AJON = require('ajon');
 var rng = SR('squaggle.');
 function roll(sides) { return Math.floor(rng()*sides); }
 
+var maxpages = 10;
+
 //Some simple markup-writing stuff
 
 var m = {
@@ -305,7 +307,7 @@ module.exports = function(grunt) {
           path.push(getPersName());
       }
     } 
-    if (roll(100)==0 || page > 10) {
+    if (roll(100)==0 || page > maxpages) {
       //Sometimes start a whole new persistent
       pers = getPersName();
       var path = [getPersName()];
