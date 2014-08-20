@@ -77,19 +77,24 @@ module.exports = function(grunt) {
       [[[[[1,2,3]]]]] 
     ]],
     u : [0, [undefined]],
-    n : [0, [null]]
+    n : [0, [null]],
+    k : null
   };
 
   function getValue(type) {
     if (!values.hasOwnProperty(type))
       throw "Asking getValue for goofy type: " +type ;
     var set = values[type][1];
-    var max = set.length;
-    var ret = set[values[type][0]];
-    values[type][0]++;
-    if (values[type][0]>=max)
-      values[type][0]=0;
-    return ret;
+    if (set===null) { //kill
+      return null;
+    } else {
+      var max = set.length;
+      var ret = set[values[type][0]];
+      values[type][0]++;
+      if (values[type][0]>=max)
+        values[type][0]=0;
+      return ret; 
+    }
   }
 
   //If the script finds itself with an array in the firing line, it might interpret the ten codes to mean operations that only make sense for arrays
@@ -121,6 +126,12 @@ module.exports = function(grunt) {
       [10,4,"foo"],
       [0,1000],
       [1000,0,10,20,30]
+    ]],
+    k : ["write", 0, [
+      [1, undefined],
+      [2, [1, true, "three"] ],
+      [20, null],
+      [5, 456]
     ]],
   };
 
@@ -262,13 +273,21 @@ module.exports = function(grunt) {
           });
 
         } else {
-          var val = getValue(episode);
-          conscript({
-            action : "write",
-            pers: pers,
-            path: path.slice(),
-            vehicle : AJON.stringify({"val":val}),
-          });
+          if (episode=='k') {
+            conscript({
+              action : "kill",
+              pers: pers,
+              path: path.slice(),
+            });
+          } else {
+            var val = getValue(episode);
+            conscript({
+              action : "write",
+              pers: pers,
+              path: path.slice(),
+              vehicle : AJON.stringify({"val":val}),
+            });
+          }
           if (episode=='a' || episode=='A')
             thisis('a', path[path.length-1] );
           else if (episode=='o' || episode=='O')
@@ -279,9 +298,10 @@ module.exports = function(grunt) {
         }
       }
     }
-    if (whatisthis(path[path.length-1])[0] === 'o') {
+    var w = whatisthis(path[path.length-1])[0];
+    if (w === 'o' || w==='a') {
       //If we just made an object, maybe apply imminent tests inside it
-      if (roll(2)==0) {
+      if (roll(4)!=0) {
           path.push(getPersName());
       }
     } 
@@ -309,6 +329,14 @@ module.exports = function(grunt) {
     box[step.pers] = box[step.pers] || {};
     if (step.action=="yield") {
       ;
+    } else if (step.action=="kill"){
+      var path = step.path.slice();
+      var where = path.pop();
+      var target=box[step.pers];
+      for (var dir in path) 
+        if (path.hasOwnProperty(dir)) 
+          target=target[path[dir]];
+      delete target[where];
     } else if (step.action=="write"){
       //grunt.log.write(JSON.stringify(step)+"\n");
       var vehicle = AJON.parse(step.vehicle);
@@ -380,7 +408,7 @@ module.exports = function(grunt) {
     pers3[page] = pers3[page] || [];
     for (var st in pers) if (pers.hasOwnProperty(st)) {
       var step = pers[st];
-      if (step.action=="write" || step.action=="array") {
+      if (step.action=="write" || step.action=="array" || step.action=="kill") {
         pers3[page].push({
           action :step.action,
           path : step.path,
@@ -426,11 +454,14 @@ module.exports = function(grunt) {
   grunt.registerTask('gentest', function() {
     grunt.log.write("Persistents per page: ");
     grunt.file.write("generate-tests/generated-pages/script.json", JSON.stringify(script, null, 3)+"\n");
-    for (var pa in script4) if (script4.hasOwnProperty(pa)) {
+    var pa;
+    for (pa in script4) if (script4.hasOwnProperty(pa)) {
       grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
       grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));
       grunt.log.write(oblen(script4[pa]) + ", ");
     }
+    grunt.file.write("generate-tests/generated-pages/page." + script4.length + ".html", "<h1>That's all folks");
+
   });
 
 };

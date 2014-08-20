@@ -56,19 +56,23 @@ for (var pe in persistents) if (persistents.hasOwnProperty(pe)) {
     for (var st in steps) if (steps.hasOwnProperty(st)) { 
    //   console.log("B");
       var step = steps[st];
-      if (step.action=="write" || step.action=="array") {
+      if (step.action=="write"  || step.action=="array" || step.action=="kill") {
         var path = step.path.slice();
         var target = store;
         var where;
-        if (step.action==="write") 
+        if (step.action==="write" || step.action=="kill") 
           where = path.pop();
         var x;
         for (x = path.shift(); x; x=path.shift()) {
           target = target[x];
         }
-        var vehicle = ajon.parse(step.vehicle);
+        var vehicle = null;
+        if (step.vehicle !== undefined) 
+          vehicle = ajon.parse(step.vehicle);
         if (step.action==="write") {
           target.write(where, vehicle.val);
+        } else if (step.action=="kill") {
+          target.kill(where);
         } else if (step.action=="array") {
           Array.prototype[vehicle[0]].apply(target, vehicle[1])
         }

@@ -2172,15 +2172,18 @@ Object.prototype._rhaboo_childKey = function (where) {
 Object.prototype.write = function (where, what) {
   var old = this[where];
   this[where] = what;
-  /*
-  if (what===undefined) //Gotta be careful not to trash the 'old' copy
-    delete this[where]; //Without this we're left with a property whose value is undefined
-    */
   this._rhaboo_persist(where, what, old);
   return this;
 }
 
-var spyon = 'P1000036'
+Object.prototype.kill = function (where) {
+  var old = this[where];
+  delete this[where];
+  this._rhaboo_kill(where, old);
+  return this;
+}
+
+var spyon = null;
 
 function _rhaboo_do(script) {
   for (var s in script) if (script.hasOwnProperty(s)) {
@@ -2207,6 +2210,20 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
     E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
       _rhaboo_do(s1); //We might have to recurse into old
       _rhaboo_do(s2); //Various reasons why all these parameters are required
+      deferred.resolve(); //This is just q mantra to mean we're done.
+    });
+  }
+}
+
+Object.prototype._rhaboo_kill = function(where, old) {
+  //The existence of a property called _rhaboo is the signal that this object should persist.
+  if (this._rhaboo !== undefined) {
+    var childkey = this._rhaboo_childKey(where);
+    var s1 = (_rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (childkey, old)).slice();
+    //console.log("s1");
+    //console.log(s1);
+    E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
+      _rhaboo_do(s1); //We might have to recurse into old
       deferred.resolve(); //This is just q mantra to mean we're done.
     });
   }

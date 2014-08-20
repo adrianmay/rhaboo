@@ -90,7 +90,13 @@ It's an ugly substitution but at least it's one-to-one so it doesn't affect your
 
 You use that same write function for inserting new properties and modifying existing ones.  
 
-Something for deleting properties will be defined soon. (Contrary to popular belief, setting a property to undefined is not the same as deleting it.) For arrays, splice should be used. 
+Delete properties like this:  
+
+```
+   mystore.kill("foo");
+```
+
+(Contrary to popular belief, setting a property to undefined is not the same as deleting it.) For arrays, splice should be used. 
 
 You can also pass a complex object to `write()`:
 
