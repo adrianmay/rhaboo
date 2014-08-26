@@ -20,7 +20,7 @@ It's highly portable because it only relies on HTML5's localStorage.
 
 Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. Browsers nevertheless resist closing the window until the persistence code has completed.
 
-The performance seems undetectable in comparison with QUnit, in other words, the time taken to run the tests seems to be mainly attributable to QUnit and not to rhaboo's activities. Better performance testing is planned.
+Better performance testing is planned.
 
 Quick Installation
 ------------------
@@ -141,6 +141,8 @@ There's no function to delete everything in a persistent, but that could be made
 ```
 
 You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory.
+
+You may have multiple persistent objects but that slows down the restore because each persistent has to examine every entry in localStorage, some of which are about other persistents. Best performance is obtained when everything is in a single persistent and localStorage is not used in any other way.
 
 Browserification
 ----------------

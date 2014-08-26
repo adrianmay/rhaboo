@@ -2005,44 +2005,42 @@ Array.prototype._rhaboo_defensively = function(mutator) {
   }
 }
 
-if (true) {
-  Array.prototype.push = function () {
-    var l1 = this.length;
-    var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
-    var l2 = this.length;
-    if ( this._rhaboo !== undefined && l2>l1 ) {
-      var ss = [];
-      for (var i=l1; i<l2; i++) {
-        var k = this._rhaboo_childKey(i);
-        R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](ss, i, k, this[i], this) ;
-      }
-      this._rhaboo_storeLength(ss, true);
-      R._rhaboo_enqueue(ss);
+Array.prototype.push = function () {
+  var l1 = this.length;
+  var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
+  var l2 = this.length;
+  if ( this._rhaboo !== undefined && l2>l1 ) {
+    var ss = [];
+    for (var i=l1; i<l2; i++) {
+      var k = this._rhaboo_childKey(i);
+      R.stashers[R.getTypeOf(this[i])](ss, i, k, this[i], this) ;
     }
+    this._rhaboo_storeLength(ss, true);
+    R.procrastinate(ss);
   }
-  Array.prototype.pop = function () {
-    var l = this.length;
-    var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
-    if ( this._rhaboo !== undefined && l>0 ) {
-      var k = this._rhaboo_childKey(l-1);
-      var ss = [];
-      R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](ss, k, retval);
-      this._rhaboo_storeLength(ss, true);
-      R._rhaboo_enqueue(ss);
-    } 
-    return retval;
-  }
-  //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-  //Array.prototype.push = Array.prototype._rhaboo_defensively("push");
-  //Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
-  Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
-  Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
-  Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
-  Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
-  Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
-  Array.prototype.write = Array.prototype._rhaboo_defensively("write");
-  //Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 }
+Array.prototype.pop = function () {
+  var l = this.length;
+  var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
+  if ( this._rhaboo !== undefined && l>0 ) {
+    var k = this._rhaboo_childKey(l-1);
+    var ss = [];
+    R.forgetters[R.getTypeOf(retval)](ss, k, retval);
+    this._rhaboo_storeLength(ss, true);
+    R.procrastinate(ss);
+  } 
+  return retval;
+}
+//TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
+//Array.prototype.push = Array.prototype._rhaboo_defensively("push");
+//Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
+Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
+Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
+Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
+Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
+Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
+Array.prototype.write = Array.prototype._rhaboo_defensively("write");
+//Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 
 module.exports = {
   Persistent : R.Persistent,
@@ -2055,31 +2053,11 @@ module.exports = {
 
 var E = require('./enq');
 
-var _rhaboo_trace = function(s) { /* console.log(s); */ } //Turn this on in test code if you like
-
 //This bit of abstraction is overkill...
-
-var _rhaboo_store = localStorage; //Or sessionStorage perhaps.
-
-var _rhaboo_store_setItem = function (where, what) {
-  _rhaboo_trace("STORE: setting " + where + " = " + what);
-  return _rhaboo_store.setItem(where, what);
-}
-
-var _rhaboo_store_getItem = function (where) {
-  var what = _rhaboo_store.getItem(where);
-  _rhaboo_trace("STORE: getting " + where + " = " + what);
-  return what;
-}
-
-var _rhaboo_store_removeItem = function (where) {
-  _rhaboo_trace("STORE: killing "  + where);
-  return _rhaboo_store.removeItem(where);
-}
 
 //More accurate typeof stuff...
 
-var _rhaboo_getTypeOf = function (what) {
+var getTypeOf = function (what) {
   if (what === undefined) return 'undefined';
   if (what === null) return 'null';
   var ty = typeof what;
@@ -2088,8 +2066,8 @@ var _rhaboo_getTypeOf = function (what) {
   return 'bad';
 }
 
-var _rhaboo_getClassOf = function (what) {
-  var ty = _rhaboo_getTypeOf(what);
+var getClassOf = function (what) {
+  var ty = getTypeOf(what);
   if (ty === 'object') return what._rhaboo_isArray() ? 'array' : 'object';
   return ty;
 }
@@ -2122,32 +2100,28 @@ Object.prototype.write = function (where, what) {
 Object.prototype.kill = function (where) {
   var old = this[where];
   delete this[where];
-  this._rhaboo_kill(where, old);
+  this._rhaboo_unpersist(where, old);
   return this;
 }
 
-var spyon = null;
-
-function _rhaboo_do(script) {
+function execute(script) {
   for (var s in script) if (script.hasOwnProperty(s)) {
     var step = script[s];
     var tr = JSON.stringify(step);
-    if (spyon !== null && tr.indexOf(spyon) !== -1)
-      console.log(tr);
     localStorage[step[0]].apply(localStorage, step[1]);
   }
 }
 
-function _rhaboo_enqueue (sc) {
+function procrastinate (sc) {
   E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
-    _rhaboo_do(sc); //We might have to recurse into old
+    execute(sc); //We might have to recurse into old
     deferred.resolve(); //This is just q mantra to mean we're done.
   });
 }
 
-function _rhaboo_bottomLine(ss, inst) {
+function intend(ss, inst) {
   ss.push(inst);
-  //_rhaboo_enqueue([inst]);
+  //procrastinate([inst]);
 }
 
 //Persist the changing of the property called 'where' of 'this' from 'old' to 'what':
@@ -2157,38 +2131,38 @@ Object.prototype._rhaboo_persist = function(where, what, old) {
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
     var ss = [];
-    _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (ss, childkey, old);
-    _rhaboo_stashers   [_rhaboo_getTypeOf(what)] (ss, where, childkey, what, this);
-    _rhaboo_enqueue(ss);
+    forgetters [getTypeOf(old)]  (ss, childkey, old);
+    stashers   [getTypeOf(what)] (ss, where, childkey, what, this);
+    procrastinate(ss);
   }
 }
 
-Object.prototype._rhaboo_kill = function(where, old) {
+Object.prototype._rhaboo_unpersist = function(where, old) {
   //The existence of a property called _rhaboo is the signal that this object should persist.
   if (this._rhaboo !== undefined) {
     var childkey = this._rhaboo_childKey(where);
     var ss = [];
-    _rhaboo_forgetters [_rhaboo_getTypeOf(old)]  (ss, childkey, old);
-    _rhaboo_enqueue(ss);
+    forgetters [getTypeOf(old)]  (ss, childkey, old);
+    procrastinate(ss);
   }
 }
 
 //These tables are necessary because basic types aren't objects in JS
-//They're indexed by the return value of _rhaboo_getTypeOf...
+//They're indexed by the return value of getTypeOf...
 //For objects, we call a function that recurses back into THIS TABLE
 
-var _rhaboo_stashers = {
-  "undefined" : function (ss, where, key, what, parent) { _rhaboo_bottomLine(ss, ['setItem',[key, 'undefined|undefined']]); },
-  "null"      : function (ss, where, key, what, parent) { _rhaboo_bottomLine(ss, ['setItem',[key, 'null|null']]); },
-  "leaf"      : function (ss, where, key, what, parent) { _rhaboo_bottomLine(ss, ['setItem',[key, typeof what + "|" + String(what)]]); },
+var stashers = {
+  "undefined" : function (ss, where, key, what, parent) { intend(ss, ['setItem',[key, 'undefined|undefined']]); },
+  "null"      : function (ss, where, key, what, parent) { intend(ss, ['setItem',[key, 'null|null']]); },
+  "leaf"      : function (ss, where, key, what, parent) { intend(ss, ['setItem',[key, typeof what + "|" + String(what)]]); },
   "object"    : function (ss, where, key, what, parent) { what._rhaboo_stash(ss, where, key, parent); },
   "bad"       : function (ss, where, key, what, parent) { }
 }
 
-var _rhaboo_forgetters = {
-  "undefined" : function (ss, key, old) { _rhaboo_bottomLine(ss, ['removeItem', [key]]); },
-  "null"      : function (ss, key, old) { _rhaboo_bottomLine(ss, ['removeItem', [key]]); },
-  "leaf"      : function (ss, key, old) { _rhaboo_bottomLine(ss, ['removeItem', [key]]); },
+var forgetters = {
+  "undefined" : function (ss, key, old) { intend(ss, ['removeItem', [key]]); },
+  "null"      : function (ss, key, old) { intend(ss, ['removeItem', [key]]); },
+  "leaf"      : function (ss, key, old) { intend(ss, ['removeItem', [key]]); },
   "object"    : function (ss, key, old) { old._rhaboo_forget(ss); },
   "bad"       : function (ss, key, old) { }
 }
@@ -2202,11 +2176,11 @@ Object.prototype._rhaboo_stash = function (ss, where, key, parent) {
   this._rhaboo.where=where;
   //The following line declares the object per-se. That's not necessary as long as it contains 
   //something, but it is necessary to persist empty objects. For simplicity it's always present.
-  _rhaboo_bottomLine(ss, ['setItem', [ this._rhaboo_childKey(""), "|" ]]);
+  intend(ss, ['setItem', [ this._rhaboo_childKey(""), "|" ]]);
   //Recurse for all properties except _rhaboo
   for (var where in this) if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
     var what = this[where];
-    _rhaboo_stashers [_rhaboo_getTypeOf(what)] (ss, where, this._rhaboo_childKey(where), what, this);
+    stashers [getTypeOf(what)] (ss, where, this._rhaboo_childKey(where), what, this);
   }
   this._rhaboo_storeLength(ss, true);
 }
@@ -2216,10 +2190,10 @@ Object.prototype._rhaboo_forget = function (ss) {
     return;
   for (var where in this) if (where !== "_rhaboo" && this.hasOwnProperty(where)) {
     var what = this[where];
-    _rhaboo_forgetters [_rhaboo_getTypeOf(what)] (ss, this._rhaboo_childKey(where), what);
+    forgetters [getTypeOf(what)] (ss, this._rhaboo_childKey(where), what);
   }
   this._rhaboo_storeLength(ss, false);
-  _rhaboo_bottomLine(ss, ['removeItem', [ this._rhaboo_childKey("") ]]); //That was the declaration of the object per-se
+  intend(ss, ['removeItem', [ this._rhaboo_childKey("") ]]); //That was the declaration of the object per-se
 }
 
 Object.prototype._rhaboo_storeLength = function (ss, store) {
@@ -2228,9 +2202,9 @@ Object.prototype._rhaboo_storeLength = function (ss, store) {
     var wh = 'length'; 
     var l = this.length;
     if (store) {
-      _rhaboo_stashers ['leaf'] (ss, wh, this._rhaboo_childKey(wh), l, this);
+      stashers ['leaf'] (ss, wh, this._rhaboo_childKey(wh), l, this);
     } else {
-      _rhaboo_forgetters ['leaf'] (ss, this._rhaboo_childKey(wh), l);
+      forgetters ['leaf'] (ss, this._rhaboo_childKey(wh), l);
     }
   } 
 }
@@ -2244,7 +2218,7 @@ function Persistent(key) { this._rhaboo_restore(key); }
 Object.prototype._rhaboo_restore = function (key) {
   this._rhaboo = this._rhaboo || {};
   this._rhaboo.key=key;
-  for (var k in _rhaboo_store) if (_rhaboo_store.hasOwnProperty(k)) {
+  for (var k in localStorage) if (localStorage.hasOwnProperty(k)) {
     //E.g. k="root&|arr#|2&|foo" is a leaf property called foo (whose type is in the value of the localStorage entry) 
     //in slot 2 of an array called arr in a persistent called root
     var keyparts = k.split('|');
@@ -2268,7 +2242,7 @@ Object.prototype._rhaboo_restore = function (key) {
       var leafkey = keyparts.shift();
       if (leafkey !== "") {
         //The value of the localStorage entry is of the form type|value
-        var type_val = _rhaboo_store_getItem(k).split("|");
+        var type_val = localStorage.getItem(k).split("|");
         insertee[leafkey] = {
           "number"   : function (s) { return Number(s); },
           "null"     : function (s) { return null; },
@@ -2293,70 +2267,65 @@ module.exports = {
   Persistent : Persistent,
   enq : E.enq,
   onBusiness : E.onBusiness,
-  _rhaboo_getTypeOf : _rhaboo_getTypeOf,
-  _rhaboo_stashers : _rhaboo_stashers,
-  _rhaboo_forgetters : _rhaboo_forgetters,
-  _rhaboo_enqueue : _rhaboo_enqueue,
+  getTypeOf : getTypeOf,
+  stashers : stashers,
+  forgetters : forgetters,
+  procrastinate : procrastinate,
 };
 
 
 },{"./enq":5}],5:[function(require,module,exports){
-//Provides a sequential queue of background tasks using the q promises library
+    //Provides a sequential queue of background tasks using the q promises library
 
-var Q = require('q');
+    var Q = require('q');
 
-var _enq_head = emptyPromise();
+    var enq_head = emptyPromise();
 
-function emptyPromise() {
-  var defer = new Q.defer();
-  defer.resolve();
-  return defer.promise;
-}
-
-var _business_promise = undefined;
-var _business_callback = undefined;
-var _business_reported = false;
-
-function _handle_business() {
-  if (!_business_callback) {
-    return 0;
-  }
-  var busynow = _enq_head.isPending();
-  if (busynow) {
-    _business_promise = _enq_head.then(_handle_business);
-  }
-  if (busynow != _business_reported) {
-    if (busynow) {
-      _business_reported = true;
-    } else { 
-      _business_reported = false;
+    function emptyPromise() {
+      var defer = new Q.defer();
+      defer.resolve();
+      return defer.promise;
     }
-    if (_business_callback) {
-      _business_callback(_business_reported); 
+
+    function enq (step) {
+      var f = function() {
+        var d = Q.defer();
+        step(d);
+        return d.promise;
+      }
+      enq_head = enq_head.then(f);
+      handleBusiness();
     }
-  }
-  return 0;
-}
 
-function enqOnBusiness (callback) {
-  _business_callback = callback;
-}
+    var businessPromise = undefined;
+    var businessCallback = undefined;
+    var businessReported = false;
 
-function enq (step) {
-  var f = function() {
-    var d = Q.defer();
-    step(d);
-    return d.promise;
-  }
-  _enq_head = _enq_head.then(f);
-  _handle_business();
-}
+    function handleBusiness() {
+      if (!businessCallback) {
+        return 0;
+      }
+      var busynow = enq_head.isPending();
+      if (busynow) {
+        businessPromise = enq_head.then(handleBusiness);
+      }
+      if (busynow != businessReported) {
+        businessReported = busynow;
+        if (businessCallback) {
+          businessCallback(businessReported); 
+        }
+      }
+      return 0;
+    }
 
+    function onBusiness (callback) {
+      businessCallback = callback;
+    }
 
-module.exports = {
-  enq:enq,
-  onBusiness:enqOnBusiness
-};
+    module.exports = {
+      enq:enq,
+      onBusiness:onBusiness
+    };
 
 
 

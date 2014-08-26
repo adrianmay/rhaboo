@@ -1,7 +1,7 @@
 
 _rhaboo_trace = function(s) { console.log(s); }
 
-QUnit.test( "Load test", function( assert ) {
+QUnit.test( "Load test: overwrite integer 3000 times", function( assert ) {
   var store = new Rhaboo.Persistent("Load");
   //Setting this callback slows the library down by a factor of about 3 ...
   Rhaboo.onBusiness(function (busy) {

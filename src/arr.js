@@ -31,44 +31,42 @@ Array.prototype._rhaboo_defensively = function(mutator) {
   }
 }
 
-if (true) {
-  Array.prototype.push = function () {
-    var l1 = this.length;
-    var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
-    var l2 = this.length;
-    if ( this._rhaboo !== undefined && l2>l1 ) {
-      var ss = [];
-      for (var i=l1; i<l2; i++) {
-        var k = this._rhaboo_childKey(i);
-        R._rhaboo_stashers[R._rhaboo_getTypeOf(this[i])](ss, i, k, this[i], this) ;
-      }
-      this._rhaboo_storeLength(ss, true);
-      R._rhaboo_enqueue(ss);
+Array.prototype.push = function () {
+  var l1 = this.length;
+  var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
+  var l2 = this.length;
+  if ( this._rhaboo !== undefined && l2>l1 ) {
+    var ss = [];
+    for (var i=l1; i<l2; i++) {
+      var k = this._rhaboo_childKey(i);
+      R.stashers[R.getTypeOf(this[i])](ss, i, k, this[i], this) ;
     }
+    this._rhaboo_storeLength(ss, true);
+    R.procrastinate(ss);
   }
-  Array.prototype.pop = function () {
-    var l = this.length;
-    var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
-    if ( this._rhaboo !== undefined && l>0 ) {
-      var k = this._rhaboo_childKey(l-1);
-      var ss = [];
-      R._rhaboo_forgetters[R._rhaboo_getTypeOf(retval)](ss, k, retval);
-      this._rhaboo_storeLength(ss, true);
-      R._rhaboo_enqueue(ss);
-    } 
-    return retval;
-  }
-  //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-  //Array.prototype.push = Array.prototype._rhaboo_defensively("push");
-  //Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
-  Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
-  Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
-  Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
-  Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
-  Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
-  Array.prototype.write = Array.prototype._rhaboo_defensively("write");
-  //Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 }
+Array.prototype.pop = function () {
+  var l = this.length;
+  var retval = Array.prototype._rhaboo_originals.pop.apply(this, arguments);
+  if ( this._rhaboo !== undefined && l>0 ) {
+    var k = this._rhaboo_childKey(l-1);
+    var ss = [];
+    R.forgetters[R.getTypeOf(retval)](ss, k, retval);
+    this._rhaboo_storeLength(ss, true);
+    R.procrastinate(ss);
+  } 
+  return retval;
+}
+//TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
+//Array.prototype.push = Array.prototype._rhaboo_defensively("push");
+//Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
+Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
+Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
+Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
+Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
+Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
+Array.prototype.write = Array.prototype._rhaboo_defensively("write");
+//Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 
 module.exports = {
   Persistent : R.Persistent,

@@ -1972,62 +1972,57 @@ return Q;
 
 }).call(this,require("JkpR2F"))
 },{"JkpR2F":1}],3:[function(require,module,exports){
-//Provides a sequential queue of background tasks using the q promises library
+    //Provides a sequential queue of background tasks using the q promises library
 
-var Q = require('q');
+    var Q = require('q');
 
-var _enq_head = emptyPromise();
+    var enq_head = emptyPromise();
 
-function emptyPromise() {
-  var defer = new Q.defer();
-  defer.resolve();
-  return defer.promise;
-}
-
-var _business_promise = undefined;
-var _business_callback = undefined;
-var _business_reported = false;
-
-function _handle_business() {
-  if (!_business_callback) {
-    return 0;
-  }
-  var busynow = _enq_head.isPending();
-  if (busynow) {
-    _business_promise = _enq_head.then(_handle_business);
-  }
-  if (busynow != _business_reported) {
-    if (busynow) {
-      _business_reported = true;
-    } else { 
-      _business_reported = false;
+    function emptyPromise() {
+      var defer = new Q.defer();
+      defer.resolve();
+      return defer.promise;
     }
-    if (_business_callback) {
-      _business_callback(_business_reported); 
+
+    function enq (step) {
+      var f = function() {
+        var d = Q.defer();
+        step(d);
+        return d.promise;
+      }
+      enq_head = enq_head.then(f);
+      handleBusiness();
     }
-  }
-  return 0;
-}
 
-function enqOnBusiness (callback) {
-  _business_callback = callback;
-}
+    var businessPromise = undefined;
+    var businessCallback = undefined;
+    var businessReported = false;
 
-function enq (step) {
-  var f = function() {
-    var d = Q.defer();
-    step(d);
-    return d.promise;
-  }
-  _enq_head = _enq_head.then(f);
-  _handle_business();
-}
+    function handleBusiness() {
+      if (!businessCallback) {
+        return 0;
+      }
+      var busynow = enq_head.isPending();
+      if (busynow) {
+        businessPromise = enq_head.then(handleBusiness);
+      }
+      if (busynow != businessReported) {
+        businessReported = busynow;
+        if (businessCallback) {
+          businessCallback(businessReported); 
+        }
+      }
+      return 0;
+    }
 
+    function onBusiness (callback) {
+      businessCallback = callback;
+    }
 
-module.exports = {
-  enq:enq,
-  onBusiness:enqOnBusiness
-};
+    module.exports = {
+      enq:enq,
+      onBusiness:onBusiness
+    };
 
 
 
