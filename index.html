@@ -7,18 +7,38 @@
 
   <style>
 html > *            { font-family: Arial !important; color: #402000; background-color: white;}
-td                  {}
 .banner           {  vertical-align: bottom; font-size: 570%; font-weight:bold; margin-left:0px;text-align:right;}
 .subbanner1           {  vertical-align: bottom; font-size: 100%; margin-left:0.30em;text-align:right;}
 .subbanner2           {  vertical-align: bottom; font-size: 100%; text-align:right;}
-.topmenuitem           {  text-align:center; vertical-align: bottom; font-size: 150%; margin-left:0.30em;}
+.topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 150%; margin-left:0.30em;}
+.secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 120%; margin-left:0.30em;}
 .menu               {  table-layout: fixed; background-color:#ffffa0; }
   </style>
 
   <script>
-function show(x) {
-  alert(x);
+
+function vis(id, v) {
+  if (id) {
+    document.getElementById(id).style.fontWeight=v?"bold":"";
+    document.getElementById(id).style.textShadow=v?"-1px 2px #C0C060":"";
+    document.getElementById(id.toUpperCase()).style.display=v?"block":"none";
+  }
 }
+
+var showing1;
+function show1(x) {
+  vis(showing1, false);
+  showing1 = x;
+  vis(showing1, true)
+}
+
+var showing2;
+function show2(x) {
+  vis(showing2, false);
+  showing2 = x;
+  vis(showing2, true)
+}
+
   </script>
 
 
@@ -28,7 +48,7 @@ function show(x) {
 </tr></table>
 -->
 
-<body>
+<body onload="show1('about'); show2('examples'); ">
 
     <table width='100%'>
       <tr width='100%'>
@@ -48,13 +68,45 @@ function show(x) {
       </tr>
     </table>
     <table  class='menu' width='100%'><tr width='100%'>
-        <td class='topmenuitem' onClick='show(this.innerHTML);'>about</td>
-        <td class='topmenuitem' onClick='show(this.innerHTML);'>docs</td>
-        <td class='topmenuitem' onClick='show(this.innerHTML);'>faq</td>
-        <td class='topmenuitem' onClick='show(this.innerHTML);'>download</td>
+        <td class='topmenuitem' id='about' onClick='show1(this.id);'>about</td>
+        <td class='topmenuitem' id='faq' onClick='show1(this.id);'>faq</td>
+        <td class='topmenuitem' id='docs' onClick='show1(this.id);'>docs</td>
+        <td class='topmenuitem' onClick='window.location.href="https://github.com/adrianmay/rhaboo"'>github</td>
       </tr>
     </table>
-    <p>
-    <p>The docs for this javascript persistence library are currently in the README.md in the main <a href="https://github.com/adrianmay/rhaboo">repo</a>
-    <p>The hand-written tests (also serving as example code) are <a href="http://adrianmay.github.io/rhaboo/examples/index.html">here</a>
-    <p>Much more extensive tests can be built: instructions in the main README, sample pages <a href="http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html">here</a>.
+    <div id='ABOUT' style='display:none;'> 
+      <p>The docs for this javascript persistence library are currently in the README.md in the main <a href="https://github.com/adrianmay/rhaboo">repo</a>
+      <p>The hand-written tests (also serving as example code) are <a href="http://adrianmay.github.io/rhaboo/examples/index.html">here</a>
+      <p>Much more extensive tests can be built: instructions in the main README, sample pages <a href="http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html">here</a>.
+    </div>
+    <div id='DOCS' style='display:none;'> 
+      <table  class='menu' width='100%'><tr width='100%'>
+          <td class='secmenuitem' id='install' onClick='show2(this.id);'>install</td>
+          <td class='secmenuitem' id='examples' onClick='show2(this.id);'>examples</td>
+          <td class='secmenuitem' id='reference' onClick='show2(this.id);'>reference</td>
+          <td class='secmenuitem' id='tests' onClick='show2(this.id);'>tests</td>
+          <td class='secmenuitem' id='support' onClick='show2(this.id);'>support</td>
+        </tr>
+      </table>
+      <div id='INSTALL' style='display:none;'> 
+        <p>Install
+      </div>
+      <div id='EXAMPLES' style='display:none;'> 
+        <p>EXAMPLES
+      </div>
+      <div id='REFERENCE' style='display:none;'> 
+        <p>Referene
+      </div>
+      <div id='TESTS' style='display:none;'> 
+        <p>Tests
+      </div>
+      <div id='SUPPORT' style='display:none;'> 
+        <p>SUPPORT
+      </div>
+    </div>
+    <div id='FAQ' style='display:none;'> 
+      <p>Faq
+    </div>
+    <div id='DOWNLOAD' style='display:none;'> 
+      <p>Download
+    </div>
