@@ -4,11 +4,59 @@
   <title>Rhaboo : JS Persistence Library</title>  
   <link rel="shortcut icon" type="image/png" href="logo.png" />
 
+  <style>
+html > *            { font-family: Arial !important; color: #402000; background-color: white;}
+td                  {}
+.banner           {  vertical-align: bottom; font-size: 570%; font-weight:bold; margin-left:0px;text-align:right;}
+.subbanner1           {  vertical-align: bottom; font-size: 100%; margin-left:0.30em;text-align:right;}
+.subbanner2           {  vertical-align: bottom; font-size: 100%; text-align:right;}
+.topmenuitem           {  text-align:center; vertical-align: bottom; font-size: 100%; margin-left:0.30em;}
+.menu               {  table-layout: fixed; background-color:#ffffa0; }
+  </style>
+
+  <script>
+function show(x) {
+  alert(x);
+}
+  </script>
 
 
+<!--
+<table><tr>
+<td></td>
+</tr></table>
+-->
 
-<img src='logo.png' width='150'/>
-<h1>Rhaboo Library.</h1>
-<p>The docs for this javascript persistence library are currently in the README.md in the main <a href="https://github.com/adrianmay/rhaboo">repo</a>
-<p>The hand-written tests (also serving as example code) are <a href="http://adrianmay.github.io/rhaboo/examples/index.html">here</a>
-<p>Much more extensive tests can be built: instructions in the main README, sample pages <a href="http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html">here</a>.
+<body>
+
+    <table width='100%'>
+      <tr width='100%'>
+        <td width='150px'> <img src='logo.png' width='100%'/> </td>
+        <td style='vertical-align: bottom;'>
+          <table width='100%'>
+            <tr><td class='subbanner1'>Makes JavaScript objects persistent...</td></tr>
+            <tr><td class='subbanner2'>...without learning a new trick.</td></tr>
+            <tr><td class='banner'>rhaboo</td></tr>
+          </table>
+          <!--
+            <span class='subbanner1'>Makes JavaScript objects persistent...</span><br/>
+            <span class='subbanner2'>...without learning a new trick.</span><br/>
+            <span class='banner'>rhaboo</span><br/>
+          -->
+        </td>
+      </tr>
+    </table>
+    <table  class='menu' width='100%'><tr width='100%'>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>about</td>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>examples</td>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>api</td>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>tests</td>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>faq</td>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>download</td>
+        <td class='topmenuitem' onClick='show(this.innerHTML);'>github</td>
+      </tr>
+    </table>
+    <p>
+    <p>The docs for this javascript persistence library are currently in the README.md in the main <a href="https://github.com/adrianmay/rhaboo">repo</a>
+    <p>The hand-written tests (also serving as example code) are <a href="http://adrianmay.github.io/rhaboo/examples/index.html">here</a>
+    <p>Much more extensive tests can be built: instructions in the main README, sample pages <a href="http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html">here</a>.
