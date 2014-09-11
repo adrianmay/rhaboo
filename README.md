@@ -1,13 +1,11 @@
 Rhaboo
 ======
 
-*This is very solid now. Go ahead and use it.*
+Website at http://adrianmay.github.io/rhaboo
 
-*Website at http://adrianmay.github.io/rhaboo*
-
-*Tests/examples at 
+Tests/examples at 
 * http://adrianmay.github.io/rhaboo/examples/index.html and 
-* http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html*
+* http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html
 
 What is it?
 -----------
