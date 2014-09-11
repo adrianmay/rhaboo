@@ -47,6 +47,7 @@ var m = {
       m.biglink('Next','page.'+(parseInt(page)+1)+'.html') + 
       m.el('h4', { id: 'business'}, "Busy or not") +
       m.el('h1', {}, 'Rhaboo Generated Tests '+page) +
+      m.el('p', {}, 'These tests should be run in order from the start, allowing each page to complete.') +
       m.el('a', {href: 'page.'+page+'.js'}, 'Test Code') +
       m.testout()
     );

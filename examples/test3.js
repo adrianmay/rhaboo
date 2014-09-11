@@ -13,7 +13,7 @@ QUnit.test( "Complex object after post-restore manipulation", function( assert )
   assert.ok( store1.a_num === 543.21, "Number remembered" );
   assert.ok( store1.a_bool === false, "Bool remembered" );
   assert.ok( typeof store1.empty_ob === 'object', "Empty object still there ...");
-  assert.ok( store1.empty_ob._rhaboo_size() === 1, "... and still empty" );
+  assert.ok (countMembers(store1.empty_ob) === 0, "... and still empty");
 
   var store2 = new Rhaboo.Persistent("Another Unique Name");
   assert.ok( store2.colour === "red", "Colour remembered" );

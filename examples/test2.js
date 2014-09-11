@@ -1,6 +1,12 @@
 
 _rhaboo_trace = function(s) { console.log(s); }
 
+function countMembers(ob) {
+  var res=0;
+  for (var k in ob) if (ob.hasOwnProperty(k)) res++;
+  return res;
+}
+
 QUnit.test( "Simple restore", function( assert ) {
 
   assert.ok (Number(localStorage.getItem("nextPhase")) === 2, "Please run tests in sequence");
@@ -8,12 +14,13 @@ QUnit.test( "Simple restore", function( assert ) {
 
   var store1 = new Rhaboo.Persistent("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
+  assert.ok (countMembers(store1) === 4, "Store1 still has 4 members");
 
   assert.ok( store1.a_string === "perky", "String remembered" );
   assert.ok( store1.a_num === 543.21, "Number remembered" );
   assert.ok( store1.a_bool === false, "Bool remembered" );
   assert.ok( typeof store1.empty_ob === 'object', "Empty object still there ...");
-  assert.ok( store1.empty_ob._rhaboo_size() === 1, "... and still empty" );
+  assert.ok (countMembers(store1.empty_ob) === 0, "... and still empty");
 
   var store2 = new Rhaboo.Persistent("Another Unique Name");
 

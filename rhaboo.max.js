@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1970,8 +1970,8 @@ return Q;
 
 });
 
-}).call(this,require("JkpR2F"))
-},{"JkpR2F":1}],3:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"_process":1}],3:[function(require,module,exports){
 var R = require('./core');
 
 Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
@@ -2078,6 +2078,11 @@ Object.prototype._rhaboo_isArray = function () {
     typeof this.splice === 'function' &&
     !(this.propertyIsEnumerable('length'));
 }
+
+//Hide _rhaboo in hasOwnProperty
+
+Object.prototype.hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
+Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && this.hasOwnPropertyOrig(key)); }
 
 //These are used to build entries in localStorage...
 
@@ -2255,14 +2260,6 @@ Object.prototype._rhaboo_restore = function (key) {
   }
 }
 
-Object.prototype._rhaboo_size = function () {
-  var count = 0;
-  for (var key in this) {
-    if (this.hasOwnProperty(key)) count++;
-  }
-  return count;
-}
-
 module.exports = {
   Persistent : Persistent,
   enq : E.enq,
@@ -2334,5 +2331,5 @@ module.exports = {
 global.Rhaboo = require('./arr');
 
 
-}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./arr":3}]},{},[6]);

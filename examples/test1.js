@@ -1,6 +1,12 @@
 
 _rhaboo_trace = function(s) { console.log(s); }
 
+function countMembers(ob) {
+  var res=0;
+  for (var k in ob) if (ob.hasOwnProperty(k)) res++;
+  return res;
+}
+
 for (var k in localStorage)
   if (localStorage.hasOwnProperty(k))
     localStorage.removeItem(k);
@@ -10,7 +16,7 @@ QUnit.test( "Write simple stuff", function( assert ) {
 
   var store1 = new Rhaboo.Persistent("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
-  assert.ok (store1._rhaboo_size() === 1, "Store1 empty");
+  assert.ok (countMembers(store1) === 0, "Store1 empty");
 
   store1.write("a_string", "pinky");
   assert.ok( store1.a_string === "pinky", "Insert string");
@@ -29,13 +35,14 @@ QUnit.test( "Write simple stuff", function( assert ) {
 
   store1.write("empty_ob", {});
   assert.ok( typeof store1.empty_ob === 'object', "Insert empty object");
-  var size = store1.empty_ob._rhaboo_size();
+
   //Insertion of key into new object might still be pending...
-  assert.ok (size <= 1, "Check its empty");
+  assert.ok (countMembers(store1.empty_ob) === 0, "Check its empty");
+
+  assert.ok (countMembers(store1) === 4, "Store1 has 4 members");
 
   var store2 = new Rhaboo.Persistent("Another Unique Name");
   assert.ok( typeof store2 === "object", "Store2 exists");
-  assert.ok (store2._rhaboo_size() === 1, "Store2 empty");
 
   store2.write("colour", "red");
   store2.write("lue", 42);

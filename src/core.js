@@ -27,6 +27,11 @@ Object.prototype._rhaboo_isArray = function () {
     !(this.propertyIsEnumerable('length'));
 }
 
+//Hide _rhaboo in hasOwnProperty
+
+Object.prototype.hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
+Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && this.hasOwnPropertyOrig(key)); }
+
 //These are used to build entries in localStorage...
 
 Object.prototype._rhaboo_classcode = '&';
@@ -201,14 +206,6 @@ Object.prototype._rhaboo_restore = function (key) {
       }
     }
   }
-}
-
-Object.prototype._rhaboo_size = function () {
-  var count = 0;
-  for (var key in this) {
-    if (this.hasOwnProperty(key)) count++;
-  }
-  return count;
 }
 
 module.exports = {
