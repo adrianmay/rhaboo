@@ -16,13 +16,11 @@ This library gives a JS programmer persistence whilst staying close to the JS ob
 
 The usual approach to this problem is to stringify and parse the entire object, but that gives lousy performance on large datasets. For instance, if you had an array of 999 diary entries and the user added a 1000th, then the entire history would have to be parsed and re-stringified. Rhaboo is more cunning than that.
 
-Another problem with stringify/parse is that they innacurately recreate objects, especially arrays. For instance, properties of arrays with non-numeric names are ignored and all sparse positions are filled with null. This library recreates objects and arrays more precisely, except that it doesn't handle function- or regex-valued properties, nor does it do anything with the prototype. It also inserts its own property called `_rhaboo`  into each persistent object including those nested in a persistent one.
+Another problem with stringify/parse is that they innacurately recreate objects, especially arrays. For instance, properties of arrays with non-numeric names are ignored and all sparse positions are filled with null. This library recreates objects and arrays more precisely.
 
 It's highly portable because it only relies on HTML5's localStorage.
 
 Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. Browsers nevertheless resist closing the window until the persistence code has completed.
-
-Better performance testing is planned.
 
 Quick Installation
 ------------------
@@ -142,7 +140,7 @@ There's no function to delete everything in a persistent, but that could be made
    mystore.write('killable', {} /* or undefined */ );
 ```
 
-You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory.
+You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory. Regex- and function-valued properties are not supported.
 
 You may have multiple persistent objects but that slows down the restore because each persistent has to examine every entry in localStorage, some of which are about other persistents. Best performance is obtained when everything is in a single persistent and localStorage is not used in any other way.
 
@@ -157,7 +155,7 @@ Rhaboo adds a property called `_rhaboo` to each object it makes persistent, but 
    }
 ```
 
-because hasOwnProperty has been replaced with one that returns false for `_rhaboo`.
+because Object.prototype.hasOwnProperty has been replaced with one that returns false for `_rhaboo`.
 
 Browserification
 ----------------
