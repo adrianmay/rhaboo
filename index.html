@@ -13,7 +13,10 @@ html > *            { font-family: Arial !important; color: #502000; background-
 .topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 150%; margin-left:0.30em;}
 .secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 120%; margin-left:0.30em;}
 .menu               {  table-layout: fixed; background-color:#ffffa0; }
-.splash                 { text-align:center; font-size: 4.5vw;}
+.splash                 { text-align:center; font-size: 2.5vw;}
+.splashof3                 { text-align:center; font-size: 4vw;}
+.detailof3                 { padding-left:3vw; padding-right:3vw; text-align:center; font-size: 1.7;}
+.boxof3                 { box-shadow: 5px 10px 15px; width:20% }
   </style>
 
   <script>
@@ -53,7 +56,7 @@ function show2(x) {
 
     <table width='100%'>
       <tr width='100%'>
-        <td width='200px'> <img src='logo.png' width='100%'/> </td>
+        <td width='30%'> <img src='logo.png' width='100%'/> </td>
         <td style='vertical-align: bottom;'>
           <table width='100%'>
             <tr><td class='subbanner1'>Makes JavaScript objects persistent...</td></tr>
@@ -76,10 +79,52 @@ function show2(x) {
       </tr>
     </table>
     <div id='ABOUT' style='display:none;'> 
-      <p class='splash'>The easiest persistence solution on the web</p>
-      <p>The docs for this javascript persistence library are currently in the README.md in the main <a href="https://github.com/adrianmay/rhaboo">repo</a>
-      <p>The hand-written tests (also serving as example code) are <a href="http://adrianmay.github.io/rhaboo/examples/index.html">here</a>
-      <p>Much more extensive tests can be built: instructions in the main README, sample pages <a href="http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html">here</a>.
+      <p class='splash'>The easiest, fastest and most portable persistence solution on the web</p>
+    <table style='vertical-align:top;' width='100%'>
+      <tr style='vertical-align:top;'>
+        <td></td>
+        <td class='boxof3'>
+          <p class='splashof3'>Easy</p>
+          <p class='detailof3'>Only three functions in the API, of which you'll need two.
+        </td>
+        <td></td>
+        <td class='boxof3'>
+          <p class='splashof3'>Complete</p>
+          <p class='detailof3'>Stores objects nested to any complexity. Supports names properties of arrays.
+        </td>
+        <td></td>
+        <td class='boxof3'>
+          <p class='splashof3'>Fast</p>
+          <p class='detailof3'>Stores components of objects separately rather than just stringifying and parsing the whole thing.
+        </td>
+        <td></td>
+        <td class='boxof3'>
+          <p class='splashof3'>Portable</p>
+          <p class='detailof3'>Only relies on localStorage.
+        </td>
+        <td></td>
+      </tr>
+    </table>     
+     
+     <p>For instance:
+      <pre>
+    &lt;script src='rhaboo.min.js'&gt;&lt;/script&gt;
+    &lt;script&gt;
+      var store = new Rhaboo.Persistent('Some name');
+      store.write('counter', store.counter ? store.counter+1 : 1);
+    &lt;/script&gt;
+    &lt;body onLoad='document.getElementById("count").innerHTML = store.counter;'&gt;
+      &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
+    &lt;/body&gt;
+      </pre>
+      <p>That is quite literally all you need to know, but you can also try: 
+      <pre>
+    store.write('somethingfancy', {
+      one: ['man', 'went'],
+      2: 'mow',
+      went: [  2, { mow: ['a', 'meadow' ] }, {}  ]
+    });
+      </pre>
     </div>
     <div id='FAQ' style='display:none;'> 
       <dl>
