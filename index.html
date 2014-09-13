@@ -66,7 +66,7 @@ function show2(x) {
         <td style='vertical-align: bottom;'>
           <table width='100%'>
             <tr><td class='subbanner1'>Makes JavaScript objects persistent...</td></tr>
-            <tr><td class='subbanner2'>...without learning a new API.</td></tr>
+            <tr><td class='subbanner2'>...without learning a new paradigm.</td></tr>
             <tr><td class='banner'>rhaboo</td></tr>
           </table>
           <!--
@@ -128,11 +128,15 @@ function show2(x) {
       <pre>
   &lt;script src='rhaboo.min.js'&gt;&lt;/script&gt;
   &lt;script&gt;
-    <b>var store = new Rhaboo.Persistent('Some name');
-    store.write('count', store.count ? store.count+1 : 1);</b>
+    <span style='color:green;'>//Open a persistent object called 'Some name'...</span>
+    <b>var store = new Rhaboo.Persistent('Some name');</b>
+    <span style='color:green;'>//If it has a property called 'count' then increment it, </span>
+    <span style='color:green;'>//otherwise initialise it to 1...</span>
+    <b>store.write('count', store.count ? store.count+1 : 1);</b>
   &lt;/script&gt;
   &lt;body onLoad='
     document.getElementById("count").
+      <span style='color:green;'>//Use it like a normal object...</span>
       <b>innerHTML = store.count</b>;'&gt;
     &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
   &lt;/body&gt;
