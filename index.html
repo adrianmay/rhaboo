@@ -6,7 +6,7 @@
   <link rel="shortcut icon" type="image/png" href="logo.png" />
 
   <style>
-html > *            { font-family: Arial !important; color: #000000; background-color: white;}
+html > *            { font-family: Arial !important; color: #502000; background-color: white;}
 .banner           {  vertical-align: bottom; font-size: 570%; font-weight:bold; margin-left:0px;text-align:right;}
 .subbanner1           {  vertical-align: bottom; font-size: 100%; margin-left:0.30em;text-align:right;}
 .subbanner2           {  vertical-align: bottom; font-size: 100%; text-align:right;}
@@ -17,11 +17,11 @@ html > *            { font-family: Arial !important; color: #000000; background-
 
   <script>
 
-function vis(id, v) {
-  if (id) {
-    document.getElementById(id).style.fontWeight=v?"bold":"";
-    document.getElementById(id).style.textShadow=v?"-1px 2px #C0C060":"";
-    document.getElementById(id.toUpperCase()).style.display=v?"block":"none";
+function vis(ob, v) {
+  if (ob) {
+    ob.style.fontWeight=v?"bold":"";
+    ob.style.textShadow=v?"-1px 2px #C0C060":"";
+    document.getElementById(ob.getAttribute('id').toUpperCase()).style.display=v?"block":"none";
   }
 }
 
@@ -48,7 +48,7 @@ function show2(x) {
 </tr></table>
 -->
 
-<body onload="show1('about'); show2('examples'); ">
+<body onload="show1(document.getElementById('about')); show2(document.getElementById('examples')); ">
 
     <table width='100%'>
       <tr width='100%'>
@@ -56,7 +56,7 @@ function show2(x) {
         <td style='vertical-align: bottom;'>
           <table width='100%'>
             <tr><td class='subbanner1'>Makes JavaScript objects persistent...</td></tr>
-            <tr><td class='subbanner2'>...without learning a new trick.</td></tr>
+            <tr><td class='subbanner2'>...without learning a new API.</td></tr>
             <tr><td class='banner'>rhaboo</td></tr>
           </table>
           <!--
@@ -68,9 +68,9 @@ function show2(x) {
       </tr>
     </table>
     <table  class='menu' width='100%'><tr width='100%'>
-        <td class='topmenuitem' id='about' onClick='show1(this.id);'>about</td>
-        <td class='topmenuitem' id='faq' onClick='show1(this.id);'>faq</td>
-        <td class='topmenuitem' id='docs' onClick='show1(this.id);'>docs</td>
+        <td class='topmenuitem' id='about' onClick='show1(this);'>about</td>
+        <td class='topmenuitem' id='faq' onClick='show1(this);'>faq</td>
+        <td class='topmenuitem' id='docs' onClick='show1(this);'>docs</td>
         <td class='topmenuitem' onClick='window.location.href="https://github.com/adrianmay/rhaboo"'>github</td>
       </tr>
     </table>
@@ -84,11 +84,11 @@ function show2(x) {
     </div>
     <div id='DOCS' style='display:none;'> 
       <table  class='menu' width='100%'><tr width='100%'>
-          <td class='secmenuitem' id='install' onClick='show2(this.id);'>install</td>
-          <td class='secmenuitem' id='examples' onClick='show2(this.id);'>examples</td>
-          <td class='secmenuitem' id='reference' onClick='show2(this.id);'>reference</td>
-          <td class='secmenuitem' id='tests' onClick='show2(this.id);'>tests</td>
-          <td class='secmenuitem' id='support' onClick='show2(this.id);'>support</td>
+          <td class='secmenuitem' id='install' onClick='show2(this);'>install</td>
+          <td class='secmenuitem' id='examples' onClick='show2(this);'>examples</td>
+          <td class='secmenuitem' id='reference' onClick='show2(this);'>reference</td>
+          <td class='secmenuitem' id='tests' onClick='show2(this);'>tests</td>
+          <td class='secmenuitem' id='support' onClick='show2(this);'>support</td>
         </tr>
       </table>
       <div id='INSTALL' style='display:none;'> 
