@@ -100,7 +100,7 @@ function show2(x) {
         <td></td>
       </tr></table>
         <br/>
-      <table><tr>
+      <table style='vertical-align:top;'><tr style='vertical-align:top;'>
         <td></td>
         <td></td>
         <td class='boxof3'>
@@ -110,7 +110,7 @@ function show2(x) {
         <td></td>
         <td class='boxof3'>
           <p class='splashof3'>Reliable</p>
-          <p class='detailof3'>Our automatically generated tesst script contains roughly 40,000 assertions.
+          <p class='detailof3'>Our automatically generated test script contains roughly 40,000 assertions.
         </td>
         <td></td>
         <td></td>
@@ -138,6 +138,8 @@ function show2(x) {
     2: 'mow',
     went: [  2, { mow: ['a', 'meadow' ] }, {}  ]
   });
+
+  store.somethingfancy.went[1].mow.write('1', 'lawn');
       </pre>
     </div>
     <div id='FAQ' style='display:none;'> 
