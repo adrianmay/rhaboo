@@ -108,7 +108,7 @@ you should write:
 
 (Contrary to popular belief, setting a property to undefined is not the same as deleting it.) For arrays, splice should be used. 
 
-You can also pass a complex object to `write()`:
+You can also pass a complex object to `write`:
 
 ```
    mystore.write("foo", {   
@@ -123,10 +123,10 @@ You can also pass a complex object to `write()`:
    } );
 ```
 
-and apply `write` to it's nested objects:
+and apply `write` to its nested objects:
 
 ```
-   mystore.porky.write(1, 4);
+   mystore.foo.porky.write(1, 4);
 ```
 
 All the standard array modifying functions work persistently:
