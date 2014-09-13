@@ -10,14 +10,14 @@ html > *            { font-family: Arial !important; color: #502000; background-
 .banner           {  vertical-align: bottom; font-size: 15vw; font-weight:bold; margin-left:0px;text-align:right;}
 .subbanner1           {  vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;text-align:right;}
 .subbanner2           {  vertical-align: bottom; font-size: 2.5vw; text-align:right;}
-.topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 150%; margin-left:0.30em;}
-.secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 120%; margin-left:0.30em;}
+.topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 2vw; margin-left:0.30em;}
+.secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 1.6vw; margin-left:0.30em;}
 .menu               {  table-layout: fixed; background-color:#ffffa0; }
 .splash                 { text-align:center; font-size: 2.5vw;}
 .splashof3                 { font-weight:bold; text-align:center; font-size: 3vw;}
 .detailof3                 { padding-left:1vw; padding-right:1vw; text-align:center; font-size: 1.7;}
 .boxof3                 { box-shadow: 5px 10px 15px; width:20% }
-
+pre, p, td          { font-size:2vw}
 
 a:link { text-decoration: none; color: #502000;} 
 a:visited { text-decoration: none; color: #502000;} 
@@ -81,7 +81,10 @@ function show2(x) {
         <td class='topmenuitem' id='about' onClick='show1(this);'>about</td>
         <td class='topmenuitem' id='faq' onClick='show1(this);'>faq</td>
         <td class='topmenuitem' id='docs' onClick='show1(this);'>docs</td>
+        <td class='topmenuitem'><a class='topmenuitem' href="https://github.com/adrianmay/rhaboo">github</a></td>
+        <!--
         <td class='topmenuitem' onClick='window.location.href="https://github.com/adrianmay/rhaboo"'>github</td>
+        -->
       </tr>
     </table>
     <div id='ABOUT' style='display:none;'> 
@@ -141,7 +144,7 @@ function show2(x) {
   &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
 &lt;/body&gt;
       </pre>
-      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.b=c</code> you just write <code>store.write('b', c)</code> instead. That is quite literally all you need to know, but you can also try: 
+      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you just write <code>store.write('key', val)</code> instead. That is quite literally all you need to know, but you can also try: 
       <pre>
 store.write('somethingfancy', {
   one: ['man', 'went'],
@@ -149,7 +152,7 @@ store.write('somethingfancy', {
   went: [  2, { mow: ['a', 'meadow' ] }, {}  ]
 });
 
-store.somethingfancy.went[1].mow.write('1', 'lawn');
+store.somethingfancy.went[1].mow.write(1, 'lawn');
       </pre>
 
       <table width='100%'>
