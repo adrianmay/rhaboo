@@ -114,11 +114,11 @@ function show2(x) {
       <b>var store = new Rhaboo.Persistent('Some name');
       store.write('counter', store.counter ? store.counter+1 : 1);</b>
     &lt;/script&gt;
-    &lt;body onLoad='document.getElementById("count").innerHTML = store.counter;'&gt;
-      &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
+    &lt;body onLoad='document.getElementById("counter").<b>innerHTML = store.counter</b>;'&gt;
+      &lt;p&gt;You saw this &lt;span id='counter'&gt;&lt;/span&gt; times&lt;/p&gt;
     &lt;/body&gt;
       </pre>
-      <p>So having made <code>store</code> with that constructor, wherever you'd normally write <code>store.b=c</code> you just write <code>store.write('b', c)</code> instead. That is quite literally all you need to know, but you can also try: 
+      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.b=c</code> you just write <code>store.write('b', c)</code> instead. That is quite literally all you need to know, but you can also try: 
       <pre>
     store.write('somethingfancy', {
       one: ['man', 'went'],
