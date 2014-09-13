@@ -126,30 +126,30 @@ function show2(x) {
     <br/>
      <p>For instance:
       <pre>
-  &lt;script src='rhaboo.min.js'&gt;&lt;/script&gt;
-  &lt;script&gt;
-    <span style='color:green;'>//Open a persistent object called 'Some name'...</span>
-    <b>var store = new Rhaboo.Persistent('Some name');</b>
-    <span style='color:green;'>//If it has a property called 'count' then increment it, </span>
-    <span style='color:green;'>//otherwise initialise it to 1...</span>
-    <b>store.write('count', store.count ? store.count+1 : 1);</b>
-  &lt;/script&gt;
-  &lt;body onLoad='
-    document.getElementById("count").
-      <span style='color:green;'>//Use it like a normal object...</span>
-      <b>innerHTML = store.count</b>;'&gt;
-    &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
-  &lt;/body&gt;
+&lt;script src='rhaboo.min.js'&gt;&lt;/script&gt;
+&lt;script&gt;
+  <span style='color:green;'>//Open a persistent object called 'Some name'...</span>
+  <b>var store = new Rhaboo.Persistent('Some name');</b>
+  <span style='color:green;'>//If it has a property called 'count' then increment it, </span>
+  <span style='color:green;'>//otherwise initialise it to 1...</span>
+  <b>store.write('count', store.count ? store.count+1 : 1);</b>
+&lt;/script&gt;
+&lt;body onLoad='
+  document.getElementById("count").
+    <span style='color:green;'>//Use it like a normal object...</span>
+    <b>innerHTML = store.count</b>;'&gt;
+  &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
+&lt;/body&gt;
       </pre>
       <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.b=c</code> you just write <code>store.write('b', c)</code> instead. That is quite literally all you need to know, but you can also try: 
       <pre>
-  store.write('somethingfancy', {
-    one: ['man', 'went'],
-    2: 'mow',
-    went: [  2, { mow: ['a', 'meadow' ] }, {}  ]
-  });
+store.write('somethingfancy', {
+  one: ['man', 'went'],
+  2: 'mow',
+  went: [  2, { mow: ['a', 'meadow' ] }, {}  ]
+});
 
-  store.somethingfancy.went[1].mow.write('1', 'lawn');
+store.somethingfancy.went[1].mow.write('1', 'lawn');
       </pre>
 
       <table width='100%'>
