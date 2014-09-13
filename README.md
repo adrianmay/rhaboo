@@ -12,7 +12,7 @@ Tests/examples at
 What is it?
 -----------
 
-This library gives a JS programmer persistence whilst staying close to the JS object model. In other words, it makes ordinary JS objects (includng deeply nested ones) persist as if by magic.
+This library gives a JS programmer persistence whilst staying close to the JS object model. In other words, it makes ordinary JS objects (including deeply nested ones) persist as if by magic.
 
 The usual approach to this problem is to stringify and parse the entire object, but that gives lousy performance on large datasets. For instance, if you had an array of 999 diary entries and the user added a 1000th, then the entire history would have to be parsed and re-stringified. Rhaboo is more cunning than that.
 
@@ -121,6 +121,12 @@ You can also pass a complex object to `write()`:
        {}   
      ]   
    } );
+```
+
+and apply `write` to it's nested objects:
+
+```
+   mystore.porky.write(1, 4);
 ```
 
 All the standard array modifying functions work persistently:
