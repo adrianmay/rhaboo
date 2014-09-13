@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
 <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9, minimum-scale=0.9" />
-<html>
+<html class='no-js'>
   <title>Rhaboo : JS Persistence Library</title>  
-  <script src='modernizr.custom.42785.js'></script>
   <link rel="shortcut icon" type="image/png" href="logo.png" />
 
   <style>
 html > *            { font-family: Arial !important; color: #502000; background-color: white;}
-.banner           {  vertical-align: bottom; font-size: 15vw; font-weight:bold; margin-left:0px;text-align:right;}
-.banner .no-css-vwunit          {  vertical-align: bottom; font-size: 15em; font-weight:bold; margin-left:0px;text-align:right;}
+.cssvwunit     .banner {  vertical-align: bottom; font-size: 15vw; font-weight:bold; margin-left:0px;text-align:right;}
+.no-cssvwunit  .banner         {  vertical-align: bottom; font-size: 150px; font-weight:bold; margin-left:0px;text-align:right;}
 .subbanner1           {  vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;text-align:right;}
 .subbanner2           {  vertical-align: bottom; font-size: 2.5vw; text-align:right;}
 .topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 3.5vw; margin-left:0.30em;}
@@ -27,6 +26,7 @@ a:hover { text-decoration: underline; color: #502000;}
 a:active { text-decoration: underline; color: #502000;} 
   </style>
 
+  <script src='modernizr.custom.42785.js'></script>
   <script>
 
 function vis(ob, v) {
