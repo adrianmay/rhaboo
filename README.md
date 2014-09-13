@@ -1,7 +1,7 @@
 Rhaboo
 ======
 
-<img src="logo.png" style="width: 50px;"/>
+<img src="logo.png" width="50px;"/>
 
 Website at http://adrianmay.github.io/rhaboo
 
