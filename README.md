@@ -1,7 +1,7 @@
 Rhaboo
 ======
 
-![GitHub Logo](logo.png)
+![GitHub Logo](logo.png =100)
 
 Website at http://adrianmay.github.io/rhaboo
 
