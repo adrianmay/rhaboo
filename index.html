@@ -30,7 +30,7 @@ html > *            { font-family: Arial !important; color: #502000; background-
 .no-cssvwunit p, 
 .no-cssvwunit td          { font-size:11px}
 
-.boxshadow .boxof3                 { box-shadow: 5px 8px 18px 2px #502000; -webkit-box-shadow: 5px 10px 15px #502000; -moz-box-shadow: 5px 10px 15px #502000; width:25% }
+.boxshadow .boxof3                 { box-shadow: 5px 8px 18px 2px #502000; -webkit-box-shadow: 5px 10px 15px #502000; -moz-box-shadow: 5px 10px 15px #502000; width:30% }
 .menu               {  table-layout: fixed; background-color:#ffffa0; }
 a:link { text-decoration: none; color: #502000;} 
 a:visited { text-decoration: none; color: #502000;} 
@@ -64,13 +64,6 @@ function show2(x) {
 }
 
   </script>
-
-
-<!--
-<table><tr>
-<td></td>
-</tr></table>
--->
 
 <body onload="show1(document.getElementById('about')); show2(document.getElementById('examples')); ">
 
@@ -108,17 +101,17 @@ function show2(x) {
         <td></td>
         <td class='boxof3'>
           <p class='splashof3'>Easy</p>
-          <p class='detailof3'>Makes regular JS objects persistent. No new storage paradigm to learn.
+          <p class='detailof3'>Makes regular JS objects persistent. <br/><br/>No new storage paradigm to learn.
         </td>
         <td></td>
         <td class='boxof3'>
           <p class='splashof3'>Full</p>
-          <p class='detailof3'>Stores objects nested to any level. Supports non-numeric properties of arrays.
+          <p class='detailof3'>Stores objects nested to any level. <br/><br/>All standard array functions work persistently. <br/><br/>Supports non-numeric properties of arrays.
         </td>
         <td></td>
         <td class='boxof3'>
           <p class='splashof3'>Fast</p>
-          <p class='detailof3'>Stores components of objects separately rather than just stringifying and parsing the whole thing.
+          <p class='detailof3'>Stores components of objects separately rather than just stringifying and parsing the whole thing at every little change. <br/><br/>Writes to disk in a background thread.
         </td>
         <td></td>
       </tr></table>
@@ -158,7 +151,7 @@ function show2(x) {
   &lt;p&gt;You loaded this page &lt;span id='count'&gt;&lt;/span&gt; times.
 &lt;/body&gt;
       </pre>
-      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you just write <code>store.write('key', val)</code> instead. That is quite literally all you need to know, but you can also try: 
+      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you should write <code>store.write('key', val)</code> instead. Furthermore, any objects or arrays inside a persistent one also have that <code>write</code> function. That is quite literally all you need to know.
       <br/>
       <br/>
       <pre>
@@ -176,15 +169,17 @@ store.somethingfancy.went[1].mow.write(1, 'lawn');
           <td></td>
           <td class='boxof3'>
             <a class='download' href="https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js" download><div class='splashof3' style='padding-top:50px; padding-bottom:50px; '>Download</div></a>
+          <p class='detailof3'>rhaboo.min.js
           </td>
           <td></td>
         </tr>
       </table>
       <br/>
+      <p class='splash'>Free and Open Source.</p>
       <br/>
     </div>
     <div id='FAQ' style='display:none;'> 
-      <dl>
+      FAQ
     </div>
     <div id='DOCS' style='display:none;'> 
       <table  class='menu' width='100%'><tr width='100%'>
