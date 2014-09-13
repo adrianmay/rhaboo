@@ -14,7 +14,7 @@ html > *            { font-family: Arial !important; color: #502000; background-
 .secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 120%; margin-left:0.30em;}
 .menu               {  table-layout: fixed; background-color:#ffffa0; }
 .splash                 { text-align:center; font-size: 2.5vw;}
-.splashof3                 { text-align:center; font-size: 4vw;}
+.splashof3                 { text-align:center; font-size: 3vw;}
 .detailof3                 { padding-left:1vw; padding-right:1vw; text-align:center; font-size: 1.7;}
 .boxof3                 { box-shadow: 5px 10px 15px; width:20% }
   </style>
@@ -89,7 +89,7 @@ function show2(x) {
         </td>
         <td></td>
         <td class='boxof3'>
-          <p class='splashof3'>Complete</p>
+          <p class='splashof3'>Full</p>
           <p class='detailof3'>Stores objects nested to any level. Supports non-numeric properties of arrays.
         </td>
         <td></td>
@@ -106,18 +106,19 @@ function show2(x) {
       </tr>
     </table>     
      
+    <br/>
      <p>For instance:
       <pre>
     &lt;script src='rhaboo.min.js'&gt;&lt;/script&gt;
     &lt;script&gt;
-      var store = new Rhaboo.Persistent('Some name');
-      store.write('counter', store.counter ? store.counter+1 : 1);
+      <b>var store = new Rhaboo.Persistent('Some name');
+      store.write('counter', store.counter ? store.counter+1 : 1);</b>
     &lt;/script&gt;
     &lt;body onLoad='document.getElementById("count").innerHTML = store.counter;'&gt;
       &lt;p&gt;You saw this &lt;span id='count'&gt;&lt;/span&gt; times&lt;/p&gt;
     &lt;/body&gt;
       </pre>
-      <p>That is quite literally all you need to know, but you can also try: 
+      <p>So having made <code>store</code> with that constructor, wherever you'd normally write <code>store.b=c</code> you just write <code>store.write('b', c)</code> instead. That is quite literally all you need to know, but you can also try: 
       <pre>
     store.write('somethingfancy', {
       one: ['man', 'went'],
