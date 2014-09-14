@@ -5,6 +5,7 @@
 
 var store = new Rhaboo.Persistent('My Store');
 
+//Let's have an explicit 'been here before' indication...
 if (!store.initialised) {
   store.write('initialised', true);
   store.write('cliches', [
@@ -15,11 +16,14 @@ if (!store.initialised) {
 }
 
 function newCliche(text) {
+
+  //Array functions work persistently. Push and pop are quite fast...
   store.cliches.push( { 
     text: text, 
     count: 1 
   } );
 
+  //This is not so fast cos we have to assume everything in the array changed...
   store.cliches.sort( function(a,b) { 
     return a.text < b.text ? -1 
       : a.text > b.text ? 1 
@@ -30,11 +34,14 @@ function newCliche(text) {
 }
 
 function incrementCliche(k) {
+  //Both arrays and other objects have a working write function 
+  //if they are already inside something made with new Rhaboo.Persistent
   store.cliches[k].write('count', store.cliches[k].count+1);
   render();
 }
 
 function deleteCliche(k) {
+  //In JS, splice is the correct way to delete an element of an array...
   store.cliches.splice(k,1); 
   render();
 }
@@ -49,6 +56,7 @@ function render() {
     parent.appendChild(td);
   }
 
+  //Iterate over the array as normal...
   for (var k=0; k<store.cliches.length; k++) {
     var tr = document.createElement('tr');
     all.appendChild(tr);

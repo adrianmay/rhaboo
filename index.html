@@ -7,6 +7,7 @@
 
   <style>
 html > *            { font-family: Arial !important; color: #502000; background-color: white;}
+table, tr                  { vertical-align: top;}
 .cssvwunit     .banner {  vertical-align: bottom; font-size: 15vw; font-weight:bold; margin-left:0px;text-align:right;}
 .no-cssvwunit  .banner         {  vertical-align: bottom; font-size: 75px; font-weight:bold; margin-left:0px;text-align:right;}
 .cssvwunit .subbanner1           {  vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;text-align:right;}
@@ -15,12 +16,12 @@ html > *            { font-family: Arial !important; color: #502000; background-
 .no-cssvwunit .subbanner2           {  vertical-align: bottom; font-size: 13px; text-align:right;}
 .cssvwunit .topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 3.5vw; margin-left:0.30em;}
 .no-cssvwunit .topmenuitem     {  text-align:center; vertical-align: bottom; font-size: 18px; margin-left:0.30em;}
-.cssvwunit .secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;}
-.no-cssvwunit .secmenuitem           {  text-align:center; vertical-align: bottom; font-size: 13px; margin-left:0.30em;}
-.cssvwunit .splash                 { text-align:center; font-size: 2.5vw;}
-.no-cssvwunit .splash                 { text-align:center; font-size: 18px;}
-.cssvwunit .splashof3                 { font-weight:bold; text-align:center; font-size: 3vw;}
-.no-cssvwunit .splashof3                 { font-weight:bold; text-align:center; font-size: 15px;}
+.cssvwunit .secmenuitem          {  text-align:center; vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;}
+.no-cssvwunit .secmenuitem         {  text-align:center; vertical-align: bottom; font-size: 13px; margin-left:0.30em;}
+.cssvwunit .splash, .cssvwunit th                 { text-align:center; font-size: 2.5vw;}
+.no-cssvwunit .splash, .no-cssvwunit th                  { text-align:center; font-size: 18px;}
+.cssvwunit .splashof3               { font-weight:bold; text-align:center; font-size: 3vw;}
+.no-cssvwunit .splashof3              { font-weight:bold; text-align:center; font-size: 15px;}
 .cssvwunit .detailof3                 { padding-left:1vw; padding-right:1vw; text-align:center; font-size: 1.5vw;}
 .no-cssvwunit .detailof3                 { padding-left:1vw; padding-right:1vw; text-align:center; font-size: 11px;}
 .cssvwunit pre, 
@@ -44,6 +45,9 @@ a.plain:link { text-decoration: none; color: #502000;}
 a.plain:visited { text-decoration: none; color: #502000;} 
 a.plain:hover { text-decoration: none; color: #502000;} 
 a.plain:active { text-decoration: none; color: #502000;} 
+
+#api td { padding-left: 10px; padding-right: 10px; }
+#api dt {font-weight:normal; }
   </style>
 
   <script src='modernizr.custom.42785.js'></script>
@@ -213,7 +217,46 @@ grunt    # be patient with this
         <br/><a class='subbanner1 plain' href='cliches.html'>Simple database</a> 
       </div>
       <div id='REFERENCE' style='display:none;'> 
-        <p>Reference
+        <table id='api' width='100%'>
+          <tr><td colspan=4><hr/></td></tr>
+          <tr>
+            <th width='33%'>API</th>
+            <th>Description</th>
+            <th>Parameters</th>
+            <th>Returns</th>
+          </tr>
+          <tr><td colspan=4><hr/></td></tr>
+          <tr>
+            <td><code>new Rhaboo.Persistent(name)</code></td>
+            <td>Constructor of root persistent object. Best performance is obtained if there's only one of these. The library looks for entries in localStorage corresponding with the passed name and loads any previously persisted data into the returned object. If no data is found, a mostly empty object is returned, mostly meaning that it just has a property called _rhaboo which is used for internal purposes.</td>
+            <td>
+              <dt>name:</dt><dd>Any text name that's not likely to be the same as any other.</dd> 
+            </td>
+            <td>The persistent object.</td>
+          </tr>
+          <tr><td colspan=4><hr/></td></tr>
+          <tr>
+            <td><code>Object.prototype.write(key, val)</code></td>
+            <td>Persistent replacement for = operator. <code>store.write('key',val)</code> is equivalent to <code>store.key=val </code>except with persistence. Can be applied to objects inside the root persistent as well as the root persistent itself.</td>
+            <td>
+              <dt>this:</dt><dd>The object whose property we're adding or changing</dd> 
+              <dt>key:</dt><dd>The property name within <code>this</code></dd> 
+              <dt>val:</dt><dd>The new value for the property. Any javascript type is acceptable, but functions and regexes will not persist.</dd> 
+            </td>
+            <td><code>this</code></td>
+          </tr>
+          <tr><td colspan=4><hr/></td></tr>
+          <tr>
+            <td><code>Object.prototype.kill(key)</code></td>
+            <td>Persistent equivalent of <code>delete object.key</code>. Completely removes a property. This is not the same as setting it to undefined. Don't use it on arrays. Use splice instead.</td>
+            <td>
+              <dt>this:</dt><dd>The object whose property we're adding or changing</dd> 
+              <dt>key:</dt><dd>The property name within <code>this</code></dd> 
+            </td>
+            <td><code>this</code></td>
+          </tr>
+          <tr><td colspan=4><hr/></td></tr>
+        </table>
       </div>
       <div id='TESTS' style='display:none;'> 
         <iframe width='100%' height='10000px' src='http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html'></iframe>
