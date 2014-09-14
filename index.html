@@ -25,17 +25,25 @@ html > *            { font-family: Arial !important; color: #502000; background-
 .no-cssvwunit .detailof3                 { padding-left:1vw; padding-right:1vw; text-align:center; font-size: 11px;}
 .cssvwunit pre, 
 .cssvwunit p, 
+.cssvwunit dt, 
+.cssvwunit dd, 
+.cssvwunit li, 
 .cssvwunit td          { font-size:1.5vw}
 .no-cssvwunit pre, 
 .no-cssvwunit p, 
+.no-cssvwunit li, 
+.no-cssvwunit dt, 
+.no-cssvwunit dd, 
 .no-cssvwunit td          { font-size:11px}
+
+dt { font-weight: bold;}
 
 .boxshadow .boxof3                 { box-shadow: 5px 8px 18px 2px #502000; -webkit-box-shadow: 5px 10px 15px #502000; -moz-box-shadow: 5px 10px 15px #502000; width:30% }
 .menu               {  table-layout: fixed; background-color:#ffffa0; }
-a:link { text-decoration: none; color: #502000;} 
-a:visited { text-decoration: none; color: #502000;} 
-a:hover { text-decoration: underline; color: #502000;} 
-a:active { text-decoration: underline; color: #502000;} 
+a.plain:link { text-decoration: none; color: #502000;} 
+a.plain:visited { text-decoration: none; color: #502000;} 
+a.plain:hover { text-decoration: none; color: #502000;} 
+a.plain:active { text-decoration: none; color: #502000;} 
   </style>
 
   <script src='modernizr.custom.42785.js'></script>
@@ -65,7 +73,7 @@ function show2(x) {
 
   </script>
 
-<body onload="show1(document.getElementById('about')); show2(document.getElementById('examples')); ">
+<body onload="show1(document.getElementById('about')); show2(document.getElementById('demos')); ">
 
     <table width='100%'>
       <tr width='100%'>
@@ -86,9 +94,9 @@ function show2(x) {
     </table>
     <table  class='menu' width='100%'><tr width='100%'>
         <td class='topmenuitem' id='about' onClick='show1(this);'>about</td>
-        <td class='topmenuitem' id='faq' onClick='show1(this);'>faq</td>
         <td class='topmenuitem' id='docs' onClick='show1(this);'>docs</td>
-        <td class='topmenuitem'><a class='topmenuitem' href="https://github.com/adrianmay/rhaboo">github</a></td>
+        <td class='topmenuitem' id='faq' onClick='show1(this);'>faq</td>
+        <td class='topmenuitem'><a class='topmenuitem plain' href="https://github.com/adrianmay/rhaboo">github</a></td>
         <!--
         <td class='topmenuitem' onClick='window.location.href="https://github.com/adrianmay/rhaboo"'>github</td>
         -->
@@ -168,7 +176,7 @@ store.somethingfancy.went[1].mow.write(1, 'lawn');
         <tr>
           <td></td>
           <td class='boxof3'>
-            <a class='download' href="https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js" download><div class='splashof3' style='padding-top:50px; padding-bottom:50px; '>Download</div></a>
+            <a class='download plain' href="https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js" download><div class='splashof3' style='padding-top:50px; padding-bottom:50px; '>Download</div></a>
           <p class='detailof3'>rhaboo.min.js
           </td>
           <td></td>
@@ -178,31 +186,77 @@ store.somethingfancy.went[1].mow.write(1, 'lawn');
       <p class='splash'>Free and Open Source.</p>
       <br/>
     </div>
-    <div id='FAQ' style='display:none;'> 
-      FAQ
-    </div>
     <div id='DOCS' style='display:none;'> 
       <table  class='menu' width='100%'><tr width='100%'>
           <td class='secmenuitem' id='install' onClick='show2(this);'>install</td>
-          <td class='secmenuitem' id='examples' onClick='show2(this);'>examples</td>
+          <td class='secmenuitem' id='demos' onClick='show2(this);'>demos</td>
           <td class='secmenuitem' id='reference' onClick='show2(this);'>reference</td>
+          <td class='secmenuitem' id='internals' onClick='show2(this);'>internals</td>
           <td class='secmenuitem' id='tests' onClick='show2(this);'>tests</td>
-          <td class='secmenuitem' id='support' onClick='show2(this);'>support</td>
         </tr>
       </table>
       <div id='INSTALL' style='display:none;'> 
-        <p>Install
+        <p>There are several options:
+        <ol>
+          <li>Just grab <a href='https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js'>rhaboo.min.js</a> and put the script tag in your document.</li>         
+          <li><pre>npm install rhaboo</pre> then write a script tag pointing at node_modules/rhaboo/rhaboo.min.js<br/><br/></li>         
+            <li>If you want to edit and build rhaboo then do this:<pre>
+npm install grunt rhaboo
+cd node_modules/rhaboo
+npm install q grunt-contrib-uglify grunt-browserify seedrandom ajon
+grunt    # be patient with this
+            </pre></li>         
+        </ol>
       </div>
-      <div id='EXAMPLES' style='display:none;'> 
-        <p>EXAMPLES
+      <div id='DEMOS' style='display:none;'> 
+        <br/><a class='subbanner1 plain' href='test.html'>Reload counter</a> 
+        <br/><a class='subbanner1 plain' href='cliches.html'>Simple database</a> 
       </div>
       <div id='REFERENCE' style='display:none;'> 
-        <p>Referene
+        <p>Reference
       </div>
       <div id='TESTS' style='display:none;'> 
         <iframe width='100%' height='10000px' src='http://adrianmay.github.io/rhaboo/generate-tests/generated-pages/page.0.html'></iframe>
       </div>
-      <div id='SUPPORT' style='display:none;'> 
-        <p>SUPPORT
+      <div id='INTERNALS' style='display:none;'>
+        <p>How it works
       </div>
+    </div>
+    <div id='FAQ' style='display:none;'> 
+      <dl>
+        <dt>Why is it called rhaboo? </dt>
+        <dd><p>Because nothing else is, not in any language. </dd>
+        <dt>Why an owl?</dt>
+        <dd><p>Because proboscis monkeys aren't that pretty after all.</dd>
+        <br/>
+        <dt>What licence is it released under?</dt>
+        <dd><p>MIT</dd>
+        <dt>How do I get support?</dt>
+        <dd><p>You can create an issue on github or ask a question on stackoverflow. Please create the <code>rhaboo</code> tag if you can.</dd>
+        <br/>
+        <dt>How fast is it?</dt>
+        <dd><p>Proper performance tests are in the pipeline, but it must be very fast because localStorage is a simple mechanism and it's being used in a very efficient way. However, those array functions like reverse and sort which change the whole thing are a bit slow right now.</dd>
+        <dt>What can't it do?</dt>
+        <dd><p>Function-valued and regex-valued properties of objects are ignored. If you want regexes just ask. You can add an object with a funny prototype to a persistent and it'll behave ok during this run, but the prototype won't be restored on the next run.
+        <p>There's no protection for the case that the user closes the window while background persistence jobs are still going on. For most programs this is highly unlikely because you won't be firing off huge persistence jobs, but if it is a concern, you can roll your own journalling checks. For instance, you'll gradually write the new version of the sub-object in a temporary place, atomically write that it's the important one, and then gradually delete the old one. The UI thread will have returned to responsiveness much earlier than this. If there's demand for rhaboo to do this kind of thing itself, then it'll be developed.</dd>
+        <dt>What can it do that most libraries can't?</dt>
+        <dd><p>Most libraries either force you to learn a new storage paradigm or limit themselves to single-level maps like what localStorage already gives you. 
+        <p>Some libraries store multi-level objects by stringifying and parsing the whole thing, but that's very slow if you just want to add a thousandth element to a list. Furthermore, they suffer the limitations of JSON, namely, that non-numerically named properties of arrays are dropped and sparse entries are filled with nulls. This is very different from objects or arrays in memory where null, undefined and non-existent are all different states for a property. This causes hard to diagnose bugs.
+        <p>Other libraries switch between underlying persistence mechanisms according to what the browser can do, but there's no advantage in that for the programmer. You still have to decide whether your program is so simple that raw localStorage will do, or so complex that you'll need WebSQL polyfill, or somewhere in between. You have to decide what paradigm you want to think in, and having done so, you'll want a library that does exactly that and no more.  
+        <p>The overwhelming advantage of rhaboo is that by simply replacing your assignments with <code>write</code> calls one-to-one, you can completely forget about the whole persistence issue.</dd>
+        <dt>Why do I need to use <code>store.write('key', val)</code> instead of just <code>store.key=val</code>?</dt>
+        <dd><p>Because there's no way of overriding assignment in the case that <code>key</code> is something new.</dd>
+        <dt></dt>
+        <dd></dd>
+        <dt></dt>
+        <dd></dd>
+        <dt></dt>
+        <dd></dd>
+        
+
+ 
+      
+
+
+      </dl>
     </div>

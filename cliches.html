@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<script src = 'rhaboo.min.js'></script>
+<script>
+
+var store = new Rhaboo.Persistent('My Store');
+
+if (!store.initialised) {
+  store.write('initialised', true);
+  store.write('cliches', [
+      { text: "24x7",                count: 5 },
+      { text: "dialogging",          count: 3 },
+      { text: "outside of the box",  count: 12 }
+  ]);
+}
+
+function newCliche(text) {
+  store.cliches.push( { 
+    text: text, 
+    count: 1 
+  } );
+
+  store.cliches.sort( function(a,b) { 
+    return a.text < b.text ? -1 
+      : a.text > b.text ? 1 
+      : 0; 
+  });
+
+  render();
+}
+
+function incrementCliche(k) {
+  store.cliches[k].write('count', store.cliches[k].count+1);
+  render();
+}
+
+function deleteCliche(k) {
+  store.cliches.splice(k,1); 
+  render();
+}
+
+function render() {
+  var all = document.getElementById('all');
+  all.innerHTML = '';
+
+  function addCell(parent, text) {
+    var td = document.createElement('td');
+    td.innerHTML = text;
+    parent.appendChild(td);
+  }
+
+  for (var k=0; k<store.cliches.length; k++) {
+    var tr = document.createElement('tr');
+    all.appendChild(tr);
+    addCell(tr, store.cliches[k].text);
+    addCell(tr, store.cliches[k].count);
+    addCell(tr, '<div class="button" onClick="incrementCliche('+k+');">Again</div>');
+    addCell(tr, '<div class="button" onClick="deleteCliche('+k+');">Delete</div>');
+  }
+}
+
+</script>
+
+<body onLoad='render();'>
+  <h1>Cliché counter</h1>
+  <table>
+   <div id='all'></div>
+   <tr><form> <td>
+         <input type="text" id="newtext" name="text">  </td><td>
+         <input id="new" type="button" value="New" onclick="
+            newCliche(document.getElementById('newtext').value);"/>
+   </td></form></tr>
+  </table>
+</body>
+
+
+<style>
+html > *    { font-family: Arial !important; color: #502000; background-color: white;}
+td          {  padding-right:50px; padding-bottom:3px; }
+.button, #new {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  background-color:#ededed; border:1px solid #dcdcdc; color:#777777;
+  border-top-left-radius:6px; border-top-right-radius:6px; border-bottom-right-radius:6px; border-bottom-left-radius:6px;
+  height:23px; width:67px; display:inline-block;
+  font-family:Arial; font-size:15px; font-weight:bold; line-height:23px; text-align:center;
+} /* This button was generated using CSSButtonGenerator.com */
+</style>
+
+
