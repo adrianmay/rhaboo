@@ -46,7 +46,7 @@ a.plain:visited { text-decoration: none; color: #502000;}
 a.plain:hover { text-decoration: none; color: #502000;} 
 a.plain:active { text-decoration: none; color: #502000;} 
 
-#api td { padding-left: 10px; padding-right: 10px; }
+#api td, #api th { padding-left: 10px; padding-right: 10px; }
 #api dt {font-weight:normal; }
   </style>
 
@@ -294,8 +294,8 @@ grunt    # be patient with this
         <p>The overwhelming advantage of rhaboo is that by simply replacing your assignments with <code>write</code> calls one-to-one, you can completely forget about the whole persistence issue.</dd>
         <dt>Why do I need to use <code>store.write('key', val)</code> instead of just <code>store.key=val</code>?</dt>
         <dd><p>Because there's no way of overriding assignment in the case that <code>key</code> is something new.</dd>
-        <dt></dt>
-        <dd></dd>
+        <dt>Why do I end up cloning your web site when I only wanted to clone the library?</dt>
+        <dd>They work togther very intimately so keeping them on different branches is just too much hassle.</dd>
         <dt></dt>
         <dd></dd>
         <dt></dt>
