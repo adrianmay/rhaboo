@@ -163,7 +163,7 @@ function show2(x) {
   &lt;p&gt;You loaded this page &lt;span id='count'&gt;&lt;/span&gt; times.
 &lt;/body&gt;
       </pre>
-      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you should write <code>store.write('key', val)</code> instead. Furthermore, any objects or arrays inside a persistent one also have that <code>write</code> function. That is quite literally all you need to know.
+      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you should write <code>store.write('key', val)</code> instead. Furthermore, any objects or arrays inside a persistent one also have that <code>write</code> function: 
       <br/>
       <br/>
       <pre>
@@ -175,6 +175,7 @@ store.write('somethingfancy', {
 
 store.somethingfancy.went[1].mow.write(1, 'lawn');
       </pre>
+      <p>That is quite literally all you need to know.
 
       <table width='100%'>
         <tr>

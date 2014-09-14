@@ -19,13 +19,19 @@ Array.prototype._rhaboo_defensively = function(mutator) {
       old = this.slice();
       old._rhaboo = {};
       old._rhaboo.key = this._rhaboo.key;
-      old._rhaboo.parent = this._rhaboo.parent;
       old._rhaboo.where = this._rhaboo.where;
     }
     var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
-   // _rhaboo_trace("Overriding "+mutator+"... Old="+JSON.stringify(old));
+    //_rhaboo_trace("Overriding "+mutator+"... Old="+JSON.stringify(old));
     if (this._rhaboo !== undefined) {
-      this._rhaboo.parent._rhaboo_persist(this._rhaboo.where, this, old);
+
+      var childkey = this._rhaboo.key;
+      var ss = [];
+      R.forgetters [R.getTypeOf(old)]  (ss, childkey, old);
+      R.stashers   [R.getTypeOf(this)] (ss, this._rhaboo.where, childkey, this);
+      R.procrastinate(ss);
+
+      //this._rhaboo.parent._rhaboo_persist(this._rhaboo.where, this, old);
     }
     return retval;
   }

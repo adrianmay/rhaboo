@@ -105,11 +105,11 @@ Object.prototype._rhaboo_unpersist = function(where, old) {
 //For objects, we call a function that recurses back into THIS TABLE
 
 var stashers = {
-  "undefined" : function (ss, where, key, what, parent) { intend(ss, ['setItem',[key, 'undefined|undefined']]); },
-  "null"      : function (ss, where, key, what, parent) { intend(ss, ['setItem',[key, 'null|null']]); },
-  "leaf"      : function (ss, where, key, what, parent) { intend(ss, ['setItem',[key, typeof what + "|" + String(what)]]); },
-  "object"    : function (ss, where, key, what, parent) { what._rhaboo_stash(ss, where, key, parent); },
-  "bad"       : function (ss, where, key, what, parent) { }
+  "undefined" : function (ss, where, key, what) { intend(ss, ['setItem',[key, 'undefined|undefined']]); },
+  "null"      : function (ss, where, key, what) { intend(ss, ['setItem',[key, 'null|null']]); },
+  "leaf"      : function (ss, where, key, what) { intend(ss, ['setItem',[key, typeof what + "|" + String(what)]]); },
+  "object"    : function (ss, where, key, what) { what._rhaboo_stash(ss, where, key); },
+  "bad"       : function (ss, where, key, what) { }
 }
 
 var forgetters = {
@@ -122,10 +122,9 @@ var forgetters = {
 
 //Make a normal OBJECT persistent...
 
-Object.prototype._rhaboo_stash = function (ss, where, key, parent) {
+Object.prototype._rhaboo_stash = function (ss, where, key) {
   this._rhaboo = this._rhaboo || {};
   this._rhaboo.key=key;
-  this._rhaboo.parent=parent;
   this._rhaboo.where=where;
   //The following line declares the object per-se. That's not necessary as long as it contains 
   //something, but it is necessary to persist empty objects. For simplicity it's always present.
@@ -186,7 +185,6 @@ Object.prototype._rhaboo_restore = function (key) {
           insertee[newname] = newkeypart.charAt(newkeypart.length-1) === Array.prototype._rhaboo_classcode ? [] : {}
           insertee[newname]._rhaboo = insertee[newname]._rhaboo || {}; 
           insertee[newname]._rhaboo.key = insertee._rhaboo_childKey(newname)
-          insertee[newname]._rhaboo.parent = insertee;
           insertee[newname]._rhaboo.where = newname;
         }
         insertee = insertee[newname]; //Go deeper
