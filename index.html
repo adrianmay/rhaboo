@@ -322,8 +322,8 @@ enq(step);
           <li>The value of the entry provides the type and the value as a string</li>
           <li>When the value contains only a |, the purpose is to declare an object or array. This isn't necessary if we can rely on finding a child of the object or array (which would declare it implicitly,) but some are empty.</li>
           <li>The order in which these entries are retrieved doesn't matter because we can create parent paths on demand.</li>
-          <li>Lengths of arrays are stored explicitly so we can recreate training undefinedes.</li>
-          <li>The key notation is embodies in the function Object.prototype._rhaboo_childKey</li>
+          <li>Lengths of arrays are stored explicitly so we can recreate trailing undefinedes.</li>
+          <li>The key notation is embodied in the function Object.prototype._rhaboo_childKey</li>
         </ul>
         <h3>Type stuff</h3>
         <p>Rhaboo often wants to know if something is an array, another object, or a leaf. To this end there are some simple functions near the start of core.js. Around the same place is the treatment of hasOwnProperty so it doesn't return true for _rhaboo (that's where this library keeps its per-object data,) which helps best-practice iterations of objects and arrays behave sensibly. 
