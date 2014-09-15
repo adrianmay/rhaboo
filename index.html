@@ -8,6 +8,7 @@
   <style>
 html > *            { font-family: Arial !important; color: #502000; background-color: white;}
 table, tr                  { vertical-align: top;}
+h2              { text-decoration: underline; }
 .cssvwunit     .banner {  vertical-align: bottom; font-size: 15vw; font-weight:bold; margin-left:0px;text-align:right;}
 .no-cssvwunit  .banner         {  vertical-align: bottom; font-size: 75px; font-weight:bold; margin-left:0px;text-align:right;}
 .cssvwunit .subbanner1           {  vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;text-align:right;}
@@ -50,34 +51,45 @@ a.plain:active { text-decoration: none; color: #502000;}
 #api dt {font-weight:normal; }
   </style>
 
+  <script src='rhaboo.min.js'></script>
   <script src='modernizr.custom.42785.js'></script>
   <script>
 
-function vis(ob, v) {
-  if (ob) {
+function vis(name, v) {
+  if (name) {
+    var ob = document.getElementById(name);
     ob.style.fontWeight=v?"bold":"";
     ob.style.textShadow=v?"-1px 2px #C0C060":"";
-    document.getElementById(ob.getAttribute('id').toUpperCase()).style.display=v?"block":"none";
+    document.getElementById(name.toUpperCase()).style.display=v?"block":"none";
   }
 }
 
-var showing1;
+var store = new Rhaboo.Persistent("RhabooHomePage");
+
 function show1(x) {
-  vis(showing1, false);
-  showing1 = x;
-  vis(showing1, true)
+  vis(store.showing1, false);
+  store.write('showing1', x) ;
+  vis(store.showing1, true)
 }
 
-var showing2;
 function show2(x) {
-  vis(showing2, false);
-  showing2 = x;
-  vis(showing2, true)
+  vis(store.showing2, false);
+  store.write('showing2', x) ;
+  vis(store.showing2, true)
+}
+
+function start() {
+  if (!store.showing1) {
+    store.write('showing1', 'about') ;
+    store.write('showing2', 'demos') ;
+  }
+  vis(store.showing1, true)
+  vis(store.showing2, true)
 }
 
   </script>
 
-<body onload="show1(document.getElementById('about')); show2(document.getElementById('demos')); ">
+<body onload="start();">
 
     <table width='100%'>
       <tr width='100%'>
@@ -97,9 +109,9 @@ function show2(x) {
       </tr>
     </table>
     <table  class='menu' width='100%'><tr width='100%'>
-        <td class='topmenuitem' id='about' onClick='show1(this);'>about</td>
-        <td class='topmenuitem' id='docs' onClick='show1(this);'>docs</td>
-        <td class='topmenuitem' id='faq' onClick='show1(this);'>faq</td>
+        <td class='topmenuitem' id='about' onClick='show1(this.id);'>about</td>
+        <td class='topmenuitem' id='docs' onClick='show1(this.id);'>docs</td>
+        <td class='topmenuitem' id='faq' onClick='show1(this.id);'>faq</td>
         <td class='topmenuitem'><a class='topmenuitem plain' href="https://github.com/adrianmay/rhaboo">github</a></td>
         <!--
         <td class='topmenuitem' onClick='window.location.href="https://github.com/adrianmay/rhaboo"'>github</td>
@@ -193,11 +205,11 @@ store.somethingfancy.went[1].mow.write(1, 'lawn');
     </div>
     <div id='DOCS' style='display:none;'> 
       <table  class='menu' width='100%'><tr width='100%'>
-          <td class='secmenuitem' id='install' onClick='show2(this);'>install</td>
-          <td class='secmenuitem' id='demos' onClick='show2(this);'>demos</td>
-          <td class='secmenuitem' id='reference' onClick='show2(this);'>reference</td>
-          <td class='secmenuitem' id='internals' onClick='show2(this);'>internals</td>
-          <td class='secmenuitem' id='tests' onClick='show2(this);'>tests</td>
+          <td class='secmenuitem' id='install' onClick='show2(this.id);'>install</td>
+          <td class='secmenuitem' id='demos' onClick='show2(this.id);'>demos</td>
+          <td class='secmenuitem' id='reference' onClick='show2(this.id);'>reference</td>
+          <td class='secmenuitem' id='internals' onClick='show2(this.id);'>internals</td>
+          <td class='secmenuitem' id='tests' onClick='show2(this.id);'>tests</td>
         </tr>
       </table>
       <div id='INSTALL' style='display:none;'> 
@@ -214,8 +226,9 @@ grunt    # be patient with this
         </ol>
       </div>
       <div id='DEMOS' style='display:none;'> 
-        <br/><a class='subbanner1 plain' href='demos/counter.html'>Reload counter</a> 
-        <br/><a class='subbanner1 plain' href='demos/cliches.html'>Simple database</a> 
+        <p><a class='subbanner1 plain' href='index.html'>This web page uses rhaboo (around line 70) to remember where you were in the menus</a> 
+        <p><a class='subbanner1 plain' href='demos/counter.html'>Reload counter</a> 
+        <p><a class='subbanner1 plain' href='demos/cliches.html'>Simple database</a> 
       </div>
       <div id='REFERENCE' style='display:none;'> 
         <table id='api' width='100%'>
@@ -267,7 +280,76 @@ grunt    # be patient with this
         -->
       </div>
       <div id='INTERNALS' style='display:none;'>
-        <p>How it works
+        <p>Rhaboo has 3 source files: <ul>
+          <li>enq.js which depends on the promises library called q</li>
+          <li>core.js which depends on enq.js</li>
+          <li>arr.js which depends on core.js</li>
+        </ul><p>There's also a huge test script generator which depends on another repo by the same author called ajon. This is a more accurate but less readable version of JSON. Rhaboo itself does not use ajon, only the test script generator does.
+        <h2>enq.js</h2>
+        <p>This uses q to provide a simple job queue to be performed in a single background thread. The jobs are performed in the order they were requested. It provides a function <code>enq</code> which should be used as follows:
+        <pre>
+function step(def) {
+  //do some work
+  def.resolve();
+}
+ 
+enq(step);
+        </pre>
+        <p>The code in enq.js is just basic q usage, so the documentation of q should be consulted for help with it.
+        <p>enq.js also allows a callback to be registered which will be told when the queue becomes full or empty. It's very slow and not especially reliable. Unless a better method comes along, it'll be deprecated.
+        <h2>core.js</h2>
+        <h3>Use of local storage</h3>
+        <p>Here's a peep into the localStorage usage of the cliches demo:
+        <p><center><img src='peep.png'></center></img>
+        <p>Points to notice include:<ul>
+          <li>The vertical bars make parsing easier with JS's String.split function.</li>
+          <li>A # suffix indicates an array while an &amp; indicates any other object.</li>
+          <li>After a # there's usually a number, which is an index within the previously named array.</li>
+          <li>The value of the entry provides the type and the value as a string</li>
+          <li>When the value contains only a |, the purpose is to declare an object or array. This isn't necessary if we can rely on finding a child of the object or array (which would declare it implicitly,) but some are empty.</li>
+          <li>The order in which these entries are retrieved doesn't matter because we can create parent paths on demand.</li>
+          <li>Lengths of arrays are stored explicitly so we can recreate training undefinedes.</li>
+          <li>The key notation is embodies in the function Object.prototype._rhaboo_childKey</li>
+        </ul>
+        <h3>Type stuff</h3>
+        <p>Rhaboo often wants to know if something is an array, another object, or a leaf. To this end there are some simple functions near the start of core.js. Around the same place is the treatment of hasOwnProperty so it doesn't return true for _rhaboo (that's where this library keeps its per-object data,) which helps best-practice iterations of objects and arrays behave sensibly. 
+        <h3>Backgrounding</h3>
+        <p>Rhaboo eases load on the <code>q</code> layer by building a script of all the <code>localStorage</code> operations required to persist a given change, and enqueuing a single <code>.then</code> job to perform the whole script. For instance, in <code>_rhaboo_persist</code>, a blank script called <code>ss</code> is declared and populated by passing it to functions in <code>forgetters</code> and <code>stashers</code>. Those functions use <code>intend</code> to push instructions onto the script, so <code>intend</code> embodies the backgrounding policy. The populated script is passed to <code>procrastinate</code> which uses <code>enq</code> as previously described. The work inside the job that <code>procrastinate</code> enqueues is to run thrugh the script and apply each step in turn to <code>localStorage</code>.
+        <h3>The central functions</h3>
+        <pre>
+
+                                     ___________
+         _rhaboo_unpersist          /           \
+        /                 \        /             |     
+       /                   \      |     _rhaboo_forget 
+      /                     \     V    /
+  kill                       forgetters --[leaf]
+                            /          \
+                           /            [leaf]
+                          /          ___________      
+          _rhaboo_persist           /           \
+        /                 \        /             |
+       /                   \      |     _rhaboo_stash
+      /                     \     V    /
+ write                        stashers --[leaf]
+                                       \
+                                        [leaf]
+
+        </pre>
+        <p>The heart of rhaboo is a pair of recursive processes: one for remembering things and the other for forgetting them. These are embodied by stashers[] and Object.prototype._rhaboo_stash() on the one hand and forgetters[] and Object.prototype._rhaboo_forget() on the other. stashers[] and forgetters[] are maps from the type of the thing to remember or forget to a function for doing it. For leaf types, it's a direct instruction to localStorage; for objects, it's a call to _rhaboo_stash or _rhaboo_forget which deal with the per-se localStorage entry for the object and its length entry, then recurse back into stashers[] or forgetters[] for each of its properties. 
+        <p>stashers[] and forgetters[] are the only callers of _rhaboo_stash() and _rhaboo_forget() respectively, and are themselves originally called by Object.prototype._rhaboo_persist and Object.prototype._rhaboo_unpersist. _rhaboo_unpersist only calls forgetters[] but _rhaboo_persist calls both. Just like write and kill, these functions are called with this equal to the parent of the property being changed. Unless this is marked as persistent by having the _rhaboo property, they do nothing. If _rhaboo is present, they figure out a localStorage key for the child property and use forgetters[] to erase any old localStorage entries and perhaps also stashers[] to create new ones. 
+        <p>The reader might have remarked that in order to forget a complex object from localStorage, that object still has to exist in memory so we know what was in it. (One could alternatively iterate the whole of localStorage and look for matching keys but that would be slower on large data sets.) On the other hand, we promised to return the UI thread quickly. The required procedure, then, is to make a note of the old value, assign the new one to the object in memory, queue a job to forget the old and remember the new values, and then return the UI thread. That is exactly what is written in write and kill, and they do the queueing using _persist and _unpersist.
+        <h3>Constructor and restoration</h3>
+        <p>The constructor Rhaboo.Persistent merely calls Object.prototype._rhaboo_restore with the passed name. The job here is to run through localStorage in a random order, filter on keys that match the passed name, create any parents implied by early parts of the key, recreate the types and values of leaves from the values of localStorage entries, and populate any data used by rhaboo itself.
+        <h2>arr.js</h2>
+        <p>This is where the 7 array operations: push, pop, shift, unshift, splice, sort and reverse (plus maybe fill if it's available) are made persistent. The original functions are stashed and used by the new persistent ones. 
+        <p>In the worst case scenario that the array is totally rewritten, e.g. by a sort, our strategy is to make a complete copy of the old array, call the original function, then do something like _rhaboo_persist which  forgets the old version and remembers the new. This is rather slow.
+        <p>For push and pop we can do a lot better because we know that most of the array is unaffected. The push strategy is to note the length of the array before and after the push, then individually remember each element between the old and new lengths. We also need to remember the new length. Popping is easier because we know the length shrank by 1 and because the original pop obligingly gives us the old value to forget. 
+        <h2>Modules, namespaces, etc</h2>
+        <p>Each source file uses node.js-style modularisation: the important exports are written in something called module.exports which acquires a local name when 'require'd by another module. For instance, within enq.js, the enq function is called enq, but because core.js imports it as "E" it must be referred to as E.enq in that file. 
+        <p>Browsers don't have a require statement so the 'Browserify' preprocessor is used to read them and output a source file combining all the modules. 
+        <p>It's not desirable to force people to use Browserify, so there's also a source file that uses Browserify to import arr.js (which exports everything useful) and assigns it to a regular variable called Rhaboo. A non-user of browserify can import this to reach rhaboo. Functions that live in Object.prototype or Array.prototype are available without that unbrowserification.
+        <p>Namespace pollution is restricted to names beginning with _rhaboo (except write and kill) and the Rhaboo object. 
       </div>
     </div>
     <div id='FAQ' style='display:none;'> 
@@ -286,6 +368,7 @@ grunt    # be patient with this
         <dd><p>Proper performance tests are in the pipeline, but it must be very fast because localStorage is a simple mechanism and it's being used in a very efficient way. However, those array functions like reverse and sort which change the whole thing are a bit slow right now.</dd>
         <dt>What can't it do?</dt>
         <dd><p>Function-valued and regex-valued properties of objects are ignored. If you want regexes just ask. You can add an object with a funny prototype to a persistent and it'll behave ok during this run, but the prototype won't be restored on the next run.
+        <p>If you put an object into a persistent, you get a copy of the whole object, not a reference to it. If your data needs a lot of cross references, you can make references to some name with which the referred object can be found, but pointing directly to it inside a persistent is not going to work.
         <p>There's no protection for the case that the user closes the window while background persistence jobs are still going on. For most programs this is highly unlikely because you won't be firing off huge persistence jobs, but if it is a concern, you can roll your own journalling checks. For instance, you'll gradually write the new version of the sub-object in a temporary place, atomically write that it's the important one, and then gradually delete the old one. The UI thread will have returned to responsiveness much earlier than this. If there's demand for rhaboo to do this kind of thing itself, then it'll be developed.</dd>
         <dt>What can it do that most libraries can't?</dt>
         <dd><p>Most libraries either force you to learn a new storage paradigm or limit themselves to single-level maps like what localStorage already gives you. 
@@ -295,16 +378,11 @@ grunt    # be patient with this
         <dt>Why do I need to use <code>store.write('key', val)</code> instead of just <code>store.key=val</code>?</dt>
         <dd><p>Because there's no way of overriding assignment in the case that <code>key</code> is something new.</dd>
         <dt>Why do I end up cloning your web site when I only wanted to clone the library?</dt>
-        <dd>They work togther very intimately so keeping them on different branches is just too much hassle.</dd>
+        <dd><p>They work togther very intimately so keeping them on different branches is just too much hassle.</dd>
         <dt></dt>
         <dd></dd>
         <dt></dt>
         <dd></dd>
         
-
- 
-      
-
-
       </dl>
     </div>
