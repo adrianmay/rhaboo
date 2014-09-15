@@ -41,8 +41,10 @@ function updateScreen() {
   document.getElementById('diff').innerHTML = store.difficulty;
   document.getElementById('moves').innerHTML = store.state == 'playing' ? (store.moves)  : "";
   document.getElementById('best').innerHTML = store.best[store.difficulty] || "";
-  document.getElementById('easier').innerHTML = store.state=='resting' ? 'Easier' : "";
-  document.getElementById('harder').innerHTML = store.state=='resting' ? 'Harder' : "";
+//  document.getElementById('easier').innerHTML = store.state=='resting' ? 'Easier' : "";
+//  document.getElementById('harder').innerHTML = store.state=='resting' ? 'Harder' : "";
+  document.getElementById('easier').style.display = store.state=='resting' ? 'block' : "none";
+  document.getElementById('harder').style.display = store.state=='resting' ? 'block' : "none";
 }
 
 function onBumpDiff(up) {
@@ -204,9 +206,9 @@ function makeTiles() {
       <td>Best</td>
     </tr>
     <tr>
-      <td id='easier' onClick='onBumpDiff(false);' class='button'>Easier</td>
+      <td><div id='easier' onClick='onBumpDiff(false);' class='button'>Easier</div></td>
       <td id='diff'></td>
-      <td id='harder' onClick='onBumpDiff(true);' class='button'>Harder</td>
+      <td><div id='harder' onClick='onBumpDiff(true);' class='button'>Harder</div></td>
       <td id='bigbutton' onClick='onBigButton();' class='button'></td>
       <td id='moves'></td>
       <td id='best'></td>
@@ -219,9 +221,10 @@ function makeTiles() {
 </body>
 
 <style>
-html > *    { font-family: Arial !important; color: #502000; background-color: white;}
-td         { text-align:center; }
-td.button  { text-decoration:underline; }
+html > *      { font-family: Arial !important; color: #502000; background-color: white;}
+td            { text-align:center; }
+td.button,
+td.button div { text-decoration:underline; }
 img {
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
