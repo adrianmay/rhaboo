@@ -318,22 +318,23 @@ enq(step);
         <h3>The central functions</h3>
         <pre>
 
-                                     ___________
-         _rhaboo_unpersist          /           \
-        /                 \        /             |     
+                                                
+         _rhaboo_unpersist          ______        
+        /                 \        /      \            
        /                   \      |     _rhaboo_forget 
       /                     \     V    /
   kill                       forgetters --[leaf]
-                            /          \
-                           /            [leaf]
-                          /          ___________      
-          _rhaboo_persist           /           \
-        /                 \        /             |
+                            /          \        \
+                           /            [leaf] --\
+                          /                       localStorage    
+          _rhaboo_persist           ______           
+        /                 \        /      \       
        /                   \      |     _rhaboo_stash
-      /                     \     V    /
- write                        stashers --[leaf]
-                                       \
-                                        [leaf]
+      /                     \     V    /                
+ write                        stashers  --[leaf]   
+                                       \        \  
+                                        [leaf] --\ 
+                                                  localStorage
 
         </pre>
         <p>The heart of rhaboo is a pair of recursive processes: one for remembering things and the other for forgetting them. These are embodied by stashers[] and Object.prototype._rhaboo_stash() on the one hand and forgetters[] and Object.prototype._rhaboo_forget() on the other. stashers[] and forgetters[] are maps from the type of the thing to remember or forget to a function for doing it. For leaf types, it's a direct instruction to localStorage; for objects, it's a call to _rhaboo_stash or _rhaboo_forget which deal with the per-se localStorage entry for the object and its length entry, then recurse back into stashers[] or forgetters[] for each of its properties. 
@@ -350,6 +351,30 @@ enq(step);
         <p>Browsers don't have a require statement so the 'Browserify' preprocessor is used to read them and output a source file combining all the modules. 
         <p>It's not desirable to force people to use Browserify, so there's also a source file that uses Browserify to import arr.js (which exports everything useful) and assigns it to a regular variable called Rhaboo. A non-user of browserify can import this to reach rhaboo. Functions that live in Object.prototype or Array.prototype are available without that unbrowserification.
         <p>Namespace pollution is restricted to names beginning with _rhaboo (except write and kill) and the Rhaboo object. 
+        <h2>Test Automation</h2>
+        <p>Seeing as this library is about persistence, the test script has to run over multiple pages.
+        <p>The test system consists of a grunt task in generate-tests/tasks/gentest.js that writes a set of html pages, each accompanied by a JS file containing a test script. These end up in generate-tests/generated-pages. The test script is a JS object to be interpreted by the page with the help of generate-tests/runner.js. 
+        <p>Let's look at some script:
+        <pre>
+var page = 0;
+var persistents = {
+   "P1000001": [
+      {
+         "action": "write",
+         "path": [
+            "P1000002"
+         ],
+         "vehicle": "{&lt;val&gt;=[(5):&lt;0&gt;=(2);&lt;1&gt;=!;&lt;2&gt;=&lt;blah&gt;;&lt;3&gt;=[(3):&lt;0&gt;=(3);&lt;1&gt;=@;&lt;2&gt;=&lt;ecky&gt;;];&lt;4&gt;={&lt;a&gt;=&lt;asdf&gt;;&lt;b&gt;=@;};];}",
+         "expect": "{&lt;P1000002&gt;=[(5):&lt;0&gt;=(2);&lt;1&gt;=!;&lt;2&gt;=&lt;blah&gt;;&lt;3&gt;=[(3):&lt;0&gt;=(3);&lt;1&gt;=@;&lt;2&gt;=&lt;ecky&gt;;];&lt;4&gt;={&lt;a&gt;=&lt;asdf&gt;;&lt;b&gt;=@;};];}"
+      },
+        </pre>
+        <p>The hieroglyphics in <code>vehicle</code> and <code>expect</code> are a notation called ajon which is like JSON but more accurate and less readable.
+        <p>The instruction is to open a root persistent called P1000001, write to its property called P1000002 a value of [2,false,'blah',[3, true, 'ecky' ],{ a:'asdf', b:true }] and then expect P1000001 to contain just that. After all, this is the first instruction in the whole test script and runner.js will erase localStorage before starting. There are more changes to P1000001 on this and subsequent pages so <code>expect</code> will often contain data left over from earlier actions. Actions are not always writes - they can also be array operations or kills.
+        <p>gentest.js works by making up a series of actions, applying them to normal objects in memory and writing the contents of those objects after each operation into the expect field. The runner works by repeating the same sequence over a number of pages and checking the results against the expect field. If persistence is working properly, the page breaks should have no effect.
+        <p>The script, then, is a list of pages, each containing a list of root persistents, each containing a list of action-expect steps. But that's not how it gets designed. Rather, we start with a reasonably versatile list of 'stories' as to what a given property might experience. The model for that is three operations, each optionally followed by a page break, and each being either a kill or a write using a specified type. With 8 types (string or bool, number, empty object, populated object, empty array, populated array, undefined, null) that makes 9*2*9*2*9*2=5832 different stories and 2.5*5832=14580 page breaks. The first step of gentest.js is to calculate these sories and store them in a random order. 
+        <p>The next step is to hand the stories out to a range of root persistents and sub-objects thereof. We make variables for the current target persistent and target path within it, then step through the stories and 'episodes' of the stories, writing script steps that apply each episode to the current target (i.e. whatever is in the current persistent along the current path,) fill in values for the parameters of the write episodes, and bump the target around as we go along. That bumping around includes at each step a small probability of: starting a whole new persistent, diving deeper into the current target if it is an object, popping up to the current target's parent, or skipping to a sibling. When reading that code, one should note that the current path doesn't need to point at something that exists because we're about to write it anyway.
+        <p>This is a script that we can actually run on normal JS objects to get the expected values. But it's got about 15000 pages and only one persistent on each. So we separate the script of each persistent from every other, then reallocate them to pages in parallel. Now the number of pages equals the length of the longest per-persistent script, and the first page is the busiest. Unfortunately this leads to a geometric distribution of persistents over pages with a ludicrously long tail of very short pages towards the end, so we clip that by modifying the handing-out process to forcibly hop to a new persistent if there have been too many page breaks while this persistent was target. 
+        <p>It only remains to write the actual html and JS files for each page.
       </div>
     </div>
     <div id='FAQ' style='display:none;'> 
