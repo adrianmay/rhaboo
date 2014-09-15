@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<script src = '../rhaboo.min.js'></script>
+<script>
+
+var gap=15;
+
+var solved = 
+  [ [0,1,2,3],
+    [4,5,6,7],
+    [8,9,10,11],
+    [12,13,14,gap] ];
+
+var store;
+
+function resetBoard() {
+    store.write('board', solved.map( function(row) { return row.slice(); } ));
+}
+
+function onLoad() {
+  store = new Rhaboo.Persistent('TilesGame');
+  makeTiles();
+  if ( //true || 
+      !store.state ) {
+    store.write('state', 'resting');
+    store.write('difficulty', 5);
+    store.write('best', []);
+    resetBoard();
+  }
+  updateScreen();
+}
+
+function updateScreen() {
+  for (var i=0;i<16;i++) 
+    positionTile(i);
+  document.getElementById('bigbutton').innerHTML = 
+    store.state == 'resting' ? 'Play' : 
+    store.state == 'playing' ? 'Give Up' : 
+    store.state == 'shuffling' ? '' : 
+    "Error";
+  document.getElementById('diff').innerHTML = store.difficulty;
+  document.getElementById('moves').innerHTML = store.state == 'playing' ? (store.moves)  : "";
+  document.getElementById('best').innerHTML = store.best[store.difficulty] || "";
+  document.getElementById('easier').innerHTML = store.state=='resting' ? 'Easier' : "";
+  document.getElementById('harder').innerHTML = store.state=='resting' ? 'Harder' : "";
+}
+
+function onBumpDiff(up) {
+  if (store.state !== 'resting')
+    return;
+  store.write('difficulty', up ? store.difficulty+1 : Math.max(3,store.difficulty-1));
+  updateScreen();
+}
+
+function onBigButton() {
+
+  function shuffle(togo, butnot) { return function() {
+    var gapat = find(gap);
+    var targets = neighbours(gapat, butnot);
+    var which = Math.floor( Math.random() * targets.length );
+    var target = targets[which];
+    swap(target, gapat);
+    if (togo>1)
+      setTimeout(shuffle(togo-1, gapat), 100);
+    else {
+      console.log("Game on");
+      store.write('state','playing');
+      store.write('moves',0);
+      updateScreen();
+    }
+  }}
+
+  if (store.state == 'resting')  {
+    store.write('state', 'shuffling');
+    store.write('moves', 0);
+    //resetBoard();
+    updateScreen();
+    setTimeout(shuffle(store.difficulty), 100);
+
+  } else if (store.state == 'playing') {
+    store.write('state', 'resting');
+    resetBoard();
+    updateScreen();
+  }
+
+}
+
+function onTileClicked(k) {
+  if (store.state !== 'playing')
+    return;
+  if ( budge(k) ) {
+    store.write('moves', store.moves+1);
+    document.getElementById('moves').innerHTML = store.moves;
+    if (isSolved())
+      onWon();
+  }
+}
+
+function budge(tilenum) {
+  var pos = find(tilenum);
+  //Where to look for the gap...
+  var lookIn = neighbours(pos);
+  for (var a=0;a<lookIn.length;a++)
+    if (at(lookIn[a])==gap)
+      break;
+  if (a==lookIn.length) 
+    return false;
+  swap(pos, lookIn[a]);
+  return true;
+}
+
+function isSolved() {
+  for (var r=0; r<4; r++)
+    for (var c=0; c<4; c++) {
+      console.log("CHECK:"+store.board[r][c] +" = "+ solved[r][c]);
+      if (store.board[r][c] !== solved[r][c])
+        return false;
+    }
+  console.log("WON!!!");
+  return true;
+}
+
+function onWon() {
+  if (store.best[store.difficulty]===undefined || store.moves < store.best[store.difficulty]) {
+    store.best.write(store.difficulty, store.moves);
+  }
+  alert('Finally got there in ' + store.moves + ' moves');
+  store.write('state', 'resting');
+  updateScreen();
+}
+
+/////////////////////////////////////
+
+function at(pos) {
+  return store.board[pos[0]][pos[1]];
+}
+
+function swap(pos1, gappos) {
+  var tilenum = at(pos1);
+  store.board[gappos[0]].write(gappos[1], tilenum);
+  store.board[pos1[0]].write(pos1[1], gap);
+  positionTile(gap);
+  positionTile(tilenum);
+}
+
+function find(tile) {
+  for (var r=0;r<4;r++)
+    for (var c=0;c<4;c++)
+      if (at([r,c])==tile)
+        return [r,c];
+  return null;
+}
+
+function neighbours(pos, butnot) {
+  var r = pos[0]
+    , c = pos[1];
+  console.log("POS:"+pos+" BUTNOT:"+butnot);
+  var ne = [];
+  function pushifnotbutnot(p) {
+    if (!butnot || butnot[0] != p[0] && butnot[1] != p[1])
+      ne.push(p);
+  }
+  if (r>0) pushifnotbutnot([r-1,c]);
+  if (r<3) pushifnotbutnot([r+1,c]);
+  if (c>0) pushifnotbutnot([r,c-1]);
+  if (c<3) pushifnotbutnot([r,c+1]);
+  return ne;
+}
+
+function positionTile(i, tile) {
+  if (!tile)
+    tile = document.getElementById(i);
+  var pos = find(i);
+  tile.style.left = (50+93*pos[1])+'px';
+  tile.style.top = (200+72*pos[0])+'px';
+}
+
+function makeTiles() {
+  var board = document.getElementById('board');
+  for (var i=0;i<16;i++) {
+    var tile = document.createElement('img');
+    tile.style.position='absolute';
+    board.appendChild(tile);
+    tile.setAttribute('id', i);
+    tile.setAttribute('onClick', 'onTileClicked('+i+');');
+    tile.setAttribute('src', 'tiles/tile_'+i+'.png');
+  }
+}
+
+</script>
+
+<body onLoad='onLoad();'>
+  <table width='472px'>
+    <tr>
+      <td colspan='6'><h1>Tiles Game</h1></td> 
+    </tr>
+    <tr>
+      <td colspan='6' style='font-size:80%;'>This game remembers separate best scores for each difficulty level. You can interrupt it at any time and nothing about the game state will be forgotten.<br/><br/></td> 
+    </tr>
+    <tr>
+      <td colspan='3' width='30%'>Difficulty</td>
+      <td width='50%'></td>
+      <td>Used</td>
+      <td>Best</td>
+    </tr>
+    <tr>
+      <td id='easier' onClick='onBumpDiff(false);' class='button'>Easier</td>
+      <td id='diff'></td>
+      <td id='harder' onClick='onBumpDiff(true);' class='button'>Harder</td>
+      <td id='bigbutton' onClick='onBigButton();' class='button'></td>
+      <td id='moves'></td>
+      <td id='best'></td>
+    </tr>
+    <tr>
+      <td colspan='6'></td> 
+    </tr>
+  </table>
+  <div id='board'></div>
+</body>
+
+<style>
+html > *    { font-family: Arial !important; color: #502000; background-color: white;}
+td         { text-align:center; }
+td.button  { text-decoration:underline; }
+img {
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+</style>
+
+
