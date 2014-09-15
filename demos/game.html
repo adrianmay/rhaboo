@@ -41,8 +41,6 @@ function updateScreen() {
   document.getElementById('diff').innerHTML = store.difficulty;
   document.getElementById('moves').innerHTML = store.state == 'playing' ? (store.moves)  : "";
   document.getElementById('best').innerHTML = store.best[store.difficulty] || "";
-//  document.getElementById('easier').innerHTML = store.state=='resting' ? 'Easier' : "";
-//  document.getElementById('harder').innerHTML = store.state=='resting' ? 'Harder' : "";
   document.getElementById('easier').style.display = store.state=='resting' ? 'block' : "none";
   document.getElementById('harder').style.display = store.state=='resting' ? 'block' : "none";
 }
