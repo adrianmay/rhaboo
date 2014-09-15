@@ -63,7 +63,6 @@ function onBigButton() {
     if (togo>1)
       setTimeout(shuffle(togo-1, gapat), 100);
     else {
-      console.log("Game on");
       store.write('state','playing');
       store.write('moves',0);
       updateScreen();
@@ -112,11 +111,9 @@ function budge(tilenum) {
 function isSolved() {
   for (var r=0; r<4; r++)
     for (var c=0; c<4; c++) {
-      console.log("CHECK:"+store.board[r][c] +" = "+ solved[r][c]);
       if (store.board[r][c] !== solved[r][c])
         return false;
     }
-  console.log("WON!!!");
   return true;
 }
 
@@ -154,7 +151,6 @@ function find(tile) {
 function neighbours(pos, butnot) {
   var r = pos[0]
     , c = pos[1];
-  console.log("POS:"+pos+" BUTNOT:"+butnot);
   var ne = [];
   function pushifnotbutnot(p) {
     if (!butnot || butnot[0] != p[0] && butnot[1] != p[1])
