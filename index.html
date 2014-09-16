@@ -405,7 +405,9 @@ var persistents = {
         <dt>How fast is it?</dt>
         <dd><p>Proper performance tests are in the pipeline, but it must be very fast because localStorage is a simple mechanism and it's being used in a very efficient way. However, those array functions like reverse and sort which change the whole thing are a bit slow right now.</dd>
         <dt>What can't it do?</dt>
-        <dd><p>Function-valued and regex-valued properties of objects are ignored. If you want regexes just ask. You can add an object with a funny prototype to a persistent and it'll behave ok during this run, but the prototype won't be restored on the next run.
+        <dd>
+        <p>Function-valued and regex-valued properties of objects are ignored. If you want regexes just ask. You can add an object with a funny prototype to a persistent and it'll behave ok during this run, but the prototype won't be restored on the next run.
+        <p>Don't put any object into two persistent places. Each persistent object has one property recording where in localStorage it lives. If you put it into another persistent place this will be overwritten. If your app needs a lot of cross-referencing among persistent objects, use their names or the like.
         <p>There's no protection for the case that the user closes the window while background persistence jobs are still going on. For most programs this is highly unlikely because you won't be firing off huge persistence jobs, but if it is a concern, you can roll your own journalling checks. For instance, you'll gradually write the new version of the sub-object in a temporary place, atomically write that it's the important one, and then gradually delete the old one. The UI thread will have returned to responsiveness much earlier than this. If there's demand for rhaboo to do this kind of thing itself, then it'll be developed.</dd>
         <dt>What can it do that most libraries can't?</dt>
         <dd><p>Most libraries either force you to learn a new storage paradigm or limit themselves to single-level maps like what localStorage already gives you. 
