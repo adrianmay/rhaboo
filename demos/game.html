@@ -168,7 +168,7 @@ function positionTile(i, tile) {
     tile = document.getElementById(i);
   var pos = find(i);
   tile.style.left = (50+93*pos[1])+'px';
-  tile.style.top = (200+72*pos[0])+'px';
+  tile.style.top = (50+72*pos[0])+'px';
 }
 
 function makeTiles() {
@@ -211,7 +211,7 @@ function makeTiles() {
       <td colspan='6'></td> 
     </tr>
   </table>
-  <div id='board'></div>
+  <div id='board' style='position:relative;'></div>
 </body>
 
 <style>
