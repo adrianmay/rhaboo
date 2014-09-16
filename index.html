@@ -15,6 +15,8 @@ h2, h1                       { text-decoration: underline; }
 .no-cssvwunit .subbanner1    { vertical-align: bottom; font-size: 13px; margin-left:0.30em;text-align:right;}
 .cssvwunit .subbanner2       { vertical-align: bottom; font-size: 2.5vw; text-align:right;}
 .no-cssvwunit .subbanner2    { vertical-align: bottom; font-size: 13px; text-align:right;}
+.cssvwunit .demo             { vertical-align: bottom; font-size: 1.5vw; text-align:right;}
+.no-cssvwunit .demo          { vertical-align: bottom; font-size: 10px; text-align:right;}
 .cssvwunit .topmenuitem      { text-align:center; vertical-align: bottom; font-size: 3.5vw; margin-left:0.30em;}
 .no-cssvwunit .topmenuitem   { text-align:center; vertical-align: bottom; font-size: 18px; margin-left:0.30em;}
 .cssvwunit .secmenuitem      { text-align:center; vertical-align: bottom; font-size: 2.5vw; margin-left:0.30em;}
@@ -227,7 +229,7 @@ store.somethingfancy.went[1].mow.write(1, 'lawn');
         <p>There are several options:
         <ol>
           <li>Just grab <a href='https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js'>rhaboo.min.js</a> and put the script tag in your document.<br/><br/></li>         
-          <li>In the directory where your html is:<pre>npm install rhaboo</pre> then write a script tag pointing at node_modules/rhaboo/rhaboo.min.js<br/><br/></li>         
+          <li>In the directory where your html is:<pre>npm install rhaboo</pre> then write a script tag pointing at <code>node_modules/rhaboo/rhaboo.min.js</code><br/><br/></li>         
             <li>If you want to edit and build rhaboo then do this:<pre>
 npm install grunt rhaboo
 cd node_modules/rhaboo
@@ -237,10 +239,10 @@ grunt    # be patient with this
         </ol>
       </div>
       <div id='DEMOS' style='display:none;'> 
-        <p><a class='subbanner1 plain' href='index.html'>This web page uses rhaboo (around line 70) to remember where you were in the menus</a> 
-        <p><a class='subbanner1 plain' href='demos/counter.html'>Reload counter</a> 
-        <p><a class='subbanner1 plain' href='demos/cliches.html'>Simple database</a> 
-        <p><a class='subbanner1 plain' href='demos/game.html'>Tiles game</a> 
+        <p><a class='demo plain' href='index.html'>This web page uses rhaboo (around line 70) to remember where you were in the menus</a> 
+        <p><a class='demo plain' href='demos/counter.html'>Reload counter</a> 
+        <p><a class='demo plain' href='demos/cliches.html'>Simple database</a> 
+        <p><a class='demo plain' href='demos/game.html'>Tiles game</a> 
       </div>
       <div id='REFERENCE' style='display:none;'> 
         <table id='api' width='100%'>
@@ -414,7 +416,7 @@ var persistents = {
         <dt>How do I get support?</dt>
         <dd><p>You can create an issue on github or ask a question on stackoverflow. Please create the <code>rhaboo</code> tag if you can.</dd>
         <dt>Can I contribute?</dt>
-        <dd><p>Can I stop you? There are several open issues calling for better ideas than I can think of. Just chat on the tracker. You can also fork the project and ask for a merge.</dd>
+        <dd><p>Can I stop you? There are several open issues calling for better ideas than I can think of. Just chat on the issue tracker. You can also fork the project and ask for a merge.</dd>
         <br/>
         <dt>How fast is it?</dt>
         <dd><p>Proper performance tests are in the pipeline, but it must be very fast because localStorage is a simple mechanism and it's being used in a very efficient way. However, those array functions like reverse and sort which change the whole thing are a bit slow right now.</dd>
