@@ -3,7 +3,7 @@ Rhaboo
 
 <img src="logo.png" width="150px;"/>
 
-Website at http://adrianmay.github.io/rhaboo
+Website at http://rhaboo.org
 
 What is it?
 -----------
