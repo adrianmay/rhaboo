@@ -256,20 +256,21 @@ grunt    # be patient with this
           <tr><td colspan=4><hr/></td></tr>
           <tr>
             <td><code>new Rhaboo.Persistent(name)</code></td>
-            <td>Constructor of root persistent object. Best performance is obtained if there's only one of these. The library looks for entries in localStorage corresponding with the passed name and loads any previously persisted data into the returned object. If no data is found, a mostly empty object is returned, mostly meaning that it just has a property called _rhaboo which is used for internal purposes.</td>
+            <td>Constructor of root persistent object. Best performance is obtained if there's only one of these. The library looks for entries in localStorage corresponding with the passed name and loads any previously persisted data into the returned object. If no data is found, a mostly empty object is returned, mostly meaning that it just has a property called <code>_rhaboo</code> which is used for internal purposes.</td>
             <td>
-              <dt>name:</dt><dd>Any text name that's not likely to be the same as any other.</dd> 
+              <dt><code>name:</code></dt><dd>Any text name that's not likely to be the same as any other.</dd> 
             </td>
             <td>The persistent object.</td>
           </tr>
           <tr><td colspan=4><hr/></td></tr>
           <tr>
             <td><code>Object.prototype.write(key, val)</code></td>
-            <td>Persistent replacement for = operator. <code>store.write('key',val)</code> is equivalent to <code>store.key=val </code>except with persistence. Can be applied to objects inside the root persistent as well as the root persistent itself.</td>
+            <td><p>Persistent replacement for = operator. <code>store.write('key',val)</code> is equivalent to <code>store.key=val </code>except with persistence. Can be applied to objects inside the root persistent as well as the root persistent itself.
+              <p>If val is an object or array, bear in mind that these are passed by reference in javascript. The passed object will be injected with a property recording its home in localStorage. If you pass the same object to another write function aiming into a different persistent or different position within a persistent, then the old home will be overwritten. So don't. If you need a lot of cross references, use names or something.</td>
             <td>
-              <dt>this:</dt><dd>The object whose property we're adding or changing</dd> 
-              <dt>key:</dt><dd>The property name within <code>this</code></dd> 
-              <dt>val:</dt><dd>The new value for the property. Any javascript type is acceptable, but functions and regexes will not persist.</dd> 
+              <dt><code>this:</code></dt><dd>The object whose property we're adding or changing</dd> 
+              <dt><code>key:</code></dt><dd>The property name within <code>this</code></dd> 
+              <dt><code>val:</code></dt><dd>The new value for the property. Any javascript type is acceptable, but functions and regexes will not persist.</dd> 
             </td>
             <td><code>this</code></td>
           </tr>
@@ -278,8 +279,8 @@ grunt    # be patient with this
             <td><code>Object.prototype.kill(key)</code></td>
             <td>Persistent equivalent of <code>delete object.key</code>. Completely removes a property. This is not the same as setting it to undefined. Don't use it on arrays. Use splice instead.</td>
             <td>
-              <dt>this:</dt><dd>The object whose property we're adding or changing</dd> 
-              <dt>key:</dt><dd>The property name within <code>this</code></dd> 
+              <dt><code>this:</code></dt><dd>The object whose property we're adding or changing</dd> 
+              <dt><code>key:</code></dt><dd>The property name within <code>this</code></dd> 
             </td>
             <td><code>this</code></td>
           </tr>
@@ -287,16 +288,14 @@ grunt    # be patient with this
         </table>
         <h1>Version History</h1>
         <p>Warning: rhaboo uses semver, so a major version change WILL be a breaking change. Make sure you specify the major version you are coding against and use the latest within that range.
-        
-<table id='history' width='100%'>
-<tr>
-  <th>Version</th>
-  <th>Changes</th>
-</tr>
-<tr>       <td>2.0.5</td>          <td>First anybody has heard of</td>          </tr>
-<tr>       <td>2.0.6</td>          <td>Code cleanup: Remove where from _rhaboo</td>          </tr>
-</table>
-
+        <table id='history' width='100%'>
+          <tr>
+            <th>Version</th>
+            <th>Changes</th>
+          </tr>
+          <tr>       <td>2.0.5</td>          <td>First anybody has heard of</td>          </tr>
+          <tr>       <td>2.0.6</td>          <td>Code cleanup: Remove where from _rhaboo</td>          </tr>
+        </table>
       </div>
       <div id='TESTS' style='display:none;'> 
         <p>This will erase any data in the demo apps...
@@ -343,26 +342,32 @@ enq(step);
         <p>Rhaboo eases load on the <code>q</code> layer by building a script of all the <code>localStorage</code> operations required to persist a given change, and enqueuing a single <code>.then</code> job to perform the whole script. For instance, in <code>_rhaboo_persist</code>, a blank script called <code>ss</code> is declared and populated by passing it to functions in <code>forgetters</code> and <code>stashers</code>. Those functions use <code>intend</code> to push instructions onto the script, so <code>intend</code> embodies the backgrounding policy. The populated script is passed to <code>procrastinate</code> which uses <code>enq</code> as previously described. The work inside the job that <code>procrastinate</code> enqueues is to run thrugh the script and apply each step in turn to <code>localStorage</code>.
         <h3>The central functions</h3>
         <pre>
+ 
+ 
+                                                     
+              _rhaboo_unpersist          ______        
+             /                 \        /      \            
+            /                   \      |     _rhaboo_forget 
+           /                     \     V    /
+       kill                       forgetters --[leaf]
+                                 /          \        \
+                                /            [leaf] --\
+                               /                       localStorage    
+               _rhaboo_persist           ______           
+             /                 \        /      \       
+            /                   \      |     _rhaboo_stash
+           /                     \     V    /                
+      write                        stashers  --[leaf]   
+                                            \        \  
+                                             [leaf] --\ 
+                                                       localStorage
 
-                                                
-         _rhaboo_unpersist          ______        
-        /                 \        /      \            
-       /                   \      |     _rhaboo_forget 
-      /                     \     V    /
-  kill                       forgetters --[leaf]
-                            /          \        \
-                           /            [leaf] --\
-                          /                       localStorage    
-          _rhaboo_persist           ______           
-        /                 \        /      \       
-       /                   \      |     _rhaboo_stash
-      /                     \     V    /                
- write                        stashers  --[leaf]   
-                                       \        \  
-                                        [leaf] --\ 
-                                                  localStorage
+|           |                   |           | 
+| Note old  | Calc child key    | Switch    | Write script steps and for objects: 
+|           | Build localStorage|  by type  |   Note localStorage key in object                                                    
+|           |  script           |           |   and recurse
 
-        </pre>
+          </pre>
         <p>The heart of rhaboo is a pair of recursive processes: one for remembering things and the other for forgetting them. These are embodied by stashers[] and Object.prototype._rhaboo_stash() on the one hand and forgetters[] and Object.prototype._rhaboo_forget() on the other. stashers[] and forgetters[] are maps from the type of the thing to remember or forget to a function for doing it. For leaf types, it's a direct instruction to localStorage; for objects, it's a call to _rhaboo_stash or _rhaboo_forget which deal with the per-se localStorage entry for the object and its length entry, then recurse back into stashers[] or forgetters[] for each of its properties. 
         <p>stashers[] and forgetters[] are the only callers of _rhaboo_stash() and _rhaboo_forget() respectively, and are themselves originally called by Object.prototype._rhaboo_persist and Object.prototype._rhaboo_unpersist. _rhaboo_unpersist only calls forgetters[] but _rhaboo_persist calls both. Just like write and kill, these functions are called with this equal to the parent of the property being changed. Unless this is marked as persistent by having the _rhaboo property, they do nothing. If _rhaboo is present, they figure out a localStorage key for the child property and use forgetters[] to erase any old localStorage entries and perhaps also stashers[] to create new ones. 
         <p>The reader might have remarked that in order to forget a complex object from localStorage, that object still has to exist in memory so we know what was in it. (One could alternatively iterate the whole of localStorage and look for matching keys but that would be slower on large data sets.) On the other hand, we promised to return the UI thread quickly. The required procedure, then, is to make a note of the old value, assign the new one to the object in memory, queue a job to forget the old and remember the new values, and then return the UI thread. That is exactly what is written in write and kill, and they do the queueing using _persist and _unpersist.
