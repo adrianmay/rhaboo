@@ -3,41 +3,50 @@
 <script src = '../rhaboo.min.js'></script>
 <script>
 
+//The 15th tile is the transparent one...
 var gap=15;
 
+//Arrangement when solved...
 var solved = 
   [ [0,1,2,3],
     [4,5,6,7],
     [8,9,10,11],
     [12,13,14,gap] ];
 
+//The rhaboo store...
 var store;
 
+//JS way to clone a nested array...
 function resetBoard() {
     store.write('board', solved.map( function(row) { return row.slice(); } ));
 }
 
+//body.onLoad comes here...
+//Only change store contents if it seems completely new...
 function onLoad() {
   store = new Rhaboo.Persistent('TilesGame');
-  makeTiles();
+  makeTiles(); //DOM tricks
   if ( //true || 
       !store.state ) {
-    store.write('state', 'resting');
+    store.write('state', 'resting'); //or playing or shuffling
     store.write('difficulty', 5);
-    store.write('best', []);
+    store.write('best', []); //array indexed by difficulty
     resetBoard();
   }
   updateScreen();
 }
-
+//Refresh more or less everything on the screen...
 function updateScreen() {
+  //Move tiles to match store.board...
   for (var i=0;i<16;i++) 
     positionTile(i);
+  //Change main button to reflect game state...
   document.getElementById('bigbutton').innerHTML = 
     store.state == 'resting' ? 'Play' : 
     store.state == 'playing' ? 'Give Up' : 
     store.state == 'shuffling' ? '' : 
     "Error";
+  //Show some numbers...
   document.getElementById('diff').innerHTML = store.difficulty;
   document.getElementById('moves').innerHTML = store.state == 'playing' ? (store.moves)  : "";
   document.getElementById('best').innerHTML = store.best[store.difficulty] || "";
@@ -45,6 +54,7 @@ function updateScreen() {
   document.getElementById('harder').style.display = store.state=='resting' ? 'block' : "none";
 }
 
+//Easier or harder pressed...
 function onBumpDiff(up) {
   if (store.state !== 'resting')
     return;
@@ -52,11 +62,17 @@ function onBumpDiff(up) {
   updateScreen();
 }
 
+//Play/give up button...
 function onBigButton() {
 
+  //Shuffles a tile and sets a timer for the rest...
+  //Goes into playing state when shuffled enough...
+  //Second parameter makes it shuffle a different tile from last time...
   function shuffle(togo, butnot) { return function() {
     var gapat = find(gap);
+    //Find pssible places for gap to go...
     var targets = neighbours(gapat, butnot);
+    //...and pick one...
     var which = Math.floor( Math.random() * targets.length );
     var target = targets[which];
     swap(target, gapat);
@@ -70,13 +86,15 @@ function onBigButton() {
   }}
 
   if (store.state == 'resting')  {
+    //Play...
     store.write('state', 'shuffling');
     store.write('moves', 0);
-    //resetBoard();
+    //board is already in solved position
     updateScreen();
     setTimeout(shuffle(store.difficulty), 100);
 
   } else if (store.state == 'playing') {
+    //Give up...
     store.write('state', 'resting');
     resetBoard();
     updateScreen();
@@ -87,6 +105,8 @@ function onBigButton() {
 function onTileClicked(k) {
   if (store.state !== 'playing')
     return;
+  //budge moves tile into neighbouring gap and returns true, 
+  //or returns false if that tile is hemmed in...
   if ( budge(k) ) {
     store.write('moves', store.moves+1);
     document.getElementById('moves').innerHTML = store.moves;
@@ -95,6 +115,7 @@ function onTileClicked(k) {
   }
 }
 
+//Move tile into any neighbouring gap and return success...
 function budge(tilenum) {
   var pos = find(tilenum);
   //Where to look for the gap...
@@ -104,10 +125,12 @@ function budge(tilenum) {
       break;
   if (a==lookIn.length) 
     return false;
+  //Found the gap, now swap in store.board and update on screen...
   swap(pos, lookIn[a]);
   return true;
 }
 
+//Compare store.board with solved pattern...
 function isSolved() {
   for (var r=0; r<4; r++)
     for (var c=0; c<4; c++) {
@@ -117,6 +140,7 @@ function isSolved() {
   return true;
 }
 
+//Solved the puzzle so update best score, congratulate and go to resting state...
 function onWon() {
   if (store.best[store.difficulty]===undefined || store.moves < store.best[store.difficulty]) {
     store.best.write(store.difficulty, store.moves);
@@ -126,12 +150,27 @@ function onWon() {
   updateScreen();
 }
 
-/////////////////////////////////////
+//Find all neighbour positions of a given position
+//Exclude butnot from the returned list...
+function neighbours(pos, butnot) {
+  var r = pos[0]
+    , c = pos[1];
+  var ne = [];
 
-function at(pos) {
-  return store.board[pos[0]][pos[1]];
+  function pushifnotbutnot(p) {
+    if (!butnot || butnot[0] != p[0] && butnot[1] != p[1])
+      ne.push(p);
+  }
+
+  if (r>0) pushifnotbutnot([r-1,c]);
+  if (r<3) pushifnotbutnot([r+1,c]);
+  if (c>0) pushifnotbutnot([r,c-1]);
+  if (c<3) pushifnotbutnot([r,c+1]);
+  return ne;
 }
 
+
+//Swap two tiles, assuming the second is the gap...
 function swap(pos1, gappos) {
   var tilenum = at(pos1);
   store.board[gappos[0]].write(gappos[1], tilenum);
@@ -140,6 +179,12 @@ function swap(pos1, gappos) {
   positionTile(tilenum);
 }
 
+//lookup tile at board position...
+function at(pos) {
+  return store.board[pos[0]][pos[1]];
+}
+
+//Search board for specific tile...
 function find(tile) {
   for (var r=0;r<4;r++)
     for (var c=0;c<4;c++)
@@ -148,29 +193,7 @@ function find(tile) {
   return null;
 }
 
-function neighbours(pos, butnot) {
-  var r = pos[0]
-    , c = pos[1];
-  var ne = [];
-  function pushifnotbutnot(p) {
-    if (!butnot || butnot[0] != p[0] && butnot[1] != p[1])
-      ne.push(p);
-  }
-  if (r>0) pushifnotbutnot([r-1,c]);
-  if (r<3) pushifnotbutnot([r+1,c]);
-  if (c>0) pushifnotbutnot([r,c-1]);
-  if (c<3) pushifnotbutnot([r,c+1]);
-  return ne;
-}
-
-function positionTile(i, tile) {
-  if (!tile)
-    tile = document.getElementById(i);
-  var pos = find(i);
-  tile.style.left = (50+93*pos[1])+'px';
-  tile.style.top = (50+72*pos[0])+'px';
-}
-
+//Create img element for each tile...
 function makeTiles() {
   var board = document.getElementById('board');
   for (var i=0;i<16;i++) {
@@ -181,6 +204,16 @@ function makeTiles() {
     tile.setAttribute('onClick', 'onTileClicked('+i+');');
     tile.setAttribute('src', 'tiles/tile_'+i+'.png');
   }
+}
+
+//Move a tile to the coordinates on screen 
+//corresponding with its position in store.board
+function positionTile(i, tile) {
+  if (!tile)
+    tile = document.getElementById(i);
+  var pos = find(i);
+  tile.style.left = (50+93*pos[1])+'px';
+  tile.style.top = (50+72*pos[0])+'px';
 }
 
 </script>

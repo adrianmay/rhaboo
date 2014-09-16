@@ -19,19 +19,15 @@ Array.prototype._rhaboo_defensively = function(mutator) {
       old = this.slice();
       old._rhaboo = {};
       old._rhaboo.key = this._rhaboo.key;
-      old._rhaboo.where = this._rhaboo.where;
     }
     var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
     //_rhaboo_trace("Overriding "+mutator+"... Old="+JSON.stringify(old));
     if (this._rhaboo !== undefined) {
-
       var childkey = this._rhaboo.key;
       var ss = [];
       R.forgetters [R.getTypeOf(old)]  (ss, childkey, old);
-      R.stashers   [R.getTypeOf(this)] (ss, this._rhaboo.where, childkey, this);
+      R.stashers   [R.getTypeOf(this)] (ss, childkey, this);
       R.procrastinate(ss);
-
-      //this._rhaboo.parent._rhaboo_persist(this._rhaboo.where, this, old);
     }
     return retval;
   }
@@ -45,7 +41,7 @@ Array.prototype.push = function () {
     var ss = [];
     for (var i=l1; i<l2; i++) {
       var k = this._rhaboo_childKey(i);
-      R.stashers[R.getTypeOf(this[i])](ss, i, k, this[i], this) ;
+      R.stashers[R.getTypeOf(this[i])](ss, k, this[i]) ;
     }
     this._rhaboo_storeLength(ss, true);
     R.procrastinate(ss);
