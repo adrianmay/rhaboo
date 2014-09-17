@@ -21,7 +21,9 @@ Persistence code runs in a background thread so the user interface remains snapp
 Quick Installation
 ------------------
 
-Install with 
+1. Download <a class='download plain' href="https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js" download>rhaboo.min.js</a> and include it with a script tag.
+
+2. Install with 
 
 ```
    npm install rhaboo
@@ -38,7 +40,6 @@ to check that it installed ok. Include the library in your HTML file:
 ```
    <script src="node_modules/rhaboo/rhaboo.min.js"></script>
 ```
-or you can just grab rhaboo.min.js and put it wherever you like.
 
 Installation for building or generating tests
 ---------------------------------------------
