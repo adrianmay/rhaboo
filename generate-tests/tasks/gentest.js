@@ -457,7 +457,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('gentest', function() {
     grunt.log.write("Persistents per page: ");
-    grunt.file.write("generate-tests/generated-pages/script.json", JSON.stringify(script, null, 3)+"\n");
     var pa;
     for (pa in script4) if (script4.hasOwnProperty(pa)) {
       grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
