@@ -43,12 +43,10 @@ or you can just grab rhaboo.min.js and put it wherever you like.
 Installation for building or generating tests
 ---------------------------------------------
 
-Using npm to download the devDependencies seems to pull the entire npm database, so I prefer:
+Clone the rhaboo repo and then in its directory do:
 
 ```
-   npm install grunt rhaboo
-   cd node_modules/rhaboo
-   npm install q grunt-contrib-uglify grunt-browserify seedrandom ajon
+   npm install grunt q grunt-contrib-uglify grunt-browserify seedrandom ajon
    grunt    # be patient with this
    firefox generate-tests/generated-pages/page.0.html
 ```
