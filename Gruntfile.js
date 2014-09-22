@@ -7,11 +7,6 @@ module.exports = function(grunt) {
         files: {
           '<%= pkg.name %>.max.js' : ['src/unbrowserify.js']
         }
-      },
-      enq: {
-        files: {
-          'enq.js' : ['src/unbrowserify-enq.js']
-        }
       }
     },
     uglify: {

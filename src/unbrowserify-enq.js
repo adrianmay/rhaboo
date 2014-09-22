@@ -1,2 +1,0 @@
-global.Enq = require('./enq');
-

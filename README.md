@@ -16,7 +16,7 @@ Another problem with stringify/parse is that they innacurately recreate objects,
 
 It's highly portable because it only relies on HTML5's localStorage.
 
-Persistence code runs in a background thread so the user interface remains snappy even when a lot of data changes are occuring. 
+Persistence code is deferred with setTimeout so the user interface remains snappy even when a lot of data changes are occuring. 
 
 Quick Installation
 ------------------
@@ -47,7 +47,7 @@ Installation for building or generating tests
 Clone the rhaboo repo and then in its directory do:
 
 ```
-   npm install grunt q grunt-contrib-uglify grunt-browserify seedrandom ajon
+   npm install grunt grunt-contrib-uglify grunt-browserify seedrandom ajon
    grunt    # be patient with this
    firefox generate-tests/generated-pages/page.0.html
 ```
@@ -161,7 +161,7 @@ because Object.prototype.hasOwnProperty has been replaced with one that returns 
 Browserification
 ----------------
 
-If you use node.js modules or browserify, you can treat src/arr.js as the module which delivers all of rhaboo. In src/unbrowserify.js (which is what browserify renders into ./rhaboo.max.js) you can see how the module.exports from arr.js is assigned to something called Rhaboo at global scope. This is to hand rhaboo's facilities to people who can't write "require" cos they're in a browser and don't use browserify. A similar trick is done to the src/enq.js module to make a non-modularised version at ./enq.js.
+If you use node.js modules or browserify, you can treat src/arr.js as the module which delivers all of rhaboo. In src/unbrowserify.js (which is what browserify renders into ./rhaboo.max.js) you can see how the module.exports from arr.js is assigned to something called Rhaboo at global scope. This is to hand rhaboo's facilities to people who can't write "require" cos they're in a browser and don't use browserify. 
 
 
 
