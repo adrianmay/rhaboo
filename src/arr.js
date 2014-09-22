@@ -72,7 +72,5 @@ Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 
 module.exports = {
   Persistent : R.Persistent,
-  enq : R.enq,
-  onBusiness : R.onBusiness
 };
 

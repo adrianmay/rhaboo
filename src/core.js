@@ -1,8 +1,4 @@
 
-var E = require('./enq');
-
-//This bit of abstraction is overkill...
-
 //More accurate typeof stuff...
 
 var getTypeOf = function (what) {
@@ -66,10 +62,7 @@ function execute(script) {
 }
 
 function procrastinate (sc) {
-  E.enq( function(deferred) { //In the background: forget the old localStorage entries and then create the new ones
-    execute(sc); //We might have to recurse into old
-    deferred.resolve(); //This is just q mantra to mean we're done.
-  });
+  setTimeout(function(){ execute(sc); }, 0);
 }
 
 function intend(ss, inst) {
@@ -206,8 +199,6 @@ Object.prototype._rhaboo_restore = function (key) {
 
 module.exports = {
   Persistent : Persistent,
-  enq : E.enq,
-  onBusiness : E.onBusiness,
   getTypeOf : getTypeOf,
   stashers : stashers,
   forgetters : forgetters,

@@ -2,11 +2,6 @@
 
 //_rhaboo_trace = function(s) { console.log(s); }
 
-Rhaboo.onBusiness(function (busy) {
-  document.getElementById("business").innerHTML = busy?"Busy":"Idle";
-});
-
-
 if (page === 0) {
   for (var k in localStorage)
     if (localStorage.hasOwnProperty(k))
