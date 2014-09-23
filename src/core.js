@@ -1,6 +1,178 @@
+"use strict"
+//RESTORATION:
+
+var ls_prefix = "_rhaboo_";
+
+var built = {};
+
+// function newSlot() { }
+// function escaped() { }
+
+
+
+
+/*
+EXAMPLE LS STRUCTURE:  
+
+  0     | Object;1^diff 
+  1     | #5;2^best
+  2     | &3;6^moves
+  3     | Array;4^5
+  4     | #5;5^10
+  5     | #12
+  6     | #19
+  Tiles | &0
+
+restores to:
+
+  tiles = {
+    diff:5, moves:19, best:[,,,,,5,,,,,12],
+    _rhaboo: { slotnum:0, refs:1, kids: {
+      diff:  { slotnum:1, next: 'moves'},
+      moves: { slotnum:2, prev: 'diff', next:'best'},
+      best:  { slotnum:3, prev: 'moves'} 
+    }, prev:'best', next:'diff' } }
+
+*/
+
+function parseObjectSlot(slotnum) {
+  var raw = localStorage.getItem(ls_prefix+slotnum)
+  var lr = raw.split(";");
+  var r = lr[1] ? lr[1].split("^") : [null, null];
+  return {
+    slotnum: slotnum,
+    val: lr[0], //true for objet slots, useful for others
+    nextslot: r[0],
+    nextprop: r[1]
+  };
+}
+
+function parsePropSlot(slotnum) {
+  slot = parseObjectSlot(slotnum);
+  slot.type = slot.val.charAt(0);
+  slot.val = slot.val.slice(1);
+  return slot;
+}
+
+function restoreObject(slotnum) { return restoreObjectFromParsed( parseObjectSlot(slotnum) );}
+
+function restoreObjectFromParsed(slot) {
+  if ( built[slot.slotnum] ) return built[slot.slotnum].addRef();
+  var that = new this[val](); //this meaning global
+  that._rhaboo = {
+    slotnum : slot.slotnum,
+    refs : 1,
+    kids : { }
+  };
+  built[slot.slotnum] = that;
+  return slot.nextprop ? augment(that, slot.nextslot, slot.nextprop) : that;
+}
+
+function restorePropFromParsed(slot) {
+  switch(slot.type) {
+    case "&": return restoreObject(slot.val);
+    case "?": return slot.val=='t';
+    case "$": return slot.val;
+    case "#": return Number(slot.val);
+    case "0": return null;
+    case "_": return undefined;
+  }
+}
+
+function augment(that, slotnum, prop) {
+  slot = parsePropSlot(slotnum);
+  that[prop] = restorePropFromParsed(slot);
+  appendKid(that, prop, slotnum);
+  return slot.nextprop ? augment(that, slot.nextslot, slot.nextprop) : that;
+}
+
+function appendKid(that, prop, slotnum) {
+  var target = that._rhaboo.prev ? that._rhaboo.kids[that._rhaboo.prev] : that_rhaboo;
+  that._rhaboo.kids[prop] = { slotnum: slotnum, prev: that._rhaboo.prev };
+  target.next = that._rhaboo.prev = prop;
+}
+
+function removeKid(that, prop) {
+  var kid = that._rhaboo.kids[prop];
+  (that._rhaboo.kids[kid.prev] || that._rhaboo).next = kid.next;
+  (that._rhaboo.kids[kid.next] || that._rhaboo).prev = kid.prev;
+}
+
+function slotFor(that, ss, prop) {
+  if (!that._rhaboo.kids[prop]) {
+    var slotnum = newSlot();
+    appendKid(that, prop, slotnum);
+    updateSlot(that, ss, that._rhaboo.kids[slotnum].prev);
+    //this slot about to be written by caller
+  }
+}
+
+function updateSlot(that, ss, prop) {
+  var slotnum, type, val, next; 
+  if (prop) {
+    var kid = that._rhaboo.kids[prop];
+    slotnum = kid.slotnum;
+    val = typeof that[prop] == 'object' ? 
+      that[prop]._rhaboo.slotnum :
+      escaped(that[prop]);
+    type = typeof that[prop] == 'object' ? '&' : {
+      number:     '#',
+      string:     '$',
+      boolean:    '?',
+      null:       '0',
+      undefined:  '_'
+    }[typeof that[prop]];
+    next =  kid.next ? ( ";" + that._rhaboo.kids[kid.next].slotnum + '^' + kid.next ) : '';
+  } else {
+    slotnum = that._rhaboo.slotnum;
+    type = that.constructor.name;
+    val=''; //maybe do array length here
+    next =  that._rhaboo.next ? ( ";" + that._rhaboo.kids[that._rhaboo.next].slotnum + "^" + that._rhaboo.next ) : '';
+  }
+  ss.push(['setItem', [ls_prefix+slotnum, type+val+next]]); 
+}
+
+function addRef(that, ss) {
+  if (that._rhaboo)
+    that._rhaboo.refs++;
+  else {
+    that._rhaboo = {
+      slotnum: newSlot(),
+      refs: 1,
+      kids: {}
+    };
+    for (var prop in that) if (that.hasOwnProperty(prop)) {
+      slotFor(that, ss, prop);
+      if (typeof that[prop] == 'object')
+        that[prop].addRef(ss);
+      updateSlot(that, ss, prop);
+    }
+  }
+}
+
+/*
+
+function release(that, ss) {
+  this._rhaboo.refs--;
+  if (this._rhaboo.refs == 0) {
+    //gotta be recursive!
+  }
+}
+
+Object.prototype.write = function() { }
+Object.prototype.kill = function() { }
+
+*/
+
+
+
+
+
+
+/*
 
 //More accurate typeof stuff...
-
+   
 var getTypeOf = function (what) {
   if (what === undefined) return 'undefined';
   if (what === null) return 'null';
@@ -196,6 +368,8 @@ Object.prototype._rhaboo_restore = function (key) {
     }
   }
 }
+
+*/
 
 module.exports = {
   Persistent : Persistent,
