@@ -12,7 +12,8 @@ QUnit.test( "Simple restore", function( assert ) {
   assert.ok (Number(localStorage.getItem("nextPhase")) === 2, "Please run tests in sequence");
   localStorage.setItem("nextPhase", 3);
 
-  var store1 = new Rhaboo.Persistent("A Unique Name");
+  assert.ok( 1==1, "Easy");
+  var store1 = Rhaboo.persistent("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
   assert.ok (countMembers(store1) === 4, "Store1 still has 4 members");
 
@@ -22,7 +23,7 @@ QUnit.test( "Simple restore", function( assert ) {
   assert.ok( typeof store1.empty_ob === 'object', "Empty object still there ...");
   assert.ok (countMembers(store1.empty_ob) === 0, "... and still empty");
 
-  var store2 = new Rhaboo.Persistent("Another Unique Name");
+  var store2 = Rhaboo.persistent("Another Unique Name");
 
   assert.ok( store2.colour === "red", "Colour remembered" );
   assert.ok( store2.lue === 42, "Lue remembered" );
@@ -38,7 +39,7 @@ QUnit.test( "Simple restore", function( assert ) {
 });
 
 QUnit.test( "Array mutators", function( assert ) {
-  var storeA = new Rhaboo.Persistent("Try Arrays");
+  var storeA = Rhaboo.persistent("Try Arrays");
   assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]==1, "mutated and remebered ok");
   storeA.arr.pop()
   assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]==undefined, "popped");

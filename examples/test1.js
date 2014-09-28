@@ -14,7 +14,7 @@ localStorage.setItem("nextPhase", 2);
 
 QUnit.test( "Write simple stuff", function( assert ) {
 
-  var store1 = new Rhaboo.Persistent("A Unique Name");
+  var store1 = Rhaboo.persistent("A Unique Name");
   assert.ok( typeof store1 === "object", "Store1 exists");
   assert.ok (countMembers(store1) === 0, "Store1 empty");
 
@@ -35,20 +35,23 @@ QUnit.test( "Write simple stuff", function( assert ) {
 
   store1.write("empty_ob", {});
   assert.ok( typeof store1.empty_ob === 'object', "Insert empty object");
-
+/*
   //Insertion of key into new object might still be pending...
   assert.ok (countMembers(store1.empty_ob) === 0, "Check its empty");
 
-  assert.ok (countMembers(store1) === 4, "Store1 has 4 members");
+  assert.ok (countMembers(store1) === 3, "Store1 has 3 members");
 
-  var store2 = new Rhaboo.Persistent("Another Unique Name");
+*/
+  var store2 = Rhaboo.persistent("Another Unique Name");
   assert.ok( typeof store2 === "object", "Store2 exists");
 
   store2.write("colour", "red");
   store2.write("lue", 42);
   store2.write("too", true);
 
+  //store2.write("rhyme", { 1: "man", went: {2: "mow"} } );
   store2.write("rhyme", { 1: "man", went: [2, "mow"] } );
+  console.log(JSON.stringify(store2, null, "   "));
 });
 
 QUnit.test( "Haven't clobbered regular arrays", function( assert ) {
@@ -78,7 +81,7 @@ QUnit.test( "Haven't clobbered regular arrays", function( assert ) {
 });
 
 QUnit.test( "Array mutators", function( assert ) {
-  var storeA = new Rhaboo.Persistent("Try Arrays");
+  var storeA = Rhaboo.persistent("Try Arrays");
   storeA.write("arr", [1,2]);
   storeA.arr.push(3,4);
   storeA.arr.reverse();

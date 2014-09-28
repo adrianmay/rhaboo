@@ -306,6 +306,7 @@ function addRef(that, ss, slotnum, refs) {
       refs:    refs!==undefined ? refs : 1,
       kids:    {}
     };
+    updateSlot(that, ss);
     storeProps(that, ss);
   }
   return that;
@@ -323,13 +324,15 @@ function storeProps(that, ss) {
 function release(that, ss) {
   that._rhaboo.refs--;
   if (that._rhaboo.refs == 0) {
-    forgetProps();
+    forgetProps(that,ss);
     delete that._rhaboo;
   }
 }
 
 function forgetProps(that, ss) {
-  var propname = undefined;
+  if (that===undefined)
+    console.log("THAT IS UNDEFINED")
+  var propname = null;
   for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
     ss.push(['removeItem', [target.slotnum]]);
     if (propname && P.typeOf(propname) == 'object') release(propname, ss);
@@ -340,16 +343,16 @@ function forgetProps(that, ss) {
 Object.prototype.write = function(prop, val) { 
   var ss = [];
   slotFor(this, ss, prop);
-  if (typeof this[prop] == 'object') release(this[prop], ss);
-  if (typeof val == 'object') addRef(val, ss);
+  if (P.typeOf(this[prop]) == 'object') release(this[prop], ss);
   this[prop] = val;
+  if (P.typeOf(val) == 'object') addRef(val, ss);
   updateSlot(this, ss, prop);
   execute(ss);
 }
 
 Object.prototype.kill = function(prop) { 
   var ss = [];
-  if (typeof this[prop] == 'object') release(this[prop], ss);
+  if (P.typeOf(this[prop]) == 'object') release(this[prop], ss);
   var target = this._rhaboo.kids[prop];
   ss.push(['removeItem', [target.slotnum]]);
   var prevname = target.prev;
@@ -382,6 +385,10 @@ function nuke() {
     if (localStorage.hasOwnProperty(i))
       localStorage.removeItem(i);
 }
+
+Object.prototype.hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
+Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && this.hasOwnPropertyOrig(key)); }
+
 module.exports = {
   persistent : persistent,
   storeProps : storeProps,
