@@ -311,7 +311,7 @@ function storeProps(that, ss) {
   for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') {
     console.log("In storeProps: "+JSON.stringify(that));
     slotFor(that, ss, prop);
-    if (typeof that[prop] == 'object')
+    if (P.typeOf(that[prop]) == 'object')
       addRef(that[prop],ss);
     updateSlot(that, ss, prop);
   }
@@ -326,10 +326,12 @@ function release(that, ss) {
 }
 
 function forgetProps(that, ss) {
-  for (var target = that._rhaboo; target; target = that._rhaboo.kids[target.next]) {
+  var propname = undefined;
+  for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
     ss.push(['removeItem', [target.slotnum]]);
-    if (typeof that[prop] == 'object') release(that[prop], ss);
+    if (propname && P.typeOf(propname) == 'object') release(propname, ss);
   }
+  that._rhaboo.kids = {}; that._rhaboo.next = that._rhaboo.prev = undefined;
 }
 
 Object.prototype.write = function(prop, val) { 
