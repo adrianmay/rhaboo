@@ -1,15 +1,4 @@
 "use strict"
-//RESTORATION:
-
-var ls_prefix = "_rhaboo_";
-
-var built = {};
-
-// function newSlot() { }
-// function escaped() { }
-
-
-
 
 /*
 EXAMPLE LS STRUCTURE:  
@@ -35,26 +24,81 @@ restores to:
 
 */
 
+var ls_prefix = "_rhaboo_";
+
+var built = {};
+
+//The serialiser...
+
+var P = require('parunpar');
+
+var tuple2 = P.sepByEsc('=',':')
+
+var right_pp = tuple2([P.string_pp, P.number_pp])
+
+var left_o_pp = P.pipe(
+  function (dir) { return function (x) { 
+    return dir ? (x.length!==undefined ? [x.constructor.name, x.length] : [x.constructor.name]) 
+               : (x[1]!==undefined ? global[x[0]](x[1]) : global[x[0]]() ) 
+  }})(tuple2([P.string_pp, P.number_pp]));
+
+var left_l_pp = P.pipe(
+  function (dir) { return function (x) { 
+    return dir ? 
+      ( P.runSnd({ 
+      string:      ['$', P.id ], 
+      number:      ['#', function(x){return x.toString()} ], 
+      boolean:     ['?', function (x) {return x?'t':'f'} ], 
+      'null':      ['~'], 
+      'undefined': ['_'],
+      object:      ['&', function(x){return x._rhaboo.slotnum;} ]
+    } [P.typeOf(x)]) (x) ) : 
+    (  { 
+      '$': P.id, 
+      '#': Number, 
+      '?': P.eq('true'), 
+      '~': P.konst(null), 
+      '_': P.konst(undefined),
+      '&': restoreObject,
+    } [x[0]] (x[1]))
+}}) (P.fixedWidth([1])([P.string_pp, P.string_pp]));
+
+var slot_o_pp  = P.tuple([P.left_o_pp, right_pp]);
+//That takes something like [object,[nextprop,nextslot]]
+
+var slot_l_pp  = P.tuple([P.left_l_pp, right_pp]);
+//That takes something like [value,[nextprop,nextslot]]
+
+function updateSlot(that, ss, prop) {
+  var bare = prop ? [that[prop]] : [that];
+  var kid = prop ? that._rhaboo.kids[prop] : that._rhaboo;
+  if (kid.next) 
+    bare.push([kid.next, that._rhaboo.kids[kid.next].slotnum]);
+  encoded = (prop ? slot_l_pp : prop_o_pp)(true)(bare);
+  ss.push(['setItem', [ls_prefix+slotnum, encoded]]); 
+}
+
 function parseObjectSlot(slotnum) {
   var raw = localStorage.getItem(ls_prefix+slotnum)
-  var lr = raw.split(";");
-  var r = lr[1] ? lr[1].split("^") : [null, null];
+  var decoded = slot_o_pp(false)(raw);
   return {
     slotnum: slotnum,
-    val: lr[0], //true for objet slots, useful for others
-    nextslot: r[0],
-    nextprop: r[1]
+    val: decoded[0], 
+    nextprop: decoded[1][0],
+    nextslot: decoded[1][1]
   };
 }
 
 function parsePropSlot(slotnum) {
   slot = parseObjectSlot(slotnum);
   slot.type = slot.val.charAt(0);
-  slot.val = slot.val.slice(1);
+  slot.val = packer.unescape(slot.val.slice(1));
   return slot;
 }
 
 function restoreObject(slotnum) { return restoreObjectFromParsed( parseObjectSlot(slotnum) );}
+
+function Persistent(key) { }
 
 function restoreObjectFromParsed(slot) {
   if ( built[slot.slotnum] ) return built[slot.slotnum].addRef();
@@ -107,39 +151,14 @@ function slotFor(that, ss, prop) {
   }
 }
 
-function updateSlot(that, ss, prop) {
-  var slotnum, type, val, next; 
-  if (prop) {
-    var kid = that._rhaboo.kids[prop];
-    slotnum = kid.slotnum;
-    val = typeof that[prop] == 'object' ? 
-      that[prop]._rhaboo.slotnum :
-      escaped(that[prop]);
-    type = typeof that[prop] == 'object' ? '&' : {
-      number:     '#',
-      string:     '$',
-      boolean:    '?',
-      null:       '0',
-      undefined:  '_'
-    }[typeof that[prop]];
-    next =  kid.next ? ( ";" + that._rhaboo.kids[kid.next].slotnum + '^' + kid.next ) : '';
-  } else {
-    slotnum = that._rhaboo.slotnum;
-    type = that.constructor.name;
-    val=''; //maybe do array length here
-    next =  that._rhaboo.next ? ( ";" + that._rhaboo.kids[that._rhaboo.next].slotnum + "^" + that._rhaboo.next ) : '';
-  }
-  ss.push(['setItem', [ls_prefix+slotnum, type+val+next]]); 
-}
-
-function addRef(that, ss) {
+function addRef(that, ss, slotnum, refs) {
   if (that._rhaboo)
     that._rhaboo.refs++;
   else {
     that._rhaboo = {
-      slotnum: newSlot(),
-      refs: 1,
-      kids: {}
+      slotnum: slotnum!==undefined ? slotnum : newSlot(),
+      refs:    refs!==undefined ? refs : 1,
+      kids:    {}
     };
     for (var prop in that) if (that.hasOwnProperty(prop)) {
       slotFor(that, ss, prop);
@@ -150,24 +169,56 @@ function addRef(that, ss) {
   }
 }
 
-/*
-
 function release(that, ss) {
-  this._rhaboo.refs--;
-  if (this._rhaboo.refs == 0) {
-    //gotta be recursive!
+  that._rhaboo.refs--;
+  if (that._rhaboo.refs == 0) {
+    for (var target = that._rhaboo; target; target = that._rhaboo.kids[target.next]) {
+      ss.push(['removeItem', [target.slotnum]]);
+      if (typeof that[prop] == 'object') release(that[prop], ss);
+    }
+    delete that._rhaboo;
   }
 }
 
-Object.prototype.write = function() { }
-Object.prototype.kill = function() { }
+Object.prototype.write = function(prop, val) { 
+  var ss = [];
+  slotFor(this, ss, prop);
+  if (typeof this[prop] == 'object') release(this[prop], ss);
+  if (typeof val == 'object') addRef(val, ss);
+  this[prop] = val;
+  updateSlot(this, ss, prop);
+  execute(ss);
+}
 
-*/
+Object.prototype.kill = function(prop) { 
+  var ss = [];
+  if (typeof this[prop] == 'object') release(this[prop], ss);
+  var target = this._rhaboo.kids[prop];
+  ss.push(['removeItem', [target.slotnum]]);
+  var prevname = target.prev;
+  removeKid(this, prop);
+  updateSlot(this, ss, prevname);
+  execute(ss);
+}
 
+function execute(ss) {
+  setTimeout( function () {
+    for (var i=0; i<ss.length; i++) 
+      localStorage[ss[i][0]].apply(localStorage, ss[i][1]);
+  }, 0);
+}
 
-
-
-
+var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
+var storedNextSlot = localStorage.getItem(keyOfStoredNextSlot) || 0;
+storedNextSlot = Number(storedNextSlot);
+function newSlot() {
+  var ret = storedNextSlot;
+  storedNextSlot++;
+  setTimeout(function() {
+    localStorage.setItem(keyOfStoredNextSlot, storedNextSlot);
+  },0);
+  return ret;
+}
 
 /*
 
