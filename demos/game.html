@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-<script src = '../rhaboo.min.js'></script>
+<script src = '../rhaboo.max.js'></script>
 <script>
 
 //The 15th tile is the transparent one...
@@ -24,7 +24,7 @@ function resetBoard() {
 //body.onLoad comes here...
 //Only change store contents if it seems completely new...
 function onLoad() {
-  store = new Rhaboo.Persistent('TilesGame');
+  store = Rhaboo.persistent('TilesGame');
   makeTiles(); //DOM tricks
   if ( //true || 
       !store.state ) {

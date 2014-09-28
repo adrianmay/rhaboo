@@ -1,4 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//This is for efficiently serialising objects you know the contents of.
+
+//It's not a JSON replacement. It's for when you want to control exactly 
+//  how things are encoded, want to do that hierarchially, and want to 
+//  write the en- and decoding code near each other for each bit of the
+//  hierarchy.
+
 "use strict"
 
 //Functional basics...
@@ -22,7 +29,7 @@ var thru = function (dir) { return function (ps) { return function (xs) {
 //  pp(true)( pp(false)(x) ) === x
 
 //Fundamental parunpars...
-var string_pp    = function (dir) { return function (x)  { return x; }}
+var string_pp    = function (dir) { return function (x)  { return x.toString(); }}
 var number_pp    = function (dir) { return function (x)  { return dir ? x.toString() : Number(x); }}
 var boolean_pp   = function (dir) { return function (x)  { return dir ? (x ? 't' : 'f') : (x==='t'); }}
 var null_pp      = function (dir) { return function (x)  { return dir ? '' : null; }}
@@ -285,9 +292,6 @@ function slotFor(that, ss, prop) {
   if (!that._rhaboo.kids[prop]) {
     var slotnum = newSlot();
     appendKid(that, prop, slotnum);
-    console.log("PREV:"+JSON.stringify(that._rhaboo.prev));
-    console.log("KIDS:"+JSON.stringify(that._rhaboo.kids));
-    console.log("NEXT:"+JSON.stringify(that._rhaboo.next));
     updateSlot(that, ss, that._rhaboo.kids[prop].prev);
     //this slot about to be written by caller
   }
@@ -309,7 +313,6 @@ function addRef(that, ss, slotnum, refs) {
 
 function storeProps(that, ss) {
   for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') {
-    console.log("In storeProps: "+JSON.stringify(that));
     slotFor(that, ss, prop);
     if (P.typeOf(that[prop]) == 'object')
       addRef(that[prop],ss);
