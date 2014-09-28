@@ -14,25 +14,19 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
 //Very, very slow....
 Array.prototype._rhaboo_defensively = function(mutator) {
   return function () { 
-    var old;
-    if (this._rhaboo !== undefined) {
-      old = this.slice();
-      old._rhaboo = {};
-      old._rhaboo.key = this._rhaboo.key;
-    }
+    var ss = [];
+    if (this._rhaboo)
+      R.forgetProps(this, ss);
     var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
-    //_rhaboo_trace("Overriding "+mutator+"... Old="+JSON.stringify(old));
-    if (this._rhaboo !== undefined) {
-      var childkey = this._rhaboo.key;
-      var ss = [];
-      R.forgetters [R.getTypeOf(old)]  (ss, childkey, old);
-      R.stashers   [R.getTypeOf(this)] (ss, childkey, this);
-      R.procrastinate(ss);
+    if (this._rhaboo) {
+      R.storeProps(this, ss);
+      R.execute(ss);
     }
     return retval;
   }
 }
 
+/*
 Array.prototype.push = function () {
   var l1 = this.length;
   var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
@@ -59,9 +53,11 @@ Array.prototype.pop = function () {
   } 
   return retval;
 }
+ */ 
+
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-//Array.prototype.push = Array.prototype._rhaboo_defensively("push");
-//Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
+Array.prototype.push = Array.prototype._rhaboo_defensively("push");
+Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
 Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
 Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
 Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
@@ -71,6 +67,7 @@ Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 //Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 
 module.exports = {
-  Persistent : R.Persistent,
+  persistent : R.persistent,
+  nuke : R.nuke,
 };
 
