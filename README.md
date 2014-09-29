@@ -47,7 +47,7 @@ Installation for building or generating tests
 Clone the rhaboo repo and then in its directory do:
 
 ```
-   npm install grunt grunt-contrib-uglify grunt-browserify seedrandom ajon
+   npm install grunt grunt-contrib-uglify grunt-browserify seedrandom ajon parunpar
    grunt    # be patient with this
    firefox generate-tests/generated-pages/page.0.html
 ```
@@ -58,9 +58,9 @@ Usage
 Make a persistent object like this:
 
 ```
-   var mystore = new Rhaboo.Persistent("Some unique name");
+   var mystore = Rhaboo.persistent("Some unique name");
 ```
-(If you forget the "new", expect Armageddon.)
+(Honestly, 'new' is not desired here.)
 
 The library immediately attempts to restore this object from localStorage. If it remains empty then this must be the first time your program was run on this machine, so you detect that fact and populate your store. On subsequent runs the contents of mystore will be as you left them.
 
@@ -98,7 +98,7 @@ Deletion of properties calls for another substitution. Instead of:
 you should write:
 
 ```
-   mystore.kill("foo");  //Right!!!
+   mystore.erase("foo");  //Right!!!
 ```
 
 (Contrary to popular belief, setting a property to undefined is not the same as deleting it.) For arrays, splice should be used. 
@@ -138,12 +138,10 @@ There's no function to delete everything in a persistent, but that could be made
       game: 'tiddlywinks', 
       player: { name: 'zorro', gender: 'm', hiscore: 10 
    } );
-   mystore.write('killable', {} /* or undefined */ );
+   mystore.erase('killable');
 ```
 
-You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory. Regex- and function-valued properties are not supported.
-
-You may have multiple persistent objects but that slows down the restore because each persistent has to examine every entry in localStorage, some of which are about other persistents. Best performance is obtained when everything is in a single persistent and localStorage is not used in any other way.
+You may have multiple root persistents, i.e. calls to Rhaboo.persistent - there's no performance penalty for this. You may have multiple persistent references to the same persistent object or sub-object. You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory. Regex- and function-valued properties are not supported.
 
 Rhaboo adds a property called `_rhaboo` to each object it makes persistent, but this won't show up in standard iterations of the form:
 
