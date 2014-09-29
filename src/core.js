@@ -104,16 +104,6 @@ function augment(that, propname, propslot) {
   return (decoded.length>1) ? augment(that, decoded[1][0], decoded[1][1]) : that;
 }
 
-function updateSlot(that, ss, prop) {
-  var bare = [];
-  bare.push(prop!==undefined ? that[prop] : that);
-  var kid = prop!==undefined ? that._rhaboo.kids[prop] : that._rhaboo;
-  if (kid.next!==undefined) 
-    bare.push([kid.next, that._rhaboo.kids[kid.next].slotnum]);
-  var encoded = (prop!==undefined ? slot_l_pp : slot_o_pp)(true)(bare);
-  ss.push(['setItem', [ls_prefix+kid.slotnum, encoded]]); 
-}
-
 function appendKid(that, prop, slotnum) {
   var target = that._rhaboo.prev!==undefined ? that._rhaboo.kids[that._rhaboo.prev] : that._rhaboo;
   that._rhaboo.kids[prop] = { slotnum: slotnum, prev: that._rhaboo.prev };
@@ -125,6 +115,16 @@ function removeKid(that, prop) {
   (that._rhaboo.kids[kid.prev] || that._rhaboo).next = kid.next;
   (that._rhaboo.kids[kid.next] || that._rhaboo).prev = kid.prev;
   delete that._rhaboo.kids[prop];
+}
+
+function updateSlot(that, ss, prop) {
+  var bare = [];
+  bare.push(prop!==undefined ? that[prop] : that);
+  var kid = prop!==undefined ? that._rhaboo.kids[prop] : that._rhaboo;
+  if (kid.next!==undefined) 
+    bare.push([kid.next, that._rhaboo.kids[kid.next].slotnum]);
+  var encoded = (prop!==undefined ? slot_l_pp : slot_o_pp)(true)(bare);
+  ss.push(['setItem', [ls_prefix+kid.slotnum, encoded]]); 
 }
 
 function slotFor(that, ss, prop) {
