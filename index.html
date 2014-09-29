@@ -164,7 +164,7 @@ function start() {
 &lt;script src='rhaboo.min.js'&gt;&lt;/script&gt;
 &lt;script&gt;
   <span style='color:green;'>//Open a persistent object called 'Some name'...</span>
-  <b>var store = new Rhaboo.Persistent('Some name');</b>
+  <b>var store = Rhaboo.persistent('Some name');</b>
   <span style='color:green;'>//If it has a property called 'count' then increment it, </span>
   <span style='color:green;'>//otherwise initialise it to 1...</span>
   <b>store.write('count', store.count ? store.count+1 : 1);</b>
@@ -176,7 +176,7 @@ function start() {
   &lt;p&gt;You loaded this page &lt;span id='count'&gt;&lt;/span&gt; times.
 &lt;/body&gt;
       </pre>
-      <p>So having made <code>store</code> with that constructor, it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you should write <code>store.write('key', val)</code> instead. Furthermore, any objects or arrays inside a persistent one also have that <code>write</code> function: 
+      <p>So having made <code>store</code> with that "constructor", it behaves just like a normal object except that wherever you'd normally write <code>store.key=val</code> you should write <code>store.write('key', val)</code> instead. Furthermore, any objects or arrays inside a persistent one also have that <code>write</code> function: 
       <br/>
       <br/>
       <pre>
@@ -233,7 +233,7 @@ store.somethingfancy.went[1].mow.write(1, 'lawn');
             <li>If you want to edit and build rhaboo then do this:<pre>
 git clone https://github.com/adrianmay/rhaboo.git
 cd rhaboo
-npm install grunt grunt-contrib-uglify grunt-browserify seedrandom ajon
+npm install grunt grunt-contrib-uglify grunt-browserify seedrandom ajon parunpar
 grunt    # be patient with this
             </pre></li>         
         </ol>
@@ -255,8 +255,8 @@ grunt    # be patient with this
           </tr>
           <tr><td colspan=4><hr/></td></tr>
           <tr>
-            <td><code>new Rhaboo.Persistent(name)</code></td>
-            <td>Constructor of root persistent object. Best performance is obtained if there's only one of these. The library looks for entries in localStorage corresponding with the passed name and loads any previously persisted data into the returned object. If no data is found, a mostly empty object is returned, mostly meaning that it just has a property called <code>_rhaboo</code> which is used for internal purposes.</td>
+            <td><code>Rhaboo.persistent(name)</code></td>
+            <td>Returns root persistent object. The library looks for entries in localStorage corresponding with the passed name and loads any previously persisted data into the returned object. If no data is found, a mostly empty object is returned, 'mostly' meaning that it just has a property called <code>_rhaboo</code> which is used for internal purposes.</td>
             <td>
               <dt><code>name:</code></dt><dd>Any text name that's not likely to be the same as any other.</dd> 
             </td>
@@ -265,8 +265,8 @@ grunt    # be patient with this
           <tr><td colspan=4><hr/></td></tr>
           <tr>
             <td><code>Object.prototype.write(key, val)</code></td>
-            <td><p>Persistent replacement for = operator. <code>store.write('key',val)</code> is equivalent to <code>store.key=val </code>except with persistence. Can be applied to objects inside the root persistent as well as the root persistent itself.
-              <p>If val is an object or array, bear in mind that these are passed by reference in javascript. The passed object will be injected with a property recording its home in localStorage. If you pass the same object to another write function aiming into a different persistent or different position within a persistent, then the old home will be overwritten. So don't. If you need a lot of cross references, use names or something.</td>
+            <td>Persistent replacement for = operator. <code>store.write('key',val)</code> is equivalent to <code>store.key=val </code>except with persistence. Can be applied to objects inside the root persistent as well as the root persistent itself.
+            </td>
             <td>
               <dt><code>this:</code></dt><dd>The object whose property we're adding or changing</dd> 
               <dt><code>key:</code></dt><dd>The property name within <code>this</code></dd> 
@@ -276,7 +276,7 @@ grunt    # be patient with this
           </tr>
           <tr><td colspan=4><hr/></td></tr>
           <tr>
-            <td><code>Object.prototype.kill(key)</code></td>
+            <td><code>Object.prototype.erase(key)</code></td>
             <td>Persistent equivalent of <code>delete object.key</code>. Completely removes a property. This is not the same as setting it to undefined. Don't use it on arrays. Use splice instead.</td>
             <td>
               <dt><code>this:</code></dt><dd>The object whose property we're adding or changing</dd> 
@@ -296,6 +296,7 @@ grunt    # be patient with this
           <tr>       <td>2.0.5</td>          <td>First anybody has heard of</td>          </tr>
           <tr>       <td>2.0.6</td>          <td>Code cleanup: Remove where from _rhaboo</td>          </tr>
           <tr>       <td>2.0.7</td>          <td>Dumped q and enq.js and just used setTimeout instead</td>          </tr>
+          <tr>       <td>3.0.0</td>          <td>Total rewrite aiming to restore constructors/prototypes and support multiple persistent refs to the same object.<br/>Huge speed boost. Breaks API.<br>New features not tested yet, but old tests succeeding.</td>          </tr>
         </table>
       </div>
       <div id='TESTS' style='display:none;'> 
@@ -308,62 +309,32 @@ grunt    # be patient with this
       <div id='INTERNALS' style='display:none;'>
         <h2>Dependencies</h2>
         <p>Rhaboo has 2 source files: <ul>
-          <li>core.js</li>
+          <li>core.js which depends on 'parunpar': another repo and npm module by the same author,</li>
           <li>arr.js which depends on core.js</li>
         </ul><p>There are no other dependencies.
         <p>There's also a huge test script generator which depends on another repo by the same author called ajon. This is a more accurate but less readable version of JSON. Rhaboo itself does not use ajon, only the test script generator does.
-        <h2>core.js</h2>
-        <h3>Use of local storage</h3>
+        <h2>parunpar</h2>
+        <p>This is documented in its own repo, but in a nutshell, it supports compact serialisation of known data in a known way. The core abstraction is a that of a parunpar: a function of boolean which returns an encoder or corresponding decoder for true or false respectively. There are combinators that build complex parunpars out of simple ones.
+        <h2>Use of localStorage</h2>
+        <p>Rhaboo uses parunpar to define the linear encoding used in individual localStorage entries. These come in two types corresponding to objects and properties. They have a left hand side and may have a right hand side separated from the LHS by a semicolon. For objects, the LHS records the constructor and the length if defined for the object. For properties, the LHS defines the type and a string representation of the value. 
+        <p>The RHS is the same in both cases: it implements a linked list of properies where the link contains both the name and the localStorage location of the next property. For objects, this points to the first property, and subsequent property entries point to the next one. This peculiar habit of putting the property name in the link to it rather than its own entry has neither advantages nor disadvantages.
+        <p>If a property is an object rather than a basic type, then its entry will be a reference (this being a sixth basic type in rhaboo after the three usual ones, null and undefined) to a localStorage location where the object itself is stored using an object entry. 
+        <p>Root persistent entries are just like any other object: the object is represented independently of any name or reference to it. The name passed to Rhaboo.persistent resolves to a localStorage entry in which a <i>reference</i> to the object is found, not the object itself. This extra level of indirection is necessary to support multiple persistent references to the same object.
         <p>Here's a peep into the localStorage usage of the cliches demo:
         <p><center><img src='peep.png'></center></img>
-        <p>Points to notice include:<ul>
-          <li>The vertical bars make parsing easier with JS's String.split function.</li>
-          <li>A # suffix indicates an array while an &amp; indicates any other object.</li>
-          <li>After a # there's usually a number, which is an index within the previously named array.</li>
-          <li>The value of the entry provides the type and the value as a string</li>
-          <li>When the value contains only a |, the purpose is to declare an object or array. This isn't necessary if we can rely on finding a child of the object or array (which would declare it implicitly,) but some are empty.</li>
-          <li>The order in which these entries are retrieved doesn't matter because we can create parent paths on demand.</li>
-          <li>Lengths of arrays are stored explicitly so we can recreate trailing <code>undefined</code>s.</li>
-          <li>The key notation is embodied in the function <code>Object.prototype._rhaboo_childKey</code></li>
-          <li>There's no concept of a reference here, so the user should give the persistent a structure where each datum is represented exactly once. Any needed cross references should be achieved wth some naming system.</li>   
-        </ul>
-        <h3>Type stuff</h3>
-        <p>Rhaboo often wants to know if something is an array, another object, or a leaf. To this end there are some simple functions near the start of core.js. Around the same place is the treatment of <code>hasOwnProperty</code> so it doesn't return true for <code>_rhaboo</code> (that's where this library keeps its per-object data,) which helps best-practice iterations of objects and arrays behave sensibly. 
-        <h3>Backgrounding</h3>
-        <p>Rhaboo builds a script of all the localStorage operations required to persist a given change, and enqueues a single <code>setTimeout</code> job to perform the whole script. For instance, in <code>_rhaboo_persist</code>, a blank script called <code>ss</code> is declared and populated by passing it to functions in <code>forgetters</code> and <code>stashers</code>. Those functions use <code>intend</code> to push instructions onto the script, so <code>intend</code> embodies the backgrounding policy. The populated script is passed to <code>procrastinate</code> which uses <code>setTimeout</code> to schedule the job. The work inside the job that <code>procrastinate</code> enqueues is to run thrugh the script and apply each step in turn to localStorage.
-        <h3>The central functions</h3>
-        <pre>
- 
- 
-                                                     
-              _rhaboo_unpersist          ______        
-             /                 \        /      \            
-            /                   \      |     _rhaboo_forget 
-           /                     \     V    /
-       kill                       forgetters --[leaf]
-                                 /          \        \
-                                /            [leaf] --\
-                               /                       localStorage    
-               _rhaboo_persist           ______           
-             /                 \        /      \       
-            /                   \      |     _rhaboo_stash
-           /                     \     V    /                
-      write                        stashers  --[leaf]   
-                                            \        \  
-                                             [leaf] --\ 
-                                                       localStorage
+        <p>At the top we see how localStorage keys are generated. There is no attempt to reuse freed numbers. At the bottom we see a reference to slot 0 (i.e. localStorage entry "_rhaboo_0") under a name derived from the paramter to Rhaboo.persistent. The referenced object is constructed with the Object function and has no meaningful length. Its first property is called 'initialised' and lives in slot 1 where we can see the type (? means boolean) and the value (t means true for booleans). The next property is called 'cliches' and lives in slot 2 where we see a reference to slot 3 in which an object constructed with 'Array' with a length of 3 can be found. It has a property called '0' which lives in slot 4 which contains yet another reference, etc, etc.
+        <p>The property LHSs are seen to use a single character for type encoding as follows: &amp;:reference, ~:null, _:undefined, ?:boolean, #:number, $:string. Parunpar takes care of escaping separator characters.
+        <h2>Backgrounding</h2>
+        <p>Rhaboo does not perform localStorage operations directly, rather, it builds a script of all the localStorage operations required to persist a given change, and enqueues a single <code>setTimeout</code> job to perform the whole script. A script entry includes both the name of a localStorage function like 'setEntry' and the paramters to be passed to it as fully evaluated strings. Executing the script is thus a simple matter of <code>apply</code>ing each item in turn with localStorage as <code>this</code>. Browsing through the functions in rhaboo, one notices functions that take a script as a paramter and add entries to it, and those that declare an empty script, pass it to several such functions in turn, then execute the whole script.
+        <h2>Kids</h2>
+        <p>A persistent object needs to store some information in memory about how it is persisted. This is all in a property called _rhaboo in each persistent object.
+        <p>The localStorage entries for the properties of a given object hang together in a singly linked list. This is adequate for restoration which occurs in one go at an early stage. However, for updates during run time, we'll often need the predecessor of a given property (e.g. when deleting it) and should therefore have a doubly linked list for decent performance. This doubly linked list is called 'kids' and is a property of _rhaboo. The main purpose of each item in the list is to store the localStorage slot. Within the scope of a given object, there are functions to append a new item to the end of the list mapping a certian property name to a certain slot, and to remove the item for a property name from the list. 
+        <p>_rhaboo has a slot number with the same property name as a kid entry and pointers to the head and tail of kids called <code>next</code> and <code>prev r</code>espectively. These facts mean that _rhaboo can be treated like a list entry for many purposes.
 
-|           |                   |           | 
-| Note old  | Calc child key    | Switch    | Write script steps and for objects: 
-|  value    | Build localStorage|  by type  |   Note localStorage key in object                                                    
-|           |  script           |           |   and recurse
 
-          </pre>
-        <p>The heart of rhaboo is a pair of recursive processes: one for remembering things and the other for forgetting them. These are embodied by <code>stashers[]</code> and <code>Object.prototype._rhaboo_stash()</code> on the one hand and <code>forgetters[]</code> and <code>Object.prototype._rhaboo_forget()</code> on the other. <code>stashers[]</code> and <code>forgetters[]</code> are maps from the type of the thing to remember or forget to a function for doing it. For leaf types, it's a direct instruction to localStorage; for objects, it's a call to <code>_rhaboo_stash()</code> or <code>_rhaboo_forget()</code> which deal with the per-se localStorage entry for the object and its length entry, then recurse back into <code>stashers[]</code> or <code>forgetters[]</code> for each of its properties. 
-        <p><code>stashers[]</code> and <code>forgetters[]</code> are the only callers of <code>_rhaboo_stash()</code> and <code>_rhaboo_forget()</code> respectively, and are themselves originally called by <code>_rhaboo_persist()</code> and <code>_rhaboo_unpersist()</code>. <code>_rhaboo_unpersist()</code> only calls <code>forgetters[]</code> but <code>_rhaboo_persist()</code> calls both. Just like <code>write()</code> and <code>kill()</code>, these functions are called with <code>this</code> equal to the parent of the property being changed. Unless <code>this</code> is marked as persistent by having the <code>_rhaboo</code> property, they do nothing. If <code>_rhaboo</code> is present, they figure out a localStorage key for the child property and use <code>forgetters[]</code> to erase any old localStorage entries and perhaps also <code>stashers[]</code> to create new ones. 
-        <p>The reader might have remarked that in order to forget a complex object from localStorage, that object still has to exist in memory so we know what was in it. (One could alternatively iterate the whole of localStorage and look for matching keys but that would be slower on large data sets.) On the other hand, we promised to return the UI thread quickly. The required procedure, then, is to make a note of the old value, assign the new one to the object in memory, queue a job to forget the old and remember the new values, and then return the UI thread. That is exactly what is written in <code>write()</code> and <code>kill(),</code> and they do the queueing using <code>_rhaboo_persist()</code> and <code>_rhaboo_unpersist()</code>.
-        <h3>Constructor and restoration</h3>
-        <p>The constructor <code>new Rhaboo.Persistent()</code> merely calls <code>Object.prototype._rhaboo_restore()</code> with the passed name. The job here is to run through localStorage in a random order, filter on keys that match the passed name, create any parents implied by early parts of the key, recreate the types and values of leaves from the values of localStorage entries, and populate any data used by rhaboo itself.
+        <h2>TBC</h2>
+
+
         <h2>arr.js</h2>
         <p>This is where the 7 array operations: <code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>splice</code>, <code>sort</code> and <code>reverse</code> (plus maybe <code>fill</code> if it's available) are made persistent. The original functions are stashed and used by the new persistent ones. 
         <p>In the worst case scenario that the array is totally rewritten, e.g. by a <code>sort</code>, our strategy is to make a complete copy of the old array, call the original function, then do something like <code>_rhaboo_persist()</code> which forgets the old version and remembers the new. This is rather slow.
@@ -419,8 +390,7 @@ var persistents = {
         <dd><p>Proper performance tests are in the pipeline, but it must be very fast because localStorage is a simple mechanism and it's being used in a very efficient way. However, those array functions like reverse and sort which change the whole thing are a bit slow right now.</dd>
         <dt>What can't it do?</dt>
         <dd>
-        <p>Function-valued and regex-valued properties of objects are ignored. If you want regexes just ask. You can add an object with a funny prototype to a persistent and it'll behave ok during this run, but the prototype won't be restored on the next run.
-        <p>Don't put any object into two persistent places. Each persistent object has one property recording where in localStorage it lives. If you put it into another persistent place this will be overwritten. If your app needs a lot of cross-referencing among persistent objects, use their names or the like.
+        <p>Function-valued and regex-valued properties of objects are ignored. If you want regexes just ask. 
         <p>There's no protection for the case that the user closes the window while background persistence jobs are still going on. For most programs this is highly unlikely because you won't be firing off huge persistence jobs, but if it is a concern, you can roll your own journalling checks. For instance, you'll gradually write the new version of the sub-object in a temporary place, atomically write that it's the important one, and then gradually delete the old one. The UI thread will have returned to responsiveness much earlier than this. If there's demand for rhaboo to do this kind of thing itself, then it'll be developed.</dd>
         <dt>What can it do that most libraries can't?</dt>
         <dd><p>Most libraries either force you to learn a new storage paradigm or limit themselves to single-level maps like what localStorage already gives you. 
@@ -442,14 +412,13 @@ var persistents = {
 'function (y) {return x+y}'
         </pre>
         <p>Supporting the persistence of objects would thus impose subtle bugs on anybody who tried to use the feature and it's probably better to recommend only storing objects that are all data. In simple cases though, it will soon be possible to inherit functions from a prototype into a data-only persistent.</dd>
-        <dt><p>To what extent will it ever restore the prototype and/or constructor?</dt>
+        <dt><p>To what extent does it restore the prototype and/or constructor?</dt>
         <dd>
-        <p>Right now, restored objects can only be Objects or Arrays but an update is planned for the immediate future as follows:
         <p>If you do Crockford style without a valid <code>.constructor</code> pointer, then there's no chance. The reason is that rhaboo knows neither whether nor where there might be a reference to your persistent object's prototype. It might only have been defined on the fly in the call to <code>Object.create({ like: "this" })</code>. Rhaboo would therefore have to store the prototype, but with functions not working properly that would be pointless (functions being the main thing that one finds in a prototype.)
         <p>If I asked you to put a reference to the prototype somewhere in the global scope where rhaboo could find it, and then to write something in the object to say which reference to use, then how about this for a standard: the object should contain or inherit a property called <code>constructor</code> which refers to a global object (let's call it the "constructor") which contains a reference to your prototype called <code>prototype</code>. The advantage of this standard is that people have heard of it before. Furthermore, if, during restoration, the constructor turns out to be a function then rhaboo will use it for creating your restored object. This may involve some wasted effort setting up default values of properties that will be overwritten whilst restoring the details of the object, but that's not a huge problem. It is nevertheless worthwhile to use the constructor function because the initialisation in the constructor might affect things elsewhere in the program. Another good reason is for inserting functions (which rhaboo can't help with.)
         <p>The above assumes that the prototype is a static thing that rhaboo will find in its one and only proper state, but OTOH it might contain class-scoped a.k.a. static properties which need to be restored. In that case the prototype would have to live in the persistent store. With the above features in place though, this would go wrong because <code>.constructor</code> of a prototype is that of the objects of the class it represents, not of the prototype itself. The restoration mechanism would see that value of <code>.constructor</code> and try to make an instance of the class where the prototype should be. Together with the difficulties of persisting functions, the wise approach is that all prototypes should be immutable and refer to some external persistent object for class-scoped mutable data. 
-        <p>Under this system, if you program Crockford-style and completely ignore <code>prototype.constructor</code>, the latter will usually point to <code>Object</code> and that's what you'll get back, no matter what prototype you passed to <code>Object.create</code>. To fix that without forcing you into the classical model, rhaboo could detect that the constructor is not a function and interpret it as your prototype instead. But this would not be any easier for you than just making an empty function with a prototype property. You'd still have to write a line to set the constructor of your object (or something in its prototype chain) to something other than its default. 
-        <p>The conclusion is that only classical inheritance can be supported. Constructor functions must have names and be found under that name in the global object. (Earlier incarnations of Crockford- style involved anonymous or temporary constructor functions but this would fail too.) If multiple levels of inheritance are being used then a line like <code>Foo.prototype.constructor=Foo</code> may be required. Prototypes may not be persisted like ordinary objects. Constructor parameters won't be supplied during restoration, but if the constructor doesn't barf about not receiving paramters, then the subsequent restoration of properties might do whatever the constructor wanted those parameters for.
+        <p>Under this system, if you program Crockford style and completely ignore <code>prototype.constructor</code>, the latter will usually point to <code>Object</code> and that's what you'll get back, no matter what prototype you passed to <code>Object.create</code>. To fix that without forcing you into the classical model, rhaboo could detect that the constructor is not a function and interpret it as your prototype instead. But this would not be any easier for you than just making an empty function with a prototype property. You'd still have to write a line to set the constructor of your object (or something in its prototype chain) to something other than its default. 
+        <p>The conclusion is that only classical inheritance can be supported. Constructor functions must have names and be found under that name in the global object. (Earlier incarnations of Crockford style involved anonymous or temporary constructor functions but this would fail too.) If multiple levels of inheritance are being used then a line like <code>Foo.prototype.constructor=Foo</code> may be required. Prototypes may not be persisted like ordinary objects. Constructor parameters won't be supplied during restoration, but if the constructor doesn't barf about not receiving paramters, then the subsequent restoration of properties might do whatever the constructor wanted those parameters for. 
         <p>And that, finally, really is all you need to know.
         </dd>
         <dt></dt>
