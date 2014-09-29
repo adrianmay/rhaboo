@@ -48,10 +48,23 @@ QUnit.test( "Write simple stuff", function( assert ) {
   store2.write("colour", "red");
   store2.write("lue", 42);
   store2.write("too", true);
-
-  //store2.write("rhyme", { 1: "man", went: {2: "mow"} } );
+  store2.write("emp", null);
+  store2.write("emp", []);
+  store2.emp.sort();
+  store2.emp.write("guts", "foo");
+  store2.emp.write("guts",[]);
+  store2.emp.guts.write('0', undefined);
+  store2.emp.write("bum",true);
+  console.log("EMP:"+Ajon.stringify(store2.emp))
+  store2.write("undies", { three:3 });
+  store2.undies.write("undy", null);
+  store2.undies.erase("undy");
+  store2.undies.write("undy", undefined);
+  assert.ok( countMembers(store2.undies) === 2, "2 undies");
+  console.log("UNDIES:"+Ajon.stringify(store2.undies))
   store2.write("rhyme", { 1: "man", went: [2, "mow"] } );
-  console.log(JSON.stringify(store2, null, "   "));
+  store2.rhyme.went.write(0,22);
+
 });
 
 QUnit.test( "Haven't clobbered regular arrays", function( assert ) {

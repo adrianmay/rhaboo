@@ -14,12 +14,18 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
 //Very, very slow....
 Array.prototype._rhaboo_defensively = function(mutator) {
   return function () { 
+    var slotnum=undefined, refs;
     var ss = [];
-    if (this._rhaboo)
-      R.forgetProps(this, ss);
-    var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
     if (this._rhaboo) {
-      R.storeProps(this, ss);
+      slotnum = this._rhaboo.slotnum;
+      refs = this._rhaboo.refs;
+      R.release(this, ss, true);
+      //R.forgetProps(this, ss);
+    }
+    var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
+    if (slotnum) {
+      R.addRef(this, ss, slotnum, refs);
+      //R.storeProps(this, ss);
       R.execute(ss);
     }
     return retval;
@@ -55,6 +61,13 @@ Array.prototype.pop = function () {
 }
  */ 
 
+Array.prototype.write = function(prop, val) { 
+  Object.prototype.write.call(this, prop, val);
+  var ss = [];
+  R.updateSlot(this, ss);
+  R.execute(ss);
+}
+
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
 Array.prototype.push = Array.prototype._rhaboo_defensively("push");
 Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
@@ -63,7 +76,7 @@ Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
 Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
 Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
 Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
-Array.prototype.write = Array.prototype._rhaboo_defensively("write");
+//Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 //Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 
 module.exports = {

@@ -13,7 +13,7 @@ var persistents = {
          "expect": "{<P1000002>=[(10):<0>=_;<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};<5>=(1);<6>=(2);<7>=(3);<8>=(4);<9>=(5);];<P1000003>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000003"
          ],
@@ -146,7 +146,7 @@ var persistents = {
          "expect": "{<P1000059>={<P1000060>={};<a>=[(0):];<b>=[(0):];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000059",
             "P1000060"
@@ -246,7 +246,7 @@ var persistents = {
          "expect": "{<P1000101>=(43);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000101"
          ],
@@ -325,7 +325,7 @@ var persistents = {
          "expect": "{<P1000139>={<P1000140>=(0);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000139",
             "P1000140"
@@ -355,21 +355,21 @@ var persistents = {
          "expect": "{<P1000150>=(7340.1);<P1000151>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000151"
          ],
          "expect": "{<P1000150>=(7340.1);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000152"
          ],
          "expect": "{<P1000150>=(7340.1);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000152"
          ],
@@ -389,7 +389,7 @@ var persistents = {
          "expect": "{<P1000157>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000158"
          ],
@@ -404,7 +404,7 @@ var persistents = {
          "expect": "{<P1000157>=[(0):];<P1000158>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000158"
          ],
@@ -424,7 +424,7 @@ var persistents = {
          "expect": "{<P1000167>=(-2);<P1000168>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000168"
          ],
@@ -494,7 +494,7 @@ var persistents = {
          "expect": "{<P1000202>=[(0):<P1000203>=[(0):];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000202",
             "P1000203",
@@ -624,7 +624,7 @@ var persistents = {
          "expect": "{<P1000260>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000260"
          ],
@@ -653,7 +653,7 @@ var persistents = {
          "expect": "{<P1000263>=[(0):<P1000265>={};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000263",
             "P1000265"
@@ -915,7 +915,7 @@ var persistents = {
          "expect": "{<P1000338>=[(8):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=<the>;<4>=<quick>;<5>=<brown>;<6>=<fox>;<7>=<>;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000338"
          ],
@@ -935,7 +935,7 @@ var persistents = {
          "expect": "{<P1000344>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000344"
          ],
@@ -1061,7 +1061,7 @@ var persistents = {
          "expect": "{<P1000398>=[(3):<2>={<brown>=<fox>;<the>=<quick>;};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000398"
          ],
@@ -1073,7 +1073,7 @@ var persistents = {
          "expect": "{<P1000407>=~;<P1000408>=@;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000409"
          ],
@@ -1093,7 +1093,7 @@ var persistents = {
          "expect": "{<P1000417>=_;<P1000418>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000418"
          ],
@@ -1484,7 +1484,7 @@ var persistents = {
          "expect": "{<P1000561>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000561"
          ],
@@ -1726,7 +1726,7 @@ var persistents = {
          "expect": "{<P1000640>=[(5):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;];<P1000641>=[(4):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<P1000643>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000641",
             "P1000643"
@@ -1905,7 +1905,7 @@ var persistents = {
          "expect": "{<P1000707>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000707",
             "P1000708"
@@ -2036,7 +2036,7 @@ var persistents = {
          "expect": "{<P1000774>={<P1000775>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000774",
             "P1000775"
@@ -2127,7 +2127,7 @@ var persistents = {
          "expect": "{<P1000811>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000811"
          ],
@@ -2181,7 +2181,7 @@ var persistents = {
          "expect": "{<P1000826>=[(5):<0>=(2);<1>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<2>={<a>=<asdf>;<b>=@;};<3>=<blah>;<4>=!;<P1000827>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000826",
             "P1000827",
@@ -2195,7 +2195,7 @@ var persistents = {
          "expect": "{<P1000833>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000833"
          ],
@@ -2272,7 +2272,7 @@ var persistents = {
          "expect": "{<P1000841>={<P1000842>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);<P1000843>={};];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000841",
             "P1000842",
@@ -2431,7 +2431,7 @@ var persistents = {
          "expect": "{<P1000909>=[(0):<P1000910>=!;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000909",
             "P1000910"
@@ -2480,7 +2480,7 @@ var persistents = {
          "expect": "{<P1000915>=[(0):];<P1000916>=[(0):<P1000918>={};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000916",
             "P1000918",
@@ -2904,7 +2904,7 @@ var persistents = {
          "expect": "{<P1001089>=@;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001089"
          ],
@@ -3009,7 +3009,7 @@ var persistents = {
          "expect": "{<P1001151>={<P1001152>=[(0):];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001151",
             "P1001152"
@@ -3301,7 +3301,7 @@ var persistents = {
          "expect": "{<P1001253>=(-2);<P1001254>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001254"
          ],
@@ -3449,7 +3449,7 @@ var persistents = {
          "expect": "{<P1001305>={<P1001307>={<P1001309>=_;};<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001305",
             "P1001307",
@@ -3566,7 +3566,7 @@ var persistents = {
          "expect": "{<P1001346>=[(21):<20>=<abcdefg>;<5>=(456);<P1001348>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001346",
             "P1001348"
@@ -3702,7 +3702,7 @@ var persistents = {
          "expect": "{<P1001397>=[(8):<2>=[(3):<0>=(1);<1>=@;<2>=<three>;];<3>=(1);<4>=(2);<5>=(3);<6>=(4);<7>=(5);<P1001399>=!;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001397",
             "P1001399"
@@ -3750,7 +3750,7 @@ var persistents = {
          "expect": "{<P1001426>=[(6):<0>=(2);<1>=(3);<2>=(4);<3>=(5);<5>=(456);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001426",
             "P1001428"
@@ -4086,7 +4086,7 @@ var persistents = {
          "expect": "{<P1001538>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};<P1001540>=(-2);<P1001541>=[(21):<0>=(2);<1>=(3);<20>=~;<2>=(4);<3>=(5);];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001538",
             "P1001541"
@@ -4188,7 +4188,7 @@ var persistents = {
          "expect": "{<P1001575>={<a>=[(0):];<b>=[(0):];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001575"
          ],
@@ -4227,7 +4227,7 @@ var persistents = {
          "expect": "{<P1001601>=[(4):<0>=<quick>;<1>=<brown>;<2>=<fox>;<3>=<>;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001602"
          ],
@@ -4306,7 +4306,7 @@ var persistents = {
          "expect": "{<P1001615>=[(0):<P1001616>=[(0):<P1001617>=<ng9u13htgjonn kjwfvojwv woef\nefbkjnbwrv w efb>;];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001615",
             "P1001616",
@@ -4388,7 +4388,7 @@ var persistents = {
          "expect": "{<P1001639>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001639",
             "P1001642"
@@ -4595,7 +4595,7 @@ var persistents = {
          "expect": "{<P1001703>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001703"
          ],
@@ -4637,7 +4637,7 @@ var persistents = {
          "expect": "{<P1001716>=[(6):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<5>=<foo>;<P1001717>=[(0):];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001716",
             "P1001717"
@@ -4791,7 +4791,7 @@ var persistents = {
          "expect": "{<P1001787>=[(0):<P1001789>=[(2):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<P1001791>=[(0):];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001787",
             "P1001789",
@@ -4830,7 +4830,7 @@ var persistents = {
          "expect": "{<P1001787>=[(0):<P1001789>=[(2):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<P1001791>=<je e>;];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001787",
             "P1001789",
@@ -4872,7 +4872,7 @@ var persistents = {
          "expect": "{<P1001816>=[(6):<0>=(2);<1>=(3);<2>=(4);<3>=(5);<4>=<foo>;<5>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001816"
          ],
@@ -4961,14 +4961,14 @@ var persistents = {
          "expect": "{<P1001849>=[(11):<0>=(1);<10>=(30);<1>=(2);<2>=(3);<3>=(2);<4>=!;<5>=<blah>;<6>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<7>={<a>=<asdf>;<b>=@;};<8>=(10);<9>=(20);];<P1001850>=(7340.1);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001850"
          ],
          "expect": "{<P1001849>=[(11):<0>=(1);<10>=(30);<1>=(2);<2>=(3);<3>=(2);<4>=!;<5>=<blah>;<6>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<7>={<a>=<asdf>;<b>=@;};<8>=(10);<9>=(20);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001850"
          ],
@@ -5036,7 +5036,7 @@ var persistents = {
          "expect": "{<P1001881>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001881",
             "P1001883"
@@ -5455,7 +5455,7 @@ var persistents = {
          "expect": "{<P1002034>=[(20):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002034"
          ],
@@ -5496,7 +5496,7 @@ var persistents = {
          "expect": "{<P1002050>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002050"
          ],
@@ -5590,7 +5590,7 @@ var persistents = {
          "expect": "{<P1002081>=@;<P1002082>=<    >;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002082"
          ],
@@ -5750,7 +5750,7 @@ var persistents = {
          "expect": "{<P1002113>={};<P1002114>=_;<P1002115>=(123);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002115"
          ],
@@ -5905,7 +5905,7 @@ var persistents = {
          "expect": "{<P1002168>=[(4):<0>=(1);<1>=(2);<2>=(3);<3>=(4);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002168",
             "P1002169"
@@ -6087,7 +6087,7 @@ var persistents = {
          "expect": "{<P1002255>=(-84);<P1002256>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002256"
          ],
@@ -6166,7 +6166,7 @@ var persistents = {
          "expect": "{<P1002288>=[(8):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=(2);<4>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<5>={<a>=<asdf>;<b>=@;};<6>=<blah>;<7>=!;<P1002289>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002288",
             "P1002289"
@@ -6197,7 +6197,7 @@ var persistents = {
          "expect": "{<P1002295>=[(21):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<20>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002295",
             "P1002296"
@@ -6336,7 +6336,7 @@ var persistents = {
          "expect": "{<P1002338>=<    >;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002338"
          ],
@@ -6637,7 +6637,7 @@ var persistents = {
          "expect": "{<P1002456>=[(5):<0>=[(3):<0>=(1);<1>=@;<2>=<three>;];<1>=(3);<2>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<3>=<foo>;<4>=_;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002457"
          ],
@@ -6848,7 +6848,7 @@ var persistents = {
          "expect": "{<P1002532>={<P1002533>=<je e>;<P1002534>={};<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002532",
             "P1002534"
@@ -7043,7 +7043,7 @@ var persistents = {
          "expect": "{<P1002603>=(0);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002603"
          ],
@@ -7128,7 +7128,7 @@ var persistents = {
          "expect": "{<P1002633>={<P1002635>=_;<b>=[(0):];<c>=[(1):<0>={<x>=(2);<y>=@;};];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002633",
             "P1002635"
@@ -7176,7 +7176,7 @@ var persistents = {
          "expect": "{<P1002651>=[(3):<0>=(1);<1>=(2);<2>=(3);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002651",
             "P1002652"
@@ -7278,7 +7278,7 @@ var persistents = {
          "expect": "{<P1002692>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002692",
             "P1002693"
@@ -7469,7 +7469,7 @@ var persistents = {
          "expect": "{<P1002746>=[(2):<1>=_;<P1002747>=[(0):];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002746",
             "P1002747",
@@ -7681,7 +7681,7 @@ var persistents = {
          "expect": "{<P1002829>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<P1002831>=[(4):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002829",
             "P1002831",
@@ -7820,7 +7820,7 @@ var persistents = {
          "expect": "{<P1002913>=[(4):<0>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<1>=<blah>;<2>=!;<3>=(2);];<P1002914>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002914"
          ],
@@ -7882,7 +7882,7 @@ var persistents = {
          "expect": "{<P1002949>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002949"
          ],
@@ -7936,7 +7936,7 @@ var persistents = {
          "expect": "{<P1002972>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002972",
             "P1002973"
@@ -8046,7 +8046,7 @@ var persistents = {
          "expect": "{<P1003012>=[(5):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<P1003014>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003012",
             "P1003014"
@@ -8100,7 +8100,7 @@ var persistents = {
          "expect": "{<P1003030>={<P1003032>={<a>=[(0):];<b>=[(0):];};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003030",
             "P1003032"
@@ -8283,7 +8283,7 @@ var persistents = {
          "expect": "{<P1003110>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003110"
          ],
@@ -8347,7 +8347,7 @@ var persistents = {
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003146"
          ],
@@ -8375,7 +8375,7 @@ var persistents = {
          "expect": "{<P1003152>=<5t5t5t>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003153"
          ],
@@ -8508,7 +8508,7 @@ var persistents = {
          "expect": "{<P1003205>=[(0):];<P1003206>=!;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003206"
          ],
@@ -8538,7 +8538,7 @@ var persistents = {
          "expect": "{<P1003213>={<P1003214>=<ee efwdfb >;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003213",
             "P1003214"
@@ -8728,7 +8728,7 @@ var persistents = {
          "expect": "{<P1003285>=<je e>;<P1003286>=(844758);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003286"
          ],
@@ -8838,7 +8838,7 @@ var persistents = {
          "expect": "{<P1003321>=< o3r83rg>;<P1003322>=[(3):<0>=(2);<1>=(3);<2>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003322",
             "P1003324"
@@ -8851,7 +8851,7 @@ var persistents = {
          "expect": "{<P1003326>=(0);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003326"
          ],
@@ -9111,7 +9111,7 @@ var persistents = {
          "expect": "{<P1003452>={<a>=[(0):];<b>=[(0):];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003452"
          ],
@@ -9205,7 +9205,7 @@ var persistents = {
          "expect": "{<P1003502>=[(0):];<P1003503>=~;<P1003504>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003504"
          ],
@@ -9420,7 +9420,7 @@ var persistents = {
          "expect": "{<P1003570>={<P1003572>=(-84);<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003570",
             "P1003572"
@@ -9489,7 +9489,7 @@ var persistents = {
          "expect": "{<P1003608>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003608"
          ],
@@ -9695,7 +9695,7 @@ var persistents = {
          "expect": "{<P1003689>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003690"
          ],
@@ -9869,7 +9869,7 @@ var persistents = {
          "expect": "{<P1003753>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003753"
          ],
@@ -9905,7 +9905,7 @@ var persistents = {
          "expect": "{<P1003762>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003762"
          ],
@@ -9925,7 +9925,7 @@ var persistents = {
          "expect": "{<P1003772>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003772"
          ],
@@ -9953,7 +9953,7 @@ var persistents = {
          "expect": "{<P1003781>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003781"
          ],
@@ -10129,7 +10129,7 @@ var persistents = {
          "expect": "{<P1003858>={<P1003859>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003858",
             "P1003859"
@@ -10212,7 +10212,7 @@ var persistents = {
          "expect": "{<P1003888>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003889"
          ],
@@ -10421,7 +10421,7 @@ var persistents = {
          "expect": "{<P1003996>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003997"
          ],
@@ -10653,7 +10653,7 @@ var persistents = {
          "expect": "{<P1004094>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<P1004096>=~;<P1004097>=(1.04);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004094",
             "P1004097"
@@ -10675,7 +10675,7 @@ var persistents = {
          "expect": "{<P1004104>=[(4):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<P1004105>={};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004104",
             "P1004105"
@@ -10890,7 +10890,7 @@ var persistents = {
          "expect": "{<P1004190>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004190"
          ],
@@ -10981,7 +10981,7 @@ var persistents = {
          "expect": "{<P1004230>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004230"
          ],
@@ -11048,7 +11048,7 @@ var persistents = {
          "expect": "{<P1004261>={};<P1004262>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004262"
          ],
@@ -11097,7 +11097,7 @@ var persistents = {
          "expect": "{<P1004279>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004279"
          ],
@@ -11109,7 +11109,7 @@ var persistents = {
          "expect": "{<P1004288>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004289"
          ],
@@ -11290,7 +11290,7 @@ var persistents = {
          "expect": "{<P1004362>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004362"
          ],
@@ -11382,7 +11382,7 @@ var persistents = {
          "expect": "{<P1004396>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004396"
          ],
@@ -11595,7 +11595,7 @@ var persistents = {
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004467"
          ],
@@ -11669,7 +11669,7 @@ var persistents = {
          "expect": "{<P1004506>=[(0):<P1004507>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004506",
             "P1004507"
@@ -11716,7 +11716,7 @@ var persistents = {
          "expect": "{<P1004522>=[(4):<0>=!;<1>=[(3):<0>=(1);<1>=@;<2>=<three>;];<2>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<3>={<a>=<asdf>;<b>=@;};<P1004523>=[(0):<P1004524>=_;];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004522",
             "P1004523"
@@ -11876,7 +11876,7 @@ var persistents = {
          "expect": "{<P1004611>=~;<P1004612>=(43);<P1004613>={<P1004615>=@;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004613",
             "P1004615"
@@ -11884,7 +11884,7 @@ var persistents = {
          "expect": "{<P1004611>=~;<P1004612>=(43);<P1004613>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004613",
             "P1004615"
@@ -11944,7 +11944,7 @@ var persistents = {
          "expect": "{<P1004630>=[(5):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=_;<4>=<foo>;<P1004632>={};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004630",
             "P1004632"
@@ -12011,7 +12011,7 @@ var persistents = {
          "expect": "{<P1004630>=[(5):<0>=(1);<1>=<bar>;<2>=[(0):];<3>=_;<4>=<foo>;<P1004632>={<P1004633>=[(0):];<P1004634>={<b>=[(0):];<c>=[(1):<0>={<x>=(2);<y>=@;};];};};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004630",
             "P1004632",
@@ -12189,14 +12189,14 @@ var persistents = {
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004677"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004677"
          ],
@@ -12329,7 +12329,7 @@ var persistents = {
          "expect": "{<P1004727>=_;<P1004728>=[(0):<P1004730>=(844758);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004728",
             "P1004730"
@@ -12515,7 +12515,7 @@ var persistents = {
          "expect": "{<P1004826>=[(0):<P1004827>=_;<P1004828>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004826",
             "P1004828"
@@ -12695,7 +12695,7 @@ var persistents = {
          "expect": "{<P1004878>=[(0):<P1004880>=_;<P1004881>=<ohjwfv>;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004878",
             "P1004881"
@@ -12891,7 +12891,7 @@ var persistents = {
          "expect": "{<P1004977>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<P1004978>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004977",
             "P1004978"
@@ -12922,7 +12922,7 @@ var persistents = {
          "expect": "{<P1004988>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004989"
          ],
@@ -12945,7 +12945,7 @@ var persistents = {
          "expect": "{<P1004988>=[(0):];<P1004989>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004989",
             "P1004990"
@@ -13076,7 +13076,7 @@ var persistents = {
          "expect": "{<P1005038>=[(0):];<P1005039>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005039"
          ],
@@ -13153,7 +13153,7 @@ var persistents = {
          "expect": "{<P1005057>=[(21):<1>=(123);<20>=<abcdefg>;<P1005058>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005057",
             "P1005058"
@@ -13391,7 +13391,7 @@ var persistents = {
          "expect": "{<P1005143>=(7340.1);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005144"
          ],
@@ -13588,7 +13588,7 @@ var persistents = {
          "expect": "{<P1005220>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005220"
          ],
@@ -13752,7 +13752,7 @@ var persistents = {
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005279"
          ],
@@ -14059,7 +14059,7 @@ var persistents = {
          "expect": "{<P1005412>=[(5):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<P1005413>=_;<P1005414>={<arr>=[(1):<0>={<another>=[(1):<0>={<foo>=(4);};];};];<ridiculously long and unsociable key>=@;};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005412",
             "P1005414"
@@ -14187,7 +14187,7 @@ var persistents = {
          "expect": "{<P1005478>=[(8):<0>=(1);<1>=<bar>;<2>=[(0):];<3>={<a>=<asdf>;<b>=@;};<4>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<5>=<blah>;<6>=!;<7>=(2);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005479"
          ],
@@ -14268,7 +14268,7 @@ var persistents = {
          "expect": "{<P1005516>=<foo>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005516"
          ],
@@ -14329,7 +14329,7 @@ var persistents = {
          "expect": "{<P1005548>=(844758);<P1005549>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005549",
             "P1005551"
@@ -14487,7 +14487,7 @@ var persistents = {
          "expect": "{<P1005601>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005601"
          ],
@@ -14681,7 +14681,7 @@ var persistents = {
          "expect": "{<P1005687>=[(5):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005687"
          ],
@@ -14693,7 +14693,7 @@ var persistents = {
          "expect": "{<P1005690>=<ee efwdfb >;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005691"
          ],
@@ -15111,7 +15111,7 @@ var persistents = {
          "expect": "{<P1005838>=<je e>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005839"
          ],
@@ -15384,7 +15384,7 @@ var persistents = {
          "expect": "{<P1005967>=[(0):<P1005968>=[(4):<2>=[(3):<0>=(1);<1>=@;<2>=<three>;];<3>=<foo>;<P1005970>={};];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005967",
             "P1005968",
@@ -15608,7 +15608,7 @@ var persistents = {
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006057"
          ],
@@ -15856,7 +15856,7 @@ var persistents = {
          "expect": "{<P1006145>=[(4):<0>=!;<1>=<blah>;<2>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<3>={<a>=<asdf>;<b>=@;};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006145",
             "P1006146"
@@ -15929,7 +15929,7 @@ var persistents = {
          "expect": "{<P1006168>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006168",
             "P1006170"
@@ -15946,7 +15946,7 @@ var persistents = {
          "expect": "{<P1006168>={<P1006170>=<ee efwdfb >;};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006168",
             "P1006170"
@@ -15967,7 +15967,7 @@ var persistents = {
          "expect": "{<P1006178>=[(5):<0>=<foo>;<1>={<1>=<man>;<went>=[(2):<0>=(2);<1>=<mow>;];};<2>=(1);<3>=<bar>;<4>=[(0):];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006179"
          ],
@@ -16176,7 +16176,7 @@ var persistents = {
          "expect": "{<P1006245>=[(4):<0>=_;<1>=<brown>;<2>=<fox>;<3>=<>;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006245",
             "P1006246"
@@ -16356,7 +16356,7 @@ var persistents = {
          "expect": "{<P1006336>=[(3):<0>=[(3):<0>=(1);<1>=@;<2>=<three>;];<1>=(2);<2>=(4);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006336"
          ],
@@ -16443,7 +16443,7 @@ var persistents = {
          "expect": "{<P1006367>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<P1006368>=(-2);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006367",
             "P1006368"
@@ -16451,7 +16451,7 @@ var persistents = {
          "expect": "{<P1006367>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006367",
             "P1006368"
@@ -16690,7 +16690,7 @@ var persistents = {
          "expect": "{<P1006451>=<ohjwfv>;<P1006452>=<je e>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006452"
          ],
@@ -16736,7 +16736,7 @@ var persistents = {
          "expect": "{<P1006476>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];<P1006477>=[(5):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<P1006479>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006477",
             "P1006479"
@@ -16811,7 +16811,7 @@ var persistents = {
          "expect": "{<P1006489>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006490"
          ],
@@ -16872,7 +16872,7 @@ var persistents = {
          "expect": "{<P1006502>=~;<P1006503>=[(10):<0>=(1);<1>=(2);<2>=(3);<3>=(4);<4>=(5);<5>=(2);<6>=!;<7>=<blah>;<8>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<9>={<a>=<asdf>;<b>=@;};];<P1006504>=[(3):<2>={<brown>=<fox>;<the>=<quick>;};<P1006505>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006504",
             "P1006505"
@@ -16921,7 +16921,7 @@ var persistents = {
          "expect": "{<P1006529>=[(0):<P1006530>=~;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006529",
             "P1006530"

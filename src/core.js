@@ -84,7 +84,7 @@ function persistent(key) {
 }
 
 function restore(slotnum) {
-  if ( built[slotnum] ) return addRef(built[slotnum]);
+  if ( built[slotnum]!==undefined ) return addRef(built[slotnum]);
   var raw = localStorage.getItem(ls_prefix+slotnum)
   var decoded = slot_o_pp(false)(raw);
   decoded[0]._rhaboo = {
@@ -106,16 +106,16 @@ function augment(that, propname, propslot) {
 
 function updateSlot(that, ss, prop) {
   var bare = [];
-  bare.push(prop ? that[prop] : that);
-  var kid = prop ? that._rhaboo.kids[prop] : that._rhaboo;
-  if (kid.next) 
+  bare.push(prop!==undefined ? that[prop] : that);
+  var kid = prop!==undefined ? that._rhaboo.kids[prop] : that._rhaboo;
+  if (kid.next!==undefined) 
     bare.push([kid.next, that._rhaboo.kids[kid.next].slotnum]);
-  var encoded = (prop ? slot_l_pp : slot_o_pp)(true)(bare);
+  var encoded = (prop!==undefined ? slot_l_pp : slot_o_pp)(true)(bare);
   ss.push(['setItem', [ls_prefix+kid.slotnum, encoded]]); 
 }
 
 function appendKid(that, prop, slotnum) {
-  var target = that._rhaboo.prev ? that._rhaboo.kids[that._rhaboo.prev] : that._rhaboo;
+  var target = that._rhaboo.prev!==undefined ? that._rhaboo.kids[that._rhaboo.prev] : that._rhaboo;
   that._rhaboo.kids[prop] = { slotnum: slotnum, prev: that._rhaboo.prev };
   target.next = that._rhaboo.prev = prop;
 }
@@ -124,10 +124,11 @@ function removeKid(that, prop) {
   var kid = that._rhaboo.kids[prop];
   (that._rhaboo.kids[kid.prev] || that._rhaboo).next = kid.next;
   (that._rhaboo.kids[kid.next] || that._rhaboo).prev = kid.prev;
+  delete that._rhaboo.kids[prop];
 }
 
 function slotFor(that, ss, prop) {
-  if (!that._rhaboo.kids[prop]) {
+  if (that._rhaboo.kids[prop]===undefined) {
     var slotnum = newSlot();
     appendKid(that, prop, slotnum);
     updateSlot(that, ss, that._rhaboo.kids[prop].prev);
@@ -136,7 +137,7 @@ function slotFor(that, ss, prop) {
 }
 
 function addRef(that, ss, slotnum, refs) {
-  if (that._rhaboo)
+  if (that._rhaboo!==undefined)
     that._rhaboo.refs++;
   else {
     that._rhaboo = {
@@ -153,55 +154,62 @@ function addRef(that, ss, slotnum, refs) {
 function storeProps(that, ss) {
   for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') {
     slotFor(that, ss, prop);
-    if (P.typeOf(that[prop]) == 'object')
+    if (P.typeOf(that[prop]) === 'object')
       addRef(that[prop],ss);
     updateSlot(that, ss, prop);
   }
 }
 
-function release(that, ss) {
+function release(that, ss, force) {
   that._rhaboo.refs--;
-  if (that._rhaboo.refs == 0) {
+  if (force || that._rhaboo.refs === 0) {
     forgetProps(that,ss);
     delete that._rhaboo;
   }
 }
 
 function forgetProps(that, ss) {
-  var propname = null;
+  var propname = undefined;
   for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
     ss.push(['removeItem', [target.slotnum]]);
-    if (propname && P.typeOf(propname) == 'object') release(propname, ss);
+    if (propname!==undefined && P.typeOf(propname) == 'object') release(propname, ss);
   }
-  that._rhaboo.kids = {}; that._rhaboo.next = that._rhaboo.prev = undefined;
+  that._rhaboo.kids = {}; 
+  that._rhaboo.next = that._rhaboo.prev = undefined;
 }
 
 Object.prototype.write = function(prop, val) { 
   var ss = [];
   slotFor(this, ss, prop);
-  if (P.typeOf(this[prop]) == 'object') release(this[prop], ss);
+  if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
   this[prop] = val;
-  if (P.typeOf(val) == 'object') addRef(val, ss);
+  if (P.typeOf(val) === 'object') addRef(val, ss);
   updateSlot(this, ss, prop);
   execute(ss);
+  return this;
 }
 
-Object.prototype.kill = function(prop) { 
+Object.prototype.erase = function(prop) { 
+  if (!this.hasOwnProperty(prop))
+    return this;
   var ss = [];
-  if (P.typeOf(this[prop]) == 'object') release(this[prop], ss);
+  if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
   var target = this._rhaboo.kids[prop];
   ss.push(['removeItem', [target.slotnum]]);
   var prevname = target.prev;
   removeKid(this, prop);
   updateSlot(this, ss, prevname);
+  delete this[prop];
   execute(ss);
+  return this;
 }
 
-function execute(ss) {
-  setTimeout( function () {
+
+function execute(sss) {
+  setTimeout( function (ss) {
     for (var i=0; i<ss.length; i++) 
       localStorage[ss[i][0]].apply(localStorage, ss[i][1]);
-  }, 0);
+  }(sss), 0);
 }
 
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
@@ -227,8 +235,11 @@ Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && th
 
 module.exports = {
   persistent : persistent,
-  storeProps : storeProps,
-  forgetProps : forgetProps,
+//  storeProps : storeProps,
+//  forgetProps : forgetProps,
+  addRef: addRef,
+  release: release,
+  updateSlot : updateSlot,
   execute : execute,
   nuke : nuke,
 };

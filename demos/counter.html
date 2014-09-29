@@ -8,7 +8,7 @@
       innerHTML = store.count;'>
   <p>You loaded this page <span id='count'></span> times. Now hit reload.</p>
   <p onClick='
-    store.kill("count");
+    store.erase("count");
     this.innerHTML="Now reload."'>
   Forget</p>
   <p onClick='
