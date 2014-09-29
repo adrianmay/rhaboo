@@ -28,7 +28,7 @@ QUnit.test( "Simple restore", function( assert ) {
   assert.ok( store2.colour === "red", "Colour remembered" );
   assert.ok( store2.lue === 42, "Lue remembered" );
   assert.ok( store2.too === true, "Too remembered" );
-  assert.ok( store2.emp.length === 1, "Emp length remembered" );
+  assert.ok( store2.emp.length === 0, "Emp length remembered" );
   assert.ok( store2.emp[0] === undefined, "Emp remembered" );
   console.log("EMP:"+Ajon.stringify(store2.emp));
   assert.ok( store2.undies.undy === undefined, "Undies remembered" );
