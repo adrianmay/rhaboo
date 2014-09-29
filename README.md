@@ -14,7 +14,7 @@ The usual approach to this problem is to stringify and parse the entire object, 
 
 Another problem with stringify/parse is that they innacurately recreate objects, especially arrays. For instance, properties of arrays with non-numeric names are ignored and all sparse positions are filled with null. This library recreates objects and arrays more precisely.
 
-It's highly portable because it only relies on HTML5's localStorage.
+It's highly portable because it only relies on HTML5's localStorage. So you can use it on these browsers: http://caniuse.com/#feat=namevalue-storage
 
 Persistence code is deferred with setTimeout so the user interface remains snappy even when a lot of data changes are occuring. 
 
