@@ -47,7 +47,7 @@ var left_l_pp = P.pipe(
     return dir ? 
       ( P.runSnd({ 
       string:      ['$', P.id ], 
-      number:      ['#', function(x){return x.toString()} ], 
+      number:      ['#', String ], 
       boolean:     ['?', function (x) {return x?'t':'f'} ], 
       'null':      ['~'], 
       'undefined': ['_'],

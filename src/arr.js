@@ -20,12 +20,10 @@ Array.prototype._rhaboo_defensively = function(mutator) {
       slotnum = this._rhaboo.slotnum;
       refs = this._rhaboo.refs;
       R.release(this, ss, true);
-      //R.forgetProps(this, ss);
     }
     var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
     if (slotnum) {
       R.addRef(this, ss, slotnum, refs);
-      //R.storeProps(this, ss);
       R.execute(ss);
     }
     return retval;
