@@ -1,0 +1,54 @@
+<script src = '../rhaboo.max.js'></script>
+<script>
+
+///////////////////////////////////////////////////
+
+function Animal(name) { this.name = name; }
+Animal.prototype.constructor = Animal;
+Animal.prototype.getNoise = function() { return "<silence>";}
+Animal.prototype.sayHello = function() { return "Hello, I'm "+this.name+". "+this.getNoise();}
+
+function Cat(name) { Animal.call(this, name); }; 
+Cat.prototype = new Animal(false);
+Cat.prototype.constructor = Cat;
+Cat.prototype.getNoise = function() { return "Miaow! ";}
+
+function Dog(name) { Animal.call(this, name); }; 
+Dog.prototype = new Animal(false);
+Dog.prototype.constructor = Dog;
+Dog.prototype.getNoise = function() { return "Woof! ";}
+
+function Rotweiler(name) { Dog.call(this, name); }; 
+Rotweiler.prototype = new Dog(false);
+Rotweiler.prototype.constructor = Rotweiler;
+Rotweiler.prototype.sayHello = function() { return Dog.prototype.sayHello.call(this) + "Now get lost before I bite your arm off."}
+
+///////////////////////////////////////////////////
+
+var store; 
+
+function onLoad() {
+  store = Rhaboo.persistent('OO demo');
+  if (!store.used) init();
+  show(store.fifi.sayHello());
+  show(store.butch.sayHello());
+}
+
+function init() {
+  show("Initialising new store");
+  store.write('fifi', new Cat('Fifi'));
+  store.write('butch', new Rotweiler('Butch'));
+  store.write('used', true);
+}
+
+function show(msg) { document.getElementById('here').innerHTML += msg + '<br/>'; }
+
+</script>
+<body onLoad='onLoad();'>
+  <div id='here'></div>
+  <p><span style="background-color: red" onClick='Rhaboo.nuke(); this.innerHTML="Now reload."'>Nuke localStorage</span>
+  <p>OO has limited support. The internal behaviour is that the constructor and length property of an object are saved, and then during restoration the same constructor is invoked with the stored length as a parameter. This is a convenient way to preserve the length of arrays and anything derived from them. If no length property is found to save, then it is not saved and the constructor is invoked without parameters during restoration. 
+  <p>The name of the constructor is read directly from the object (although it is usually inherited from the prototype) and the global object must have a property of that name resolving to the constructor function by the time the persistent is opened for restore. 
+  <p>That style of prototype-based OO where Object.create() is used and the constructor pointer is ignored cannot be supported.
+</body>
+
