@@ -23,6 +23,6 @@ module.exports = function(grunt) {
   grunt.loadTasks('generate-tests/tasks');
   grunt.registerTask('default', ['gentest', 'browserify', 'uglify']);
   
- // grunt.registerTask('default', ['browserify', 'uglify']);
+//  grunt.registerTask('default', ['browserify', 'uglify']);
 
 }

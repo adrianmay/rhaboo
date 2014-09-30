@@ -392,11 +392,12 @@ Object.prototype.erase = function(prop) {
 }
 
 
-function execute(sss) {
-  setTimeout( function (ss) {
+function execute(ss) {
+  var f = function() { 
     for (var i=0; i<ss.length; i++) 
       localStorage[ss[i][0]].apply(localStorage, ss[i][1]);
-  }(sss), 0);
+  }
+  setTimeout(f, 0);
 }
 
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
