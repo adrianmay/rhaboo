@@ -46,6 +46,7 @@ function show(msg) { document.getElementById('here').innerHTML += msg + '<br/>';
 </script>
 <body onLoad='onLoad();'>
   <div id='here'></div>
+  <p>Now hit reload.
   <p><span style="background-color: red" onClick='Rhaboo.nuke(); this.innerHTML="Now reload."'>Nuke localStorage</span>
   <p>OO has limited support. The internal behaviour is that the constructor and length property of an object are saved, and then during restoration the same constructor is invoked with the stored length as a parameter. This is a convenient way to preserve the length of arrays and anything derived from them. If no length property is found to save, then it is not saved and the constructor is invoked without parameters during restoration. 
   <p>The name of the constructor is read directly from the object (although it is usually inherited from the prototype) and the global object must have a property of that name resolving to the constructor function by the time the persistent is opened for restore. 
