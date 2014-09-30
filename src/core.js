@@ -171,11 +171,20 @@ function release(that, ss, force) {
 function forgetProps(that, ss) {
   var propname = undefined;
   for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
-    ss.push(['removeItem', [target.slotnum]]);
+    ss.push(['removeItem', [ls_prefix+target.slotnum]]);
     if (propname!==undefined && P.typeOf(propname) == 'object') release(propname, ss);
   }
   that._rhaboo.kids = {}; 
   that._rhaboo.next = that._rhaboo.prev = undefined;
+}
+
+function forgetProp(that, ss, prop) {
+  var target = that._rhaboo.kids[prop];
+  var prevname = target.prev;
+  ss.push(['removeItem', [ls_prefix+target.slotnum]]);
+  if (P.typeOf(prop) == 'object') release(prop, ss);
+  removeKid(that, prop);
+  updateSlot(that, ss, prevname);
 }
 
 Object.prototype.write = function(prop, val) { 
@@ -195,7 +204,7 @@ Object.prototype.erase = function(prop) {
   var ss = [];
   if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
   var target = this._rhaboo.kids[prop];
-  ss.push(['removeItem', [target.slotnum]]);
+  ss.push(['removeItem', [ls_prefix+target.slotnum]]);
   var prevname = target.prev;
   removeKid(this, prop);
   updateSlot(this, ss, prevname);
@@ -239,6 +248,7 @@ module.exports = {
 //  forgetProps : forgetProps,
   addRef: addRef,
   release: release,
+  forgetProp : forgetProp,
   updateSlot : updateSlot,
   execute : execute,
   nuke : nuke,

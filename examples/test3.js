@@ -32,7 +32,8 @@ QUnit.test( "Complex object after post-restore manipulation", function( assert )
 QUnit.test( "Array mutators", function( assert ) {
   var storeA = Rhaboo.persistent("Try Arrays");
   console.log(JSON.stringify(storeA.arr));
-  assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]===undefined, "popped and remembered");
+  assert.ok(storeA.arr[0]==4  && storeA.arr[1]==3 && storeA.arr[2]==2 && storeA.arr[3]===undefined, 
+            "popped and remembered");
 
 });
 
