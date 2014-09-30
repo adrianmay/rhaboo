@@ -1,6 +1,6 @@
 <script src = '../rhaboo.min.js'></script>
 <script>
-  var store = Rhaboo.persistent('Some name');
+  var store = Rhaboo.persistent('Counter demo');
   store.write('count', store.count ? store.count+1 : 1);
 </script>
 <body onLoad='
