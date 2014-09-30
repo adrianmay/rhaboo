@@ -115,7 +115,6 @@ Array.prototype._rhaboo_defensively = function(mutator) {
   }
 }
 
-/*
 Array.prototype.push = function () {
   var l1 = this.length;
   var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
@@ -123,22 +122,25 @@ Array.prototype.push = function () {
   if ( this._rhaboo !== undefined && l2>l1 ) {
     var ss = [];
     for (var i=l1; i<l2; i++) {
-      var k = this._rhaboo_childKey(i);
-      R.stashers[R.getTypeOf(this[i])](ss, k, this[i]) ;
+      R.storeProp(this, ss, i);
     }
-    this._rhaboo_storeLength(ss, true);
-    R.procrastinate(ss);
+    R.updateSlot(this, ss); //for length
+    R.execute(ss);
   }
 }
- */ 
+
 Array.prototype.pop = function () {
+  var ss = [];
   var l = this.length;
   if ( this._rhaboo !== undefined && l>0 ) {
-    var ss = [];
     R.forgetProp(this, ss, l-1);
-    R.execute(ss);
   } 
-  return Array.prototype._rhaboo_originals.pop.apply(this, arguments);
+  var ret =  Array.prototype._rhaboo_originals.pop.apply(this, arguments);
+  if ( this._rhaboo !== undefined && l>0 ) {
+    R.updateSlot(this, ss); //for length
+    R.execute(ss);
+  }
+  return ret;
 }
 
 Array.prototype.write = function(prop, val) { 
@@ -149,7 +151,7 @@ Array.prototype.write = function(prop, val) {
 }
 
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-Array.prototype.push = Array.prototype._rhaboo_defensively("push");
+//Array.prototype.push = Array.prototype._rhaboo_defensively("push");
 //Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
 Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
 Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
@@ -321,12 +323,15 @@ function addRef(that, ss, slotnum, refs) {
 }
 
 function storeProps(that, ss) {
-  for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') {
-    slotFor(that, ss, prop);
-    if (P.typeOf(that[prop]) === 'object')
-      addRef(that[prop],ss);
-    updateSlot(that, ss, prop);
-  }
+  for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') 
+    storeProp(that, ss, prop);
+}
+
+function storeProp(that, ss, prop) {
+  slotFor(that, ss, prop);
+  if (P.typeOf(that[prop]) === 'object')
+    addRef(that[prop],ss);
+  updateSlot(that, ss, prop);
 }
 
 function release(that, ss, force) {
@@ -349,6 +354,7 @@ function forgetProps(that, ss) {
 
 function forgetProp(that, ss, prop) {
   var target = that._rhaboo.kids[prop];
+  if (target===undefined) return; //This can happen if you sort a sparse array
   var prevname = target.prev;
   ss.push(['removeItem', [ls_prefix+target.slotnum]]);
   if (P.typeOf(prop) == 'object') release(prop, ss);
@@ -417,6 +423,7 @@ module.exports = {
 //  forgetProps : forgetProps,
   addRef: addRef,
   release: release,
+  storeProp : storeProp,
   forgetProp : forgetProp,
   updateSlot : updateSlot,
   execute : execute,

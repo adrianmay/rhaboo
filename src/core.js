@@ -152,12 +152,15 @@ function addRef(that, ss, slotnum, refs) {
 }
 
 function storeProps(that, ss) {
-  for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') {
-    slotFor(that, ss, prop);
-    if (P.typeOf(that[prop]) === 'object')
-      addRef(that[prop],ss);
-    updateSlot(that, ss, prop);
-  }
+  for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') 
+    storeProp(that, ss, prop);
+}
+
+function storeProp(that, ss, prop) {
+  slotFor(that, ss, prop);
+  if (P.typeOf(that[prop]) === 'object')
+    addRef(that[prop],ss);
+  updateSlot(that, ss, prop);
 }
 
 function release(that, ss, force) {
@@ -180,6 +183,7 @@ function forgetProps(that, ss) {
 
 function forgetProp(that, ss, prop) {
   var target = that._rhaboo.kids[prop];
+  if (target===undefined) return; //This can happen if you sort a sparse array
   var prevname = target.prev;
   ss.push(['removeItem', [ls_prefix+target.slotnum]]);
   if (P.typeOf(prop) == 'object') release(prop, ss);
@@ -248,6 +252,7 @@ module.exports = {
 //  forgetProps : forgetProps,
   addRef: addRef,
   release: release,
+  storeProp : storeProp,
   forgetProp : forgetProp,
   updateSlot : updateSlot,
   execute : execute,

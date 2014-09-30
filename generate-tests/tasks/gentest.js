@@ -37,7 +37,7 @@ var m = {
   test_page: function(page) {
     return m.html(
       m.css('http://code.jquery.com/qunit/qunit-1.14.0.css') +
-      m.script_ex('../../rhaboo.min.js') +
+      m.script_ex('../../rhaboo.max.js') +
       m.el('style', {}, '.big { font-size:xx-large; }', true),
       m.script_ex('http://code.jquery.com/qunit/qunit-1.14.0.js') +
       m.script_ex('page.'+page+'.js') +
