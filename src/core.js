@@ -175,7 +175,10 @@ function forgetProps(that, ss) {
   var propname = undefined;
   for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
     ss.push(['removeItem', [ls_prefix+target.slotnum]]);
-    if (propname!==undefined && P.typeOf(propname) == 'object') release(propname, ss);
+    if (propname!==undefined && P.typeOf(that[propname]) == 'object') {
+      console.log("DROP: "+propname);
+      release(that[propname], ss);
+    }
   }
   that._rhaboo.kids = {}; 
   that._rhaboo.next = that._rhaboo.prev = undefined;
@@ -186,7 +189,7 @@ function forgetProp(that, ss, prop) {
   if (target===undefined) return; //This can happen if you sort a sparse array
   var prevname = target.prev;
   ss.push(['removeItem', [ls_prefix+target.slotnum]]);
-  if (P.typeOf(prop) == 'object') release(prop, ss);
+  if (P.typeOf(that[prop]) == 'object') release(that[prop], ss);
   removeKid(that, prop);
   updateSlot(that, ss, prevname);
 }

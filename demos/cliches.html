@@ -13,23 +13,14 @@ if (!store.initialised) {
       { text: "dialogging",          count: 3 },
       { text: "outside of the box",  count: 12 }
   ]);
+  //This demonstrates multiple references to the same object:
+  store.write("silly", store.cliches[1]);
 }
 
 function newCliche(text) {
-
-  //Array functions work persistently. Push and pop are quite fast...
-  store.cliches.push( { 
-    text: text, 
-    count: 1 
-  } );
-
-  //This is not so fast cos we have to assume everything in the array changed...
-  store.cliches.sort( function(a,b) { 
-    return a.text < b.text ? -1 
-      : a.text > b.text ? 1 
-      : 0; 
-  });
-
+  //Array functions work persistently. 
+  store.cliches.push( { text: text, count: 1 } );
+  store.cliches.sort( function(a,b) { return a.text < b.text ? -1 : a.text > b.text ? 1 : 0; });
   render();
 }
 
@@ -43,6 +34,11 @@ function incrementCliche(k) {
 function deleteCliche(k) {
   //In JS, splice is the correct way to delete an element of an array...
   store.cliches.splice(k,1); 
+  render();
+}
+
+function sillyCliche(k) {
+  store.write('silly', store.cliches[k]);
   render();
 }
 
@@ -64,8 +60,15 @@ function render() {
     addCell(tr, store.cliches[k].count);
     addCell(tr, '<div class="button" onClick="incrementCliche('+k+');">Again</div>');
     addCell(tr, '<div class="button" onClick="deleteCliche('+k+');">Delete</div>');
+    addCell(tr, '<div class="button" onClick="sillyCliche('+k+');">Silly</div>');
   }
    
+  var bot = document.getElementById('bot');
+  bot.innerHTML = '';
+  var s = document.createElement('tr');
+  s.innerHTML="<td colspan='5'>You can't get much sillier than '"+store.silly.text+"'</td>"
+  bot.appendChild(s);
+
 }
 
 </script>
@@ -80,6 +83,7 @@ function render() {
             newCliche(document.getElementById('newtext').value);"/>
    </td></form></tr>
   </table>
+  <div id='bot'></div>
 </body>
 
 
