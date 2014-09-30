@@ -210,7 +210,7 @@ var right_pp = tuple2([P.string_pp, P.number_pp])
 var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
     return dir ? ( x.length!==undefined ? [x.constructor.name, x.length] : [x.constructor.name] ) //can't simplify this cos we actually restore undefineds
-               : ( global[x[0]](x[1]) ) 
+               : ( new global[x[0]](x[1]) ) 
   }})(tuple2([P.string_pp, P.number_pp]));
 
 var left_l_pp = P.pipe(
