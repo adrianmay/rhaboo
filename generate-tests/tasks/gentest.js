@@ -88,7 +88,7 @@ module.exports = function(grunt) {
     if (!values.hasOwnProperty(type))
       throw "Asking getValue for goofy type: " +type ;
     var set = values[type][1];
-    if (set===null) { //kill
+    if (set===null) { //erase
       return null;
     } else {
       var max = set.length;
@@ -278,7 +278,7 @@ module.exports = function(grunt) {
         } else {
           if (episode=='k') {
             conscript({
-              action : "kill",
+              action : "erase",
               pers: pers,
               path: path.slice(),
             });
@@ -332,7 +332,7 @@ module.exports = function(grunt) {
     box[step.pers] = box[step.pers] || {};
     if (step.action=="yield") {
       ;
-    } else if (step.action=="kill"){
+    } else if (step.action=="erase"){
       var path = step.path.slice();
       var where = path.pop();
       var target=box[step.pers];
@@ -411,7 +411,7 @@ module.exports = function(grunt) {
     pers3[page] = pers3[page] || [];
     for (var st in pers) if (pers.hasOwnProperty(st)) {
       var step = pers[st];
-      if (step.action=="write" || step.action=="array" || step.action=="kill") {
+      if (step.action=="write" || step.action=="array" || step.action=="erase") {
         pers3[page].push({
           action :step.action,
           path : step.path,

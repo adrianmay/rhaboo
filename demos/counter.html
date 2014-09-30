@@ -1,6 +1,6 @@
 <script src = '../rhaboo.min.js'></script>
 <script>
-  var store = new Rhaboo.Persistent('Some name');
+  var store = Rhaboo.persistent('Counter demo');
   store.write('count', store.count ? store.count+1 : 1);
 </script>
 <body onLoad='
@@ -8,8 +8,12 @@
       innerHTML = store.count;'>
   <p>You loaded this page <span id='count'></span> times. Now hit reload.</p>
   <p onClick='
-    store.kill("count");
+    store.erase("count");
     this.innerHTML="Now reload."'>
   Forget</p>
+  <p onClick='
+    Rhaboo.nuke();
+    this.innerHTML="Now reload."'>
+  Nuke localStorage</p>
 </body>
 

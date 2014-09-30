@@ -56,7 +56,7 @@ var persistents = {
          "expect": "{<P1000031>=<je e>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000031"
          ],
@@ -185,7 +185,7 @@ var persistents = {
    ],
    "P1000100": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000101"
          ],
@@ -238,7 +238,7 @@ var persistents = {
    ],
    "P1000125": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000126"
          ],
@@ -333,7 +333,7 @@ var persistents = {
          "expect": "{<P1000167>=(-2);<P1000168>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000168"
          ],
@@ -404,7 +404,7 @@ var persistents = {
          "expect": "{<P1000202>=@;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000202"
          ],
@@ -433,7 +433,7 @@ var persistents = {
    ],
    "P1000222": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000223"
          ],
@@ -458,14 +458,14 @@ var persistents = {
    ],
    "P1000229": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000230"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000230"
          ],
@@ -482,7 +482,7 @@ var persistents = {
    ],
    "P1000240": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000241"
          ],
@@ -519,7 +519,7 @@ var persistents = {
          "expect": "{<P1000260>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000260"
          ],
@@ -528,7 +528,7 @@ var persistents = {
    ],
    "P1000262": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000263"
          ],
@@ -662,7 +662,7 @@ var persistents = {
    ],
    "P1000308": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000309"
          ],
@@ -695,7 +695,7 @@ var persistents = {
          "expect": "{<P1000317>=(-2);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000317"
          ],
@@ -790,7 +790,7 @@ var persistents = {
          "expect": "{<P1000380>=(1.04);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000380"
          ],
@@ -831,14 +831,14 @@ var persistents = {
          "expect": "{<P1000388>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000388"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000388"
          ],
@@ -873,7 +873,7 @@ var persistents = {
          "expect": "{<P1000407>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000407"
          ],
@@ -1146,7 +1146,7 @@ var persistents = {
    ],
    "P1000528": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000529"
          ],
@@ -1191,7 +1191,7 @@ var persistents = {
    ],
    "P1000551": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000552"
          ],
@@ -1308,7 +1308,7 @@ var persistents = {
    ],
    "P1000599": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000600"
          ],
@@ -1406,7 +1406,7 @@ var persistents = {
          "expect": "{<P1000640>=[(4):<0>=(2);<1>=(3);<2>=(4);<3>=(5);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000640"
          ],
@@ -1467,7 +1467,7 @@ var persistents = {
          "expect": "{<P1000663>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000663"
          ],
@@ -1558,7 +1558,7 @@ var persistents = {
          "expect": "{<P1000717>=[(5):<0>=(2);<1>=!;<2>=<blah>;<3>=[(3):<0>=(3);<1>=@;<2>=<ecky>;];<4>={<a>=<asdf>;<b>=@;};];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000717"
          ],
@@ -1681,7 +1681,7 @@ var persistents = {
    ],
    "P1000785": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000786"
          ],
@@ -1713,7 +1713,7 @@ var persistents = {
          "expect": "{<P1000786>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];<P1000788>=_;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000786",
             "P1000788"
@@ -1886,7 +1886,7 @@ var persistents = {
          "expect": "{<P1000848>=<ee efwdfb >;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000848"
          ],
@@ -1895,7 +1895,7 @@ var persistents = {
    ],
    "P1000853": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000854"
          ],
@@ -2052,7 +2052,7 @@ var persistents = {
    ],
    "P1000935": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1000936"
          ],
@@ -2493,7 +2493,7 @@ var persistents = {
          "expect": "{<P1001185>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001185"
          ],
@@ -2554,7 +2554,7 @@ var persistents = {
    ],
    "P1001210": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001211"
          ],
@@ -2589,7 +2589,7 @@ var persistents = {
          "expect": "{<P1001229>=(1.04);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001229"
          ],
@@ -2614,7 +2614,7 @@ var persistents = {
          "expect": "{<P1001243>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001243"
          ],
@@ -2633,7 +2633,7 @@ var persistents = {
    ],
    "P1001260": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001261"
          ],
@@ -2656,7 +2656,7 @@ var persistents = {
          "expect": "{<P1001261>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001261",
             "P1001263"
@@ -2764,7 +2764,7 @@ var persistents = {
    ],
    "P1001294": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001295"
          ],
@@ -2907,7 +2907,7 @@ var persistents = {
          "expect": "{<P1001365>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001365"
          ],
@@ -3029,7 +3029,7 @@ var persistents = {
          "expect": "{<P1001397>=[(8):<2>=[(3):<0>=(1);<1>=@;<2>=<three>;];<3>=(1);<4>=(2);<5>=(3);<6>=(4);<7>=(5);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001397",
             "P1001399"
@@ -3104,7 +3104,7 @@ var persistents = {
          "expect": "{<P1001443>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001443"
          ],
@@ -3211,7 +3211,7 @@ var persistents = {
          "expect": "{<P1001488>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001488",
             "P1001489"
@@ -3230,7 +3230,7 @@ var persistents = {
    ],
    "P1001501": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001502"
          ],
@@ -3285,7 +3285,7 @@ var persistents = {
    ],
    "P1001531": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001532"
          ],
@@ -3376,21 +3376,21 @@ var persistents = {
    ],
    "P1001574": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001575"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001575"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001575"
          ],
@@ -3471,7 +3471,7 @@ var persistents = {
          "expect": "{<P1001615>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001615"
          ],
@@ -3623,7 +3623,7 @@ var persistents = {
          "expect": "{<P1001679>=~;<P1001680>=[(7):<0>=_;<1>=(3);<2>=(4);<3>=(5);<4>=(10);<5>=(20);<6>=(30);];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001680"
          ],
@@ -3876,7 +3876,7 @@ var persistents = {
          "expect": "{<P1001807>=[(5):<0>=<the>;<1>=<quick>;<2>=<brown>;<3>=<fox>;<4>=<>;];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001807"
          ],
@@ -3981,7 +3981,7 @@ var persistents = {
          "expect": "{<P1001842>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001842"
          ],
@@ -4090,7 +4090,7 @@ var persistents = {
          "expect": "{<P1001905>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001905"
          ],
@@ -4151,7 +4151,7 @@ var persistents = {
    ],
    "P1001936": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1001937"
          ],
@@ -4246,7 +4246,7 @@ var persistents = {
    ],
    "P1001999": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002000"
          ],
@@ -4285,7 +4285,7 @@ var persistents = {
    ],
    "P1002025": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002026"
          ],
@@ -4314,7 +4314,7 @@ var persistents = {
    ],
    "P1002049": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002050"
          ],
@@ -4357,7 +4357,7 @@ var persistents = {
          "expect": "{<P1002065>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002065"
          ],
@@ -4498,7 +4498,7 @@ var persistents = {
    ],
    "P1002120": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002121"
          ],
@@ -4531,7 +4531,7 @@ var persistents = {
          "expect": "{<P1002129>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002129"
          ],
@@ -4566,7 +4566,7 @@ var persistents = {
          "expect": "{<P1002145>=<5t5t5t>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002145"
          ],
@@ -4581,7 +4581,7 @@ var persistents = {
          "expect": "{<P1002145>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002145"
          ],
@@ -4590,7 +4590,7 @@ var persistents = {
    ],
    "P1002150": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002151"
          ],
@@ -4739,7 +4739,7 @@ var persistents = {
          "expect": "{<P1002202>=(0);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002202"
          ],
@@ -4748,7 +4748,7 @@ var persistents = {
    ],
    "P1002210": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002211"
          ],
@@ -4791,7 +4791,7 @@ var persistents = {
    ],
    "P1002221": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002222"
          ],
@@ -4806,7 +4806,7 @@ var persistents = {
          "expect": "{<P1002222>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002222"
          ],
@@ -4831,7 +4831,7 @@ var persistents = {
          "expect": "{<P1002234>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002234"
          ],
@@ -4986,7 +4986,7 @@ var persistents = {
          "expect": "{<P1002302>=(-84);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002302"
          ],
@@ -5003,7 +5003,7 @@ var persistents = {
    ],
    "P1002311": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002312"
          ],
@@ -5056,7 +5056,7 @@ var persistents = {
          "expect": "{<P1002338>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002338"
          ],
@@ -5388,7 +5388,7 @@ var persistents = {
    ],
    "P1002493": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002494"
          ],
@@ -5415,7 +5415,7 @@ var persistents = {
    ],
    "P1002507": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002508"
          ],
@@ -5516,7 +5516,7 @@ var persistents = {
    ],
    "P1002531": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002532"
          ],
@@ -5543,7 +5543,7 @@ var persistents = {
    ],
    "P1002553": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002554"
          ],
@@ -5566,7 +5566,7 @@ var persistents = {
          "expect": "{<P1002554>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002554",
             "P1002555"
@@ -5692,7 +5692,7 @@ var persistents = {
          "expect": "{<P1002633>=(844758);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002633"
          ],
@@ -5864,7 +5864,7 @@ var persistents = {
    ],
    "P1002707": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002708"
          ],
@@ -5905,7 +5905,7 @@ var persistents = {
    ],
    "P1002715": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002716"
          ],
@@ -6142,7 +6142,7 @@ var persistents = {
    ],
    "P1002850": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002851"
          ],
@@ -6291,14 +6291,14 @@ var persistents = {
    ],
    "P1002948": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002949"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1002949"
          ],
@@ -6477,7 +6477,7 @@ var persistents = {
          "expect": "{<P1003030>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003030"
          ],
@@ -6644,7 +6644,7 @@ var persistents = {
          "expect": "{<P1003126>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003126"
          ],
@@ -6677,7 +6677,7 @@ var persistents = {
          "expect": "{<P1003126>={<P1003128>=(-6385);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003126",
             "P1003128"
@@ -6705,7 +6705,7 @@ var persistents = {
    ],
    "P1003145": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003146"
          ],
@@ -6778,7 +6778,7 @@ var persistents = {
    ],
    "P1003185": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003186"
          ],
@@ -6911,7 +6911,7 @@ var persistents = {
    ],
    "P1003234": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003235"
          ],
@@ -7156,7 +7156,7 @@ var persistents = {
    ],
    "P1003346": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003347"
          ],
@@ -7255,7 +7255,7 @@ var persistents = {
    ],
    "P1003410": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003411"
          ],
@@ -7344,7 +7344,7 @@ var persistents = {
    ],
    "P1003484": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003485"
          ],
@@ -7405,7 +7405,7 @@ var persistents = {
          "expect": "{<P1003512>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003512"
          ],
@@ -7444,7 +7444,7 @@ var persistents = {
    ],
    "P1003541": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003542"
          ],
@@ -7519,7 +7519,7 @@ var persistents = {
    ],
    "P1003589": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003590"
          ],
@@ -7528,7 +7528,7 @@ var persistents = {
    ],
    "P1003598": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003599"
          ],
@@ -7537,7 +7537,7 @@ var persistents = {
    ],
    "P1003607": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003608"
          ],
@@ -7554,7 +7554,7 @@ var persistents = {
    ],
    "P1003616": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003617"
          ],
@@ -7623,14 +7623,14 @@ var persistents = {
    ],
    "P1003650": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003651"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003651"
          ],
@@ -7647,7 +7647,7 @@ var persistents = {
          "expect": "{<P1003659>=(4);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003659"
          ],
@@ -7757,7 +7757,7 @@ var persistents = {
    ],
    "P1003732": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003733"
          ],
@@ -7784,7 +7784,7 @@ var persistents = {
    ],
    "P1003752": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003753"
          ],
@@ -7813,7 +7813,7 @@ var persistents = {
    ],
    "P1003780": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003781"
          ],
@@ -7838,7 +7838,7 @@ var persistents = {
          "expect": "{<P1003788>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003788"
          ],
@@ -7909,7 +7909,7 @@ var persistents = {
          "expect": "{<P1003823>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003823"
          ],
@@ -7928,7 +7928,7 @@ var persistents = {
    ],
    "P1003836": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003837"
          ],
@@ -8007,7 +8007,7 @@ var persistents = {
          "expect": "{<P1003874>=<foo>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003874"
          ],
@@ -8259,7 +8259,7 @@ var persistents = {
    ],
    "P1003995": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1003996"
          ],
@@ -8310,7 +8310,7 @@ var persistents = {
          "expect": "{<P1004011>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004011"
          ],
@@ -8373,7 +8373,7 @@ var persistents = {
    ],
    "P1004043": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004044"
          ],
@@ -8410,7 +8410,7 @@ var persistents = {
    ],
    "P1004062": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004063"
          ],
@@ -8630,7 +8630,7 @@ var persistents = {
    ],
    "P1004154": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004155"
          ],
@@ -8699,7 +8699,7 @@ var persistents = {
          "expect": "{<P1004181>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004181",
             "P1004182"
@@ -8727,7 +8727,7 @@ var persistents = {
          "expect": "{<P1004194>=<    >;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004194"
          ],
@@ -8736,7 +8736,7 @@ var persistents = {
    ],
    "P1004201": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004202"
          ],
@@ -8769,7 +8769,7 @@ var persistents = {
          "expect": "{<P1004213>=(0);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004213"
          ],
@@ -8804,7 +8804,7 @@ var persistents = {
    ],
    "P1004229": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004230"
          ],
@@ -8813,7 +8813,7 @@ var persistents = {
    ],
    "P1004235": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004236"
          ],
@@ -8874,7 +8874,7 @@ var persistents = {
          "expect": "{<P1004260>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004260"
          ],
@@ -8889,7 +8889,7 @@ var persistents = {
          "expect": "{<P1004260>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004260"
          ],
@@ -8954,7 +8954,7 @@ var persistents = {
          "expect": "{<P1004305>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004305"
          ],
@@ -9059,7 +9059,7 @@ var persistents = {
    ],
    "P1004385": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004386"
          ],
@@ -9068,7 +9068,7 @@ var persistents = {
    ],
    "P1004395": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004396"
          ],
@@ -9139,14 +9139,14 @@ var persistents = {
          "expect": "{<P1004419>=~;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004419"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004420"
          ],
@@ -9364,7 +9364,7 @@ var persistents = {
    ],
    "P1004530": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004531"
          ],
@@ -9619,7 +9619,7 @@ var persistents = {
          "expect": "{<P1004645>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004645"
          ],
@@ -9638,7 +9638,7 @@ var persistents = {
    ],
    "P1004656": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004657"
          ],
@@ -9785,7 +9785,7 @@ var persistents = {
          "expect": "{<P1004765>=(844758);}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004765"
          ],
@@ -9828,7 +9828,7 @@ var persistents = {
          "expect": "{<P1004783>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004783"
          ],
@@ -9861,14 +9861,14 @@ var persistents = {
    ],
    "P1004792": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004793"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004793"
          ],
@@ -9901,7 +9901,7 @@ var persistents = {
          "expect": "{<P1004800>=[(0):];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004800",
             "P1004801"
@@ -9990,7 +9990,7 @@ var persistents = {
          "expect": "{<P1004825>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004825"
          ],
@@ -10031,7 +10031,7 @@ var persistents = {
          "expect": "{<P1004834>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004834"
          ],
@@ -10078,7 +10078,7 @@ var persistents = {
    ],
    "P1004857": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004858"
          ],
@@ -10095,7 +10095,7 @@ var persistents = {
          "expect": "{<P1004864>=_;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004864"
          ],
@@ -10172,7 +10172,7 @@ var persistents = {
          "expect": "{<P1004888>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004888"
          ],
@@ -10181,7 +10181,7 @@ var persistents = {
    ],
    "P1004893": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004894"
          ],
@@ -10291,7 +10291,7 @@ var persistents = {
    ],
    "P1004965": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004966"
          ],
@@ -10335,7 +10335,7 @@ var persistents = {
    ],
    "P1004987": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1004988"
          ],
@@ -10426,7 +10426,7 @@ var persistents = {
    ],
    "P1005037": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005038"
          ],
@@ -10497,7 +10497,7 @@ var persistents = {
    ],
    "P1005076": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005077"
          ],
@@ -10534,7 +10534,7 @@ var persistents = {
    ],
    "P1005097": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005098"
          ],
@@ -10613,7 +10613,7 @@ var persistents = {
    ],
    "P1005121": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005122"
          ],
@@ -10632,7 +10632,7 @@ var persistents = {
    ],
    "P1005142": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005143"
          ],
@@ -10853,7 +10853,7 @@ var persistents = {
          "expect": "{<P1005278>={<b>=[(0):];<c>=[(1):<0>={<x>=(2);<y>=@;};];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005278"
          ],
@@ -10880,7 +10880,7 @@ var persistents = {
    ],
    "P1005289": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005290"
          ],
@@ -11060,7 +11060,7 @@ var persistents = {
    ],
    "P1005378": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005379"
          ],
@@ -11238,14 +11238,14 @@ var persistents = {
    ],
    "P1005437": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005438"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005438"
          ],
@@ -11405,7 +11405,7 @@ var persistents = {
    ],
    "P1005505": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005506"
          ],
@@ -11414,7 +11414,7 @@ var persistents = {
    ],
    "P1005515": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005516"
          ],
@@ -11629,7 +11629,7 @@ var persistents = {
    ],
    "P1005592": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005593"
          ],
@@ -11712,7 +11712,7 @@ var persistents = {
          "expect": "{<P1005608>={<n>={<n>={<n>={<the>=<who>;};};};};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005608",
             "P1005610"
@@ -11748,7 +11748,7 @@ var persistents = {
    ],
    "P1005625": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005626"
          ],
@@ -11785,7 +11785,7 @@ var persistents = {
    ],
    "P1005646": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005647"
          ],
@@ -11944,7 +11944,7 @@ var persistents = {
    ],
    "P1005732": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005733"
          ],
@@ -12095,7 +12095,7 @@ var persistents = {
          "expect": "{<P1005807>=[(1):<0>=[(1):<0>=[(1):<0>=[(1):<0>=[(3):<0>=(1);<1>=(2);<2>=(3);];];];];];}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005807"
          ],
@@ -12196,7 +12196,7 @@ var persistents = {
          "expect": "{<P1005866>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005866"
          ],
@@ -12223,7 +12223,7 @@ var persistents = {
    ],
    "P1005881": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005882"
          ],
@@ -12240,7 +12240,7 @@ var persistents = {
          "expect": "{<P1005891>=<23232323>;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005891"
          ],
@@ -12347,7 +12347,7 @@ var persistents = {
    ],
    "P1005940": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005941"
          ],
@@ -12398,7 +12398,7 @@ var persistents = {
    ],
    "P1005959": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1005960"
          ],
@@ -12586,7 +12586,7 @@ var persistents = {
          "expect": "{<P1006012>={<a>=[(0):];<b>=[(0):];};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006012"
          ],
@@ -12671,7 +12671,7 @@ var persistents = {
          "expect": "{<P1006037>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006037"
          ],
@@ -12896,7 +12896,7 @@ var persistents = {
          "expect": "{<P1006112>={<bar>=[(4):<0>=<the>;<1>=(3);<2>=<little>;<3>=@;];<foo>=(2);};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006112"
          ],
@@ -12923,7 +12923,7 @@ var persistents = {
    ],
    "P1006133": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006134"
          ],
@@ -12982,7 +12982,7 @@ var persistents = {
    ],
    "P1006144": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006145"
          ],
@@ -13173,14 +13173,14 @@ var persistents = {
    ],
    "P1006273": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006274"
          ],
          "expect": "{}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006274"
          ],
@@ -13227,7 +13227,7 @@ var persistents = {
          "expect": "{<P1006308>=<ee efwdfb >;}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006308"
          ],
@@ -13419,7 +13419,7 @@ var persistents = {
    ],
    "P1006375": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006376"
          ],
@@ -13466,7 +13466,7 @@ var persistents = {
          "expect": "{<P1006412>={};}"
       },
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006412"
          ],
@@ -13627,7 +13627,7 @@ var persistents = {
    ],
    "P1006501": [
       {
-         "action": "kill",
+         "action": "erase",
          "path": [
             "P1006502"
          ],

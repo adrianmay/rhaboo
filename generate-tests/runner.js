@@ -44,18 +44,18 @@ var tests = {};
 for (var pe in persistents) if (persistents.hasOwnProperty(pe)) {
   //console.log("A");
   tests[pe] = function (pe) { return function (assert) {
-    var store = new Rhaboo.Persistent(pe);
+    var store = Rhaboo.persistent(pe);
     var steps = persistents[pe];
   //  console.log("C : "+ JSON.stringify(persistents));
   //  console.log("D : "+ pe);
     for (var st in steps) if (steps.hasOwnProperty(st)) { 
    //   console.log("B");
       var step = steps[st];
-      if (step.action=="write"  || step.action=="array" || step.action=="kill") {
+      if (step.action=="write"  || step.action=="array" || step.action=="erase") {
         var path = step.path.slice();
         var target = store;
         var where;
-        if (step.action==="write" || step.action=="kill") 
+        if (step.action==="write" || step.action=="erase") 
           where = path.pop();
         var x;
         for (x = path.shift(); x; x=path.shift()) {
@@ -66,8 +66,8 @@ for (var pe in persistents) if (persistents.hasOwnProperty(pe)) {
           vehicle = ajon.parse(step.vehicle);
         if (step.action==="write") {
           target.write(where, vehicle.val);
-        } else if (step.action=="kill") {
-          target.kill(where);
+        } else if (step.action=="erase") {
+          target.erase(where);
         } else if (step.action=="array") {
           Array.prototype[vehicle[0]].apply(target, vehicle[1])
         }
