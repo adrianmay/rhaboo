@@ -65,7 +65,7 @@ function vis(name, v) {
   }
 }
 
-var store = new Rhaboo.Persistent("RhabooHomePage");
+var store = Rhaboo.persistent("RhabooHomePage");
 
 function show1(x) {
   vis(store.showing1, false);
