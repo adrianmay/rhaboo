@@ -6,14 +6,11 @@
 <body onLoad='
     document.getElementById("count").
       innerHTML = store.count;'>
+  <p><a href='index.html'>Back to demos index</a></p>
   <p>You loaded this page <span id='count'></span> times. Now hit reload.</p>
   <p onClick='
     store.erase("count");
     this.innerHTML="Now reload."'>
   Forget</p>
-  <p onClick='
-    Rhaboo.nuke();
-    this.innerHTML="Now reload."'>
-  Nuke localStorage</p>
 </body>
 

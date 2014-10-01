@@ -244,6 +244,11 @@ grunt    # be patient with this
         <p><a class='demo plain' href='demos/cliches.html'>Simple database</a> 
         <p><a class='demo plain' href='demos/game.html'>Tiles game</a> 
         <p><a class='demo plain' href='demos/oo.html'>Object orientation</a> 
+        <p>You can run these in Firefox OS Simulator by installing the manifest in rhaboo's root directory.
+        <p><span style="color: red" onClick='
+                 for (var i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+                 this.innerHTML="Nuked.";
+           '>Nuke localStorage</span>
       </div>
       <div id='REFERENCE' style='display:none;'> 
         <table id='api' width='100%'>
