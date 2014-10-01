@@ -8,7 +8,7 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   splice : Array.prototype.splice,
   reverse : Array.prototype.reverse,
   sort : Array.prototype.sort,
-  //fill : Array.prototype.fill,
+  fill : Array.prototype.fill,
 };
 
 Array.prototype._rhaboo_defensively = function(mutator) {
@@ -72,8 +72,8 @@ Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
 Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
 Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
 Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
+Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 //Array.prototype.write = Array.prototype._rhaboo_defensively("write");
-//Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
 
 module.exports = {
   persistent : R.persistent,
