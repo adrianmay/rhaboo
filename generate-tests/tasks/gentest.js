@@ -43,8 +43,15 @@ var m = {
       m.script_ex('page.'+page+'.js') +
       m.script_ex('http://adrianmay.github.io/ajon/src/ajon.js') +
       m.script_ex('../runner.js') +
-      m.biglink('Start','page.0.html') + 
-      m.biglink('Next','page.'+(parseInt(page)+1)+'.html') + 
+      m.el('table', {width:'100%'}, m.el('tr', {}, 
+        m.el('td', { }, 
+          m.biglink('Start','page.0.html') + 
+          m.biglink('Next','page.'+(parseInt(page)+1)+'.html')  
+        ) +
+        m.el('td', {style:'text-align:right;' }, 
+          m.biglink('Home','http://rhaboo.org')  
+        ) 
+      )) +
       m.el('h1', {}, 'Rhaboo Generated Tests '+page) +
       m.el('p', {}, 'These tests should be run in order from the start, allowing each page to complete.') +
       m.el('a', {href: 'page.'+page+'.js'}, 'Test Code') +
