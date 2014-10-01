@@ -20,8 +20,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.loadTasks('generate-tests/tasks');
-  grunt.registerTask('default', ['gentest', 'browserify', 'uglify']);
+  grunt.loadTasks('grunt-tasks');
+  grunt.registerTask('default', ['write-sample-data', 'gentest', 'browserify', 'uglify']);
   
 //  grunt.registerTask('default', ['browserify', 'uglify']);
 

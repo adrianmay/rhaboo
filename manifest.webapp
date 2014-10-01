@@ -1,0 +1,12 @@
+{
+  "name": "Rhaboo Demos",
+  "description": "Demonstrate Rhaboo on Firefox OS",
+  "version": "1.0",
+  "launch_path": "demos/index.html",
+  "developer": {
+    "name": "Adran May",
+    "url": "http://rhaboo.org"
+  }
+}
+
+

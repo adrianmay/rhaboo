@@ -1,0 +1,11 @@
+<h3>Choose a demo:</h3>
+<a href='counter.html'>Counter</a><br/>
+<a href='cliches.html'>Cliches</a><br/>
+<a href='game.html'>Game</a><br/>
+<a href='oo.html'>OO</a><br/>
+
+<p><span style="color: red" onClick='
+  for (var i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+  this.innerHTML="Nuked."
+  '>Nuke localStorage</span>
+
