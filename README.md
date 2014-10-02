@@ -113,6 +113,7 @@ You can also pass a complex object to `write`:
        "The",   
        3,   
        "Musketeers",   
+       new Date(),
        {}   
      ]   
    } );
