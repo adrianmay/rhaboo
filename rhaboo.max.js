@@ -209,9 +209,13 @@ var right_pp = tuple2([P.string_pp, P.number_pp])
 
 var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
-    return dir ? ( x.length!==undefined ? [x.constructor.name, x.length] : [x.constructor.name] ) //can't simplify this cos we actually restore undefineds
-               : ( new global[x[0]](x[1]) ) 
-  }})(tuple2([P.string_pp, P.number_pp]));
+    return dir ? ( 
+                   x.constructor.name === 'Date' ? [x.constructor.name, x.toString() ] :
+                   x.length!==undefined ? [x.constructor.name, x.length.toString()] : 
+                   [x.constructor.name] ) //can't simplify this cos we actually restore undefineds
+               : ( new global[x[0]]( x[0]=='Date'?x[1]:x[1]?Number(x[1]):undefined ) ) 
+               //: ( new global[x[0]]( x[1] ) ) 
+  }})(tuple2([P.string_pp, P.string_pp]));
 
 var left_l_pp = P.pipe(
   function (dir) { return function (x) { 
@@ -347,7 +351,6 @@ function forgetProps(that, ss) {
   for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
     ss.push(['removeItem', [ls_prefix+target.slotnum]]);
     if (propname!==undefined && P.typeOf(that[propname]) == 'object') {
-      console.log("DROP: "+propname);
       release(that[propname], ss);
     }
   }
