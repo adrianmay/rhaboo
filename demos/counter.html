@@ -1,13 +1,21 @@
 <script src = '../rhaboo.min.js'></script>
 <script>
+
   var store = Rhaboo.persistent('Counter demo');
   store.write('count', store.count ? store.count+1 : 1);
+
+  var laststamp = store.stamp ? store.stamp.toString() : "never";
+  store.write('stamp', new Date());
+
 </script>
 <body onLoad='
-    document.getElementById("count").
-      innerHTML = store.count;'>
+    document.getElementById("count").innerHTML = store.count;
+    document.getElementById("stamp").innerHTML = laststamp;
+    '>
   <p><a href='index.html'>Back to demos index</a></p>
-  <p>You loaded this page <span id='count'></span> times. Now hit reload.</p>
+  <p>You loaded this page <span id='count'></span> times. 
+  <p>Last time was <span id='stamp'></span>. 
+  <p>Now hit reload.</p>
   <p onClick='
     store.erase("count");
     this.innerHTML="Now reload."'>
