@@ -5,6 +5,8 @@ Rhaboo
 
 Website at http://rhaboo.org
 
+Please star the repo if you use it - Thx.
+
 What is it?
 -----------
 
