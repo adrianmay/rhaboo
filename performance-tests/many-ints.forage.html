@@ -1,0 +1,28 @@
+<script src = '../other-peoples/localforage.js'></script>
+<script>
+
+var whenStarted, whenStopped;
+
+var i=-1;
+
+function iter() {
+  i++;
+  if (i==50) {
+    whenStopped = performance.now();
+    document.getElementById('result').innerHTML = whenStopped-whenStarted;
+  }
+  else
+    localforage.setItem("Foo" + i%10, i, function() { iter(); });
+}
+
+function go() {
+  whenStarted = performance.now();
+  iter();
+}
+</script>
+<body onLoad='go()'>
+  <h3>Write one of 10 integers 50 times over with localForage</h3>
+  <p><a href='index.html'>Back to performance tests index</a></p>
+  <p>Test took <span id='result'></span> ms</p>
+</body>
+
