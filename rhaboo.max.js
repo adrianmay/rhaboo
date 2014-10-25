@@ -56,7 +56,7 @@ var fixedWidth = function (cols) { return function (ps) { return function (dir) 
 
 //Work around IE bug
 function mysplit(x, sep) {
-  res = x.split(sep);
+  var res = x.split(sep);
   if (res.length==1 && res[0]==undefined)
     delete res[0];
   return res;
