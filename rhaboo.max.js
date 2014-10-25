@@ -54,10 +54,18 @@ var fixedWidth = function (cols) { return function (ps) { return function (dir) 
   return dir ? thru(dir)(ps)(x).join('') : thru(dir)(ps)(chop(cols)(x)) ;
 }}}}
 
+//Work around IE bug
+function mysplit(x, sep) {
+  res = x.split(sep);
+  if (res.length==1 && res[0]==undefined)
+    delete res[0];
+  return res;
+}
+
 //Maps a separator and a list of parunpars onto a parunpar that serialises each with the sep in between
 //Doesn't think about what happens if the sep occurs in the serialisation of any field.
 var sepBy = function (sep) { return function (ps) { return function (dir) { return function (x) { 
-  return dir ? thru(dir)(ps)(x).join(sep) : thru(dir)(ps)(x.split(sep)) ;
+  return dir ? thru(dir)(ps)(x).join(sep) : thru(dir)(ps)(mysplit(x,sep)) ;
 }}}}
 
 //Maps one parunpar onto one that uses esc to POST-escape occurences of sep.
