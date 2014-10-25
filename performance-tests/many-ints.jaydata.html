@@ -4,31 +4,33 @@
 
 function go() {
 
-  var whenStarted = performance.now();
+//  var whenStarted = performance.now();
 
-  $data.Entity.extend("Int", {
-      Name: { type: "string", required:true, key:true },
-      Value: { type: "int", required:true }
-  });
+    $data.Entity.extend("Int", {
+        Name: { type: "string", required:true, key:true },
+        Value: { type: "int", required:true }
+    });
 
-  $data.EntityContext.extend("IntsDatabase", {
-      Ints: { type: $data.EntitySet, elementType: Int }
-  });
+    $data.EntityContext.extend("IntsDatabase", {
+        Ints: { type: $data.EntitySet, elementType: Int }
+    });
 
-  var intDB = new IntsDatabase("MyIntsDatabase");
+    var intDB = new IntsDatabase("MyIntsDatabase");
 
-  intDB.onReady(function() {
-    console.log("Here");
-    for (var i=0;i<1000;i++)
+    intDB.onError(function(err) {
+      console.log(JSON.stringify(err));
+    });
+
+    intDB.onReady(function() {
+      console.log("Here");
       intDB.Ints.add(new Int ({
-        Name: 'Foo'+i,
-        Value: i
+        Name: 'Foo',
+        Value: 2
       }));
-    intDB.saveChanges();
-    var whenStopped = performance.now();
-    document.getElementById('result').innerHTML = whenStopped-whenStarted;
-  });
-
+      intDB.saveChanges();
+      //var whenStopped = performance.now();
+      //document.getElementById('result').innerHTML = whenStopped-whenStarted;
+    });
 }
 
 </script>
