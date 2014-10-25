@@ -13,6 +13,7 @@ function iter() {
   }
   else
     localforage.setItem("Foo" + i%10, i, function() { iter(); });
+  //We need that Foo prefix for localForage, but not for rhaboo.
 }
 
 function go() {

@@ -8,6 +8,7 @@ function go() {
   var store = Rhaboo.persistent('Many Integers');
   for (var i=0;i<10000;i++)
     store.write("Foo"+i%10, i);
+  //We need that Foo prefix for localForage, but not for rhaboo.
   var whenStopped = performance.now();
 
   document.getElementById('result').innerHTML = whenStopped-whenStarted;
