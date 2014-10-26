@@ -24,9 +24,8 @@ restores to:
 
 */
 
-
-//Polyfill constructor.name for IE
-//Thanks to Mathew Sharley for this.
+//Polyfill constructor.name in IE
+//Thanks to Matthew Sharley for this.
 if (Function.prototype.name === undefined && Object.defineProperty !== undefined) {
     Object.defineProperty(Function.prototype, 'name', {
         get: function() {
