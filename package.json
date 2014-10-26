@@ -1,6 +1,6 @@
 {
   "name": "rhaboo",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Persistent JS Objects",
   "main": "src/arr.js",
   "directories": {
