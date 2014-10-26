@@ -22,6 +22,10 @@ function iter() {
 }
 
 function go() {
+  var d_id = localforage.supports('asyncStorage');
+  var d_ws = localforage.supports('webSQLStorage');
+  var d_ls = localforage.supports('localStorageWrapper');
+  console.log("Supports:"+d_id + "," + d_ws +"," + d_ls);
   whenStarted = performance.now();
   iter();
 }
