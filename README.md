@@ -3,8 +3,6 @@ Rhaboo
 
 <img src="logo.png" width="150px;"/>
 
-<h3>It fails on IE right now. Please bear with me.</h3>
-
 Website at http://rhaboo.org
 
 Please star the repo if you use it - Thx.
