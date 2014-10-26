@@ -49,13 +49,15 @@ var tuple2 = P.sepByEsc('=',':')
 
 var right_pp = tuple2([P.string_pp, P.number_pp])
 
+/*
+//Leaving this here for didactic reasons
 var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
     return dir ? ( x.length!==undefined ? [x.constructor.name, x.length] : [x.constructor.name] ) //can't simplify this cos we actually restore undefineds
                : ( new global[x[0]](x[1]) ) 
   }})(tuple2([P.string_pp, P.number_pp]));
+*/
 
-/*
 var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
     return dir ? ( 
@@ -65,7 +67,6 @@ var left_o_pp = P.pipe(
                : ( new global[x[0]]( x[0]=='Date'?x[1]:x[1]?Number(x[1]):undefined ) ) 
                //: ( new global[x[0]]( x[1] ) ) 
   }})(tuple2([P.string_pp, P.string_pp]));
-*/
 
 var left_l_pp = P.pipe(
   function (dir) { return function (x) { 
