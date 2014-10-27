@@ -1,0 +1,50 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'array.js'></script>
+<script>
+
+//ResultFirefox:0.065 | 0.065
+//ResultChrome: 0.1 | 0.1
+//ResultIE:
+//ResultUnits:ms/element
+
+var i;
+var store = Rhaboo.persistent('Ay');
+
+function go() {
+
+  document.getElementById('aylen').innerHTML=aylen;
+  document.getElementById('mods').innerHTML=modreps;
+  var ay = new Array(aylen);
+  for (i=0;i<aylen;i++) ay[i]=2*i;
+  for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+
+  var whenStarted = performance.now();
+  store.write("Ay", ay);
+  var whenStopped = performance.now();
+  if (ay[30]==60)
+    document.getElementById('result').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+  else 
+    document.getElementById('result').innerHTML = "Failed";
+}
+
+function modify() {
+  var whenStarted = performance.now();
+  for (var i=0;i<modreps;i++)
+    store.Ay.write(i%aylen, (i%aylen)*3);
+  var whenStopped = performance.now();
+  document.getElementById('modresult').innerHTML = ""+((whenStopped-whenStarted)/modreps) + " ms/mod" ;
+
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Write single array of <span id='aylen'></span> integers with rhaboo</h3>
+  <p>Initial write took <span id='result'></span></p>
+  <span class='button' onClick='modify();'>Modify test</span>
+  <p><span id='mods'></span> modifications took <span id='modresult'></span></p>
+</body>
+</html>
+
+

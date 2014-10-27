@@ -28,7 +28,7 @@ do
   echo "</tr>" 
 done
 echo "</table>"
-R=`grep ResultFootnote *.html | sed 's/^.*://'`
+R=`grep ResultFootnote *.html | sed 's/^.*://' | sed 's/$/\<br\/\>/'`
 echo "<pre>"
 echo $R
 echo "</pre>"

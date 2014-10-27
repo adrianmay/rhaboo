@@ -1,0 +1,68 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'array.js'></script>
+<script>
+
+//ResultFirefox: 0.010 | 0.400
+//ResultChrome: 0.001 | 0.240
+//ResultIE:
+//ResultUnits:ms/element
+
+var whenStarted, whenStopped, ay;
+
+function go() {
+  document.getElementById('aylen').innerHTML=aylen;
+  document.getElementById('mods').innerHTML=modreps;
+  ay = new Array(aylen);
+  for (i=0;i<aylen;i++) ay[i]=2*i;
+
+  localforage.setDriver(localforage.LOCALSTORAGE);
+  var d_id = localforage.supports('asyncStorage');
+  var d_ws = localforage.supports('webSQLStorage');
+  var d_ls = localforage.supports('localStorageWrapper');
+  document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
+
+  for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+
+  whenStarted = performance.now();
+  localforage.setItem("Ay", ay).then(function() { 
+    whenStopped = performance.now();
+    localforage.getItem("Ay").then(function (v) {
+      if (v[3]==6)
+        document.getElementById('result').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+      else 
+        document.getElementById('result').innerHTML = "Failed";
+    }, function(e) { alert(JSON.stringify(e)) } )
+  });
+
+}
+
+var it;
+
+function mod_() {
+  it++;
+  if (it==modreps) {
+    var whenStopped = performance.now();
+    document.getElementById('modresult').innerHTML = ""+((whenStopped-whenStarted)/modreps) + " ms/mod" ;
+  } else {
+    ay[it%aylen]=(it%aylen)*3;
+    localforage.setItem("Ay", ay).then( function() {mod_();} );
+  }
+}
+
+function modify() {
+  it=-1;
+  whenStarted = performance.now();
+  mod_();
+}
+
+</script>
+<body onLoad='go()'>
+  <h3>Write single array of <span id='aylen'></span> integers with localForage on localStorage</h3>
+  <div id='drivers'></div>
+  <p>Initial write took <span id='result'>...</span></p>
+  <span class='button' onClick='modify();'>Modify test</span>
+  <p><span id='mods'></span> modifications took <span id='modresult'></span></p>
+</body>
+
