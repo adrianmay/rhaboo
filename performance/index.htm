@@ -2,37 +2,11 @@
 <style>
 th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-right:15px; text-align:center; } td.l { text-align:left; }
 </style>
-<body><table>
-<tr><th rowspan=2>Filename<th colspan=3>Result on 2GHz Core i7<th rowspan=2>Units</tr>
+<body>
+<h1>Performance of persistence mechanisms</h1>
+<table>
+<tr><th rowspan=2>Link to Test<th colspan=3>Result on 2GHz Core i7<th rowspan=2>Units</tr>
 <tr><th>Firefox 31.2<th>Chrome 38.0<th>IE 11</tr>
-<tr>
-<td class='l'><a href='array.forage.html'>array.forage</a></td>
-<td>0.023 | 137**</td>
-<td> 0.004 | 58</td>
-<td> 0.003 | 0.800</td>
-<td>ms/element</td>
-</tr>
-<tr>
-<td class='l'><a href='array.forage_on_ls.html'>array.forage_on_ls</a></td>
-<td> 0.010 | 0.400</td>
-<td> 0.001 | 0.240</td>
-<td> 0.005 | 0.800</td>
-<td>ms/element</td>
-</tr>
-<tr>
-<td class='l'><a href='array.rhaboo.html'>array.rhaboo</a></td>
-<td>0.065 | 0.065</td>
-<td> 0.100 | 0.100</td>
-<td> 0.035 | 0.090</td>
-<td>ms/element</td>
-</tr>
-<tr>
-<td class='l'><a href='local-storage-speed-test.html'>local-storage-speed-test</a></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 <tr>
 <td class='l'><a href='many-ints.forage.html'>many-ints.forage</a></td>
 <td>120</td>
@@ -55,6 +29,27 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>ms/write</td>
 </tr>
 <tr>
+<td class='l'><a href='array.forage.html'>array.forage</a></td>
+<td>0.023 | 137**</td>
+<td> 0.004 | 58</td>
+<td> 0.003 | 0.800*</td>
+<td>ms/element</td>
+</tr>
+<tr>
+<td class='l'><a href='array.forage_on_ls.html'>array.forage_on_ls</a></td>
+<td> 0.010 | 0.400</td>
+<td> 0.001 | 0.240</td>
+<td> 0.005 | 0.800</td>
+<td>ms/element</td>
+</tr>
+<tr>
+<td class='l'><a href='array.rhaboo.html'>array.rhaboo</a></td>
+<td>0.065 | 0.065</td>
+<td> 0.100 | 0.100</td>
+<td> 0.035 | 0.090</td>
+<td>ms/element</td>
+</tr>
+<tr>
 <td class='l'><a href='objects.forage.html'>objects.forage</a></td>
 <td colspan=4>Over ten minutes</td>
 </tr>
@@ -74,8 +69,19 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 </tr>
 </table>
 <pre>
-**yup, that's one hundred and thirty seven ms per element<br/> *Falls back to localStorage<br/>
+**Yup, that's one hundred and thirty seven ms per element<br/> *Falls back to localStorage<br/>
 </pre>
+<h3>General</h3>
+<p>The timings are subjectively observed means over several attempts.
+<p>The conditions usually favour disk and memory caches being populated
+<p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage
 <h3>Many integers tests</h3>
-<p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. 
+<p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. For localForage these are 10 different keys. For rhaboo, a root persistent is always an object and cannot be a mere integer, so we use 10 properties in a single persistent.
+<p>The results indicate that IndexedDB is spectacularly inefficient when asked to store lots of little things. It is, however, a lot more efficient when asked to store larger objects. Rhaboo beats everything in this scenario.
+<h3>Array tests</h3>
+<p>Here we have an array of 1000 integers which we first create and then stepwise overwrite. 
+<p>We see that rhaboo is slower at creating the array but faster at making small updates to it. Both statements become more true with increasing array length. This is the expected result because rhaboo splits large objects over several localStorage entries without the benefit of native code. Stringifying is native and therefore fast, but wasteful if a large object is re-stringified for the sake of a small change.
+<h3>Object tests</h3>
+<p>In this case we have an array of 1000 references to one of three medium-sized objects. We initialise them without timing and then measure the time taken to overwrite them 1000 times with references to another of the same three objects.
+<p>Rhaboo wins because each of the three objects is stored only once. The other mechanisms don't notice that there are only three of them and store them 1000 times over. Rhaboo has already stored the three objects during initialisation and merely needs to update references to them during the timed run. This resembles the behaviour of JS objects in memory.
 </body></html>
