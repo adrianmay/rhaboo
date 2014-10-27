@@ -32,5 +32,9 @@ R=`grep ResultFootnote *.html | sed 's/^.*://' | sed 's/$/\<br\/\>/'`
 echo "<pre>"
 echo $R
 echo "</pre>"
+cat <<HERE
+<h3>Many integers tests</h3>
+<p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. 
+HERE
 echo "</body></html>" 
 ) > index.htm

@@ -3,7 +3,7 @@
 
 //ResultFirefox:120
 //ResultChrome:50
-//ResultIE:0.45*
+//ResultIE:0.450*
 //ResultUnits:ms/write
 //ResultFootnote:*Falls back to localStorage
 
@@ -15,17 +15,18 @@ var i=-1;
 
 function iter() {
   if (i==reps-1) {
+    i--;
     whenStopped = performance.now();
-    localforage.getItem("Foo" + i%10, function(e,v) {
+    localforage.getItem("Foo" + i%10).then(function(v) {
       if (v==i)
         document.getElementById('result').innerHTML = ""+((whenStopped-whenStarted)/reps) + " ms/write" ;
       else 
-        document.getElementById('result').innerHTML = "Failed";
+        document.getElementById('result').innerHTML = "Failed"+JSON.stringify(v);
     })
   }
   else {
     i++;
-    localforage.setItem("Foo" + i%10, i, function() { iter(); });
+    localforage.setItem("Foo" + i%10, i).then(function() { iter(); });
   }
 }
 
