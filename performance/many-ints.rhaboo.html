@@ -2,13 +2,16 @@
 <script src = '../rhaboo.min.js'></script>
 <script>
 
-//ResultFirefox:0.04
-//ResultChrome:0.05
-//ResultIE:0.045
+//ResultFirefox:0.03
+//ResultChrome:0.03
+//ResultIE:
 //ResultUnits:ms/write
+
+var reps=10000;
 
 function go() {
 
+  for (var i in localStorage) if (localStorage.hasOwnProperty(i)) delete localStorage[i];
   var whenStarted = performance.now();
   var store = Rhaboo.persistent('Many Integers');
   for (var i=0;i<10000;i++)
@@ -16,14 +19,14 @@ function go() {
   //We need that Foo prefix for localForage, but not for rhaboo.
   var whenStopped = performance.now();
 
-  document.getElementById('result').innerHTML = whenStopped-whenStarted;
+  document.getElementById('result').innerHTML = ""+((whenStopped-whenStarted)/reps) + " ms/write" ;
 }
 
 </script>
 <body onLoad='go();'>
   <h3>Write one of 10 integers 10,000 times over with rhaboo</h3>
   <p>This is not using arrays (rhaboo's forte.) Each integer is a separate entry.
-  <p>Test took <span id='result'></span> ms</p>
+  <p>Test took <span id='result'></span></p>
 </body>
 </html>
 

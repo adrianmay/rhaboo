@@ -3,20 +3,22 @@
 
 //ResultFirefox:120
 //ResultChrome:50
-//ResultIE:0.6*
+//ResultIE:*
 //ResultUnits:ms/write
 //ResultFootnote:*Falls back to localStorage
+
+var reps=50;
 
 var whenStarted, whenStopped;
 
 var i=-1;
 
 function iter() {
-  if (i==49) {
+  if (i==reps-1) {
     whenStopped = performance.now();
     localforage.getItem("Foo" + i%10, function(e,v) {
       if (v==i)
-        document.getElementById('result').innerHTML = whenStopped-whenStarted;
+        document.getElementById('result').innerHTML = ""+((whenStopped-whenStarted)/reps) + " ms/write" ;
       else 
         document.getElementById('result').innerHTML = "Failed";
     })
@@ -32,14 +34,16 @@ function go() {
   var d_ws = localforage.supports('webSQLStorage');
   var d_ls = localforage.supports('localStorageWrapper');
   document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
-  whenStarted = performance.now();
-  iter();
+  localforage.clear(function() {
+    whenStarted = performance.now();
+    iter();
+  });
 }
 </script>
 <body onLoad='go()'>
   <h3>Write one of 10 integers 50 times over with localForage</h3>
   <p>This is not using arrays (rhaboo's forte.) Each integer is a separate entry.
   <div id='drivers'></div>
-  <p>Test took <span id='result'>...</span> ms</p>
+  <p>Test took <span id='result'>...</span></p>
 </body>
 
