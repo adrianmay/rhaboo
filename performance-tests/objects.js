@@ -1,6 +1,6 @@
 
-var arraysize = 10;
-var reps = 50;
+var arraysize = 100;
+var reps = 500;
 
 var pigs=[
   "The quick brown fox jumps over the lazy dog. ",
