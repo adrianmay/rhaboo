@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<html>
+  <style>
+    body{
+      background: #ECECEC;
+      margin:0px;
+      color:#333;
+    }
+    .button{
+      text-align: center;
+      background: #ECECEC;
+      border-radius: 15px;
+      padding: 10px 20px;
+      display: block;
+      font-family: arial;
+      font-weight: bold;
+      color:#7f7f7f;
+      text-decoration: none;
+      text-shadow:0px 1px 0px #fff;
+      border:1px solid #a7a7a7;
+      width: 100px;
+      margin:0px auto;
+      margin-top:10px;
+      box-shadow: 0px 2px 1px white inset, 0px -2px 8px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+      -webkit-transition:box-shadow 0.5s;
+    }
+    .button:hover{
+      box-shadow: 0px 2px 1px white inset, 0px -2px 20px white, 0px 2px 5px rgba(0, 0, 0, 0.1), 0px 8px 10px rgba(0, 0, 0, 0.1);
+    }
+    .button:active{
+      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) inset, 0px -2px 20px white, 0px 1px 5px rgba(0, 0, 0, 0.1), 0px 2px 10px rgba(0, 0, 0, 0.1);
+      background:-webkit-linear-gradient(top, #d1d1d1 0%,#ECECEC 100%);
+    }
+    td {
+      vertical-align:top;
+    }
+  </style>
+
+  <script>
+
+var string1024="0123456789ABCDEF";
+string1024 = string1024 + string1024 + string1024 + string1024 + string1024 + string1024 + string1024 + string1024 ;
+string1024 = string1024 + string1024 + string1024 + string1024 + string1024 + string1024 + string1024 + string1024 ;
+
+var theLog;
+
+function log(msg) {
+  theLog.innerHTML += msg+"\n";
+}
+
+function clear_storage() {
+  for (var i in localStorage) 
+    localStorage.removeItem(i);
+  log("Cleared local storage");
+}
+
+function stuff_many_small() {
+  var whenStarted, whenStopped;
+  whenStarted = performance.now();
+  for (var i=0;i<4*1024;i++)
+    localStorage[i] = string1024;
+  whenStopped = performance.now();
+  log("Stuffed in " + String(whenStopped-whenStarted)+ " ms")
+}
+
+function check_many_small() {
+  var ok=true;
+  var whenStarted, whenStopped;
+  whenStarted = performance.now();
+  for (var i=0;i<4*1024;i++)
+    if (localStorage[i] != string1024) {
+      ok = false;
+      break;
+    }
+  whenStopped = performance.now();
+  log((ok ? "Right: " : "Wrong: ")+"Checked in "+String(whenStopped-whenStarted)+" ms");
+}
+
+function go() {
+  theLog = document.getElementById('log');
+  log("Initial render duraion: "+String(performance.timing.domComplete-performance.timing.responseEnd)+" ms");
+}
+
+  </script>
+
+  <body onLoad="go();">
+    <table width='100%'> <tr> <td width='50%'>
+      <h2>Testing localStorage performance</h3>
+      <p>This page lets you clear localStorage or populate it with 4096 strings of 1024 characters each.
+      <p>You can see the inital render time which is: <pre>  (performance.timing.domComplete - performance.timing.responseEnd)</pre>
+      <p>The check button examines all 4096 entries to make sure they contain the expected string.
+      <p>It's worth doing these tests using two browsers or even two computers to rule out memory or disk cache effects.
+      <p>Results: considerable random variation in the timings but no discernable dependency on whether localStorage is populated or not.
+    </td> <td width='15%'>
+      <span class='button' onClick='clear_storage();'>Clear</span>
+      <span class='button' onClick='stuff_many_small();'>Stuff</span>
+      <span class='button' onClick='check_many_small();'>Check</span>
+    </td> <td width='35%'>
+      <pre id='log'></pre>
+    </td> </tr> </table>
+  </body>
+</html>

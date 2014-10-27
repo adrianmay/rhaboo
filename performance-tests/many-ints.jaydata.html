@@ -1,0 +1,43 @@
+<html>
+<script src = '../other-peoples/jaydata.min.js'></script>
+<script>
+
+function go() {
+
+//  var whenStarted = performance.now();
+
+    $data.Entity.extend("Int", {
+        Name: { type: "string", required:true, key:true },
+        Value: { type: "int", required:true }
+    });
+
+    $data.EntityContext.extend("IntsDatabase", {
+        Ints: { type: $data.EntitySet, elementType: Int }
+    });
+
+    var intDB = new IntsDatabase("MyIntsDatabase");
+
+    intDB.onError(function(err) {
+      console.log(JSON.stringify(err));
+    });
+
+    intDB.onReady(function() {
+      console.log("Here");
+      intDB.Ints.add(new Int ({
+        Name: 'Foo',
+        Value: 2
+      }));
+      intDB.saveChanges();
+      //var whenStopped = performance.now();
+      //document.getElementById('result').innerHTML = whenStopped-whenStarted;
+    });
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Write one of 10 integers 50 times over with jaydata</h3>
+  <p>This is not using arrays (rhaboo's forte.) Each integer is a seperate entry.
+  <p>Test took <span id='result'></span> ms</p>
+</body>
+</html>
+

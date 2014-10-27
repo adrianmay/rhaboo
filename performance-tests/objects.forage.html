@@ -1,0 +1,57 @@
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'objects.js'></script>
+<script>
+
+
+var whenStarted, whenStopped;
+
+var i=-1;
+var a;
+
+function iter() {
+  if (i==reps-1) {
+    whenStopped = performance.now();
+    localforage.getItem('array', function(e,v) {
+      if (JSON.stringify(v[i%arraysize])==JSON.stringify(pigs[i%npigs]))
+        document.getElementById('result').innerHTML = whenStopped-whenStarted;
+      else {
+        document.getElementById('result').innerHTML = "Failed: "+JSON.stringify(v[i%arraysize])+" != "+JSON.stringify(pigs[i%npigs]);
+      }
+    })
+  }
+  else {
+    i++;
+    a[i%arraysize]=pigs[i%npigs];
+    localforage.setItem("array", a, function() { iter(); });
+  }
+}
+
+function go() {
+
+  localforage.setDriver(localforage.LOCALSTORAGE);
+  // ... otherwise it takes 10 minutes
+  document.getElementById('reps').innerHTML = reps;
+  document.getElementById('size').innerHTML = arraysize;
+
+  var d_id = localforage.supports('asyncStorage');
+  var d_ws = localforage.supports('webSQLStorage');
+  var d_ls = localforage.supports('localStorageWrapper');
+  document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
+
+  a = new Array(arraysize);
+  for (var i=0;i<arraysize;i++)
+    a[i]=pigs[i%npigs];
+
+  localforage.setItem("array", a, function() { 
+    whenStarted = performance.now();
+    iter();
+  });
+
+}
+</script>
+<body onLoad='go()'>
+  <h3>Overwrite one of an array of <span id='size'></span> entries with one of 3 object-values <span id='reps'></span> times over with localForage on localStorage</h3>
+  <div id='drivers'></div>
+  <p>Test took <span id='result'>...</span> ms</p>
+</body>
+
