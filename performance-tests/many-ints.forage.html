@@ -25,7 +25,7 @@ function go() {
   var d_id = localforage.supports('asyncStorage');
   var d_ws = localforage.supports('webSQLStorage');
   var d_ls = localforage.supports('localStorageWrapper');
-  console.log("Supports:"+d_id + "," + d_ws +"," + d_ls);
+  document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
   whenStarted = performance.now();
   iter();
 }
@@ -33,6 +33,7 @@ function go() {
 <body onLoad='go()'>
   <h3>Write one of 10 integers 50 times over with localForage</h3>
   <p>This is not using arrays (rhaboo's forte.) Each integer is a separate entry.
+  <div id='drivers'></div>
   <p>Test took <span id='result'>...</span> ms</p>
 </body>
 
