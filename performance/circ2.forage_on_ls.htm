@@ -13,6 +13,8 @@ function go() {
         f.son.father.name === "Kim Jong Il"
         );
     document.getElementById('suc').innerHTML = suc ? "True" : "False";
+  }, function(e) {
+    document.getElementById('suc').innerHTML = "Error:" + JSON.stringify(e);
   });
 }
 
