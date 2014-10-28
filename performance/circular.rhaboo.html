@@ -1,0 +1,31 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'circular.js'></script>
+<script>
+
+//ResultFirefox:True
+//ResultChrome:True
+//ResultIE:True
+//ResultUnits:bool
+
+var i;
+
+function go() {
+
+  for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+  var store = Rhaboo.persistent('Circular');
+  store.write("father", father);
+   
+  document.getElementById('next').innerHTML = "Now go here";
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Store a self-referential object with rhaboo.</h3>
+  <p><a id='next' href='circ2.rhaboo.htm'></a>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

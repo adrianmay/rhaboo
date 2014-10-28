@@ -1,0 +1,41 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'circular.js'></script>
+<script>
+
+//ResultFirefox:False
+//ResultChrome:False
+//ResultIE:False
+//ResultUnits:bool
+
+var i;
+
+function go() {
+
+  localforage.setDriver(localforage.LOCALSTORAGE);
+  var d_id = localforage.supports('asyncStorage');
+  var d_ws = localforage.supports('webSQLStorage');
+  var d_ls = localforage.supports('localStorageWrapper');
+  document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
+
+  localforage.clear().then(function () {
+    localforage.setItem("father", father).then(function(v) { 
+      document.getElementById('next').innerHTML = "Now go here";
+    }, function(e) {
+      document.getElementById('next').innerHTML = "Error:"+JSON.stringify(e);
+    });
+
+  });
+
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Store a self-referential object with localForage on localStorage.</h3>
+  <div id='drivers'></div>
+  <p><a id='next' href='circ2.forage_on_ls.htm'></a>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+

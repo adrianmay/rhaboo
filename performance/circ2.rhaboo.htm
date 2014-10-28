@@ -1,0 +1,26 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'circular.js'></script>
+<script>
+
+function go() {
+
+  var store = Rhaboo.persistent('Circular');
+  var suc = (
+      store.father.name === "Kim Jong Il" &&
+      store.father.son.name === "Kim Jong Un" &&
+      store.father.son.father.name === "Kim Jong Il"
+      );
+  document.getElementById('suc').innerHTML = suc ? "True" : "False";
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Re-read the self-referential object.</h3>
+  <p>Success: <span id='suc'></span>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

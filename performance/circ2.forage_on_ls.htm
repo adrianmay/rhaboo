@@ -1,0 +1,27 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script>
+
+function go() {
+
+  localforage.setDriver(localforage.LOCALSTORAGE);
+  localforage.getItem('father').then(function (f) {
+    var suc = (
+        f.name === "Kim Jong Il" &&
+        f.son.name === "Kim Jong Un" &&
+        f.son.father.name === "Kim Jong Il"
+        );
+    document.getElementById('suc').innerHTML = suc ? "True" : "False";
+  });
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Re-read the self-referential object.</h3>
+  <p>Success: <span id='suc'></span>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+
