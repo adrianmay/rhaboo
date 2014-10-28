@@ -49,7 +49,8 @@ cat <<HERE
 <p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage
 <h3>Many integers tests</h3>
 <p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. For localForage these are 10 different keys. For rhaboo, a root persistent is always an object and cannot be a mere integer, so we use 10 properties in a single persistent.
-<p>The results indicate that IndexedDB is spectacularly inefficient when asked to store lots of little things. It is, however, a lot more efficient when asked to store larger objects. Rhaboo beats everything in this scenario.
+<p>The results indicate that IndexedDB is spectacularly inefficient when asked to store lots of little things. It is, however, a lot more efficient when asked to store larger objects. 
+<p>Rhaboo beats everything in this scenario.
 <h3>Array tests</h3>
 <p>Here we have an array of 1000 integers which we first create and then stepwise overwrite. 
 <p>We see that rhaboo is slower at creating the array but faster at making small updates to it. Both statements become more true with increasing array length. This is the expected result because rhaboo splits large objects over several localStorage entries without the benefit of native code. Stringifying is native and therefore fast, but wasteful if a large object is re-stringified for the sake of a small change.
@@ -57,12 +58,12 @@ cat <<HERE
 <p>In this case we have an array of 1000 references to one of three medium-sized objects. We initialise them without timing and then measure the time taken to overwrite them 1000 times with references to another of the same three objects.
 <p>Rhaboo wins because each of the three objects is stored only once. The other mechanisms don't notice that there are only three of them and store them 1000 times over. Rhaboo has already stored the three objects during initialisation and merely needs to update references to them during the timed run. This resembles the behaviour of JS objects in memory.
 <h3>Circular tests</h3>
-<p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out, but we can only see the evidence in the console log because localForage fails to reject the promise correctly.
+<p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out.
 <h3>Prototype tests</h3>
 <p>Here we have a standard OO structure in proto.js which we hope to recover the prototype chain of. Only rhaboo attempts this.
 <h3>Sparse tests</h3>
-<p>Here we have the array from hell containing nulls, undefineds, deleted entries, deleted entries beyond length, non-numerically named properties and even some well-behaved entries. It's not possible to distinguish undefined entries from deleted ones but the act of setting an array entry to undefined is not the same as the act of deleting it. Otherwise, the restored array is inspected for accuracy in every possible way. 
-<p>Only rhaboo and localForage on Chrome pass this test.
+<p>Here we have the array from hell containing nulls, undefineds, deleted entries, deleted entries just before length, non-numerically named properties and even some well-behaved entries. The restored array is inspected for accuracy in every possible way. 
+<p>Only rhaboo passes this test
 
 
 HERE

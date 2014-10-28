@@ -14,10 +14,13 @@ function authentic(a) {
     a.length === 6 &&
     a[0] === 2 &&
     a[1] === undefined &&
+    a.hasOwnProperty(1) &&
     a[2] === null &&
     a[3] === undefined &&
+    !a.hasOwnProperty(3) &&
     a[4] === 6 &&
     a[5] === undefined &&
+    !a.hasOwnProperty(5) &&
     a.foo === 'bar' );
 }
 
