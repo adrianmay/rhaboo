@@ -1,0 +1,29 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'sparse.js'></script>
+<script>
+
+//ResultFirefox:Pass
+//ResultChrome:Pass
+//ResultIE:
+//ResultUnits:bool
+
+function go() {
+
+  document.getElementById('suc').innerHTML = authentic(ay) ? "Pass" : "Fail";
+  for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+  var store = Rhaboo.persistent('Sparse');
+  store.write("ay", ay);
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Store a horrible array with rhaboo</h3>
+  <p>Authentic before storage:<span id='suc'></span>
+  <p><a href='sparse2.rhaboo.htm'>Now go here</a>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

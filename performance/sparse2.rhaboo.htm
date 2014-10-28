@@ -1,0 +1,21 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'sparse.js'></script>
+<script>
+
+function go() {
+
+  var store = Rhaboo.persistent('Sparse');
+  document.getElementById('suc').innerHTML = authentic(store.ay) ? "Pass" : "Fail";
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Restore a horrible array with rhaboo</h3>
+  <p>Result:<span id='suc'></span>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

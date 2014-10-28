@@ -1,0 +1,24 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'sparse.js'></script>
+<script>
+
+function go() {
+
+  localforage.getItem('ay').then(function (f) {
+    document.getElementById('suc').innerHTML = authentic(f) ? "Pass" : "Fail";
+  }, function(e) {
+    document.getElementById('suc').innerHTML = "Error:" + JSON.stringify(e);
+  });
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Restore a horrible array with localForage</h3>
+  <p>Success: <span id='suc'></span>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

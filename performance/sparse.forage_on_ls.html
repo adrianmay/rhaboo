@@ -1,0 +1,42 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'sparse.js'></script>
+<script>
+
+//ResultFirefox:Fail
+//ResultChrome:Fail
+//ResultIE:
+//ResultUnits:bool
+
+function go() {
+
+  localforage.setDriver(localforage.LOCALSTORAGE);
+  var d_id = localforage.supports('asyncStorage');
+  var d_ws = localforage.supports('webSQLStorage');
+  var d_ls = localforage.supports('localStorageWrapper');
+  document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
+
+  document.getElementById('suc').innerHTML = authentic(ay) ? "Pass" : "Fail";
+
+  localforage.clear().then(function () {
+    localforage.setItem("ay", ay).then(function(v) { 
+      document.getElementById('next').innerHTML = "Now go here";
+    }, function(e) {
+      document.getElementById('next').innerHTML = "Error:"+JSON.stringify(e);
+    });
+
+  });
+
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Store a horrible array with localForage on localStorage</h3>
+  <div id='drivers'></div>
+  <p>Authentic before storage:<span id='suc'></span>
+  <p><a id='next' href='sparse2.forage_on_ls.htm'></a>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
