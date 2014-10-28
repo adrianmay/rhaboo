@@ -35,6 +35,7 @@ for F in `ls -1 a*.html`; do line $F; done
 for F in `ls -1 o*.html`; do line $F; done
 for F in `ls -1 c*.html`; do line $F; done
 for F in `ls -1 p*.html`; do line $F; done
+for F in `ls -1 sp*.html`; do line $F; done
 
 echo "</table>"
 R=`grep ResultFootnote *.html | sed 's/^.*://' | sed 's/$/\<br\/\>/'`
