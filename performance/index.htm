@@ -128,7 +128,8 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <p>Rhaboo wins because each of the three objects is stored only once. The other mechanisms don't notice that there are only three of them and store them 1000 times over. Rhaboo has already stored the three objects during initialisation and merely needs to update references to them during the timed run. This resembles the behaviour of JS objects in memory.
 <h3>Circular tests</h3>
 <p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out, but we can only see the evidence in the console log because localForage fails to reject the promise correctly.
-
+<h3>Prototype tests</h3>
+<p>Here we have a standard OO structure in proto.js which we hope to recover the prototype chain of. Only rhaboo attempts this.
 
 
 
