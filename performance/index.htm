@@ -7,6 +7,7 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <table>
 <tr><th rowspan=2>Link to Test<th colspan=3>Result on 2GHz Core i7<th rowspan=2>Units</tr>
 <tr><th>Firefox 31.2<th>Chrome 38.0<th>IE 11</tr>
+<tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='many-ints.forage.html'>many-ints.forage</a></td>
 <td>120</td>
@@ -28,6 +29,7 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>0.040</td>
 <td>ms/write</td>
 </tr>
+<tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='array.forage.html'>array.forage</a></td>
 <td>0.023 | 137**</td>
@@ -49,6 +51,7 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td> 0.035 | 0.090</td>
 <td>ms/element</td>
 </tr>
+<tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='objects.forage.html'>objects.forage</a></td>
 <td colspan=4>Over ten minutes</td>
@@ -67,6 +70,7 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>55</td>
 <td>ms</td>
 </tr>
+<tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='circular.forage.html'>circular.forage</a></td>
 <td>Pass</td>
@@ -88,6 +92,7 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>Pass</td>
 <td>bool</td>
 </tr>
+<tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='proto.forage.html'>proto.forage</a></td>
 <td>Fail</td>
@@ -109,27 +114,29 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>Pass</td>
 <td>bool</td>
 </tr>
+<tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='sparse.forage.html'>sparse.forage</a></td>
 <td>Fail</td>
 <td>Pass</td>
-<td></td>
+<td>Fail</td>
 <td>bool</td>
 </tr>
 <tr>
 <td class='l'><a href='sparse.forage_on_ls.html'>sparse.forage_on_ls</a></td>
 <td>Fail</td>
 <td>Fail</td>
-<td></td>
+<td>Fail</td>
 <td>bool</td>
 </tr>
 <tr>
 <td class='l'><a href='sparse.rhaboo.html'>sparse.rhaboo</a></td>
 <td>Pass</td>
 <td>Pass</td>
-<td></td>
+<td>Pass</td>
 <td>bool</td>
 </tr>
+<tr><td colspan=5><hr/></td><tr/>
 </table>
 <pre>
 **Yup, that's one hundred and thirty seven ms per element<br/> *Falls back to localStorage<br/>
@@ -151,7 +158,9 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out, but we can only see the evidence in the console log because localForage fails to reject the promise correctly.
 <h3>Prototype tests</h3>
 <p>Here we have a standard OO structure in proto.js which we hope to recover the prototype chain of. Only rhaboo attempts this.
-
+<h3>Sparse tests</h3>
+<p>Here we have the array from hell containing nulls, undefineds, deleted entries, deleted entries beyond length, non-numerically named properties and even some well-behaved entries. It's not possible to distinguish undefined entries from deleted ones but the act of setting an array entry to undefined is not the same as the act of deleting it. Otherwise, the restored array is inspected for accuracy in every possible way. 
+<p>Only rhaboo and localForage on Chrome pass this test.
 
 
 </body></html>

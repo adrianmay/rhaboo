@@ -29,13 +29,13 @@ function line {
   fi
   echo "</tr>" 
 }
-
-for F in `ls -1 m*.html`; do line $F; done
-for F in `ls -1 a*.html`; do line $F; done
-for F in `ls -1 o*.html`; do line $F; done
-for F in `ls -1 c*.html`; do line $F; done
-for F in `ls -1 p*.html`; do line $F; done
-for F in `ls -1 sp*.html`; do line $F; done
+echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 m*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 a*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 o*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 c*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 p*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 sp*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
 
 echo "</table>"
 R=`grep ResultFootnote *.html | sed 's/^.*://' | sed 's/$/\<br\/\>/'`
@@ -60,7 +60,9 @@ cat <<HERE
 <p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out, but we can only see the evidence in the console log because localForage fails to reject the promise correctly.
 <h3>Prototype tests</h3>
 <p>Here we have a standard OO structure in proto.js which we hope to recover the prototype chain of. Only rhaboo attempts this.
-
+<h3>Sparse tests</h3>
+<p>Here we have the array from hell containing nulls, undefineds, deleted entries, deleted entries beyond length, non-numerically named properties and even some well-behaved entries. It's not possible to distinguish undefined entries from deleted ones but the act of setting an array entry to undefined is not the same as the act of deleting it. Otherwise, the restored array is inspected for accuracy in every possible way. 
+<p>Only rhaboo and localForage on Chrome pass this test.
 
 
 HERE
