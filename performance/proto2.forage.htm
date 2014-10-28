@@ -1,0 +1,28 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'proto.js'></script>
+<script>
+
+function go() {
+
+  localforage.getItem('animals').then(function (f) {
+    alert(JSON.stringify(f));
+    document.getElementById('show').innerHTML = 
+      "<br/>" + show(f[0]) + 
+      "<br/>" + show(f[1]) + 
+      "<br/>" + show(f[2]) ;
+  }, function(e) {
+    console.log(JSON.stringify(e))
+  });
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Restore the OO-inherited object with localForage.</h3>
+  <p>Animal description: <span id='show'></span>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

@@ -1,0 +1,24 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'proto.js'></script>
+<script>
+
+function go() {
+
+  var store = Rhaboo.persistent('Proto');
+  document.getElementById('show').innerHTML = 
+    "<br/>" + show(store.animals[0]) + 
+    "<br/>" + show(store.animals[1]) + 
+    "<br/>" + show(store.animals[2]) ;
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Restore the OO-inherited object with rhaboo.</h3>
+  <p>Animal description: <span id='show'></span>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

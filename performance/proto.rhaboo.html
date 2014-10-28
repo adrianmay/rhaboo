@@ -1,0 +1,38 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'proto.js'></script>
+<script>
+
+//ResultFirefox:True
+//ResultChrome:True
+//ResultIE:True
+//ResultUnits:bool
+
+var i;
+
+function go() {
+
+  for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
+  var store = Rhaboo.persistent('Proto');
+  var pig  = new Animal();
+  var pet  = new Canary();
+  var pest = new Pigeon();
+  document.getElementById('show').innerHTML = 
+    "<br/>" + show(pig) + 
+    "<br/>" + show(pet) + 
+    "<br/>" + show(pest);
+  store.write("animals", [pig,pet,pest]);
+  document.getElementById('next').innerHTML = "Now go here";
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Store an OO-inherited object with rhaboo.</h3>
+  <p>Animal description: <span id='show'></span>
+  <p><a id='next' href='proto2.rhaboo.htm'></a>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

@@ -1,0 +1,49 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/localforage.js'></script>
+<script src = 'proto.js'></script>
+<script>
+
+//ResultFirefox:False
+//ResultChrome:False
+//ResultIE:False
+//ResultUnits:bool
+
+var i;
+
+function go() {
+
+  var d_id = localforage.supports('asyncStorage');
+  var d_ws = localforage.supports('webSQLStorage');
+  var d_ls = localforage.supports('localStorageWrapper');
+  document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
+
+  var pig  = new Animal();
+  var pet  = new Canary();
+  var pest = new Pigeon();
+  document.getElementById('show').innerHTML = 
+    "<br/>" + show(pig) + 
+    "<br/>" + show(pet) + 
+    "<br/>" + show(pest);
+
+  localforage.clear().then(function () {
+    localforage.setItem("animals", [pig,pet,pest]).then(function(v) { 
+      document.getElementById('next').innerHTML = "Now go here";
+    }, function(e) {
+      document.getElementById('next').innerHTML = "Error:"+JSON.stringify(e);
+    });
+
+  });
+
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Store an OO-inherited object with localForage.</h3>
+  <div id='drivers'></div>
+  <p>Animal description: <span id='show'></span>
+  <p><a id='next' href='proto2.forage.htm'></a>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
