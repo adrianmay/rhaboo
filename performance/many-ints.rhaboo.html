@@ -12,8 +12,8 @@ var reps=10000;
 function go() {
 
   for (var i in localStorage) if (localStorage.hasOwnProperty(i)) delete localStorage[i];
-  var whenStarted = performance.now();
   var store = Rhaboo.persistent('Many Integers');
+  var whenStarted = performance.now();
   for (var i=0;i<10000;i++)
     store.write("Foo"+i%10, i);
   //We need that Foo prefix for localForage, but not for rhaboo.

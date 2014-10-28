@@ -24,17 +24,17 @@ function go() {
   var d_ls = localforage.supports('localStorageWrapper');
   document.getElementById('drivers').innerHTML=("Supports: indexedDB:"+d_id + ", webSQL:" + d_ws +", localStorage:" + d_ls);
 
-  for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
-
-  whenStarted = performance.now();
-  localforage.setItem("Ay", ay).then(function() { 
-    whenStopped = performance.now();
-    localforage.getItem("Ay").then(function (v) {
-      if (v[3]==6)
-        document.getElementById('result').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
-      else 
-        document.getElementById('result').innerHTML = "Failed";
-    }, function(e) { alert(JSON.stringify(e)) } )
+  localforage.clear().then( function () { 
+    whenStarted = performance.now();
+    localforage.setItem("Ay", ay).then(function() { 
+      whenStopped = performance.now();
+      localforage.getItem("Ay").then(function (v) {
+        if (v[3]==6)
+          document.getElementById('result').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+        else 
+          document.getElementById('result').innerHTML = "Failed";
+      }, function(e) { alert(JSON.stringify(e)) } )
+    });
   });
 
 }

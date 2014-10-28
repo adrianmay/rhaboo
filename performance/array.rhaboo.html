@@ -9,8 +9,7 @@
 //ResultIE: 0.035 | 0.090
 //ResultUnits:ms/element
 
-var i;
-var store = Rhaboo.persistent('Ay');
+var i, store;
 
 function go() {
 
@@ -20,6 +19,7 @@ function go() {
   for (i=0;i<aylen;i++) ay[i]=2*i;
   for (i in localStorage) if (localStorage.hasOwnProperty(i)) localStorage.removeItem(i);
 
+  store = Rhaboo.persistent('Ay');
   var whenStarted = performance.now();
   store.write("Ay", ay);
   var whenStopped = performance.now();

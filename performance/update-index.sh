@@ -33,6 +33,7 @@ function line {
 for F in `ls -1 m*.html`; do line $F; done
 for F in `ls -1 a*.html`; do line $F; done
 for F in `ls -1 o*.html`; do line $F; done
+for F in `ls -1 c*.html`; do line $F; done
 
 echo "</table>"
 R=`grep ResultFootnote *.html | sed 's/^.*://' | sed 's/$/\<br\/\>/'`
@@ -53,6 +54,12 @@ cat <<HERE
 <h3>Object tests</h3>
 <p>In this case we have an array of 1000 references to one of three medium-sized objects. We initialise them without timing and then measure the time taken to overwrite them 1000 times with references to another of the same three objects.
 <p>Rhaboo wins because each of the three objects is stored only once. The other mechanisms don't notice that there are only three of them and store them 1000 times over. Rhaboo has already stored the three objects during initialisation and merely needs to update references to them during the timed run. This resembles the behaviour of JS objects in memory.
+<h3>Circular tests</h3>
+<p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out, but we can only see the evidence in the console log because localForage fails to reject the promise correctly.
+
+
+
+
 HERE
 echo "</body></html>" 
 ) > index.htm

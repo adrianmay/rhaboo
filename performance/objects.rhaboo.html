@@ -13,6 +13,8 @@ function go() {
   document.getElementById('reps').innerHTML = reps;
   document.getElementById('size').innerHTML = arraysize;
 
+  for (var i in localStorage) if (localStorage.hasOwnProperty(i)) delete localStorage[i];
+
   var store = Rhaboo.persistent('ArrayTest');
 
   var a = new Array(arraysize);

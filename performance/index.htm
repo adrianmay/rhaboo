@@ -67,6 +67,27 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>55</td>
 <td>ms</td>
 </tr>
+<tr>
+<td class='l'><a href='circular.forage.html'>circular.forage</a></td>
+<td>True</td>
+<td>True</td>
+<td>False</td>
+<td>bool</td>
+</tr>
+<tr>
+<td class='l'><a href='circular.forage_on_ls.html'>circular.forage_on_ls</a></td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>bool</td>
+</tr>
+<tr>
+<td class='l'><a href='circular.rhaboo.html'>circular.rhaboo</a></td>
+<td>True</td>
+<td>True</td>
+<td>True</td>
+<td>bool</td>
+</tr>
 </table>
 <pre>
 **Yup, that's one hundred and thirty seven ms per element<br/> *Falls back to localStorage<br/>
@@ -84,4 +105,10 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <h3>Object tests</h3>
 <p>In this case we have an array of 1000 references to one of three medium-sized objects. We initialise them without timing and then measure the time taken to overwrite them 1000 times with references to another of the same three objects.
 <p>Rhaboo wins because each of the three objects is stored only once. The other mechanisms don't notice that there are only three of them and store them 1000 times over. Rhaboo has already stored the three objects during initialisation and merely needs to update references to them during the timed run. This resembles the behaviour of JS objects in memory.
+<h3>Circular tests</h3>
+<p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out, but we can only see the evidence in the console log because localForage fails to reject the promise correctly.
+
+
+
+
 </body></html>
