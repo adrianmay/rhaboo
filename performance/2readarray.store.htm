@@ -1,0 +1,28 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../other-peoples/store.min.js'></script>
+<script src = 'array.js'></script>
+<script>
+
+
+function go() {
+
+  document.getElementById('aylen').innerHTML=aylen;
+  var whenStarted = performance.now();
+  var restored = store.get('Ay');
+  var whenStopped = performance.now();
+  if (restored[300]==600 || restored[300]==900)
+    document.getElementById('result').innerHTML = ""+((whenStopped-whenStarted)/aylen) ;
+  else 
+    document.getElementById('result').innerHTML = "Failed";
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Read single array of <span id='aylen'></span> integers with store.js</h3>
+  <p>Read took <span id='result'></span> ms per element</p>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
+

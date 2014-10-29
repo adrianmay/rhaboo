@@ -1,0 +1,27 @@
+<html>
+<link rel="stylesheet" type="text/css" href="sty.css">
+<script src = '../rhaboo.min.js'></script>
+<script src = 'array.js'></script>
+<script>
+
+
+function go() {
+
+  document.getElementById('aylen').innerHTML=aylen;
+  var whenStarted = performance.now();
+  var store = Rhaboo.persistent('Ay');
+  var whenStopped = performance.now();
+  if (store.Ay[30]==60 || store.Ay[30]==90)
+    document.getElementById('result').innerHTML = ""+((whenStopped-whenStarted)/aylen) ;
+  else 
+    document.getElementById('result').innerHTML = "Failed";
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Read single array of <span id='aylen'></span> integers with rhaboo</h3>
+  <p>Read took <span id='result'></span> ms per element</p>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
