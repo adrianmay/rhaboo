@@ -9,97 +9,10 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <tr><th>Firefox 31.2<th>Chrome 38.0<th>IE 11</tr>
 <tr><td colspan=5><hr/></td><tr/>
 <tr>
-<td class='l'><a href='many-ints.forage.html'>many-ints.forage</a></td>
-<td>120</td>
-<td>50</td>
-<td>1.900</td>
-<td>ms/write</td>
-</tr>
-<tr>
-<td class='l'><a href='many-ints.forage_on_ls.html'>many-ints.forage_on_ls</a></td>
-<td>0.280</td>
-<td>0.110</td>
-<td>0.240</td>
-<td>ms/write</td>
-</tr>
-<tr>
-<td class='l'><a href='many-ints.rhaboo.html'>many-ints.rhaboo</a></td>
-<td>0.027</td>
-<td>0.050</td>
-<td>0.040</td>
-<td>ms/write</td>
-</tr>
-<tr>
-<td class='l'><a href='many-ints.store.html'>many-ints.store</a></td>
-<td>0.012</td>
-<td>0.015</td>
-<td>0.190</td>
-<td>ms/write</td>
-</tr>
-<tr><td colspan=5><hr/></td><tr/>
-<tr>
-<td class='l'><a href='array.forage.html'>array.forage</a></td>
-<td>0.023 | 137*</td>
-<td> 0.004 | 58</td>
-<td> 0.004 | 2.500</td>
-<td>ms/element</td>
-</tr>
-<tr>
-<td class='l'><a href='array.forage_on_ls.html'>array.forage_on_ls</a></td>
-<td> 0.010 | 0.400</td>
-<td> 0.001 | 0.240</td>
-<td> 0.005 | 0.800</td>
-<td>ms/element</td>
-</tr>
-<tr>
-<td class='l'><a href='array.rhaboo.html'>array.rhaboo</a></td>
-<td>0.065 | 0.065</td>
-<td> 0.100 | 0.100</td>
-<td> 0.035 | 0.090</td>
-<td>ms/element</td>
-</tr>
-<tr>
-<td class='l'><a href='array.store.html'>array.store</a></td>
-<td>0.300 | 0.100</td>
-<td>0.300 | 0.090</td>
-<td>0.002 | 0.600</td>
-<td>ms/element</td>
-</tr>
-<tr><td colspan=5><hr/></td><tr/>
-<tr>
-<td class='l'><a href='objects.forage.html'>objects.forage</a></td>
-<td>5700</td>
-<td>6800</td>
-<td>8800</td>
-<td>ms</td>
-</tr>
-<tr>
-<td class='l'><a href='objects.forage_on_ls.html'>objects.forage_on_ls</a></td>
-<td>5700</td>
-<td>6800</td>
-<td>8800</td>
-<td>ms</td>
-</tr>
-<tr>
-<td class='l'><a href='objects.rhaboo.html'>objects.rhaboo</a></td>
-<td>75</td>
-<td>100</td>
-<td>55</td>
-<td>ms</td>
-</tr>
-<tr>
-<td class='l'><a href='objects.store.html'>objects.store</a></td>
-<td>2800</td>
-<td>1700</td>
-<td>5000</td>
-<td>ms</td>
-</tr>
-<tr><td colspan=5><hr/></td><tr/>
-<tr>
 <td class='l'><a href='circular.forage.html'>circular.forage</a></td>
 <td>Pass</td>
 <td>Pass</td>
-<td>Fail*</td>
+<td>Pass</td>
 <td>bool</td>
 </tr>
 <tr>
@@ -161,6 +74,93 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>bool</td>
 </tr>
 <tr><td colspan=5><hr/></td><tr/>
+<tr>
+<td class='l'><a href='many-ints.forage.html'>many-ints.forage</a></td>
+<td>120</td>
+<td>50</td>
+<td>1.900</td>
+<td>ms/write</td>
+</tr>
+<tr>
+<td class='l'><a href='many-ints.forage_on_ls.html'>many-ints.forage_on_ls</a></td>
+<td>0.280</td>
+<td>0.110</td>
+<td>0.240</td>
+<td>ms/write</td>
+</tr>
+<tr>
+<td class='l'><a href='many-ints.rhaboo.html'>many-ints.rhaboo</a></td>
+<td>0.027</td>
+<td>0.050</td>
+<td>0.040</td>
+<td>ms/write</td>
+</tr>
+<tr>
+<td class='l'><a href='many-ints.store.html'>many-ints.store</a></td>
+<td>0.012</td>
+<td>0.015</td>
+<td>0.190</td>
+<td>ms/write</td>
+</tr>
+<tr><td colspan=5><hr/></td><tr/>
+<tr>
+<td class='l'><a href='array.forage.html'>array.forage</a></td>
+<td>0.023 | 137*</td>
+<td> 0.004 | 58</td>
+<td> 0.004 | 2.500</td>
+<td>ms/element</td>
+</tr>
+<tr>
+<td class='l'><a href='array.forage_on_ls.html'>array.forage_on_ls</a></td>
+<td> 0.010 | 0.400</td>
+<td> 0.001 | 0.240</td>
+<td> 0.005 | 0.800</td>
+<td>ms/element</td>
+</tr>
+<tr>
+<td class='l'><a href='array.rhaboo.html'>array.rhaboo</a></td>
+<td>0.065 | 0.065</td>
+<td> 0.100 | 0.100</td>
+<td> 0.035 | 0.090</td>
+<td>ms/element</td>
+</tr>
+<tr>
+<td class='l'><a href='array.store.html'>array.store</a></td>
+<td>0.300 | 0.100</td>
+<td>0.300 | 0.090</td>
+<td>0.002 | 0.600</td>
+<td>ms/element</td>
+</tr>
+<tr><td colspan=5><hr/></td><tr/>
+<tr>
+<td class='l'><a href='objects.forage.html'>objects.forage</a></td>
+<td>126,000</td>
+<td>55,000</td>
+<td>16,000</td>
+<td>ms</td>
+</tr>
+<tr>
+<td class='l'><a href='objects.forage_on_ls.html'>objects.forage_on_ls</a></td>
+<td>5700</td>
+<td>6800</td>
+<td>8800</td>
+<td>ms</td>
+</tr>
+<tr>
+<td class='l'><a href='objects.rhaboo.html'>objects.rhaboo</a></td>
+<td>75</td>
+<td>100</td>
+<td>55</td>
+<td>ms</td>
+</tr>
+<tr>
+<td class='l'><a href='objects.store.html'>objects.store</a></td>
+<td>2800</td>
+<td>1700</td>
+<td>5000</td>
+<td>ms</td>
+</tr>
+<tr><td colspan=5><hr/></td><tr/>
 </table>
 <pre>
 *Yup, that's one hundred and thirty seven ms per element<br/> *Falls back to localStorage<br/>
@@ -169,6 +169,13 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <p>The timings are subjectively observed means over several attempts.
 <p>The conditions usually favour disk and memory caches being populated
 <p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage. Some tests are also run on store.js, but not if its clear that they have no chance.
+<h3>Circular tests</h3>
+<p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out.
+<h3>Prototype tests</h3>
+<p>Here we have a standard OO structure in proto.js which we hope to recover the prototype chain of. Only rhaboo attempts this.
+<h3>Sparse tests</h3>
+<p>Here we have the array from hell containing nulls, undefineds, deleted entries, deleted entries just before length, non-numerically named properties and even some well-behaved entries. The restored array is inspected for accuracy in every possible way. 
+<p>Only rhaboo passes this test
 <h3>Many integers tests</h3>
 <p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. For localForage these are 10 different keys. For rhaboo, a root persistent is always an object and cannot be a mere integer, so we use 10 properties in a single persistent.
 <p>The results indicate that IndexedDB is spectacularly inefficient when asked to store lots of little things. It is, however, a lot more efficient when asked to store larger objects. 
@@ -179,13 +186,6 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <h3>Object tests</h3>
 <p>In this case we have an array of 1000 references to one of three medium-sized objects. We initialise them without timing and then measure the time taken to overwrite them 1000 times with references to another of the same three objects.
 <p>Rhaboo wins because each of the three objects is stored only once. The other mechanisms don't notice that there are only three of them and store them 1000 times over. Rhaboo has already stored the three objects during initialisation and merely needs to update references to them during the timed run. This resembles the behaviour of JS objects in memory.
-<h3>Circular tests</h3>
-<p>Here we see that rhaboo and IndexedDB can deal with structures where child properties reference their containing ancestors, a simple example of which is defined in circular.js and used in this test. JSON.stringify detects such cases and explicitly chickens out.
-<h3>Prototype tests</h3>
-<p>Here we have a standard OO structure in proto.js which we hope to recover the prototype chain of. Only rhaboo attempts this.
-<h3>Sparse tests</h3>
-<p>Here we have the array from hell containing nulls, undefineds, deleted entries, deleted entries just before length, non-numerically named properties and even some well-behaved entries. The restored array is inspected for accuracy in every possible way. 
-<p>Only rhaboo passes this test
 
 
 </body></html>
