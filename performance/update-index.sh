@@ -35,8 +35,9 @@ for F in `ls -1 p*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><t
 for F in `ls -1 sp*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
 for F in `ls -1 m*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
 for F in `ls -1 a*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
-for F in `ls -1 r*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 read*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
 for F in `ls -1 o*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
+for F in `ls -1 repl*.html`; do line $F; done; echo "<tr><td colspan=5><hr/></td><tr/>"
 
 echo "</table>"
 R=`grep ResultFootnote *.html | sed 's/^.*://' | sed 's/$/\<br\/\>/'`
