@@ -1,6 +1,6 @@
 /*!
     localForage -- Offline Storage, Improved
-    Version 1.0.4
+    Version 1.1.1
     http://mozilla.github.io/localForage
     (c) 2013-2014 Mozilla, Apache License 2.0
 */
@@ -2053,6 +2053,10 @@ requireModule('promise/polyfill').polyfill();
     var Promise = (typeof module !== 'undefined' && module.exports) ?
                   require('promise') : this.Promise;
 
+    // Custom drivers are stored here when `defineDriver()` is called.
+    // They are shared across all instances of localForage.
+    var CustomDrivers = {};
+
     var DriverType = {
         INDEXEDDB: 'asyncStorage',
         LOCALSTORAGE: 'localStorageWrapper',
@@ -2131,8 +2135,8 @@ requireModule('promise/polyfill').polyfill();
             // as Safari. Oh the lulz...
             if (typeof self.openDatabase !== 'undefined' && self.navigator &&
                 self.navigator.userAgent &&
-                /Safari/.test(navigator.userAgent) &&
-                !/Chrome/.test(navigator.userAgent)) {
+                /Safari/.test(self.navigator.userAgent) &&
+                !/Chrome/.test(self.navigator.userAgent)) {
                 return false;
             }
             try {
@@ -2142,7 +2146,7 @@ requireModule('promise/polyfill').polyfill();
                        // have older IndexedDB specs; if this isn't available
                        // their IndexedDB is too old for us to use.
                        // (Replaces the onupgradeneeded test.)
-                       typeof IDBKeyRange === 'function';
+                       typeof self.IDBKeyRange !== 'undefined';
             } catch (e) {
                 return false;
             }
@@ -2150,9 +2154,9 @@ requireModule('promise/polyfill').polyfill();
 
         result[DriverType.LOCALSTORAGE] = !!(function() {
             try {
-                return (localStorage &&
-                        ('setItem' in localStorage) &&
-                        (localStorage.setItem));
+                return (self.localStorage &&
+                        ('setItem' in self.localStorage) &&
+                        (self.localStorage.setItem));
             } catch (e) {
                 return false;
             }
@@ -2165,9 +2169,19 @@ requireModule('promise/polyfill').polyfill();
         return Object.prototype.toString.call(arg) === '[object Array]';
     };
 
-    function extend(/*...*/) {
+    function callWhenReady(localForageInstance, libraryMethod) {
+        localForageInstance[libraryMethod] = function() {
+            var _args = arguments;
+            return localForageInstance.ready().then(function() {
+                return localForageInstance[libraryMethod].apply(localForageInstance, _args);
+            });
+        };
+    }
+
+    function extend() {
         for (var i = 1; i < arguments.length; i++) {
             var arg = arguments[i];
+
             if (arg) {
                 for (var key in arg) {
                     if (arg.hasOwnProperty(key)) {
@@ -2180,16 +2194,19 @@ requireModule('promise/polyfill').polyfill();
                 }
             }
         }
+
         return arguments[0];
     }
 
-    function callWhenReady(localForageInstance, libraryMethod) {
-        localForageInstance[libraryMethod] = function() {
-            var _args = arguments;
-            return localForageInstance.ready().then(function() {
-                return localForageInstance[libraryMethod].apply(localForageInstance, _args);
-            });
-        };
+    function isLibraryDriver(driverName) {
+        for (var driver in DriverType) {
+            if (DriverType.hasOwnProperty(driver) &&
+                DriverType[driver] === driverName) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     var globalObject = this;
@@ -2253,6 +2270,66 @@ requireModule('promise/polyfill').polyfill();
         }
     };
 
+    // Used to define a custom driver, shared across all instances of
+    // localForage.
+    LocalForage.prototype.defineDriver = function(driverObject, callback,
+                                                  errorCallback) {
+        var defineDriver = new Promise(function(resolve, reject) {
+            try {
+                var driverName = driverObject._driver;
+                var complianceError = new Error(
+                    'Custom driver not compliant; see ' +
+                    'https://mozilla.github.io/localForage/#definedriver'
+                );
+                var namingError = new Error(
+                    'Custom driver name already in use: ' + driverObject._driver
+                );
+
+                // A driver name should be defined and not overlap with the
+                // library-defined, default drivers.
+                if (!driverObject._driver) {
+                    reject(complianceError);
+                    return;
+                }
+                if (isLibraryDriver(driverObject._driver)) {
+                    reject(namingError);
+                    return;
+                }
+
+                var customDriverMethods = LibraryMethods.concat('_initStorage');
+                for (var i = 0; i < customDriverMethods.length; i++) {
+                    var customDriverMethod = customDriverMethods[i];
+                    if (!customDriverMethod ||
+                        !driverObject[customDriverMethod] ||
+                        typeof driverObject[customDriverMethod] !== 'function') {
+                        reject(complianceError);
+                        return;
+                    }
+                }
+
+                var supportPromise = Promise.resolve(true);
+                if ('_support'  in driverObject) {
+                    if (driverObject._support && typeof driverObject._support === 'function') {
+                        supportPromise = driverObject._support();
+                    } else {
+                        supportPromise = Promise.resolve(!!driverObject._support);
+                    }
+                }
+
+                supportPromise.then(function(supportResult) {
+                    driverSupport[driverName] = supportResult;
+                    CustomDrivers[driverName] = driverObject;
+                    resolve();
+                }, reject);
+            } catch (e) {
+                reject(e);
+            }
+        });
+
+        defineDriver.then(callback, errorCallback);
+        return defineDriver;
+    };
+
     LocalForage.prototype.driver = function() {
         return this._driver || null;
     };
@@ -2284,46 +2361,52 @@ requireModule('promise/polyfill').polyfill();
 
         this._driverSet = new Promise(function(resolve, reject) {
             var driverName = self._getFirstSupportedDriver(drivers);
+            var error = new Error('No available storage method found.');
 
             if (!driverName) {
-                var error = new Error('No available storage method found.');
                 self._driverSet = Promise.reject(error);
-
                 reject(error);
-
                 return;
             }
 
             self._dbInfo = null;
             self._ready = null;
 
-            // We allow localForage to be declared as a module or as a
-            // library available without AMD/require.js.
-            if (moduleType === ModuleType.DEFINE) {
-                require([driverName], function(lib) {
-                    self._extend(lib);
+            if (isLibraryDriver(driverName)) {
+                // We allow localForage to be declared as a module or as a
+                // library available without AMD/require.js.
+                if (moduleType === ModuleType.DEFINE) {
+                    require([driverName], function(lib) {
+                        self._extend(lib);
 
-                    resolve();
-                });
+                        resolve();
+                    });
 
-                return;
-            } else if (moduleType === ModuleType.EXPORT) {
-                // Making it browserify friendly
-                var driver;
-                switch (driverName) {
-                    case self.INDEXEDDB:
-                        driver = require('./drivers/indexeddb');
-                        break;
-                    case self.LOCALSTORAGE:
-                        driver = require('./drivers/localstorage');
-                        break;
-                    case self.WEBSQL:
-                        driver = require('./drivers/websql');
+                    return;
+                } else if (moduleType === ModuleType.EXPORT) {
+                    // Making it browserify friendly
+                    var driver;
+                    switch (driverName) {
+                        case self.INDEXEDDB:
+                            driver = require('./drivers/indexeddb');
+                            break;
+                        case self.LOCALSTORAGE:
+                            driver = require('./drivers/localstorage');
+                            break;
+                        case self.WEBSQL:
+                            driver = require('./drivers/websql');
+                    }
+
+                    self._extend(driver);
+                } else {
+                    self._extend(globalObject[driverName]);
                 }
-
-                self._extend(driver);
+            } else if (CustomDrivers[driverName]) {
+                self._extend(CustomDrivers[driverName]);
             } else {
-                self._extend(globalObject[driverName]);
+                self._driverSet = Promise.reject(error);
+                reject(error);
+                return;
             }
 
             resolve();
