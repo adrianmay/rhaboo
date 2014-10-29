@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" type="text/css" href="sty.css">
+  <script>
+
+"use strict"
+
+var arraysize=10000;
+var pig, fancy, encoded, decoded, i;
+var whenStarted, whenStopped;
+
+function setArrayInts() {
+  pig = new Array(arraysize);
+  for (i=0;i<arraysize;i++)
+    pig[i]=i;
+}
+
+function encodeSimple() {
+  fancy=false;
+  whenStarted = performance.now();
+  encoded = JSON.stringify(pig);
+  whenStopped = performance.now();
+  document.getElementById('res_simple_encode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+}
+
+function encodeFancy() {
+  fancy=true;
+  whenStarted = performance.now();
+  encoded = JSON.stringify(pig, function(k,v) {
+    return v;
+  });
+  whenStopped = performance.now();
+  document.getElementById('res_fancy_encode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+}
+
+function decode() {
+  if (fancy) {
+    whenStarted = performance.now();
+    decoded = JSON.parse(encoded, function(k,v) {
+      return v;
+    });
+    whenStopped = performance.now();
+    document.getElementById('res_fancy_decode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+  } else {
+    whenStarted = performance.now();
+    decoded = JSON.parse(encoded);
+    whenStopped = performance.now();
+    document.getElementById('res_simple_decode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+  }
+}
+
+  </script>
+  <body>
+    <h3>Measure cost of JSON interference</h3>
+    <p><div class='button' onClick='setArrayInts();'>Set to array</div>
+    <p><div class='button' onClick='encodeSimple();'>encodeSimple</div>
+    <p><div class='button' onClick='encodeFancy();'>encodeFancy</div>
+    <p><div class='button' onClick='decode();'>decode</div>
+    <p>encodeSimple took <span id='res_simple_encode'>...</span></p>
+    <p>decodeSimple took <span id='res_simple_decode'>...</span></p>
+    <p>encodeFancy took <span id='res_fancy_encode'>...</span></p>
+    <p>decodeFancy took <span id='res_fancy_decode'>...</span></p>
+  </body>
+</html>
+
+
