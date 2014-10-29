@@ -29,6 +29,13 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>0.040</td>
 <td>ms/write</td>
 </tr>
+<tr>
+<td class='l'><a href='many-ints.store.html'>many-ints.store</a></td>
+<td>0.012</td>
+<td>0.015</td>
+<td></td>
+<td>ms/write</td>
+</tr>
 <tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='array.forage.html'>array.forage</a></td>
@@ -51,6 +58,13 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td> 0.035 | 0.090</td>
 <td>ms/element</td>
 </tr>
+<tr>
+<td class='l'><a href='array.store.html'>array.store</a></td>
+<td>0.300 | 0.100</td>
+<td>0.300 | 0.090</td>
+<td></td>
+<td>ms/element</td>
+</tr>
 <tr><td colspan=5><hr/></td><tr/>
 <tr>
 <td class='l'><a href='objects.forage.html'>objects.forage</a></td>
@@ -68,6 +82,13 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <td>75</td>
 <td>100</td>
 <td>55</td>
+<td>ms</td>
+</tr>
+<tr>
+<td class='l'><a href='objects.store.html'>objects.store</a></td>
+<td>2800</td>
+<td>1700</td>
+<td></td>
 <td>ms</td>
 </tr>
 <tr><td colspan=5><hr/></td><tr/>
@@ -144,7 +165,7 @@ th { padding-left:15px; padding-right:15px; } td { padding-left:15px; padding-ri
 <h3>General</h3>
 <p>The timings are subjectively observed means over several attempts.
 <p>The conditions usually favour disk and memory caches being populated
-<p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage
+<p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage. Some tests are also run on store.js, but not if its clear that they have no chance.
 <h3>Many integers tests</h3>
 <p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. For localForage these are 10 different keys. For rhaboo, a root persistent is always an object and cannot be a mere integer, so we use 10 properties in a single persistent.
 <p>The results indicate that IndexedDB is spectacularly inefficient when asked to store lots of little things. It is, however, a lot more efficient when asked to store larger objects. 

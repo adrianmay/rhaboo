@@ -46,7 +46,7 @@ cat <<HERE
 <h3>General</h3>
 <p>The timings are subjectively observed means over several attempts.
 <p>The conditions usually favour disk and memory caches being populated
-<p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage
+<p>Each test is run on rhaboo, on localForage using its chosen driver and on localForage forced to use localStorage. Some tests are also run on store.js, but not if its clear that they have no chance.
 <h3>Many integers tests</h3>
 <p>Here we have 10 integers independently stored in the medium and we consecutively overwrite them. For localForage these are 10 different keys. For rhaboo, a root persistent is always an object and cannot be a mere integer, so we use 10 properties in a single persistent.
 <p>The results indicate that IndexedDB is spectacularly inefficient when asked to store lots of little things. It is, however, a lot more efficient when asked to store larger objects. 
