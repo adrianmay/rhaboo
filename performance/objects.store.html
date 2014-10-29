@@ -1,0 +1,48 @@
+<html>
+<script src = '../other-peoples/store.min.js'></script>
+<script src = 'objects.js'></script>
+<script>
+
+//ResultFirefox:2800
+//ResultChrome:1700
+//ResultIE:
+//ResultUnits:ms
+
+function go() {
+
+  document.getElementById('reps').innerHTML = reps;
+  document.getElementById('size').innerHTML = arraysize;
+
+  for (var i in localStorage) if (localStorage.hasOwnProperty(i)) delete localStorage[i];
+
+
+  var a = new Array(arraysize);
+  for (var i=0;i<arraysize;i++)
+    a[i]=pigs[i%npigs];
+  store.set("array", a);
+
+  var whenStarted = performance.now();
+
+  for (var i=0;i<reps;i++) {
+    a[i%arraysize]=pigs[i%npigs];
+    store.set('array', a);
+  }
+
+  var whenStopped = performance.now();
+
+  i--;
+  if (JSON.stringify(store.get('array')[i%arraysize])==JSON.stringify(pigs[i%npigs]))
+    document.getElementById('result').innerHTML = whenStopped-whenStarted;
+  else
+    document.getElementById('result').innerHTML = "Failed";
+
+}
+
+</script>
+<body onLoad='go();'>
+  <h3>Overwrite one of an array of <span id='size'></span> entries with one of 3 object-values <span id='reps'></span> times over with rhaboo</h3>
+  <p>Test took <span id='result'></span> ms</p>
+  <p><a href='index.htm'>Performance tests overview</a>
+</body>
+</html>
+
