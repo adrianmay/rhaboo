@@ -1,18 +1,60 @@
 <!DOCTYPE html>
 <html>
   <link rel="stylesheet" type="text/css" href="sty.css">
-  <script>
+<script src='../other-peoples/ajon.min.js'> </script>  
+<script>
 
 "use strict"
 
 var arraysize=10000;
-var pig, fancy, encoded, decoded, i;
+
+var pigob = {
+  foo:"bar",
+  cow:[1,2,3],
+  dog:{
+    foo:"bar",
+    cow:[1,2,3],
+    dog:{ }
+  }
+}
+
+var sp = [1,2,3,4,5,6]
+delete sp[0];
+sp.sort();
+//Now we have length 6 but a non-existent entry at the end
+sp[1]=undefined;
+sp[2]=null;
+delete sp[3];
+sp.foo = 'bar';
+//Now we have [2,undefined, null, nothing at all, 6, nothing at all]
+
+var pig, is, fancy, encoded, decoded, i;
 var whenStarted, whenStopped;
 
 function setArrayInts() {
   pig = new Array(arraysize);
   for (i=0;i<arraysize;i++)
     pig[i]=i;
+  is='ints';
+}
+
+function setArrayStrings() {
+  pig = new Array(arraysize);
+  for (i=0;i<arraysize;i++)
+    pig[i]="The quick brown fox";
+  is='strings';
+}
+
+function setSparse() {
+  pig = sp;
+  is='sparse';
+}
+
+function setArrayObjects() {
+  pig = new Array(arraysize);
+  for (i=0;i<arraysize;i++)
+    pig[i]=pigob;
+  is='objects';
 }
 
 function encodeSimple() {
@@ -21,24 +63,53 @@ function encodeSimple() {
   encoded = JSON.stringify(pig);
   whenStopped = performance.now();
   document.getElementById('res_simple_encode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+  document.getElementById('encoded').innerHTML = encoded.substring(0,50);
 }
 
 function encodeFancy() {
   fancy=true;
   whenStarted = performance.now();
   encoded = JSON.stringify(pig, function(k,v) {
+    if (typeof v === 'undefined') {
+      if (pig.hasOwnProperty(k))
+        return "_";
+      else
+        return " ";
+    }
+    if (v ===null) 
+      return "~";
+    else if (typeof v === 'string') 
+      return "$"+v;
     return v;
   });
   whenStopped = performance.now();
   document.getElementById('res_fancy_encode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
+  document.getElementById('encoded').innerHTML = encoded.substring(0,50);
 }
 
 function decode() {
   if (fancy) {
     whenStarted = performance.now();
+    var toadd = [];
     decoded = JSON.parse(encoded, function(k,v) {
+      if (typeof v === 'string') {
+        var code = v.substring(0,1);
+        if (code==' ') {
+          return undefined;
+        }
+        else if (code=='_') {
+          toadd.push(k);
+          return undefined;
+        }
+        else if (code=='~')
+          return null;
+        else if (code=='$')
+          return v.substring(1);
+      }
       return v;
     });
+    for (var a=0;a<toadd.length;a++ ) 
+      decoded[toadd[a]]=undefined;
     whenStopped = performance.now();
     document.getElementById('res_fancy_decode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
   } else {
@@ -47,19 +118,45 @@ function decode() {
     whenStopped = performance.now();
     document.getElementById('res_simple_decode').innerHTML = ""+(whenStopped-whenStarted) + " ms" ;
   }
+  document.getElementById('decoded').innerHTML = myescape(is=='sparse' ? 
+    Ajon.stringify(decoded) : 
+    Ajon.stringify(decoded[arraysize-1]));
+}
+
+function go() {
+}
+
+function myescape(s) {
+  return s.replace(/\</g, "&lt;");
 }
 
   </script>
-  <body>
+  <body onLoad='go();'>
     <h3>Measure cost of JSON interference</h3>
-    <p><div class='button' onClick='setArrayInts();'>Set to array</div>
-    <p><div class='button' onClick='encodeSimple();'>encodeSimple</div>
-    <p><div class='button' onClick='encodeFancy();'>encodeFancy</div>
-    <p><div class='button' onClick='decode();'>decode</div>
-    <p>encodeSimple took <span id='res_simple_encode'>...</span></p>
-    <p>decodeSimple took <span id='res_simple_decode'>...</span></p>
-    <p>encodeFancy took <span id='res_fancy_encode'>...</span></p>
-    <p>decodeFancy took <span id='res_fancy_decode'>...</span></p>
+
+    <table><tr>
+      <td>
+        <p><div class='button' onClick='setArrayInts();'>Set to ints</div>
+        <p><div class='button' onClick='setArrayStrings();'>Set to strings</div>
+        <p><div class='button' onClick='setArrayObjects();'>Set to objects</div>
+        <p><div class='button' onClick='setSparse();'>Set sparse</div>
+      </td>
+      <td>
+        <p><div class='button' onClick='encodeSimple();'>encodeSimple</div>
+        <p><div class='button' onClick='encodeFancy();'>encodeFancy</div>
+        <p><div class='button' onClick='decode();'>decode</div>
+      </td>
+      <td>
+        <p>encodeSimple took <span id='res_simple_encode'>...</span></p>
+        <p>decodeSimple took <span id='res_simple_decode'>...</span></p>
+        <p>encodeFancy took <span id='res_fancy_encode'>...</span></p>
+        <p>decodeFancy took <span id='res_fancy_decode'>...</span></p>
+        <p>Encoded: <span id='encoded'>...</span></p>
+        <p>Decoded: <span id='decoded'>...</span></p>
+        <p>Misc: <span id='misc'>...</span></p>
+      </td>
+      </tr></table>
+
   </body>
 </html>
 
