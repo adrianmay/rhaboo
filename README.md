@@ -6,6 +6,8 @@ Rhaboo
 Website at http://rhaboo.org
 
 Please star the repo if you use it - Thx.
+ 
+Thanks to <a href='https://github.com/brasofilo'>brasofilo</a> for the logo. 
 
 What is it?
 -----------
