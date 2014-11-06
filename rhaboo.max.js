@@ -398,6 +398,33 @@ function forgetProp(that, ss, prop) {
   updateSlot(that, ss, prevname);
 }
 
+Object.defineProperty(Object.prototype, 'write', { value: function(prop, val) {
+  var ss = [];
+  slotFor(this, ss, prop);
+  if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
+  this[prop] = val;
+  if (P.typeOf(val) === 'object') addRef(val, ss);
+  updateSlot(this, ss, prop);
+  execute(ss);
+  return this;
+}});
+
+Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
+  if (!this.hasOwnProperty(prop))
+    return this;
+  var ss = [];
+  if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
+  var target = this._rhaboo.kids[prop];
+  ss.push(['removeItem', [ls_prefix+target.slotnum]]);
+  var prevname = target.prev;
+  removeKid(this, prop);
+  updateSlot(this, ss, prevname);
+  delete this[prop];
+  execute(ss);
+  return this;
+}});
+
+/*
 Object.prototype.write = function(prop, val) { 
   var ss = [];
   slotFor(this, ss, prop);
@@ -423,7 +450,7 @@ Object.prototype.erase = function(prop) {
   execute(ss);
   return this;
 }
-
+*/
 
 function execute(ss) {
   var f = function() { 
