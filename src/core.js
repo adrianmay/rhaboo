@@ -219,7 +219,7 @@ function forgetProp(that, ss, prop) {
   updateSlot(that, ss, prevname);
 }
 
-Object.prototype.write = function(prop, val) { 
+Object.defineProperty(Object.prototype, 'write', { value: function(prop, val) {
   var ss = [];
   slotFor(this, ss, prop);
   if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
@@ -228,9 +228,9 @@ Object.prototype.write = function(prop, val) {
   updateSlot(this, ss, prop);
   execute(ss);
   return this;
-}
+}});
 
-Object.prototype.erase = function(prop) { 
+Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
   if (!this.hasOwnProperty(prop))
     return this;
   var ss = [];
@@ -243,8 +243,7 @@ Object.prototype.erase = function(prop) {
   delete this[prop];
   execute(ss);
   return this;
-}
-
+}});
 
 function execute(ss) {
   var f = function() { 

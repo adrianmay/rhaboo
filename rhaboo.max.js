@@ -329,7 +329,7 @@ function updateSlot(that, ss, prop) {
   if (kid.next!==undefined) 
     bare.push([kid.next, that._rhaboo.kids[kid.next].slotnum]);
   var encoded = (prop!==undefined ? slot_l_pp : slot_o_pp)(true)(bare);
-  procrastinate(ss,['setItem', [ls_prefix+kid.slotnum, encoded]]); 
+  ss.push(['setItem', [ls_prefix+kid.slotnum, encoded]]); 
 }
 
 function slotFor(that, ss, prop) {
@@ -379,7 +379,7 @@ function release(that, ss, force) {
 function forgetProps(that, ss) {
   var propname = undefined;
   for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
-    procrastinate(ss,['removeItem', [ls_prefix+target.slotnum]]);
+    ss.push(['removeItem', [ls_prefix+target.slotnum]]);
     if (propname!==undefined && P.typeOf(that[propname]) == 'object') {
       release(that[propname], ss);
     }
@@ -392,13 +392,13 @@ function forgetProp(that, ss, prop) {
   var target = that._rhaboo.kids[prop];
   if (target===undefined) return; //This can happen if you sort a sparse array
   var prevname = target.prev;
-  procrastinate(ss,['removeItem', [ls_prefix+target.slotnum]]);
+  ss.push(['removeItem', [ls_prefix+target.slotnum]]);
   if (P.typeOf(that[prop]) == 'object') release(that[prop], ss);
   removeKid(that, prop);
   updateSlot(that, ss, prevname);
 }
 
-Object.prototype.write = function(prop, val) { 
+Object.defineProperty(Object.prototype, 'write', { value: function(prop, val) {
   var ss = [];
   slotFor(this, ss, prop);
   if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
@@ -407,39 +407,29 @@ Object.prototype.write = function(prop, val) {
   updateSlot(this, ss, prop);
   execute(ss);
   return this;
-}
+}});
 
-Object.prototype.erase = function(prop) { 
+Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
   if (!this.hasOwnProperty(prop))
     return this;
   var ss = [];
   if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
   var target = this._rhaboo.kids[prop];
-  procrastinate(ss,['removeItem', [ls_prefix+target.slotnum]]);
+  ss.push(['removeItem', [ls_prefix+target.slotnum]]);
   var prevname = target.prev;
   removeKid(this, prop);
   updateSlot(this, ss, prevname);
   delete this[prop];
   execute(ss);
   return this;
-}
-
-function procrastinate(ss, a) {
-  ss.push(a); // delay or ... 
-  //do now
-  //localStorage[a[0]].apply(localStorage, a[1]);
-
-}
+}});
 
 function execute(ss) {
-  //already done so
-  //return;
-
   var f = function() { 
     for (var i=0; i<ss.length; i++) 
       localStorage[ss[i][0]].apply(localStorage, ss[i][1]);
   }
-  setTimeout(f, 100);
+  setTimeout(f, 0);
 }
 
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
