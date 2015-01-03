@@ -271,8 +271,8 @@ function nuke() {
       localStorage.removeItem(i);
 }
 
-Object.prototype.hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
-Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && this.hasOwnPropertyOrig(key)); }
+var Object_prototype_hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
+Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && Object_prototype_hasOwnPropertyOrig.call(this,key)); }
 
 module.exports = {
   persistent : persistent,

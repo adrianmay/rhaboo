@@ -94,7 +94,7 @@ module.exports = { typeOf:typeOf, id:id, konst:konst, eq:eq, map:map, runSnd:run
 },{}],2:[function(require,module,exports){
 var R = require('./core');
 
-Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
+var Array_rhaboo_originals = Array_rhaboo_originals || {
   pop : Array.prototype.pop,
   push : Array.prototype.push,
   shift : Array.prototype.shift,
@@ -105,7 +105,7 @@ Array.prototype._rhaboo_originals = Array.prototype._rhaboo_originals || {
   fill : Array.prototype.fill,
 };
 
-Array.prototype._rhaboo_defensively = function(mutator) {
+var Array_rhaboo_defensively = function(mutator) {
   return function () { 
     var slotnum=undefined, refs;
     var ss = [];
@@ -114,7 +114,7 @@ Array.prototype._rhaboo_defensively = function(mutator) {
       refs = this._rhaboo.refs;
       R.release(this, ss, true);
     }
-    var retval = Array.prototype._rhaboo_originals[mutator].apply(this, arguments);
+    var retval = Array_rhaboo_originals[mutator].apply(this, arguments);
     if (slotnum) {
       R.addRef(this, ss, slotnum, refs);
       R.execute(ss);
@@ -125,7 +125,7 @@ Array.prototype._rhaboo_defensively = function(mutator) {
 
 Array.prototype.push = function () {
   var l1 = this.length;
-  var retval = Array.prototype._rhaboo_originals.push.apply(this, arguments);
+  var retval = Array_rhaboo_originals.push.apply(this, arguments);
   var l2 = this.length;
   if ( this._rhaboo !== undefined && l2>l1 ) {
     var ss = [];
@@ -143,7 +143,7 @@ Array.prototype.pop = function () {
   if ( this._rhaboo !== undefined && l>0 ) {
     R.forgetProp(this, ss, l-1);
   } 
-  var ret =  Array.prototype._rhaboo_originals.pop.apply(this, arguments);
+  var ret = Array_rhaboo_originals.pop.apply(this, arguments);
   if ( this._rhaboo !== undefined && l>0 ) {
     R.updateSlot(this, ss); //for length
     R.execute(ss);
@@ -159,14 +159,14 @@ Array.prototype.write = function(prop, val) {
 }
 
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-//Array.prototype.push = Array.prototype._rhaboo_defensively("push");
-//Array.prototype.pop = Array.prototype._rhaboo_defensively("pop");
-Array.prototype.shift = Array.prototype._rhaboo_defensively("shift");
-Array.prototype.unshift = Array.prototype._rhaboo_defensively("unshift");
-Array.prototype.splice = Array.prototype._rhaboo_defensively("splice");
-Array.prototype.reverse = Array.prototype._rhaboo_defensively("reverse");
-Array.prototype.sort = Array.prototype._rhaboo_defensively("sort");
-Array.prototype.fill = Array.prototype._rhaboo_defensively("fill");
+//Array.prototype.push = Array_rhaboo_defensively("push");
+//Array.prototype.pop = Array_rhaboo_defensively("pop");
+Array.prototype.shift = Array_rhaboo_defensively("shift");
+Array.prototype.unshift = Array_rhaboo_defensively("unshift");
+Array.prototype.splice = Array_rhaboo_defensively("splice");
+Array.prototype.reverse = Array_rhaboo_defensively("reverse");
+Array.prototype.sort = Array_rhaboo_defensively("sort");
+Array.prototype.fill = Array_rhaboo_defensively("fill");
 //Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 
 module.exports = {
@@ -424,34 +424,6 @@ Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
   return this;
 }});
 
-/*
-Object.prototype.write = function(prop, val) { 
-  var ss = [];
-  slotFor(this, ss, prop);
-  if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
-  this[prop] = val;
-  if (P.typeOf(val) === 'object') addRef(val, ss);
-  updateSlot(this, ss, prop);
-  execute(ss);
-  return this;
-}
-
-Object.prototype.erase = function(prop) { 
-  if (!this.hasOwnProperty(prop))
-    return this;
-  var ss = [];
-  if (P.typeOf(this[prop]) === 'object') release(this[prop], ss);
-  var target = this._rhaboo.kids[prop];
-  ss.push(['removeItem', [ls_prefix+target.slotnum]]);
-  var prevname = target.prev;
-  removeKid(this, prop);
-  updateSlot(this, ss, prevname);
-  delete this[prop];
-  execute(ss);
-  return this;
-}
-*/
-
 function execute(ss) {
   var f = function() { 
     for (var i=0; i<ss.length; i++) 
@@ -478,8 +450,8 @@ function nuke() {
       localStorage.removeItem(i);
 }
 
-Object.prototype.hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
-Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && this.hasOwnPropertyOrig(key)); }
+var Object_prototype_hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
+Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && Object_prototype_hasOwnPropertyOrig.call(this,key)); }
 
 module.exports = {
   persistent : persistent,
