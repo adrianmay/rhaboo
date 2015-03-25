@@ -220,6 +220,8 @@ var ls_prefix = "_rhaboo_";
 
 var built = {};
 
+var _storage = localStorage;
+
 //The serialiser...
 
 var P = require('parunpar');
@@ -274,15 +276,16 @@ var slot_o_pp  = P.tuple([left_o_pp, right_pp]);
 var slot_l_pp  = P.tuple([left_l_pp, right_pp]);
 //That takes something like [value,[nextprop,nextslot]]
 
-function persistent(key) { 
-  var praw = localStorage.getItem(ls_prefix+key);
+function persistent(key, options) {
+  if (P.typeOf(options) === 'object' && options !== null) parseOptions(options);
+  var praw = _storage.getItem(ls_prefix+key);
   if (praw) {
     var decoded = slot_l_pp(false)(praw);
     return decoded[0];
   } else {
     var ss = [];
     var ret = addRef({}, ss);
-    localStorage.setItem(ls_prefix+key, left_l_pp(true)(ret));
+    _storage.setItem(ls_prefix+key, left_l_pp(true)(ret));
     execute(ss);
     return ret;
   }
@@ -290,7 +293,7 @@ function persistent(key) {
 
 function restore(slotnum) {
   if ( built[slotnum]!==undefined ) return addRef(built[slotnum]);
-  var raw = localStorage.getItem(ls_prefix+slotnum)
+  var raw = _storage.getItem(ls_prefix+slotnum)
   var decoded = slot_o_pp(false)(raw);
   decoded[0]._rhaboo = {
     slotnum : slotnum,
@@ -302,7 +305,7 @@ function restore(slotnum) {
 }
 
 function augment(that, propname, propslot) {
-  var praw = localStorage.getItem(ls_prefix+propslot);
+  var praw = _storage.getItem(ls_prefix+propslot);
   var decoded = slot_l_pp(false)(praw);
   that[propname] = decoded[0];
   appendKid(that, propname, propslot);
@@ -398,6 +401,11 @@ function forgetProp(that, ss, prop) {
   updateSlot(that, ss, prevname);
 }
 
+function parseOptions(options) {
+	if (P.typeOf(options) !== 'object' || options === null) return;
+	if (P.typeOf(options['useSessionStorage']) !== 'undefined' && !!options['useSessionStorage']) _storage = sessionStorage;
+}
+
 Object.defineProperty(Object.prototype, 'write', { value: function(prop, val) {
   var ss = [];
   slotFor(this, ss, prop);
@@ -427,27 +435,27 @@ Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
 function execute(ss) {
   var f = function() { 
     for (var i=0; i<ss.length; i++) 
-      localStorage[ss[i][0]].apply(localStorage, ss[i][1]);
+      _storage[ss[i][0]].apply(_storage, ss[i][1]);
   }
   setTimeout(f, 0);
 }
 
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
-var storedNextSlot = localStorage.getItem(keyOfStoredNextSlot) || 0;
+var storedNextSlot = _storage.getItem(keyOfStoredNextSlot) || 0;
 storedNextSlot = Number(storedNextSlot);
 function newSlot() {
   var ret = storedNextSlot;
   storedNextSlot++;
   setTimeout(function() {
-    localStorage.setItem(keyOfStoredNextSlot, storedNextSlot);
+    _storage.setItem(keyOfStoredNextSlot, storedNextSlot);
   },0);
   return ret;
 }
 
 function nuke() {
-  for (var i in localStorage) 
-    if (localStorage.hasOwnProperty(i))
-      localStorage.removeItem(i);
+  for (var i in _storage)
+    if (_storage.hasOwnProperty(i))
+      _storage.removeItem(i);
 }
 
 var Object_prototype_hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
