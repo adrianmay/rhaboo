@@ -94,6 +94,7 @@ module.exports = { typeOf:typeOf, id:id, konst:konst, eq:eq, map:map, runSnd:run
 },{}],2:[function(require,module,exports){
 var R = require('./core');
 
+//All these will be changed but the new versions will use the originals...
 var Array_rhaboo_originals = Array_rhaboo_originals || {
   pop : Array.prototype.pop,
   push : Array.prototype.push,
@@ -105,38 +106,45 @@ var Array_rhaboo_originals = Array_rhaboo_originals || {
   fill : Array.prototype.fill,
 };
 
+//Worst case scenario: 
 var Array_rhaboo_defensively = function(mutator) {
   return function () { 
     var slotnum=undefined, refs;
     var ss = [];
+    //Note the slotnum and refcount then totally remove it from localStorage...
     if (this._rhaboo) {
       slotnum = this._rhaboo.slotnum;
       refs = this._rhaboo.refs;
-      R.release(this, ss, true);
+      R.release(this, ss, true); //true means force release even if there are other references
     }
+    //Do the requested change ...
     var retval = Array_rhaboo_originals[mutator].apply(this, arguments);
-    if (slotnum) {
+    //Recreate it, specifying the same slotnum and refcount...
+    if (slotnum!==undefined) { //otherwise it never was persisted
       R.addRef(this, ss, slotnum, refs);
-      R.execute(ss);
+      R.execute(ss); //Hit localStorage
     }
     return retval;
   }
 }
 
+//This can be better cos it leaves the existing part of the array unchanged
 Array.prototype.push = function () {
   var l1 = this.length;
   var retval = Array_rhaboo_originals.push.apply(this, arguments);
   var l2 = this.length;
+  //Just persist the new elements...
   if ( this._rhaboo !== undefined && l2>l1 ) {
     var ss = [];
     for (var i=l1; i<l2; i++) {
-      R.storeProp(this, ss, i);
+      R.storeProp(this, ss, i); //This might be writing each slot twice
     }
     R.updateSlot(this, ss); //for length
     R.execute(ss);
   }
 }
 
+//Even better: just unpersist the last element
 Array.prototype.pop = function () {
   var ss = [];
   var l = this.length;
@@ -154,7 +162,7 @@ Array.prototype.pop = function () {
 Array.prototype.write = function(prop, val) { 
   Object.prototype.write.call(this, prop, val);
   var ss = [];
-  R.updateSlot(this, ss);
+  R.updateSlot(this, ss); //for length
   R.execute(ss);
 }
 
@@ -240,13 +248,15 @@ var left_o_pp = P.pipe(
 
 //These pps are a bit of a mess right now...
 
-
 //left_o_pp en/decodes objects (not to be confused with references to objects)
 //  The first and last lines just pack the 1 or 2 element array handled by the bit in between
 //  3 lines encoding, 1 line decoding
 //  The three encoding lines handle dates, arrays, and everything else respectively.
+//  The constructor name is always stored and looked for in the global scope,
+//    so if you have your own classes they should have the constructor name set up properly - 
+//    Crockford style won't work.
 //  (There was a plan to allow any class to define a constructorParameters function 
-//    that would be stored here like the date string or array length.)
+//    that would return something to be stored here like the date string or array length is.)
 var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
     return dir ? ( 
@@ -375,13 +385,13 @@ function updateSlot(that, ss, prop) {
 }
 
 //Reserve a slot (if not already done) for a child of that called prop
-////Don't do it but add localStorage actions to ss
+//Don't do it but add localStorage actions to ss
 function slotFor(that, ss, prop) {
   if (that._rhaboo.kids[prop]===undefined) {
     var slotnum = newSlot();
-    appendKid(that, prop, slotnum); //manage the linked list of children in _rhaboo
+    appendKid(that, prop, slotnum); //Manage the linked list of children in _rhaboo
     updateSlot(that, ss, that._rhaboo.kids[prop].prev); //The formerly last child now needs a reference to the new one
-    //this slot about to be written by caller
+    //This slot is about to be written by caller
   }
 }
 
@@ -502,7 +512,6 @@ Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && Ob
 
 module.exports = {
   persistent : persistent,
-//  forgetProps : forgetProps,
   addRef: addRef,
   release: release,
   storeProp : storeProp,
