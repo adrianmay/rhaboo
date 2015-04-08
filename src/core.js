@@ -114,6 +114,7 @@ function persistent(key) {
   var praw = localStorage.getItem(ls_prefix+key); //Likely contains "&0" where 0 is the slot number with the root object in
   if (praw) {
     var decoded = slot_l_pp(false)(praw); //Sees the & and calls restore
+    built={};
     return decoded[0];
   } else { //virgin
     var ss = [];

@@ -1,0 +1,49 @@
+<script src = '../rhaboo.min.js'></script>
+<script>
+
+  var store;
+
+  //Thanks to http://truongtx.me/ for this ...
+  if (window.addEventListener) {
+      // Normal browsers
+      window.addEventListener("storage", ls_change_handler_, false);
+  } else {
+      // for IE (why make your life more difficult)
+      window.attachEvent("onstorage", ls_change_handler_);
+  };
+
+  function ls_change_handler_(e) {
+    //Rhaboo.reset();
+    document.getElementById("noti").innerHTML++;
+    //setTimeout(ls_change_handler, 100);
+    ls_change_handler();
+  }
+
+  function ls_change_handler(e) {
+    store = Rhaboo.persistent('Counter demo');
+    refresh();
+  }
+
+  store = Rhaboo.persistent('Counter demo');
+  store.write('count', store.count ? store.count+1 : 1);
+
+  function refresh() {
+    document.getElementById("count").innerHTML = store.count;
+  }
+
+</script>
+<body onLoad='refresh();'>
+  <p><a href='index.html'>Back to demos index</a></p>
+  <p>You loaded this page <span id='count'>?</span> times. 
+  <p>Now hit reload.</p>
+  <p onClick='
+    store.erase("count");
+    this.innerHTML="Now reload."'>
+  Forget count</p>
+  <p onClick='
+    localStorage.clear();
+    this.innerHTML="Now reload."'>
+  Nuke entire localStorage</p>
+  <p>Notified <span id='noti'>0</span> times.
+</body>
+
