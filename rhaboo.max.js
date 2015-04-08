@@ -399,14 +399,10 @@ function addRef(that, ss, slotnum, refs) {
       kids:    {}
     };
     updateSlot(that, ss);
-    storeProps(that, ss);
+    for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') 
+      storeProp(that, ss, prop);
   }
   return that;
-}
-
-function storeProps(that, ss) {
-  for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') 
-    storeProp(that, ss, prop);
 }
 
 function storeProp(that, ss, prop) {
@@ -417,23 +413,18 @@ function storeProp(that, ss, prop) {
 }
 
 function release(that, ss, force) {
+  var target, propname;
   that._rhaboo.refs--;
   if (force || that._rhaboo.refs === 0) {
-    forgetProps(that,ss); //also releases slot for that
+    for (propname = undefined, target = that._rhaboo; 
+         target; 
+         target = that._rhaboo.kids[propname=target.next]) {
+      ss.push(['removeItem', [ls_prefix+target.slotnum]]);
+      if (propname!==undefined && P.typeOf(that[propname]) == 'object') 
+        release(that[propname], ss); //recurse for any object-valued properties
+    }
     delete that._rhaboo;
   }
-}
-
-function forgetProps(that, ss) {
-  var propname = undefined;
-  for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
-    ss.push(['removeItem', [ls_prefix+target.slotnum]]);
-    if (propname!==undefined && P.typeOf(that[propname]) == 'object') {
-      release(that[propname], ss); //recurse for any object-valued properties
-    }
-  }
-  that._rhaboo.kids = {}; 
-  that._rhaboo.next = that._rhaboo.prev = undefined;
 }
 
 function forgetProp(that, ss, prop) {
@@ -511,7 +502,6 @@ Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && Ob
 
 module.exports = {
   persistent : persistent,
-//  storeProps : storeProps,
 //  forgetProps : forgetProps,
   addRef: addRef,
   release: release,

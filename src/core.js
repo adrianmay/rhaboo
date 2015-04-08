@@ -61,13 +61,15 @@ var left_o_pp = P.pipe(
 
 //These pps are a bit of a mess right now...
 
-
 //left_o_pp en/decodes objects (not to be confused with references to objects)
 //  The first and last lines just pack the 1 or 2 element array handled by the bit in between
 //  3 lines encoding, 1 line decoding
 //  The three encoding lines handle dates, arrays, and everything else respectively.
+//  The constructor name is always stored and looked for in the global scope,
+//    so if you have your own classes they should have the constructor name set up properly - 
+//    Crockford style won't work.
 //  (There was a plan to allow any class to define a constructorParameters function 
-//    that would be stored here like the date string or array length.)
+//    that would return something to be stored here like the date string or array length is.)
 var left_o_pp = P.pipe(
   function (dir) { return function (x) { 
     return dir ? ( 
@@ -196,13 +198,13 @@ function updateSlot(that, ss, prop) {
 }
 
 //Reserve a slot (if not already done) for a child of that called prop
-////Don't do it but add localStorage actions to ss
+//Don't do it but add localStorage actions to ss
 function slotFor(that, ss, prop) {
   if (that._rhaboo.kids[prop]===undefined) {
     var slotnum = newSlot();
-    appendKid(that, prop, slotnum); //manage the linked list of children in _rhaboo
+    appendKid(that, prop, slotnum); //Manage the linked list of children in _rhaboo
     updateSlot(that, ss, that._rhaboo.kids[prop].prev); //The formerly last child now needs a reference to the new one
-    //this slot about to be written by caller
+    //This slot is about to be written by caller
   }
 }
 
@@ -220,14 +222,10 @@ function addRef(that, ss, slotnum, refs) {
       kids:    {}
     };
     updateSlot(that, ss);
-    storeProps(that, ss);
+    for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') 
+      storeProp(that, ss, prop);
   }
   return that;
-}
-
-function storeProps(that, ss) {
-  for (var prop in that) if (that.hasOwnProperty(prop) && prop !=='_rhaboo') 
-    storeProp(that, ss, prop);
 }
 
 function storeProp(that, ss, prop) {
@@ -238,23 +236,18 @@ function storeProp(that, ss, prop) {
 }
 
 function release(that, ss, force) {
+  var target, propname;
   that._rhaboo.refs--;
   if (force || that._rhaboo.refs === 0) {
-    forgetProps(that,ss); //also releases slot for that
+    for (propname = undefined, target = that._rhaboo; 
+         target; 
+         target = that._rhaboo.kids[propname=target.next]) {
+      ss.push(['removeItem', [ls_prefix+target.slotnum]]);
+      if (propname!==undefined && P.typeOf(that[propname]) == 'object') 
+        release(that[propname], ss); //recurse for any object-valued properties
+    }
     delete that._rhaboo;
   }
-}
-
-function forgetProps(that, ss) {
-  var propname = undefined;
-  for (var target = that._rhaboo; target; target = that._rhaboo.kids[propname=target.next]) {
-    ss.push(['removeItem', [ls_prefix+target.slotnum]]);
-    if (propname!==undefined && P.typeOf(that[propname]) == 'object') {
-      release(that[propname], ss); //recurse for any object-valued properties
-    }
-  }
-  that._rhaboo.kids = {}; 
-  that._rhaboo.next = that._rhaboo.prev = undefined;
 }
 
 function forgetProp(that, ss, prop) {
@@ -332,8 +325,6 @@ Object.prototype.hasOwnProperty = function(key) { return (key != '_rhaboo' && Ob
 
 module.exports = {
   persistent : persistent,
-//  storeProps : storeProps,
-//  forgetProps : forgetProps,
   addRef: addRef,
   release: release,
   storeProp : storeProp,
