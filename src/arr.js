@@ -17,7 +17,7 @@ var Array_rhaboo_defensively = function(mutator) {
   return function () { 
     var slotnum=undefined, refs;
     var ss = [];
-    //Note the slotnum and refcount then totally remove it from localStorage...
+    //Note the slotnum and refcount then totally remove it from Storage...
     if (this._rhaboo) {
       slotnum = this._rhaboo.slotnum;
       refs = this._rhaboo.refs;
@@ -28,7 +28,7 @@ var Array_rhaboo_defensively = function(mutator) {
     //Recreate it, specifying the same slotnum and refcount...
     if (slotnum!==undefined) { //otherwise it never was persisted
       R.addRef(this, ss, slotnum, refs);
-      R.execute(ss); //Hit localStorage
+      R.execute(ss); //Hit Storage
     }
     return retval;
   }

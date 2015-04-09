@@ -133,7 +133,7 @@ function persistent(key) {
     var ret = addRef({}, ss); //Persist an empty object. It will know its slot number afterwards.
     localStorage.setItem(ls_prefix+key, left_l_pp(true)(ret)); //left_l_pp in encoding mode 
     //   just returns "&0" where 0 is the slotnum which ret acquired during addRef
-    execute(ss); //Actually hit localStorage
+    execute(ss); //Actually hit Storage
     return ret;
   }
 }
@@ -174,7 +174,7 @@ function augment(that, propname, propslot) {
   return (decoded.length>1) ? augment(that, decoded[1][0], decoded[1][1]) : that;
 }
 
-//These kid functions ONLY manipulate the list in memory and don't touch localStorage
+//These kid functions ONLY manipulate the list in memory and don't touch Storage
 
 function appendKid(that, prop, slotnum) {
   //_rhaboo.prev is the tail of the list of children. _rhaboo.next is the head
@@ -192,14 +192,14 @@ function removeKid(that, prop) {
   delete that._rhaboo.kids[prop]; //Delete victim's node
 }
 
-//Correct the contents of the localStorage slot for either that or that[prop]
+//Correct the contents of the Storage slot for either that or that[prop]
 //Dual use: prop==undefined means persist that / else persist the prop
 function updateSlot(that, ss, prop) {
   var bare = []; //This is what we'll encode with parunpars to make the slot contents
   bare.push(prop!==undefined ? that[prop] : that); //First, the data itself
   //Nowthen, both _rhaboo and _rhaboo.kids[prop] have a next and prev.
   //  For the latter, they implement a doubly linked list in memory
-  //    (although it's only singly linked in localStorage)
+  //    (although it's only singly linked in Storage)
   //  For the former, next means head and prev means tail.  
   //  Either way, if there's a next, then its property name and slot number 
   //    go on the right hand side of the slot contents
@@ -211,7 +211,7 @@ function updateSlot(that, ss, prop) {
 }
 
 //Reserve a slot (if not already done) for a child of that called prop
-//Don't do it but add localStorage actions to ss
+//Don't do it but add Storage actions to ss
 function slotFor(that, ss, prop) {
   if (that._rhaboo.kids[prop]===undefined) {
     var slotnum = newSlot();
