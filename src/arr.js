@@ -15,10 +15,11 @@ var Array_rhaboo_originals = Array_rhaboo_originals || {
 //Worst case scenario: 
 var Array_rhaboo_defensively = function(mutator) {
   return function () { 
-    var slotnum=undefined, refs;
+    var slotnum=undefined, refs, storage;
     var ss = [];
     //Note the slotnum and refcount then totally remove it from Storage...
     if (this._rhaboo) {
+      storage = this._rhaboo.storage;
       slotnum = this._rhaboo.slotnum;
       refs = this._rhaboo.refs;
       R.release(this, ss, true); //true means force release even if there are other references
@@ -27,8 +28,8 @@ var Array_rhaboo_defensively = function(mutator) {
     var retval = Array_rhaboo_originals[mutator].apply(this, arguments);
     //Recreate it, specifying the same slotnum and refcount...
     if (slotnum!==undefined) { //otherwise it never was persisted
-      R.addRef(this, ss, slotnum, refs);
-      R.execute(ss); //Hit Storage
+      R.addRef(this, ss, storage, slotnum, refs);
+      R.execute(this._rhaboo.storage, ss); //Hit Storage
     }
     return retval;
   }
@@ -46,7 +47,7 @@ Array.prototype.push = function () {
       R.storeProp(this, ss, i); //This might be writing each slot twice
     }
     R.updateSlot(this, ss); //for length
-    R.execute(ss);
+    R.execute(this._rhaboo.storage, ss);
   }
 }
 
@@ -60,7 +61,7 @@ Array.prototype.pop = function () {
   var ret = Array_rhaboo_originals.pop.apply(this, arguments);
   if ( this._rhaboo !== undefined && l>0 ) {
     R.updateSlot(this, ss); //for length
-    R.execute(ss);
+    R.execute(this._rhaboo.storage, ss);
   }
   return ret;
 }
@@ -69,7 +70,7 @@ Array.prototype.write = function(prop, val) {
   Object.prototype.write.call(this, prop, val);
   var ss = [];
   R.updateSlot(this, ss); //for length
-  R.execute(ss);
+  R.execute(this._rhaboo.storage, ss);
 }
 
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
@@ -85,6 +86,6 @@ Array.prototype.fill = Array_rhaboo_defensively("fill");
 
 module.exports = {
   persistent : R.persistent,
-  nuke : R.nuke,
+  perishable : R.perishable
 };
 
