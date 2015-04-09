@@ -12,7 +12,7 @@ Thanks to <a href='https://github.com/brasofilo'>brasofilo</a> for the logo.
 What is it?
 -----------
 
-This library gives a JS programmer persistence whilst staying close to the JS object model. In other words, it makes ordinary JS objects (including deeply nested ones) persist as if by magic.
+This library gives a JS programmer persistence whilst staying close to the JS object model. In other words, it makes ordinary JS objects (including deeply nested ones) persist as if by magic. The underlying storage is either localStorage or sessionStorage, as you choose.
 
 The usual approach to this problem is to stringify and parse the entire object, but that gives lousy performance on large datasets. For instance, if you had an array of 999 diary entries and the user added a 1000th, then the entire history would have to be parsed and re-stringified. Rhaboo is more cunning than that.
 
@@ -66,7 +66,9 @@ Usage
 Make a persistent object like this:
 
 ```
-   var mystore = Rhaboo.persistent("Some unique name");
+   var mystore = Rhaboo.persistent("Some unique name"); //localStorage
+   //or
+   var mystore = Rhaboo.perishable("Some unique name"); //sessionStorage
 ```
 (Honestly, 'new' is not desired here.)
 
@@ -150,7 +152,7 @@ There's no function to delete everything in a persistent, but that could be made
    mystore.erase('killable');
 ```
 
-You may have multiple root persistents, i.e. calls to Rhaboo.persistent - there's no performance penalty for this. You may have multiple persistent references to the same persistent object or sub-object. You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory. Regex- and function-valued properties are not supported.
+You may have multiple root persistents, i.e. calls to Rhaboo.persistent/perishable - there's no performance penalty for this. You may have multiple persistent references to the same persistent object or sub-object within a given persistent or perishable, but please don't put references to perishable objects inside persistent ones or vice versa (there's no check for this - it will just go bonkers.) You may put non-numerically named properties into arrays or set object or array entries to null, undefined or non-existent. The persisted objects will behave just like those im memory. Regex- and function-valued properties are not supported.
 
 Rhaboo adds a property called `_rhaboo` to each object it makes persistent, but this won't show up in standard iterations of the form:
 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<script src = '../rhaboo.max.js'></script>
+<script>
+
+var store = Rhaboo.perishable('Cliches demo');
+
+//Let's have an explicit 'been here before' indication...
+if (!store.initialised) {
+  store.write('initialised', true);
+  store.write('cliches', [
+      { text: "24x7",                count: 5 },
+      { text: "dialogging",          count: 3 },
+      { text: "outside of the box",  count: 12 }
+  ]);
+  //This demonstrates multiple references to the same object:
+  store.write("silly", store.cliches[1]);
+}
+
+function newCliche(text) {
+  //Array functions work persistently. 
+  store.cliches.push( { text: text, count: 1 } );
+  store.cliches.sort( function(a,b) { return a.text < b.text ? -1 : a.text > b.text ? 1 : 0; });
+  render();
+}
+
+function incrementCliche(k) {
+  //Both arrays and other objects have a working write function 
+  //if they are already inside something made with new Rhaboo.Persistent
+  store.cliches[k].write('count', store.cliches[k].count+1);
+  render();
+}
+
+function deleteCliche(k) {
+  //In JS, splice is the correct way to delete an element of an array...
+  store.cliches.splice(k,1); 
+  render();
+}
+
+function sillyCliche(k) {
+  store.write('silly', store.cliches[k]);
+  render();
+}
+
+function render() {
+  var all = document.getElementById('all');
+  all.innerHTML = '';
+
+  function addCell(parent, text) {
+    var td = document.createElement('td');
+    td.innerHTML = text;
+    parent.appendChild(td);
+  }
+
+  //Iterate over the array as normal...
+  for (var k=0; k<store.cliches.length; k++) {
+    var tr = document.createElement('tr');
+    all.appendChild(tr);
+    addCell(tr, store.cliches[k].text);
+    addCell(tr, store.cliches[k].count);
+    addCell(tr, '<div class="button" onClick="incrementCliche('+k+');">Again</div>');
+    addCell(tr, '<div class="button" onClick="deleteCliche('+k+');">Delete</div>');
+    addCell(tr, '<div class="button" onClick="sillyCliche('+k+');">Silly</div>');
+  }
+   
+  var bot = document.getElementById('bot');
+  bot.innerHTML = '';
+  var s = document.createElement('tr');
+  s.innerHTML="<td colspan='5'>You can't get much sillier than '"+store.silly.text+"'</td>"
+  bot.appendChild(s);
+
+}
+
+</script>
+
+<body onLoad='render();'>
+  <p><a href='index.html'>Back to demos index</a></p>
+  <h1>Cliché counter</h1>
+  <table>
+   <div id='all'></div>
+   <tr><form> <td>
+         <input type="text" id="newtext" name="text">  </td><td>
+         <input id="new" type="button" value="New" onclick="
+            newCliche(document.getElementById('newtext').value);"/>
+   </td></form></tr>
+  </table>
+  <div id='bot'></div>
+</body>
+
+
+<style>
+html > *    { font-family: Arial !important; color: #502000; background-color: white;}
+td          {  padding-right:50px; padding-bottom:3px; }
+.button, #new {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  background-color:#ededed; border:1px solid #dcdcdc; color:#777777;
+  border-top-left-radius:6px; border-top-right-radius:6px; border-bottom-right-radius:6px; border-bottom-left-radius:6px;
+  height:23px; width:67px; display:inline-block;
+  font-family:Arial; font-size:15px; font-weight:bold; line-height:23px; text-align:center;
+} /* This button was generated using CSSButtonGenerator.com */
+</style>
+
+
