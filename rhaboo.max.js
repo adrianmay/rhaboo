@@ -160,12 +160,12 @@ Array.prototype.pop = function () {
   return ret;
 }
 
-Array.prototype.write = function(prop, val) { 
+Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
   Object.prototype.write.call(this, prop, val);
   var ss = [];
   R.updateSlot(this, ss); //for length
   R.execute(this._rhaboo.storage, ss);
-}
+}});
 
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
 //Array.prototype.push = Array_rhaboo_defensively("push");
