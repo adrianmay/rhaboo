@@ -187,27 +187,39 @@ module.exports = {
 (function (global){
 "use strict"
 
-/*
-EXAMPLE LS STRUCTURE:  
+/* EXAMPLE OF STORAGE FORMAT:
+   
+_RHABOO_NEXT_SLOT             17                                 
+_rhaboo_Cliches demo          &0                                 The root.
+_rhaboo_0                     Object;initialised=1               It's an Object whose first property is called initialised with the value in slot 1.
+_rhaboo_1                     ?t;cliches=2                       initialised is a bool with the value t. The root's next child is called cliches and lives in slot 2.
+_rhaboo_2                     &3;silly=16                        cliches is a reference to what's in slot 3. The root's next child is called silly and lives in slot 16.
+_rhaboo_3                     Array=3;0=4                        cliches is an Array of length 3 whose 0th element is in slot 4.
+_rhaboo_4                     &5;1=8                             cliches[0] is a reference to what's in slot 5 and cliches[1] lives in slot 8
+_rhaboo_5                     Object;text=6                      cliches[0] references this Object whose first member is called text and lives in slot 6
+_rhaboo_6                     $24x7;count=7                      text is a string saying "24x7" and the next sibling is called count and lives in slot 7
+_rhaboo_7                     #5                                 count is the number 5
+_rhaboo_8                     &9;2=12                            cliches[1] is a reference to what's in slot 9, which resembles slot 5
+_rhaboo_9                     Object;text=10                     Etc...
+_rhaboo_10                    $dialogging;count=11               
+_rhaboo_11                    #3                                 
+_rhaboo_12                    &13                                
+_rhaboo_13                    Object;text=14                     
+_rhaboo_14                    box;count=15                       
+_rhaboo_15                    #12                                
+_rhaboo_16                    &9                                 silly is a reference to what's in slot 9, which we already mentioned
 
-  0     | Object;diff=1 
-  1     | #5;best=2
-  2     | &3;moves=6
-  3     | Array=11;5=4
-  4     | #5;10=5
-  5     | #12
-  6     | #19
-  Tiles | &0
+means:
 
-restores to:
-
-  tiles = {
-    diff:5, best:[,,,,,5,,,,,12], moves:19, 
-    _rhaboo: { slotnum:0, refs:1, kids: {
-      diff:  { slotnum:1, next: 'moves'},
-      moves: { slotnum:2, prev: 'diff', next:'best'},
-      best:  { slotnum:3, prev: 'moves'} 
-    }, prev:'best', next:'diff' } }
+{
+  initialised: true,
+  cliches: [
+    { count: 5,  text: "24x7" },
+    { count: 3,  text: "dialogging" },
+    { count: 12, text: "outside of the box" }
+  ],
+  silly: <reference to same object as cliches[1]>
+}
 
 */
 
@@ -521,6 +533,7 @@ module.exports = {
   execute : execute,
   nuke : nuke,
 };
+
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
