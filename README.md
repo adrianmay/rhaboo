@@ -56,6 +56,10 @@ Clone the rhaboo repo and then in its directory do:
    firefox generate-tests/generated-pages/page.0.html
 ```
 
+(If grunt just exits immediately without output, you may have mistakenly installed a debian package called node. 
+You need to uninstall that and do <a href='https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions'>this</a> instead. 
+If you installed grunt while that package was installed, you can hack the #! of `which grunt` to say nodejs instead of node.)
+
 Usage
 -----
 
