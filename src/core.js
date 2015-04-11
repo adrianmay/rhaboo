@@ -319,7 +319,8 @@ function execute(storage, ss) {
     for (var i=0; i<ss.length; i++) 
       storage[ss[i][0]].apply(storage, ss[i][1]);
   }
-  setTimeout(f, 0);
+  //setTimeout(f, 0);
+  f();
 }
 
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
