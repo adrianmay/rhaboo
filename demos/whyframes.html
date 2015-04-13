@@ -1,4 +1,4 @@
-<p>This demonstrates thread safety issues. After nuking localStorage, 
+<p>This demonstrates (subsequently fixed) thread safety issues. After nuking localStorage, 
 one frame aborts half way through onLoad (leaving ?s on the page) 
 because localStorage only contains the entry that maps the key name
 onto some root slot, but that slot isn't populated yet. Also, refreshing

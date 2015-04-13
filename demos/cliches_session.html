@@ -3,7 +3,7 @@
 <script src = '../rhaboo.max.js'></script>
 <script>
 
-var store = Rhaboo.persistent('Cliches demo');
+var store = Rhaboo.perishable('Cliches demo');
 
 //Let's have an explicit 'been here before' indication...
 if (!store.initialised) {
