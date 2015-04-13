@@ -1,0 +1,2 @@
+global.Rhaboo = require('./arr');
+
