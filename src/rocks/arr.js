@@ -12,57 +12,33 @@ var Array_rhaboo_originals = Array_rhaboo_originals || {
   fill : Array.prototype.fill,
 };
 
-//Worst case scenario: 
-var Array_rhaboo_defensively = function(mutator) {
-  return function () { 
-    var slotnum=undefined, refs, storage;
-    //Note the slotnum and refcount then totally remove it from Storage...
-    if (this._rhaboo) {
-      storage = this._rhaboo.storage;
-      slotnum = this._rhaboo.slotnum;
-      refs = this._rhaboo.refs;
-      R.release(this, true); //true means force release even if there are other references
-    }
-    //Do the requested change ...
-    var retval = Array_rhaboo_originals[mutator].apply(this, arguments);
-    //Recreate it, specifying the same slotnum and refcount...
-    if (slotnum!==undefined) { //otherwise it never was persisted
-      R.addRef(this, storage, slotnum, refs);
-    }
-    return retval;
-  }
+//Just unpersist the last element
+Array.prototype.pop = function () {
+  var ret = Array_rhaboo_originals.pop.apply(this, arguments);
+  release(ret);
+  save(this);
+  return ret;
+}
+Array.prototype.shift = function () {
+  var ret = Array_rhaboo_originals.shift.apply(this, arguments);
+  release(ret);
+  save(this);
+  return ret;
 }
 
 //This can be better cos it leaves the existing part of the array unchanged
 Array.prototype.push = function () {
-  var l1 = this.length;
+  for (var i=0; i<arguments.length; i++)
+    if (typeOf(arguments[i])==='object')
+      addRef(arguments[i]);
   var retval = Array_rhaboo_originals.push.apply(this, arguments);
-  var l2 = this.length;
-  //Just persist the new elements...
-  if ( this._rhaboo !== undefined && l2>l1 ) {
-    for (var i=l1; i<l2; i++) {
-      R.storeProp(this, i); //This might be writing each slot twice
-    }
-    R.updateSlot(this); //for length
-  }
-}
-
-//Even better: just unpersist the last element
-Array.prototype.pop = function () {
-  var l = this.length;
-  if ( this._rhaboo !== undefined && l>0 ) {
-    R.forgetProp(this, l-1);
-  } 
-  var ret = Array_rhaboo_originals.pop.apply(this, arguments);
-  if ( this._rhaboo !== undefined && l>0 ) {
-    R.updateSlot(this); //for length
-  }
-  return ret;
+  save(this);
+  return retval;
 }
 
 Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
   Object.prototype.write.call(this, prop, val);
-  R.updateSlot(this); //for length
+  save(this); //for length
 }});
 
 //TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
