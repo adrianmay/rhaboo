@@ -12,69 +12,111 @@ var Array_rhaboo_originals = Array_rhaboo_originals || {
   fill : Array.prototype.fill,
 };
 
-//Worst case scenario: 
-var Array_rhaboo_defensively = function(mutator) {
-  return function () { 
-    var slotnum=undefined, refs, storage;
-    //Note the slotnum and refcount then totally remove it from Storage...
-    if (this._rhaboo) {
-      storage = this._rhaboo.storage;
-      slotnum = this._rhaboo.slotnum;
-      refs = this._rhaboo.refs;
-      R.release(this, true); //true means force release even if there are other references
-    }
-    //Do the requested change ...
-    var retval = Array_rhaboo_originals[mutator].apply(this, arguments);
-    //Recreate it, specifying the same slotnum and refcount...
-    if (slotnum!==undefined) { //otherwise it never was persisted
-      R.addRef(this, storage, slotnum, refs);
-    }
-    return retval;
-  }
+//Same members
+Array.prototype.sort = function () {
+  var retval = Array_rhaboo_originals.sort.apply(this, arguments);
+  if (this._rhaboo)
+    R.save(this);
+  return retval;
 }
 
-//This can be better cos it leaves the existing part of the array unchanged
-Array.prototype.push = function () {
-  var l1 = this.length;
-  var retval = Array_rhaboo_originals.push.apply(this, arguments);
-  var l2 = this.length;
-  //Just persist the new elements...
-  if ( this._rhaboo !== undefined && l2>l1 ) {
-    for (var i=l1; i<l2; i++) {
-      R.storeProp(this, i); //This might be writing each slot twice
-    }
-    R.updateSlot(this); //for length
-  }
+Array.prototype.reverse = function () {
+  var retval = Array_rhaboo_originals.reverse.apply(this, arguments);
+  if (this._rhaboo)
+    R.save(this);
+  return retval;
 }
 
-//Even better: just unpersist the last element
+//Just unpersist the last element
 Array.prototype.pop = function () {
-  var l = this.length;
-  if ( this._rhaboo !== undefined && l>0 ) {
-    R.forgetProp(this, l-1);
-  } 
   var ret = Array_rhaboo_originals.pop.apply(this, arguments);
-  if ( this._rhaboo !== undefined && l>0 ) {
-    R.updateSlot(this); //for length
+  if (this._rhaboo) {
+    R.release(ret);
+    R.save(this);
+  }
+  return ret;
+}
+Array.prototype.shift = function () {
+  var ret = Array_rhaboo_originals.shift.apply(this, arguments);
+  if (this._rhaboo) {
+    R.release(ret);
+    R.save(this);
   }
   return ret;
 }
 
+//Just persist the new members
+Array.prototype.push = function () {
+  if (this._rhaboo) 
+    for (var i=0; i<arguments.length; i++)
+      if (R.typeOf(arguments[i])==='object')
+        R.addRef(arguments[i],this._rhaboo.storage);
+  var retval = Array_rhaboo_originals.push.apply(this, arguments);
+  if (this._rhaboo) 
+    R.save(this);
+  return retval;
+}
+
+Array.prototype.unshift = function () {
+  if (this._rhaboo) 
+    for (var i=0; i<arguments.length; i++)
+      if (R.typeOf(arguments[i])==='object')
+        R.addRef(arguments[i],this._rhaboo.storage);
+  var retval = Array_rhaboo_originals.unshift.apply(this, arguments);
+  if (this._rhaboo) 
+    R.save(this);
+  return retval;
+}
+
+Array.prototype.splice = function () {
+  var i;
+  if (this._rhaboo) 
+    for (i=2; i<arguments.length; i++)
+      if (R.typeOf(arguments[i])==='object')
+        R.addRef(arguments[i],this._rhaboo.storage);
+  var ret = Array_rhaboo_originals.splice.apply(this, arguments);
+  if (this._rhaboo) {
+    for (i=0; i<ret.length; i++)
+      if (R.typeOf(ret[i])==='object')
+        R.release(ret[i]);
+    R.save(this);
+  }
+  return ret;
+}
+
+Array.prototype.fill = function () {
+  var st = 
+    arguments[1]===undefined ? 0 : 
+    arguments[1]<0 ? 
+    Math.max(this.length + arguments[1]) : 
+    Math.min(this.length, arguments[1]);
+  var en = 
+    arguments[2]===undefined ? this.length : 
+    arguments[2]<0 ? 
+    Math.max(this.length + arguments[2]) : 
+    Math.min(this.length, arguments[2]);
+   if (R.typeOf(arguments[0])==='object' && en>st) {
+    R.addRef(arguments[0],this._rhaboo.storage);
+    arguments[0]._rhaboo.refs += en-st-1;
+  }
+  for (; en>st; st++) { 
+    if (this._rhaboo) 
+      if (R.typeOf(this[st])==='object') 
+        R.release(this[st]);
+    this[k] = arguments[0];
+  }
+  if (this._rhaboo) 
+    R.save(this);
+  return this;
+}
+
+/*
 Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
   Object.prototype.write.call(this, prop, val);
-  R.updateSlot(this); //for length
+  R.save(this); //for length
 }});
+*/
 
-//TODO: reverse/sort(unless sparse?) don't need initial delete, shift/unshift similarly
-//Array.prototype.push = Array_rhaboo_defensively("push");
-//Array.prototype.pop = Array_rhaboo_defensively("pop");
-Array.prototype.shift = Array_rhaboo_defensively("shift");
-Array.prototype.unshift = Array_rhaboo_defensively("unshift");
-Array.prototype.splice = Array_rhaboo_defensively("splice");
-Array.prototype.reverse = Array_rhaboo_defensively("reverse");
-Array.prototype.sort = Array_rhaboo_defensively("sort");
-Array.prototype.fill = Array_rhaboo_defensively("fill");
-//Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 
 module.exports = {
   persistent : R.persistent,
