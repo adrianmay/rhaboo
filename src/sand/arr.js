@@ -36,7 +36,7 @@ var Array_rhaboo_defensively = function(mutator) {
 //This can be better cos it leaves the existing part of the array unchanged
 Array.prototype.push = function () {
   var l1 = this.length;
-  var retval = Array_rhaboo_originals.push.apply(this, arguments);
+  var ret = Array_rhaboo_originals.push.apply(this, arguments);
   var l2 = this.length;
   //Just persist the new elements...
   if ( this._rhaboo !== undefined && l2>l1 ) {
@@ -45,6 +45,7 @@ Array.prototype.push = function () {
     }
     R.updateSlot(this); //for length
   }
+  return ret;
 }
 
 //Even better: just unpersist the last element
