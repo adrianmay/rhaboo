@@ -12,7 +12,7 @@ function persistent(slot) { return construct(slot, localStorage); }
 function perishable(slot) { return construct(slot, sessionStorage); }
 
 function construct(slot, storage) { 
-  var ret = load(slot, storage);
+  var ret = load(ls_prefix+slot, storage);
   built={};
   return ret;
 }
@@ -22,18 +22,19 @@ function load(slot, storage) {
     built[slot]._rhaboo.refs++;
     return built[slot];
   }
-  var raw = storage.getItem(ls_prefix+slot); 
+  var raw = storage[slot]; 
   if (raw) {
+    console.log("RAW SLOT:"+raw);
     var ret = JSON.parse(raw);
     built[slot] = ret;
     ret._rhaboo = { storage: storage, refs: 1, slot: slot};
-    var t = JSON.parse(store["-"+slot]);
+    var t = JSON.parse(storage["-"+slot]);
     for (var k in t) 
       ret[k]=load(t[k], storage);
     return ret;
   } else { //virgin
     var ret = { _rhaboo: { storage: storage, refs: 1, slot: slot } };
-    save(that,storage);
+    save(ret,storage);
     built[slot] = ret;
     return ret;
   }
@@ -44,12 +45,12 @@ function load(slot, storage) {
 function addRef(that, storage) {
   if (that._rhaboo === undefined ) {
     that._rhaboo = { storage: storage, refs: 1, slot: newSlot(storage)};
-    save(that,storage);
     for (var k in that) 
       if (that.hasOwnProperty(k))
         if (typeOf(that[k])==='object')
           if (k!=='_rhaboo')
-            addRef(that[k])  
+            addRef(that[k],storage);  
+    save(that,storage);
   }
   else 
     that._rhaboo.refs++;
@@ -152,6 +153,8 @@ module.exports = {
   perishable : perishable,
   addRef: addRef,
   release: release,
+  save: save,
+  typeOf: typeOf
 };
 
 

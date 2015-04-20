@@ -26,11 +26,11 @@ module.exports = function(grunt) {
     },
     copy: {
       min: {
-        src: '<%= pkg.name %>.sand.min.js',
+        src: '<%= pkg.name %>.rocks.min.js',
         dest: '<%= pkg.name %>.min.js',
       },
       max: {
-        src: '<%= pkg.name %>.sand.max.js',
+        src: '<%= pkg.name %>.rocks.max.js',
         dest: '<%= pkg.name %>.max.js',
       }
     }
