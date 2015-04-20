@@ -172,6 +172,10 @@ Browserification
 
 If you use node.js modules or browserify, you can treat src/arr.js as the module which delivers all of rhaboo. In src/unbrowserify.js (which is what browserify renders into ./rhaboo.max.js) you can see how the module.exports from arr.js is assigned to something called Rhaboo at global scope. This is to hand rhaboo's facilities to people who can't write "require" cos they're in a browser and don't use browserify. 
 
+Variants
+--------
+
+'Sand' and 'rocks' are two different strategies for optimising the internal storage format. Both are subject to ongoing experiments. You can include e.g. 'rhaboo.rocks.min.js' if you have a special preference, but for the time being, 'rhaboo.min.js' provides something that works.
 
 
 

@@ -1,0 +1,164 @@
+<!doctype html>
+<!-- Thanks to Poper123c@ on github for this test -->
+<html lang="en">
+<head>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Test</title>
+        <script language="JavaScript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script language="JavaScript" src="https://rawgit.com/luis-almeida/jPages/master/js/jPages.js"></script>
+        <script language="JavaScript" src="https://rawgit.com/adrianmay/rhaboo/master/rhaboo.max.js"></script>
+	      <script language="JavaScript">
+$(function(){
+
+    $("div.holder").jPages({
+      containerID: "itemContainer",
+      perPage: 1
+    });
+    /* build and append preformated code examples */
+    $("div#content").find("p").last().after(buildCodeBlocks);
+
+    /* toggle/collapse preformated code blocks */
+    $("pre").bind("click", function(){
+        this.className = this.className.indexOf("collapse") === -1 ?
+    		( "collapse " + this.className ) : this.className.replace("collapse ", "");
+    });
+    
+    /* apply code highlight */
+    $('pre code').each( function(i, e) {
+        hljs.highlightBlock(e, '    ');
+    });
+
+});
+
+function buildCodeBlocks() {
+    return "<div class='codeBlocks clearfix'>" +
+    "<pre class='html'><code>" + getHtml() + "</code></pre>" +
+    "<pre class='javascript'><code>" + cleanJson( $("head script").last().text() ) + "</code></pre>" +
+    "<pre class='css'><code>" + cleanCSS( $("head style").text() ) + "</code></pre>" +
+    "</div>";
+}
+
+function getHtml() {
+    var clone, ul, li, code;
+
+    clone = $("<div />").append($("div#content").contents().not("h2, p").clone());
+    ul = clone.find("ul");
+    li = ul.find("li");
+
+    li.slice(3, li.length).remove();
+    ul.append("...");
+
+    code = clone.html();
+
+    return cleanHTML(code).replace(/</gi, "&lt;").replace(/>/gi, "&gt;");;
+}
+
+  </script>
+        
+	<style type="text/css">
+.itemContainer ul,  li {
+          list-style: none;
+          list-style-position: outside;
+          margin-left: 0px; padding-left: 0px;
+}
+
+
+.holder {
+	margin: 15px 0;
+}
+
+.hholder a {
+	font-size: 12px;
+	cursor: pointer;
+	margin: 0 5px;
+	color: #333;
+}
+
+.holder a, .holder span {
+	      cursor: pointer;
+          float: left;
+          color: #666;
+          font-size:12px;
+          line-height:20px;
+          font-weight: normal;
+          text-align: center;
+          border: 1px solid #BBB;
+          min-width: 12px;
+          padding: 0 6px;
+          margin: 0 4px 0 0;
+          border-radius: 3px;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+          background: #efefef; /* Old browsers */
+          background: -moz-linear-gradient(top, #ffffff 0%, #efefef 100%); /* FF3.6+ */
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#efefef)); /* Chrome,Safari4+ */
+          background: -webkit-linear-gradient(top, #ffffff 0%,#efefef 100%); /* Chrome10+,Safari5.1+ */
+          background: -o-linear-gradient(top, #ffffff 0%,#efefef 100%); /* Opera11.10+ */
+          background: -ms-linear-gradient(top, #ffffff 0%,#efefef 100%); /* IE10+ */
+          background: linear-gradient(top, #ffffff 0%,#efefef 100%); /* W3C */    
+}
+    
+    
+.holder a:hover {
+	background-color: #222;
+	color: #fff;
+}
+
+.holder a.jp-previous { margin-right: 15px; }
+.holder a.jp-next { margin-left: 15px; }
+
+.holder a.jp-current, a.jp-current:hover { 
+	color: #FF4242;
+	font-weight: bold;
+}
+
+.holder a.jp-disabled, a.jp-disabled:hover {
+	color: #bbb;
+}
+
+.holder a.jp-current, a.jp-current:hover,
+.holder a.jp-disabled, a.jp-disabled:hover {
+	cursor: default; 
+	background: none;
+}
+
+.holder span { margin: 0 5px; }
+	</style>
+        
+  </head>
+  <body>
+  
+  <h1>Pages</h1>
+
+  <p></p>
+  
+   
+  <div>
+        <ul id="itemContainer">
+        <!-- Items -->
+            <li><h4>Text 1</h4>...</li>
+            <li><h4>Text 2</h4>...</li>
+            <li><h4>Text 3</h4>...</li>
+            <li><h4>Text 4</h4>...</li>
+	    <li><h4>Text 5</h4>...</li>
+            <li><h4>Text 6</h4>...</li>
+            <li><h4>Text 7</h4>...</li>
+	</ul>
+
+	<hr>
+	
+	<div class="holder"></div>  
+	
+	
+	</div>
+
+<script type="text/javascript">
+    var store = Rhaboo.persistent("diLog");
+    if (store.dilog === undefined) { //first run
+        store.write('dilog', []);
+    }  
+</script>  
+  
+  </body>
+</html>
