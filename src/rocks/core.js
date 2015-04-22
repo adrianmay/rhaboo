@@ -41,28 +41,32 @@ function load(slot, storage, cons) {
   }
   var raw = storage[slot]; 
   if (raw) {
-//    console.log("RAW SLOT:"+raw);
-    var ret = JSON.parse(raw);
-//    if (cons==='Date') 
-//      ret = new Date(ret);
-    built[slot] = ret;
-    ret._rhaboo = { storage: storage, refs: 1, slot: slot};
-    var t = JSON.parse(storage["-"+slot]);
-    for (var k in t) {
-      var ss = t[k].split(":");
-      ret[k]=load(ss[1], storage, ss[0]);
+    if (raw.substring(0,1)==="^") {
+      ret = new Date(raw.substring(1));
+      built[slot] = ret;
+      ret._rhaboo = { storage: storage, refs: 1, slot: slot};
+    } else {
+      var ret = JSON.parse(raw);
+  //    if (cons==='Date') 
+  //      ret = new Date(ret);
+      built[slot] = ret;
+      ret._rhaboo = { storage: storage, refs: 1, slot: slot};
+      var t = JSON.parse(storage["-"+slot]);
+      for (var k in t) {
+        var ss = t[k].split(":");
+        ret[k]=load(ss[1], storage, ss[0]);
+      }
     }
     return ret;
   } else { //virgin
     var ret = { _rhaboo: { storage: storage, refs: 1, slot: slot } };
-    save(ret,storage);
+    ret.save();
     built[slot] = ret;
     return ret;
   }
 }
 
 // Check object and all children have slots
-// Doesn't save
 function addRef(that, storage) {
   if (that._rhaboo === undefined ) {
     that._rhaboo = { storage: storage, refs: 1, slot: newSlot(storage)};
@@ -71,7 +75,7 @@ function addRef(that, storage) {
         if (typeOf(that[k])==='object')
           if (k!=='_rhaboo')
             addRef(that[k],storage);  
-    save(that,storage);
+    that.save();
   }
   else 
     that._rhaboo.refs++;
@@ -97,7 +101,7 @@ function write(that, prop, val) {
   if (typeOf(val)==='object')
     addRef(val, that._rhaboo.storage);
   that[prop] = val;
-  save(that);
+  that.save();
   return that;
 }
 
@@ -105,7 +109,7 @@ function erase(that, prop) {
   if (typeOf(that[prop])==='object')
     release(that[prop]);
   delete that[prop];
-  save(that);
+  that.save();
   return that;
 }
 
@@ -130,12 +134,28 @@ function replacer(tail, storage) { return function(key, val) {
 
 // Update persistent copy of that
 // Slot assumed allocated already
-function save(that) {
+function saveObject(that) {
+  var d2j = Date.prototype.toJSON;
+  delete Date.prototype.toJSON;
   var tail = {};
   that._rhaboo.storage[that._rhaboo.slot] = JSON.stringify(that, replacer(tail, that._rhaboo.storage));
   that._rhaboo.storage["-"+that._rhaboo.slot] = JSON.stringify(tail);
+  Date.prototype.toJSON = d2j;
   return that._rhaboo.slot;
 }
+
+function saveDate(that) {
+  that._rhaboo.storage[that._rhaboo.slot] = "^"+that.toString();
+  return that._rhaboo.slot;
+}
+
+Object.defineProperty(Object.prototype, 'save', { value: function() {
+  return saveObject(this);
+}});
+
+Object.defineProperty(Date.prototype, 'save', { value: function() {
+  return saveDate(this);
+}});
 
 //The main API
 //Assumes that this is persistent already, but not that val is.
@@ -175,7 +195,6 @@ module.exports = {
   perishable : perishable,
   addRef: addRef,
   release: release,
-  save: save,
   typeOf: typeOf
 };
 
