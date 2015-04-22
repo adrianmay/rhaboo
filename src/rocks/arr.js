@@ -31,7 +31,8 @@ Array.prototype.reverse = function () {
 Array.prototype.pop = function () {
   var ret = Array_rhaboo_originals.pop.apply(this, arguments);
   if (this._rhaboo) {
-    R.release(ret);
+    if (R.typeOf(ret)==='object')
+      R.release(ret);
     this.save();
   }
   return ret;
@@ -39,7 +40,8 @@ Array.prototype.pop = function () {
 Array.prototype.shift = function () {
   var ret = Array_rhaboo_originals.shift.apply(this, arguments);
   if (this._rhaboo) {
-    R.release(ret);
+    if (R.typeOf(ret)==='object')
+      R.release(ret);
     this.save();
   }
   return ret;
