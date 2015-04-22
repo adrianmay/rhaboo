@@ -2,6 +2,19 @@
 
 /* EXAMPLE OF STORAGE FORMAT: */
 
+//Polyfill constructor.name in IE
+//Thanks to Matthew Sharley for this.
+if (Function.prototype.name === undefined && Object.defineProperty !== undefined) {
+    Object.defineProperty(Function.prototype, 'name', {
+        get: function() {
+            var funcNameRegex = /function\s([^(]{1,})\(/;
+            var results = (funcNameRegex).exec((this).toString());
+            return (results && results.length > 1) ? results[1].trim() : "";
+        },
+        set: function(value) {}
+    });
+}
+
 var ls_prefix = "_rhaboo_";
 
 var built = {};
@@ -17,20 +30,28 @@ function construct(slot, storage) {
   return ret;
 }
 
-function load(slot, storage) { 
+Date.prototype.toJSON = function() {
+  return this;
+}
+
+function load(slot, storage, cons) { 
   if (built[slot]) {
     built[slot]._rhaboo.refs++;
     return built[slot];
   }
   var raw = storage[slot]; 
   if (raw) {
-    console.log("RAW SLOT:"+raw);
+//    console.log("RAW SLOT:"+raw);
     var ret = JSON.parse(raw);
+//    if (cons==='Date') 
+//      ret = new Date(ret);
     built[slot] = ret;
     ret._rhaboo = { storage: storage, refs: 1, slot: slot};
     var t = JSON.parse(storage["-"+slot]);
-    for (var k in t) 
-      ret[k]=load(t[k], storage);
+    for (var k in t) {
+      var ss = t[k].split(":");
+      ret[k]=load(ss[1], storage, ss[0]);
+    }
     return ret;
   } else { //virgin
     var ret = { _rhaboo: { storage: storage, refs: 1, slot: slot } };
@@ -93,6 +114,7 @@ function erase(that, prop) {
 // Doesn't recurse
 function replacer(tail, storage) { return function(key, val) {
   var t = typeOf(val);
+  console.log("TYPE:KEY:VAL:"+t+":"+key+":"+val)
   if (t==='number' || t==='string' || t==='boolean') 
     return val;
   if (key=='') 
@@ -100,7 +122,7 @@ function replacer(tail, storage) { return function(key, val) {
   if (key==='_rhaboo') 
     return undefined;
   if (t === 'object') {
-    tail[key] = val._rhaboo.slot;
+    tail[key] = val.constructor.name + ":" + val._rhaboo.slot;
     return undefined;
   }  
   return val;
