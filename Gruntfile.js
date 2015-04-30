@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    fave_algo: 'sand',
     browserify: {
       sand: {
         files: {
@@ -26,11 +27,11 @@ module.exports = function(grunt) {
     },
     copy: {
       min: {
-        src: '<%= pkg.name %>.rocks.min.js',
+        src: '<%= pkg.name %>.<%= fave_algo %>.min.js',
         dest: '<%= pkg.name %>.min.js',
       },
       max: {
-        src: '<%= pkg.name %>.rocks.max.js',
+        src: '<%= pkg.name %>.<%= fave_algo %>.max.js',
         dest: '<%= pkg.name %>.max.js',
       }
     }
