@@ -48,18 +48,19 @@ function load(slot, storage, cons) {
       ret._rhaboo = { storage: storage, refs: 1, slot: slot};
     } else {
       var ret = JSON.parse(raw);
-  //    if (cons==='Date') 
-  //      ret = new Date(ret);
       built[slot] = ret;
       ret._rhaboo = { storage: storage, refs: 1, slot: slot};
       var t = JSON.parse(storage["-"+slot]);
       for (var k in t) {
+        /*
         if (t[k]==='_') {
           ret[k] = undefined;
         } else {
-          var ss = t[k].split(":");
-          ret[k]=load(ss[1], storage, ss[0]);
-        }
+        */
+          //var ss = t[k].split(":");
+          //ret[k]=load(ss[1], storage, ss[0]);
+          ret[k]=load(t[k], storage);
+        //}
       }
     }
     return ret;
@@ -123,19 +124,22 @@ function erase(that, prop) {
 // Doesn't recurse
 function replacer(tail, storage) { return function(key, val) {
   var t = typeOf(val);
-  //console.log("TYPE:KEY:VAL:"+t+":"+key+":"+val)
   if (t==='number' || t==='string' || t==='boolean') 
     return val;
+  /*
   if (key!=='' && val===undefined) {
     tail[key] = "_";
     return val;
   }
+  */
   if (key==='') 
     return val;
   if (key==='_rhaboo') 
     return undefined;
+  if (val===null)
+    return val;
   if (t === 'object') {
-    tail[key] = val.constructor.name + ":" + val._rhaboo.slot;
+    tail[key] = /*val.constructor.name + ":" + */val._rhaboo.slot;
     return undefined;
   }  
   return val;

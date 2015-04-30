@@ -13,7 +13,7 @@ if (page === 0) {
 function same_ (p,e) {
   if (typeof p !== 'object' || typeof e !== 'object')
     return (p === e);
-  if (typeof 0 === 'object')
+//  if (typeof 0 === 'object')
     if (p.length !== e.length)
       return false;
 
@@ -32,7 +32,7 @@ function same_ (p,e) {
 function same(p,e) {
   var ret = same_(p,e);
   if (!ret) {
-    console.log("FAILED");
+    console.log("FAILED. Slot="+p._rhaboo.slotnum);
     console.log("P("+p.length+") : " + ajon.stringify(p, ['_rhaboo']));
     console.log("E("+p.length+") : " + ajon.stringify(e));
   }
