@@ -122,6 +122,7 @@ Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
 
 module.exports = {
   persistent : R.persistent,
-  perishable : R.perishable
+  perishable : R.perishable,
+  algorithm : "rocks"
 };
 

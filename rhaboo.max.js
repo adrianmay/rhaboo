@@ -173,7 +173,8 @@ Array.prototype.fill = Array_rhaboo_defensively("fill");
 
 module.exports = {
   persistent : R.persistent,
-  perishable : R.perishable
+  perishable : R.perishable,
+  algorithm : "sand"
 };
 
 

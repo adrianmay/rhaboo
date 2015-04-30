@@ -1,8 +1,8 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
     fave_algo: 'sand',
+    pkg: grunt.file.readJSON('package.json'),
     browserify: {
       sand: {
         files: {
@@ -42,9 +42,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.loadTasks('grunt-tasks');
-  grunt.registerTask('default', ['gentest-easy', 'browserify', 'uglify', 'copy']);
-  //grunt.registerTask('default', ['gentest-easy', 'gentest', 'browserify', 'uglify']);
-  
-//  grunt.registerTask('default', ['browserify', 'uglify', 'copy']);
+  grunt.registerTask('default', ['gentest-easy', 'gentest', 'browserify', 'uglify', 'copy']);
 
 }

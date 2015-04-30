@@ -25,12 +25,12 @@ var m = {
   script_in: function(code) { return m.el('script', {}, code, true); },
   css:       function(url)  { return m.el('link', { rel:'stylesheet', type:'text/css', href:url }, ''); },
   testout:   function()     { return m.el('div',{id:'qunit'},'') + m.el('div',{id:'qunit-fixture'},''); },
-  html:      function(head, body) {
+  html:      function(head, body, onload) {
     return "<!DOCTYPE html>\n" +
       //"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n" +
       m.el('meta', { 'http-equiv':'Content-Type', content:'text/html; charset:utf-8'}, "") +
       m.el('html', {}, 
-         m.el('head', {}, head, true) + m.el('body', {}, body, true));
+         m.el('head', {}, head, true) + m.el('body', onload?{onload:onload}:{}, body, true));
   },
   biglink:   function(cap,url) { return m.el('a', { class:'big',href:url },cap ); },
   //This will make more sense later....
@@ -55,7 +55,8 @@ var m = {
       m.el('h1', {}, 'Rhaboo Generated Tests '+page) +
       m.el('p', {}, 'These tests should be run in order from the start, allowing each page to complete.') +
       m.el('a', {href: 'page.'+page+'.js'}, 'Test Code') +
-      m.testout()
+      m.testout(),
+      page==0 ? 'if (Rhaboo.algorithm=="rocks") alert("These tests are too strict for the rocks algorithm. Use either the sand algorithm or the tests in /generated-pages-easy.")' : undefined
     );
   }
 }
