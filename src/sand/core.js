@@ -127,11 +127,12 @@ function perishable(key) { return construct(sessionStorage, key); }
 
 function construct(storage, key) { 
   var praw = storage.getItem(ls_prefix+key); //Likely contains "&0" where 0 is the slot number with the root object in
+
   if (praw) {
     var decoded = slot_l_pp(storage)(false)(praw); //Sees the & and calls restore
     built={}; //Thanks to janmotum on github for alerting me to the necessity for this line
     return decoded[0];
-  } else { //virgin
+  } else { //virgin (not catching fullness here cos it would mean you're flooding LS with something other than rhaboo)
     var ret = addRef({_rhaboo:{storage:storage}}); //Persist an empty object. It will know its slot number afterwards.
     storage.setItem(ls_prefix+key, left_l_pp(storage)(true)(ret)); //left_l_pp in encoding mode 
     //   just returns "&0" where 0 is the slotnum which ret acquired during addRef
@@ -145,6 +146,8 @@ function restore(storage) { return function(slotnum) {
   if ( built[slotnum]!==undefined ) //important for multiple references to the same object
     return addRef(built[slotnum]); 
   var raw = storage.getItem(ls_prefix+slotnum)
+  if (raw===undefined) //means we ran out of storage when storing
+    return undefined;
   //Read the constructor name and its optional parameter from the LHS of the slot contents 
   //  and run that to make decoded[0]. decoded[1] is an array with a prop name and slot number
   //  for the first child...
@@ -166,6 +169,8 @@ function restore(storage) { return function(slotnum) {
 //  type, value and possible successor is written in propslot...
 function augment(that, propname, propslot) {
   var praw = that._rhaboo.storage.getItem(ls_prefix+propslot);
+  if (praw===undefined) //ran out of storage when storing
+    return that;
   //We use slot_l_pp because we know it's a value not an object, because if it was an object then
   //  it would be a reference to another slot containing the object... 
   var decoded = slot_l_pp(that._rhaboo.storage)(false)(praw);
@@ -209,7 +214,38 @@ function updateSlot(that, prop) {
   if (kid.next!==undefined) 
     bare.push([kid.next, that._rhaboo.kids[kid.next].slotnum]);
   var encoded = (prop!==undefined ? slot_l_pp(that._rhaboo.storage) : slot_o_pp)(true)(bare);
-  that._rhaboo.storage.setItem(ls_prefix+kid.slotnum, encoded);
+  try {
+    that._rhaboo.storage.setItem(ls_prefix+kid.slotnum, encoded);
+  } catch (e) {
+    if (isQuotaExceeded(e))
+      //just in case some partial junk is left in there...
+      that._rhaboo.storage.removeItem(ls_prefix+kid.slotnum, encoded);
+      console.log("Local storage quota exceeded by rhaboo");
+      //now the restore phase will tolerate surprisingly empty slots.
+  }
+}
+
+function isQuotaExceeded(e) { //Thanks crocodillon.com
+  var quotaExceeded = false;
+  if (e) {
+    if (e.code) {
+      switch (e.code) {
+        case 22:
+          quotaExceeded = true;
+        break;
+        case 1014:
+          // Firefox
+          if (e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+          quotaExceeded = true;
+        }
+        break;
+      }
+    } else if (e.number === -2147024882) {
+      // Internet Explorer 8
+      quotaExceeded = true;
+    }
+  }
+  return quotaExceeded;
 }
 
 //Reserve a slot (if not already done) for a child of that called prop
