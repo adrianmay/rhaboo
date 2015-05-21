@@ -42,7 +42,7 @@ var m = {
       m.script_ex('http://code.jquery.com/qunit/qunit-1.14.0.js') +
       m.script_ex('page.'+page+'.js') +
       m.script_ex('http://adrianmay.github.io/ajon/src/ajon.js') +
-      m.script_ex('../runner.js') +
+      m.script_ex('../runner-easy.js') +
       m.el('table', {width:'100%'}, m.el('tr', {}, 
         m.el('td', { }, 
           m.biglink('Start','page.0.html') + 
@@ -56,7 +56,7 @@ var m = {
       m.el('p', {}, 'These tests should be run in order from the start, allowing each page to complete.') +
       m.el('a', {href: 'page.'+page+'.js'}, 'Test Code') +
       m.testout(),
-      page==0 ? 'if (Rhaboo.algorithm=="rocks") alert("These tests are too strict for the rocks algorithm. Use either the sand algorithm or the tests in /generated-pages-easy.")' : undefined
+      page==0 ? 'if (Rhaboo.algorithm=="sand") alert("These tests are too easy for the sand algorithm. Use either the rocks algorithm or the tests in /generated-pages.")' : undefined
     );
   }
 }
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
       ["the","quick","brown","fox",""], 
       [[[[[1,2,3]]]]] 
     ]],
-    u : [0, [undefined]],
+//    u : [0, [undefined]],
     n : [0, [null]],
     k : null
   };
@@ -124,12 +124,15 @@ module.exports = function(grunt) {
       []
     ]],
     O : ["shift", 0, [[]]],
-    a : ["write", 0, [
-      [0, undefined],
-      [2, { the : "quick", brown: "fox"}],
-      [20, "abcdefg"],
-      [1, 123]
-    ]],
+    a : ["shift", 0, [[]]],
+
+//    a : ["write", 0, [
+      //[0, undefined],
+   //   [2, { the : "quick", brown: "fox"}],
+//      [20, "abcdefg"],
+//      [1, 123]
+//    ]],
+    
     A : ["sort", 0, [[]]],
     u : ["reverse", 0, [[]]],
     n : ["splice", 0, [
@@ -138,12 +141,15 @@ module.exports = function(grunt) {
       [0,1000],
       [1000,0,10,20,30]
     ]],
+    k : ["sort", 0, [[]]],
+    /*
     k : ["write", 0, [
-      [1, undefined],
+      //[1, undefined],
       [2, [1, true, "three"] ],
       [20, null],
       [5, 456]
     ]],
+    */
   };
 
   function getArrayOperation(type) {
@@ -310,7 +316,7 @@ module.exports = function(grunt) {
       }
     }
     var w = whatisthis(path[path.length-1])[0];
-    if (w === 'o' || w==='a') {
+    if (w === 'o' /*|| w==='a'*/) {
       //If we just made an object, maybe apply imminent tests inside it
       if (roll(4)!=0) {
           path.push(getPersName());
@@ -462,15 +468,15 @@ module.exports = function(grunt) {
     return count;
   }
 
-  grunt.registerTask('gentest', function() {
+  grunt.registerTask('gentest-easy', function() {
     grunt.log.write("Persistents per page: ");
     var pa;
     for (pa in script4) if (script4.hasOwnProperty(pa)) {
-      grunt.file.write("generate-tests/generated-pages/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
-      grunt.file.write("generate-tests/generated-pages/page." + pa + ".html", m.test_page(pa));
+      grunt.file.write("generate-tests/generated-pages-easy/page." + pa + ".js", "var page = "+pa+";\nvar persistents = "+JSON.stringify(script4[pa], null, 3)+"\n");
+      grunt.file.write("generate-tests/generated-pages-easy/page." + pa + ".html", m.test_page(pa));
       grunt.log.write(oblen(script4[pa]) + ", ");
     }
-    grunt.file.write("generate-tests/generated-pages/page." + script4.length + ".html", "<h1>That's all folks");
+    grunt.file.write("generate-tests/generated-pages-easy/page." + script4.length + ".html", "<h1>That's all folks");
 
   });
 

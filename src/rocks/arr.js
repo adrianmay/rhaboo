@@ -16,14 +16,14 @@ var Array_rhaboo_originals = Array_rhaboo_originals || {
 Array.prototype.sort = function () {
   var retval = Array_rhaboo_originals.sort.apply(this, arguments);
   if (this._rhaboo)
-    R.save(this);
+    this.save();
   return retval;
 }
 
 Array.prototype.reverse = function () {
   var retval = Array_rhaboo_originals.reverse.apply(this, arguments);
   if (this._rhaboo)
-    R.save(this);
+    this.save();
   return retval;
 }
 
@@ -31,16 +31,18 @@ Array.prototype.reverse = function () {
 Array.prototype.pop = function () {
   var ret = Array_rhaboo_originals.pop.apply(this, arguments);
   if (this._rhaboo) {
-    R.release(ret);
-    R.save(this);
+    if (R.typeOf(ret)==='object')
+      R.release(ret);
+    this.save();
   }
   return ret;
 }
 Array.prototype.shift = function () {
   var ret = Array_rhaboo_originals.shift.apply(this, arguments);
   if (this._rhaboo) {
-    R.release(ret);
-    R.save(this);
+    if (R.typeOf(ret)==='object')
+      R.release(ret);
+    this.save();
   }
   return ret;
 }
@@ -53,7 +55,7 @@ Array.prototype.push = function () {
         R.addRef(arguments[i],this._rhaboo.storage);
   var retval = Array_rhaboo_originals.push.apply(this, arguments);
   if (this._rhaboo) 
-    R.save(this);
+    this.save();
   return retval;
 }
 
@@ -64,7 +66,7 @@ Array.prototype.unshift = function () {
         R.addRef(arguments[i],this._rhaboo.storage);
   var retval = Array_rhaboo_originals.unshift.apply(this, arguments);
   if (this._rhaboo) 
-    R.save(this);
+    this.save();
   return retval;
 }
 
@@ -79,7 +81,7 @@ Array.prototype.splice = function () {
     for (i=0; i<ret.length; i++)
       if (R.typeOf(ret[i])==='object')
         R.release(ret[i]);
-    R.save(this);
+    this.save();
   }
   return ret;
 }
@@ -106,7 +108,7 @@ Array.prototype.fill = function () {
     this[k] = arguments[0];
   }
   if (this._rhaboo) 
-    R.save(this);
+    this.save();
   return this;
 }
 
@@ -120,6 +122,7 @@ Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
 
 module.exports = {
   persistent : R.persistent,
-  perishable : R.perishable
+  perishable : R.perishable,
+  algorithm : "rocks"
 };
 

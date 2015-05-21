@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    fave_algo: 'sand',
     pkg: grunt.file.readJSON('package.json'),
     browserify: {
       sand: {
@@ -26,11 +27,11 @@ module.exports = function(grunt) {
     },
     copy: {
       min: {
-        src: '<%= pkg.name %>.sand.min.js',
+        src: '<%= pkg.name %>.<%= fave_algo %>.min.js',
         dest: '<%= pkg.name %>.min.js',
       },
       max: {
-        src: '<%= pkg.name %>.sand.max.js',
+        src: '<%= pkg.name %>.<%= fave_algo %>.max.js',
         dest: '<%= pkg.name %>.max.js',
       }
     }
@@ -41,8 +42,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.loadTasks('grunt-tasks');
-//  grunt.registerTask('default', ['write-sample-data', 'gentest', 'browserify', 'uglify']);
-  
-  grunt.registerTask('default', ['browserify', 'uglify', 'copy']);
+  grunt.registerTask('default', ['gentest-easy', 'gentest', 'browserify', 'uglify', 'copy']);
 
 }

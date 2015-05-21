@@ -17,14 +17,14 @@ var Array_rhaboo_originals = Array_rhaboo_originals || {
 Array.prototype.sort = function () {
   var retval = Array_rhaboo_originals.sort.apply(this, arguments);
   if (this._rhaboo)
-    R.save(this);
+    this.save();
   return retval;
 }
 
 Array.prototype.reverse = function () {
   var retval = Array_rhaboo_originals.reverse.apply(this, arguments);
   if (this._rhaboo)
-    R.save(this);
+    this.save();
   return retval;
 }
 
@@ -32,16 +32,18 @@ Array.prototype.reverse = function () {
 Array.prototype.pop = function () {
   var ret = Array_rhaboo_originals.pop.apply(this, arguments);
   if (this._rhaboo) {
-    R.release(ret);
-    R.save(this);
+    if (R.typeOf(ret)==='object')
+      R.release(ret);
+    this.save();
   }
   return ret;
 }
 Array.prototype.shift = function () {
   var ret = Array_rhaboo_originals.shift.apply(this, arguments);
   if (this._rhaboo) {
-    R.release(ret);
-    R.save(this);
+    if (R.typeOf(ret)==='object')
+      R.release(ret);
+    this.save();
   }
   return ret;
 }
@@ -54,7 +56,7 @@ Array.prototype.push = function () {
         R.addRef(arguments[i],this._rhaboo.storage);
   var retval = Array_rhaboo_originals.push.apply(this, arguments);
   if (this._rhaboo) 
-    R.save(this);
+    this.save();
   return retval;
 }
 
@@ -65,7 +67,7 @@ Array.prototype.unshift = function () {
         R.addRef(arguments[i],this._rhaboo.storage);
   var retval = Array_rhaboo_originals.unshift.apply(this, arguments);
   if (this._rhaboo) 
-    R.save(this);
+    this.save();
   return retval;
 }
 
@@ -80,7 +82,7 @@ Array.prototype.splice = function () {
     for (i=0; i<ret.length; i++)
       if (R.typeOf(ret[i])==='object')
         R.release(ret[i]);
-    R.save(this);
+    this.save();
   }
   return ret;
 }
@@ -107,7 +109,7 @@ Array.prototype.fill = function () {
     this[k] = arguments[0];
   }
   if (this._rhaboo) 
-    R.save(this);
+    this.save();
   return this;
 }
 
@@ -121,7 +123,8 @@ Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
 
 module.exports = {
   persistent : R.persistent,
-  perishable : R.perishable
+  perishable : R.perishable,
+  algorithm : "rocks"
 };
 
 
@@ -129,6 +132,19 @@ module.exports = {
 "use strict"
 
 /* EXAMPLE OF STORAGE FORMAT: */
+
+//Polyfill constructor.name in IE
+//Thanks to Matthew Sharley for this.
+if (Function.prototype.name === undefined && Object.defineProperty !== undefined) {
+    Object.defineProperty(Function.prototype, 'name', {
+        get: function() {
+            var funcNameRegex = /function\s([^(]{1,})\(/;
+            var results = (funcNameRegex).exec((this).toString());
+            return (results && results.length > 1) ? results[1].trim() : "";
+        },
+        set: function(value) {}
+    });
+}
 
 var ls_prefix = "_rhaboo_";
 
@@ -145,31 +161,49 @@ function construct(slot, storage) {
   return ret;
 }
 
-function load(slot, storage) { 
+Date.prototype.toJSON = function() {
+  return this;
+}
+
+function load(slot, storage, cons) { 
   if (built[slot]) {
     built[slot]._rhaboo.refs++;
     return built[slot];
   }
   var raw = storage[slot]; 
   if (raw) {
-    console.log("RAW SLOT:"+raw);
-    var ret = JSON.parse(raw);
-    built[slot] = ret;
-    ret._rhaboo = { storage: storage, refs: 1, slot: slot};
-    var t = JSON.parse(storage["-"+slot]);
-    for (var k in t) 
-      ret[k]=load(t[k], storage);
+    var sig = raw.substring(0,1);
+    if (sig==="^") {
+      ret = new Date(raw.substring(1));
+      built[slot] = ret;
+      ret._rhaboo = { storage: storage, refs: 1, slot: slot};
+    } else {
+      var ret = JSON.parse(raw);
+      built[slot] = ret;
+      ret._rhaboo = { storage: storage, refs: 1, slot: slot};
+      var t = JSON.parse(storage["-"+slot]);
+      for (var k in t) {
+        /*
+        if (t[k]==='_') {
+          ret[k] = undefined;
+        } else {
+        */
+          //var ss = t[k].split(":");
+          //ret[k]=load(ss[1], storage, ss[0]);
+          ret[k]=load(t[k], storage);
+        //}
+      }
+    }
     return ret;
   } else { //virgin
     var ret = { _rhaboo: { storage: storage, refs: 1, slot: slot } };
-    save(ret,storage);
+    ret.save();
     built[slot] = ret;
     return ret;
   }
 }
 
 // Check object and all children have slots
-// Doesn't save
 function addRef(that, storage) {
   if (that._rhaboo === undefined ) {
     that._rhaboo = { storage: storage, refs: 1, slot: newSlot(storage)};
@@ -178,7 +212,7 @@ function addRef(that, storage) {
         if (typeOf(that[k])==='object')
           if (k!=='_rhaboo')
             addRef(that[k],storage);  
-    save(that,storage);
+    that.save();
   }
   else 
     that._rhaboo.refs++;
@@ -204,7 +238,7 @@ function write(that, prop, val) {
   if (typeOf(val)==='object')
     addRef(val, that._rhaboo.storage);
   that[prop] = val;
-  save(that);
+  that.save();
   return that;
 }
 
@@ -212,7 +246,7 @@ function erase(that, prop) {
   if (typeOf(that[prop])==='object')
     release(that[prop]);
   delete that[prop];
-  save(that);
+  that.save();
   return that;
 }
 
@@ -223,12 +257,20 @@ function replacer(tail, storage) { return function(key, val) {
   var t = typeOf(val);
   if (t==='number' || t==='string' || t==='boolean') 
     return val;
-  if (key=='') 
+  /*
+  if (key!=='' && val===undefined) {
+    tail[key] = "_";
+    return val;
+  }
+  */
+  if (key==='') 
     return val;
   if (key==='_rhaboo') 
     return undefined;
+  if (val===null)
+    return val;
   if (t === 'object') {
-    tail[key] = val._rhaboo.slot;
+    tail[key] = /*val.constructor.name + ":" + */val._rhaboo.slot;
     return undefined;
   }  
   return val;
@@ -236,12 +278,28 @@ function replacer(tail, storage) { return function(key, val) {
 
 // Update persistent copy of that
 // Slot assumed allocated already
-function save(that) {
+function saveObject(that) {
+  var d2j = Date.prototype.toJSON;
+  delete Date.prototype.toJSON;
   var tail = {};
   that._rhaboo.storage[that._rhaboo.slot] = JSON.stringify(that, replacer(tail, that._rhaboo.storage));
   that._rhaboo.storage["-"+that._rhaboo.slot] = JSON.stringify(tail);
+  Date.prototype.toJSON = d2j;
   return that._rhaboo.slot;
 }
+
+function saveDate(that) {
+  that._rhaboo.storage[that._rhaboo.slot] = "^"+that.toString();
+  return that._rhaboo.slot;
+}
+
+Object.defineProperty(Object.prototype, 'save', { value: function() {
+  return saveObject(this);
+}});
+
+Object.defineProperty(Date.prototype, 'save', { value: function() {
+  return saveDate(this);
+}});
 
 //The main API
 //Assumes that this is persistent already, but not that val is.
@@ -281,7 +339,6 @@ module.exports = {
   perishable : perishable,
   addRef: addRef,
   release: release,
-  save: save,
   typeOf: typeOf
 };
 

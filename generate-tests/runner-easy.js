@@ -13,26 +13,42 @@ if (page === 0) {
 function same_ (p,e) {
   if (typeof p !== 'object' || typeof e !== 'object')
     return (p === e);
-  if (p && e)
-    if (p.length !== e.length)
+//  if (typeof 0 === 'object')
+    if (p.length !== e.length) {  
+      console.log("Array length mismatch at slot "+p._rhaboo.slot+":"+p._rhaboo.storage[p._rhaboo.slot]);
       return false;
+    }
 
   var en = 0, pn = 0;
-  for (var ec in e) if (e.hasOwnProperty(ec)) en++;
-  for (var pc in p) if ((pc !== '_rhaboo') && p.hasOwnProperty(pc)) {
-    //console.log("MYSTERY:"+pc+":"+p[pc]);
-    pn++;
-    if (!same_(p[pc], e[pc]))
-      return false;
+  for (var ec in e) 
+    if ( e.hasOwnProperty(ec) && 
+         e[ec]!==null && 
+         e[ec]!==undefined) 
+      en++;
+  for (var pc in p) 
+    if ( (pc !== '_rhaboo') && 
+         p.hasOwnProperty(pc) && 
+         p[pc]!==null && 
+         p[pc]!==undefined) {
+      //console.log("MYSTERY:"+pc+":"+p[pc]);
+      pn++;
+      if (!same_(p[pc], e[pc])) {
+        console.log("Member mismatch at slot "+p._rhaboo.slot+":"+p._rhaboo.storage[p._rhaboo.slot]);
+        return false;
+      }
   }
   //console.log("PN:"+pn+",EN:"+en);
-  return (pn === en);
+  if (pn !== en) {
+    console.log("Object length mismatch at slot "+p._rhaboo.slot+":"+p._rhaboo.storage[p._rhaboo.slot]);
+    return false;
+  }
+  return true;
 }
 
 function same(p,e) {
   var ret = same_(p,e);
   if (!ret) {
-    console.log("FAILED. Slot="+p._rhaboo.slotnum);
+    console.log("FAILED. Slot="+p._rhaboo.slot);
     console.log("P("+p.length+") : " + ajon.stringify(p, ['_rhaboo']));
     console.log("E("+p.length+") : " + ajon.stringify(e));
   }
