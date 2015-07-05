@@ -1,0 +1,38 @@
+<script src = '../rhaboo.max.js'></script>
+<script>
+
+var store = Rhaboo.persistent('Full demo');
+var big='0000000000000000000000000000000000000000000000000000000000000000';
+for (var a=0; a<12; a++) {
+  big += big;
+}
+//262144 byes in big, floods 5meg after ~20 
+
+function go() {
+  try {
+  for (var a=0;a<30;a++) {
+    store.write(a, big);
+  }
+  } catch (e) {
+    console.log(e.message);
+  }
+
+}
+
+
+</script>
+<body onLoad='go();'>
+  <p><a href='index.html'>Back to demos index</a></p>
+  <p>You loaded this page <span id='count'>?</span> times. 
+  <p>Last time was <span id='stamp'>?</span>. 
+  <p>Now hit reload.</p>
+  <p onClick='
+    store.erase("count");
+    this.innerHTML="Now reload."'>
+  Forget count</p>
+  <p onClick='
+    localStorage.clear();
+    this.innerHTML="Now reload."'>
+  Nuke entire localStorage</p>
+</body>
+
