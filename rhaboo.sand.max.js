@@ -328,7 +328,7 @@ function restore(storage) { return function(slotnum) {
   if ( built[slotnum]!==undefined ) //important for multiple references to the same object
     return addRef(built[slotnum]); 
   var raw = storage.getItem(ls_prefix+slotnum)
-  if (raw===undefined) //means we ran out of storage when storing
+  if (raw===undefined || raw===null) //means we ran out of storage when storing
     return undefined;
   //Read the constructor name and its optional parameter from the LHS of the slot contents 
   //  and run that to make decoded[0]. decoded[1] is an array with a prop name and slot number
@@ -351,7 +351,7 @@ function restore(storage) { return function(slotnum) {
 //  type, value and possible successor is written in propslot...
 function augment(that, propname, propslot) {
   var praw = that._rhaboo.storage.getItem(ls_prefix+propslot);
-  if (praw===undefined) //ran out of storage when storing
+  if (praw===undefined || praw===null) //ran out of storage when storing
     return that;
   //We use slot_l_pp because we know it's a value not an object, because if it was an object then
   //  it would be a reference to another slot containing the object... 
@@ -403,6 +403,7 @@ function updateSlot(that, prop) {
       //just in case some partial junk is left in there...
       that._rhaboo.storage.removeItem(ls_prefix+kid.slotnum, encoded);
       console.log("Local storage quota exceeded by rhaboo");
+      throw (e);
       //now the restore phase will tolerate surprisingly empty slots.
   }
 }
