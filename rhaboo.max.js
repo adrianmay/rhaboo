@@ -315,7 +315,9 @@ function construct(storage, key) {
     built={}; //Thanks to janmotum on github for alerting me to the necessity for this line
     return decoded[0];
   } else { //virgin (not catching fullness here cos it would mean you're flooding LS with something other than rhaboo)
-    var ret = addRef({_rhaboo:{storage:storage}}); //Persist an empty object. It will know its slot number afterwards.
+    var ob = {};
+    Object.defineProperty(ob, "_rhaboo", { value: {storage:storage}, writable: true, configurable: true, enumerable: false});
+    var ret = addRef(ob); //Persist an empty object. It will know its slot number afterwards. 
     storage.setItem(ls_prefix+key, left_l_pp(storage)(true)(ret)); //left_l_pp in encoding mode 
     //   just returns "&0" where 0 is the slotnum which ret acquired during addRef
     return ret;
@@ -335,12 +337,12 @@ function restore(storage) { return function(slotnum) {
   //  for the first child...
   var decoded = slot_o_pp(false)(raw);
   //Insert a default _rhaboo ...
-  decoded[0]._rhaboo = {
+  Object.defineProperty(decoded[0], "_rhaboo", { value: { 
     storage: storage,
     slotnum : slotnum,
     refs : 1,
     kids : { }
-  };
+  }, writable: true, configurable: true, enumerable:false });
   //Remember not to do that again...
   built[slotnum] = decoded[0];
   //Recursively build the children using augment...
@@ -448,7 +450,7 @@ function addRef(that, storage, slotnum, refs) {
   if (that._rhaboo!==undefined && that._rhaboo.slotnum!==undefined)
     that._rhaboo.refs++;
   else {
-    if (that._rhaboo===undefined) that._rhaboo = {};
+    if (that._rhaboo===undefined) Object.defineProperty(that, "_rhaboo", { value: { }, writable: true, configurable: true, enumerable:false}); 
     if (storage!==undefined) that._rhaboo.storage = storage;
     that._rhaboo.slotnum = slotnum!==undefined ? slotnum : newSlot(that._rhaboo.storage);
     that._rhaboo.refs = refs!==undefined ? refs : 1;
@@ -464,7 +466,7 @@ function storeProp(that, prop) {
   slotFor(that, prop);
   if (P.typeOf(that[prop]) === 'object') {
     if (that[prop]._rhaboo===undefined) //probably true
-      that[prop]._rhaboo={storage: that._rhaboo.storage};
+      Object.defineProperty(that[prop], "_rhaboo", { value: {storage: that._rhaboo.storage}, writable: true, configurable: true, enumerable:false});
     addRef(that[prop]);
   }
   updateSlot(that, prop);
@@ -505,7 +507,7 @@ Object.defineProperty(Object.prototype, 'write', { value: function(prop, val) {
   this[prop] = val;
   if (P.typeOf(val) === 'object') {
     if (val._rhaboo===undefined) //probably true
-      val._rhaboo={storage: this._rhaboo.storage};
+      Object.defineProperty(val, "_rhaboo", { value: {storage: this._rhaboo.storage}, writable: true, configurable: true, enumerable: false});
     addRef(val); //Persist val, whether already persisted or not
   }
   updateSlot(this, prop); //Write the slot for val itself
@@ -540,12 +542,6 @@ function newSlot(storage) {
   storedNextSlot[i]++;
   storage.setItem(keyOfStoredNextSlot, storedNextSlot[i]);
   return ret;
-}
-
-//Hide _rhaboo from normal enumeration methods...
-var Object_prototype_hasOwnPropertyOrig = Object.prototype.hasOwnProperty;
-Object.prototype.hasOwnProperty = function(key) { 
-  return (key != '_rhaboo' && Object_prototype_hasOwnPropertyOrig.call(this,key)); 
 }
 
 module.exports = {
