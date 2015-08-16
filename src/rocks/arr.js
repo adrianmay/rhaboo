@@ -123,6 +123,7 @@ Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
 module.exports = {
   persistent : R.persistent,
   perishable : R.perishable,
+  construct : R.construct,
   algorithm : "rocks"
 };
 

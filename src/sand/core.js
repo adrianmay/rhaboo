@@ -365,6 +365,7 @@ function newSlot(storage) {
 module.exports = {
   persistent : persistent,
   perishable : perishable,
+  construct: construct,
   addRef: addRef,
   release: release,
   storeProp : storeProp,
