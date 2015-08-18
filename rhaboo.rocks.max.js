@@ -124,6 +124,7 @@ Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
 module.exports = {
   persistent : R.persistent,
   perishable : R.perishable,
+  construct : R.construct,
   algorithm : "rocks"
 };
 
@@ -152,10 +153,10 @@ var built = {};
 
 function typeOf(x) { return x===null ? "null" : typeof x}
 
-function persistent(slot) { return construct(slot, localStorage); }
-function perishable(slot) { return construct(slot, sessionStorage); }
+function persistent(slot) { return construct(  localStorage, slot); }
+function perishable(slot) { return construct(sessionStorage, slot); }
 
-function construct(slot, storage) { 
+function construct(storage, slot) { 
   var ret = load(ls_prefix+slot, storage);
   built={};
   return ret;
@@ -337,6 +338,7 @@ Object.prototype.hasOwnProperty = function(slot) {
 module.exports = {
   persistent : persistent,
   perishable : perishable,
+  construct: construct,
   addRef: addRef,
   release: release,
   typeOf: typeOf
