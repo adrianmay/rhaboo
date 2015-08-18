@@ -32,12 +32,12 @@ QUnit.test( "memoryStorage", function( assert ) {
   assert.ok(store.getItem('glob0')===undefined, "global items are not visible in the local store");
   glob.removeItem('glob0');
   assert.ok(glob.length===0, "global length is updated correctly");
-  assert.ok(glob.key(0)===undefined, "global keys are removed correctly");
+  assert.ok(glob.key(0)===null, "global keys are removed correctly");
   assert.ok(glob.getItem('glob0')===undefined, "global values are removed correctly");
   
   store.clear();
   assert.ok(store.length===0, "store is cleared");
-  assert.ok(store.key(0)===undefined, "no keys in cleared store");
+  assert.ok(store.key(0)===null, "no keys in cleared store");
   assert.ok(store.getItem('test0')===undefined, "no values in cleared store");
 });
 
