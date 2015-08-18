@@ -58,6 +58,7 @@ function compatibilityMode(enable) {
 // Detect availability of (functional) web storage
 function available(storage) {
   try {
+    storage = global[storage];
     var x = '_rhaboo_test_' + Date.now().toString();
     storage.setItem(x, x);
     var y = storage.getItem(x);
@@ -70,8 +71,8 @@ function available(storage) {
   }
 }
 
-var ls_avail = ('localStorage' in this) && available(localStorage);
-var ss_avail = ('sessionStorage' in this) && available(sessionStorage);
+var ls_avail = available('localStorage');
+var ss_avail = available('sessionStorage');
 
 var ls_prefix = "_rhaboo_";
 
