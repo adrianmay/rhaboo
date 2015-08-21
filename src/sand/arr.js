@@ -78,7 +78,6 @@ Array.prototype.fill = Array_rhaboo_defensively("fill");
 //Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 
 module.exports = {
-  MemoryStorage : R.MemoryStorage,
   compatibilityMode : R.compatibilityMode,
   persistent : R.persistent,
   perishable : R.perishable,

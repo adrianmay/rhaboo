@@ -1,4 +1,75 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! 
+ * memorystorage.js - A memory-backed implementation of the Web Storage API.
+ *
+ * @copyright Copyright 2015 by Stijn de Witt. Some rights reserved. 
+ * @license Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+ */
+(function (u,m,d) {
+    if (typeof define === 'function' && define.amd) {define(d);} 
+    else if (typeof exports === 'object') {module.exports = d();} 
+    else {u[m] = d();}
+}(this, 'MemoryStorage', function(){
+	'use strict';
+	
+	/** @module memorystorage */
+	
+	/**
+	 * Creates a new MemoryStorage object implementing the <a href="http://www.w3.org/TR/webstorage/">Web Storage API</a> using memory.
+	 * 
+	 * <p>If no arguments are given, the created memory storage object will read from and write to the
+	 * <code>global</code> memory storage. If a string argument is given, the new storage object
+	 * will read from and write to it's own segment of memory. Any data written to such a memory
+	 * storage object will only show up in other memory storage objects that have been created with
+	 * the same id. This data will not show up in the <code>global</code> memory space. As such it 
+	 * is recommended to always construct a memory storage object with a unique string id as argument.</p> 
+	 * 
+	 * @param id Optional string argument used to isolate this memory storage object from others.
+	 * @alias module:memorystorage.MemoryStorage
+	 * @class 
+	 */
+	function MemoryStorage(id) {
+		this.id = id || 'global';
+		if (!storage[this.id]) {storage[this.id] = {};}
+		var keys = Object.keys(storage[this.id]);
+		Object.defineProperty(this, 'length', {
+			enumerable: true,
+			get: function(){return keys.length;}
+		});		
+		this.getItem = function MemoryStorage_getItem(key) {
+			return storage[this.id][key];
+		};
+		this.setItem = function MemoryStorage_setItem(key, val) {
+			if (! (key in storage[this.id])) {
+				keys.push(key);
+			}
+			storage[this.id][key] = val;
+		};
+		this.removeItem = function MemoryStorage_removeItem(key) {
+			if (key in storage[this.id]) {
+				keys.splice(keys.indexOf(key), 1);
+				delete storage[this.id][key];
+			}
+		};
+		this.key = function MemoryStorage_key(idx) {
+			return idx >= 0 && idx < keys.length ? keys[idx] : null;
+		};
+		this.clear = function MemoryStorage_clear() {
+			for (var i=0; i<keys.length; i++) {
+				delete storage[this.id][keys[i]];
+			}
+			keys.splice(0, keys.length);
+		};
+	}
+	
+	// Used to store all data
+	var storage = {};
+
+	// EXPOSE
+	return MemoryStorage;
+}));
+
+},{}],2:[function(require,module,exports){
 //This is for efficiently serialising objects you know the contents of.
 
 //It's not a JSON replacement. It's for when you want to control exactly 
@@ -90,7 +161,7 @@ module.exports = { typeOf:typeOf, id:id, konst:konst, eq:eq, map:map, runSnd:run
   escape:escape, sepByEsc:sepByEsc, tuple:tuple, pipe:pipe  }
 
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var R = require('./core');
 
 //All these will be changed but the new versions will use the originals...
@@ -171,7 +242,6 @@ Array.prototype.fill = Array_rhaboo_defensively("fill");
 //Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 
 module.exports = {
-  MemoryStorage : R.MemoryStorage,
   compatibilityMode : R.compatibilityMode,
   persistent : R.persistent,
   perishable : R.perishable,
@@ -181,7 +251,7 @@ module.exports = {
 };
 
 
-},{"./core":3}],3:[function(require,module,exports){
+},{"./core":4}],4:[function(require,module,exports){
 (function (global){
 "use strict"
 
@@ -266,7 +336,7 @@ var built = {};
 //The serialiser...
 
 var P = require('parunpar');
-var M = require('./memstore');
+var M = require('memorystorage');
 
 var tuple2 = P.sepByEsc('=',':')
 
@@ -579,7 +649,6 @@ function newSlot(storage) {
 }
 
 module.exports = {
-  MemoryStorage : M,
   compatibilityMode : compatibilityMode,
   persistent : persistent,
   perishable : perishable,
@@ -594,72 +663,11 @@ module.exports = {
 
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./memstore":4,"parunpar":1}],4:[function(require,module,exports){
-// Copyright 2015 by Stijn de Witt and Adrian May. Some rights reserved.
-"use strict"
-
-/**
- * Creates a new MemoryStorage object implementing the 
- * <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">Web Storage API</a> 
- * using memory.
- * 
- * <p>If no arguments are given, the created memory storage object will read from and write to
- * the <code>global</code> memory storage. If a string argument is given, the new storage object
- * will read from and write to it's own segment of memory. Any data written to such a memory
- * storage object will only show up in other memory storage objects that have been created with
- * the same (meaning <code>===</code>) id. This data will not show up in the <code>global</code>
- * memory space. As such it is recommended to always construct a memory storage object with a
- * unique string id as argument.</p> 
- * 
- * @param id Optional string argument used to isolate this memory storage object from others.
- */
-function MemoryStorage(id) {
-	this.id = id || 'global';
-	if (!storage[this.id]) {storage[this.id] = {};}
-	this.keys = Object.keys(storage[this.id]);
-	this.length = this.keys.length;
-}
-
-MemoryStorage.prototype.getItem = function MemoryStorage_getItem(key) {
-	return storage[this.id][key];
-};
-
-MemoryStorage.prototype.setItem = function MemoryStorage_setItem(key, val) {
-	if (! (key in storage[this.id])) {
-		this.keys.push(key);
-		this.length++;
-	}
-	storage[this.id][key] = val;
-};
-
-MemoryStorage.prototype.removeItem = function MemoryStorage_removeItem(key) {
-	if (key in storage[this.id]) {
-		this.keys.splice(this.keys.indexOf(key), 1);
-		this.length--;
-		delete storage[this.id][key];
-	}
-};
-MemoryStorage.prototype.key = function MemoryStorage_key(idx) {
-	return idx >= 0 && idx < this.keys.length ? this.keys[idx] : null;
-};
-
-MemoryStorage.prototype.clear = function MemoryStorage_clear() {
-	for (var i=0; i<this.length; i++) {
-		delete storage[this.id][this.keys[i]];
-	}
-	this.keys.splice(0, this.length);
-	this.length = 0;
-};
-
-// Used to store all data
-var storage = {};
-
-module.exports = MemoryStorage;
-},{}],5:[function(require,module,exports){
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"memorystorage":1,"parunpar":2}],5:[function(require,module,exports){
 (function (global){
 global.Rhaboo = require('./arr');
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./arr":2}]},{},[5]);
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./arr":3}]},{},[5]);

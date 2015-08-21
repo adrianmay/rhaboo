@@ -81,7 +81,7 @@ var built = {};
 //The serialiser...
 
 var P = require('parunpar');
-var M = require('./memstore');
+var M = require('memorystorage');
 
 var tuple2 = P.sepByEsc('=',':')
 
@@ -394,7 +394,6 @@ function newSlot(storage) {
 }
 
 module.exports = {
-  MemoryStorage : M,
   compatibilityMode : compatibilityMode,
   persistent : persistent,
   perishable : perishable,

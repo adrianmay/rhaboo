@@ -1,94 +1,68 @@
 
 _rhaboo_trace = function(s) { console.log(s); }
 
-function countMembers(ob) {
-  var res=0;
-  for (var k in ob) if (ob.hasOwnProperty(k)) res++;
-  return res;
-}
+QUnit.test( "Strict and compatibility modes", function( assert ) {
+  var store;
+  // By default, compatibility mode should be disabled
+  assert.ok(Rhaboo.compatibilityMode()===false, "Compatibility mode is disabled by default");
+  
+  // When compatibility mode is disabled, Rhaboo.persistent will fall-back to memory storage
+  // if localStorage is not available
+  try {
+    store = Rhaboo.persistent('rhaboo_test_store');
+    assert.ok(typeof store === "object", "Rhaboo.persistent without strict specified succeeds if localStorage not available");
+  }
+  catch(e) {
+    assert.ok(false, 'Rhaboo.persistent without strict specified succeeds if localStorage not available');
+  }
+  
+  // Passing true for 'strict' should make it not fallback to memory storage, and thus fail.
+  try {
+    store = Rhaboo.persistent('rhaboo_test_store', true /* strict */);
+    assert.ok(false, "Rhaboo.persistent with strict enabled fails if localStorage not available");
+  }
+  catch(e) {
+    assert.ok(true, "Rhaboo.persistent with strict enabled fails if localStorage not available");
+  }
 
-QUnit.test("inMemory", function(assert) {
-  var store1 = Rhaboo.inMemory("A Unique Name");
-  assert.ok(typeof store1 === "object", "Store1 exists");
-  assert.ok(countMembers(store1) === 0, "Store1 empty");
-  store1.write("a_string", "pinky");
-  assert.ok( store1.a_string === "pinky", "Insert string");
-  store1.write("a_string", "perky");
-  assert.ok( store1.a_string === "perky", "Change string");
-  store1.write("a_num", 123);
-  assert.ok( store1.a_num === 123, "Integer");
-  store1.write("a_num", 543.21);
-  assert.ok( store1.a_num === 543.21, "Float");
-  store1.write("a_bool", true);
-  assert.ok( store1.a_bool === true, "Bool true");
-  store1.write("a_bool", false);
-  assert.ok( store1.a_bool === false, "Same Bool false");
-  store1.write("empty_ob", {});
-  assert.ok( typeof store1.empty_ob === 'object', "Insert empty object");
+  // Enable compatibility mode
+  Rhaboo.compatibilityMode(true);
+  // compatibility mode change should be reflected
+  assert.ok(Rhaboo.compatibilityMode()===true, "Compatibility mode change should be reflected");
+  
+  // In compatibility mode, not specifying strict should make Rhaboo behave as in old versions, and thus fail 
+  try {
+    store = Rhaboo.persistent('rhaboo_test_store');
+    assert.ok(false, 'Rhaboo.persistent in compatibility mode without strict specified fails if localStorage not available');
+  }
+  catch(e) {
+    assert.ok(true, 'Rhaboo.persistent in compatibility mode without strict specified fails if localStorage not available');
+  }
+  
+  // Explicitly passing false for 'strict' should make it fallback to memory storage
+  // even when compatibility mode is enabled
+  try {
+    store = Rhaboo.persistent('rhaboo_test_store', false /* not strict */);
+    assert.ok(typeof store === "object", "Rhaboo.persistent in compatibility mode with strict explicitly disabled succeeds if localStorage not available");
+  }
+  catch(e) {
+    assert.ok(false, "Rhaboo.persistent in compatibility mode with strict explicitly disabled succeeds if localStorage not available");
+  }
+  
+  // Explicitly passing true for 'strict' should make it fail whether compatibility mode is enabled or not
+  try {
+    store = Rhaboo.persistent('rhaboo_test_store', true /* strict */);
+    assert.ok(false, "Rhaboo.persistent with strict explicitly enabled fails if localStorage not available");
+  }
+  catch(e) {
+    assert.ok(true, "Rhaboo.persistent with strict explicitly enabled fails if localStorage not available");
+  }
 
-  var store2 = Rhaboo.inMemory("Another Unique Name");
-  assert.ok(typeof store2 === "object", "Store2 exists");
-  store2.write("colour", "red");
-  store2.write("lue", 42);
-  store2.write("too", true);
-  store2.write("emp", null);
-  store2.write("emp", []);
-  store2.emp.sort();
-  store2.emp.write("guts", "foo");
-  store2.emp.write("guts",[]);
-  store2.emp.guts.write('0', undefined);
-  store2.emp.write("bum",true);
-  console.log("EMP:"+Ajon.stringify(store2.emp))
-  store2.write("undies", { three:3 });
-  store2.undies.write("undy", null);
-  store2.undies.erase("undy");
-  store2.undies.write("undy", undefined);
-  assert.ok( countMembers(store2.undies) === 2, "2 undies");
-  console.log("UNDIES:"+Ajon.stringify(store2.undies))
-  store2.write("rhyme", { 1: "man", went: [2, "mow"] } );
-  store2.rhyme.went.write(0,22);
+  Rhaboo.compatibilityMode(false);
+  try {localStorage.clear();} catch(e) {}  
 });
 
-QUnit.test( "Simple restore", function(assert) {
-  // Let's see if all of this behaves as expected when reading it back
-  var store1 = Rhaboo.inMemory("A Unique Name");
-  assert.ok( typeof store1 === "object", "Store1 exists");
-  assert.ok (countMembers(store1) === 4, "Store1 still has 4 members");
-  assert.ok( store1.a_string === "perky", "String remembered" );
-  assert.ok( store1.a_num === 543.21, "Number remembered" );
-  assert.ok( store1.a_bool === false, "Bool remembered" );
-  assert.ok( typeof store1.empty_ob === 'object', "Empty object still there ...");
-  assert.ok (countMembers(store1.empty_ob) === 0, "... and still empty");
 
-  var store2 = Rhaboo.inMemory("Another Unique Name");
-  assert.ok( store2.colour === "red", "Colour remembered" );
-  assert.ok( store2.lue === 42, "Lue remembered" );
-  assert.ok( store2.too === true, "Too remembered" );
-  assert.ok( store2.emp.length === 0, "Emp length remembered" );
-  assert.ok( store2.emp[0] === undefined, "Emp remembered" );
-  console.log("EMP:"+Ajon.stringify(store2.emp));
-  assert.ok( store2.undies.undy === undefined, "Undies remembered" );
-  assert.ok( countMembers(store2.undies) === 2, "2 undies");
-  console.log("UNDIES:"+Ajon.stringify(store2.undies))
-  assert.ok( store2.rhyme[1] === "man", "Rhyme's man remembered" );
-  assert.ok( store2.rhyme.went[0] === 22, "Rhyme's 2 remembered" );
-  assert.ok( store2.rhyme.went[1] === "mow", "Rhyme's mow remembered" );
-  store2.write("lue", 43);
-  store2.rhyme.write("went", undefined);
-});
 
-QUnit.test( "Complex object after post-restore manipulation", function(assert) {
-  var store1 = Rhaboo.persistent("A Unique Name");
-  assert.ok( typeof store1 === "object", "Store1 exists");
-  assert.ok( store1.a_string === "perky", "String remembered" );
-  assert.ok( store1.a_num === 543.21, "Number remembered" );
-  assert.ok( store1.a_bool === false, "Bool remembered" );
-  assert.ok( typeof store1.empty_ob === 'object', "Empty object still there ...");
-  assert.ok (countMembers(store1.empty_ob) === 0, "... and still empty");
 
-  var store2 = Rhaboo.persistent("Another Unique Name");
-  assert.ok( store2.colour === "red", "Colour remembered" );
-  assert.ok( store2.lue === 43, "Lue remembered" );
-  assert.ok( store2.rhyme[1] === "man", "Rhyme's man remembered" );
-  assert.ok( store2.rhyme.went === undefined, "Rhyme's 2 deleted" );
-});
+
