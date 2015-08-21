@@ -9,6 +9,8 @@ Please star the repo if you use it - Thx.
  
 Thanks to <a href='https://github.com/brasofilo'>brasofilo</a> for the logo. 
 
+<a href='https://github.com/Download'>Stijn de Witt</a> is doing some new features (different backend storage, e.g. regression to memory when in private mode on Chrome) on a fork of his.
+
 What is it?
 -----------
 
