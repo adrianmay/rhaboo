@@ -9,8 +9,6 @@ Please star the repo if you use it - Thx.
  
 Thanks to <a href='https://github.com/brasofilo'>brasofilo</a> for the logo. 
 
-<a href='https://github.com/Download'>Stijn de Witt</a> is doing some new features (different backend storage, e.g. regression to memory when in private mode on Chrome) on a fork of his.
-
 What is it?
 -----------
 
@@ -23,6 +21,8 @@ Another problem with stringify/parse is that they innacurately recreate objects,
 It's highly portable because it only relies on HTML5's localStorage. So you can use it on these browsers: http://caniuse.com/#feat=namevalue-storage
 
 Persistence code is deferred with setTimeout so the user interface remains snappy even when a lot of data changes are occuring. 
+
+When Rhaboo is unable to succesfully write to localStorage or sessionStorage, it will fallback to using [MemoryStorage](http://download.github.io/memorystorage/), memory-backed storage that implements the [Web Storage API](http://www.w3.org/TR/webstorage/), making it a drop-in replacement for `localStorage` and `sessionStorage` in environments where these are not available. One scenario in which localStorage is not available on modern browsers is Safari's Private Browsing mode, which caps localStorage at a quota of 0 bytes, making it effectively unusable. But Rhaboo is capable of dealing with this, making it a very robust way of working with Web Storage. Stored data won't survive page reloads, but it would be destroyed when the Private Browsing mode ends anyway. MemoryStorage is included in the Rhaboo distribution, so no need for extra libraries on the page.
 
 Quick Installation
 ------------------
