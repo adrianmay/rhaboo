@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var R = require('./core');
 
 //All these will be changed but the new versions will use the originals...
@@ -124,6 +124,7 @@ Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
 module.exports = {
   persistent : R.persistent,
   perishable : R.perishable,
+  construct : R.construct,
   algorithm : "rocks"
 };
 
@@ -152,10 +153,10 @@ var built = {};
 
 function typeOf(x) { return x===null ? "null" : typeof x}
 
-function persistent(slot) { return construct(slot, localStorage); }
-function perishable(slot) { return construct(slot, sessionStorage); }
+function persistent(slot) { return construct(  localStorage, slot); }
+function perishable(slot) { return construct(sessionStorage, slot); }
 
-function construct(slot, storage) { 
+function construct(storage, slot) { 
   var ret = load(ls_prefix+slot, storage);
   built={};
   return ret;
@@ -337,6 +338,7 @@ Object.prototype.hasOwnProperty = function(slot) {
 module.exports = {
   persistent : persistent,
   perishable : perishable,
+  construct: construct,
   addRef: addRef,
   release: release,
   typeOf: typeOf
@@ -349,5 +351,5 @@ module.exports = {
 global.Rhaboo = require('./arr');
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./arr":1}]},{},[3]);

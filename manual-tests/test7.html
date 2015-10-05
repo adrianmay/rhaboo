@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script>
+    // force failure of localStorage by filling it up completely
+    // this makes it act as if Private Browsing was enabled on Safari
+    (function(){
+      var i, j, FILLER = '';
+      for (i=0; i<1024; i++) {FILLER += 'X';} // prepare 1kB FILLER string
+      try {
+        localStorage.clear();
+        try {
+          for (i=0; i<(10*1024); i++) {
+            localStorage.setItem('item' + i, FILLER);
+          }
+        }
+        catch(e) {
+          // could not add another kB, but there could be some space left...
+          for (j=0; j<1024; j++) {
+            localStorage.setItem('item-extra' + j, 'X');
+          }
+        }
+        console.error('Could not blow up localStorage after writing 10M of data.');
+      } catch(e) {
+        console.info('Succesfully blew up localStorage by writing ' + i*1024+j + ' bytes of data.');
+      }
+    })();
+  </script>
+  <script src="../rhaboo.max.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.14.0.css">
+  <body>
+    <a style="font-size:xx-large;" href="index.html">Start Again</a>
+    <!-- <a style="font-size:xx-large;" href="test5.html">Next Phase</a>  -->
+    <h1>Rhaboo Tests 7</h1>
+    <h3>localStorage with fallback to memoryStorage</h3>
+    <a href="test7.js">Test code</a>
+   <script src="http://code.jquery.com/qunit/qunit-1.14.0.js"></script>
+    <script src="test7.js"></script>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+  </body>
+</html>
+
+

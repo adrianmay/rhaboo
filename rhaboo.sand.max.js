@@ -1,4 +1,75 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*! 
+ * memorystorage.js - A memory-backed implementation of the Web Storage API.
+ *
+ * @copyright Copyright 2015 by Stijn de Witt. Some rights reserved. 
+ * @license Licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+ */
+(function (u,m,d) {
+    if (typeof define === 'function' && define.amd) {define(d);} 
+    else if (typeof exports === 'object') {module.exports = d();} 
+    else {u[m] = d();}
+}(this, 'MemoryStorage', function(){
+	'use strict';
+	
+	/** @module memorystorage */
+	
+	/**
+	 * Creates a new MemoryStorage object implementing the <a href="http://www.w3.org/TR/webstorage/">Web Storage API</a> using memory.
+	 * 
+	 * <p>If no arguments are given, the created memory storage object will read from and write to the
+	 * <code>global</code> memory storage. If a string argument is given, the new storage object
+	 * will read from and write to it's own segment of memory. Any data written to such a memory
+	 * storage object will only show up in other memory storage objects that have been created with
+	 * the same id. This data will not show up in the <code>global</code> memory space. As such it 
+	 * is recommended to always construct a memory storage object with a unique string id as argument.</p> 
+	 * 
+	 * @param id Optional string argument used to isolate this memory storage object from others.
+	 * @alias module:memorystorage.MemoryStorage
+	 * @class 
+	 */
+	function MemoryStorage(id) {
+		this.id = id || 'global';
+		if (!storage[this.id]) {storage[this.id] = {};}
+		var keys = Object.keys(storage[this.id]);
+		Object.defineProperty(this, 'length', {
+			enumerable: true,
+			get: function(){return keys.length;}
+		});		
+		this.getItem = function MemoryStorage_getItem(key) {
+			return storage[this.id][key];
+		};
+		this.setItem = function MemoryStorage_setItem(key, val) {
+			if (! (key in storage[this.id])) {
+				keys.push(key);
+			}
+			storage[this.id][key] = val;
+		};
+		this.removeItem = function MemoryStorage_removeItem(key) {
+			if (key in storage[this.id]) {
+				keys.splice(keys.indexOf(key), 1);
+				delete storage[this.id][key];
+			}
+		};
+		this.key = function MemoryStorage_key(idx) {
+			return idx >= 0 && idx < keys.length ? keys[idx] : null;
+		};
+		this.clear = function MemoryStorage_clear() {
+			for (var i=0; i<keys.length; i++) {
+				delete storage[this.id][keys[i]];
+			}
+			keys.splice(0, keys.length);
+		};
+	}
+	
+	// Used to store all data
+	var storage = {};
+
+	// EXPOSE
+	return MemoryStorage;
+}));
+
+},{}],2:[function(require,module,exports){
 //This is for efficiently serialising objects you know the contents of.
 
 //It's not a JSON replacement. It's for when you want to control exactly 
@@ -9,7 +80,8 @@
 "use strict"
 
 //Functional basics...
-var typeOf = function(x) { return x===null ? 'null' : typeof x}
+
+var typeOf = function(x) { return x===null ? "null" : typeof x}
 var id = function(x) { return x;}
 var konst = function(k) { return function (x) {return k;}}
 var eq = function(a) { return function (b) { return a===b; }}
@@ -28,12 +100,15 @@ var thru = function (dir) { return function (ps) { return function (xs) {
 //  pp(false)( pp(true)(x) ) === x
 //  pp(true)( pp(false)(x) ) === x
 
+//Template
+var id_pp    = function (dir) { return dir ? function (x) { return x; } : function (x) { return x; } ;}
+
 //Fundamental parunpars...
 var string_pp    = function (dir) { return function (x)  { return x.toString(); }}
-var number_pp    = function (dir) { return function (x)  { return dir ? x.toString() : Number(x); }}
-var boolean_pp   = function (dir) { return function (x)  { return dir ? (x ? 't' : 'f') : (x==='t'); }}
-var null_pp      = function (dir) { return function (x)  { return dir ? '' : null; }}
-var undefined_pp = function (dir) { return function (x)  { return dir ? '' : undefined; }}
+var number_pp    = function (dir) { return dir ? function (x) { return x.toString(); } : function (x) { return Number(x); } ;}
+var boolean_pp   = function (dir) { return dir ? function (x) { return x?'t':'f'; } : function (x) { return x==='t'; } ;}
+var null_pp      = function (dir) { return dir ? konst('') : konst(null);}
+var undefined_pp = function (dir) { return dir ? konst('') : konst(undefined);}
 
 //Compose two parunpars. p2 is closest to the encoded text.
 var pipe = function (p1) { return function (p2) { return function (dir) { return function (x) { 
@@ -50,30 +125,25 @@ var chop = function(cols) { return function (s) {
 }}
 
 //Maps a column list and a list of parunpars onto a parunpar that allocates a fixed width to each parunpar...
-var fixedWidth = function (cols) { return function (ps) { return function (dir) { return function (x) { 
-  return dir ? thru(dir)(ps)(x).join('') : thru(dir)(ps)(chop(cols)(x)) ;
-}}}}
-
-//Work around IE bug
-function mysplit(x, sep) {
-  var res = x.split(sep);
-  if (res.length==1 && res[0]==undefined)
-    delete res[0];
-  return res;
-}
+var fixedWidth = function (cols) { return function (ps) { return function (dir) { return dir ? 
+  function (x) { return thru(true) (ps)(x).join('') ; } :
+  function (x) { return thru(false)(ps)(chop(cols)(x)) ; }
+}}}
 
 //Maps a separator and a list of parunpars onto a parunpar that serialises each with the sep in between
 //Doesn't think about what happens if the sep occurs in the serialisation of any field.
-var sepBy = function (sep) { return function (ps) { return function (dir) { return function (x) { 
-  return dir ? thru(dir)(ps)(x).join(sep) : thru(dir)(ps)(mysplit(x,sep)) ;
-}}}}
+var sepBy = function (sep) { return function (ps) { return function (dir) { return dir ?
+  function (x) { return thru(true) (ps)(x).join(sep); } :
+  function (x) { return thru(false)(ps)(x.split(sep)) ; }
+}}}
 
 //Maps one parunpar onto one that uses esc to POST-escape occurences of sep.
 //Doesn't work if sep or esc are special characters in regex syntax, so certainly not /, \ or ^
 //Feel free to use borng alphanumeric characters for either.
-var escape = function (sep, esc) { return function (p) { return function (dir) { return function (x) { 
-  return dir ? p(dir)(x).replace(RegExp(sep,'g'),sep+esc) : p(dir)(x.replace(RegExp(sep+esc,'g'), sep));
-}}}}
+var escape = function (sep, esc) { return function (p) { return function (dir) { return dir ?
+  function (x) { return  p(true)(x).replace(RegExp(sep,'g'),sep+esc); } :
+  function (x) { return  p(false)(x.replace(RegExp(sep+esc,'g'), sep)); }
+}}}
 
 //Like sepBy except that all fields are escaped to avoid conflict with the separator.
 var sepByEsc = function (sep, esc) { return function (ps) { return function (dir) { return function (x) { 
@@ -91,7 +161,7 @@ module.exports = { typeOf:typeOf, id:id, konst:konst, eq:eq, map:map, runSnd:run
   escape:escape, sepByEsc:sepByEsc, tuple:tuple, pipe:pipe  }
 
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var R = require('./core');
 
 //All these will be changed but the new versions will use the originals...
@@ -172,13 +242,16 @@ Array.prototype.fill = Array_rhaboo_defensively("fill");
 //Array.prototype.write = Array.prototype._rhaboo_defensively("write");
 
 module.exports = {
+  compatibilityMode : R.compatibilityMode,
   persistent : R.persistent,
   perishable : R.perishable,
+  inMemory : R.inMemory,
+  construct : R.construct,
   algorithm : "sand"
 };
 
 
-},{"./core":3}],3:[function(require,module,exports){
+},{"./core":4}],4:[function(require,module,exports){
 (function (global){
 "use strict"
 
@@ -231,6 +304,31 @@ if (Function.prototype.name === undefined && Object.defineProperty !== undefined
     });
 }
 
+var back_comp = false;
+function compatibilityMode(enable) {
+  if (enable !== undefined) {back_comp = !!enable;}
+  return back_comp;
+}
+
+// Detect availability of (functional) web storage
+function available(storage) {
+  try {
+    storage = global[storage];
+    var x = '_rhaboo_test_' + Date.now().toString();
+    storage.setItem(x, x);
+    var y = storage.getItem(x);
+    storage.removeItem(x);
+    if (x !== y) {throw new Error();}
+    return true;
+  }
+  catch(e) {
+    return false;
+  }
+}
+
+var ls_avail = available('localStorage');
+var ss_avail = available('sessionStorage');
+
 var ls_prefix = "_rhaboo_";
 
 var built = {};
@@ -238,6 +336,7 @@ var built = {};
 //The serialiser...
 
 var P = require('parunpar');
+var M = require('memorystorage');
 
 var tuple2 = P.sepByEsc('=',':')
 
@@ -304,8 +403,13 @@ var slot_o_pp  = P.tuple([left_o_pp, right_pp]);
 var slot_l_pp  = function ( storage) { return P.tuple([left_l_pp(storage), right_pp]); }
 //That takes something like [value,[nextprop,nextslot]]
 
-function persistent(key) { return construct(  localStorage, key); }
-function perishable(key) { return construct(sessionStorage, key); }
+function fallback(avail, key, strict) {
+	return !avail && ((strict !== undefined && !strict) || (!back_comp && !strict));
+}
+
+function persistent(key, strict) { return construct(fallback(ls_avail, key, strict) ? new M(key) : localStorage, key); }
+function perishable(key, strict) { return construct(fallback(ss_avail, key, strict) ? new M(key) : sessionStorage, key); }
+function inMemory  (key)         { return construct(new M(key), key); }
 
 function construct(storage, key) { 
   var praw = storage.getItem(ls_prefix+key); //Likely contains "&0" where 0 is the slot number with the root object in
@@ -531,13 +635,13 @@ Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
 var storedNextSlot=[0,0];
 for (var i =0; i<2; i++) { //0 is local, 1 is session
-  storedNextSlot[i] = localStorage.getItem(keyOfStoredNextSlot) || 0;
+  storedNextSlot[i] = (ls_avail && localStorage.getItem(keyOfStoredNextSlot)) || 0;
   storedNextSlot[i] = Number(storedNextSlot[i]);
 }
 
 //Grab a new slot
 function newSlot(storage) {
-  var i = (storage===localStorage) ? 0 : 1;
+  var i = (ls_avail && storage===localStorage) ? 0 : 1;
   var ret = storedNextSlot[i];
   storedNextSlot[i]++;
   storage.setItem(keyOfStoredNextSlot, storedNextSlot[i]);
@@ -545,8 +649,11 @@ function newSlot(storage) {
 }
 
 module.exports = {
+  compatibilityMode : compatibilityMode,
   persistent : persistent,
   perishable : perishable,
+  inMemory : inMemory,
+  construct: construct,
   addRef: addRef,
   release: release,
   storeProp : storeProp,
@@ -556,11 +663,11 @@ module.exports = {
 
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"parunpar":1}],4:[function(require,module,exports){
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"memorystorage":1,"parunpar":2}],5:[function(require,module,exports){
 (function (global){
 global.Rhaboo = require('./arr');
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./arr":2}]},{},[4]);
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./arr":3}]},{},[5]);

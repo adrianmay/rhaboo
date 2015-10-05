@@ -49,6 +49,31 @@ if (Function.prototype.name === undefined && Object.defineProperty !== undefined
     });
 }
 
+var back_comp = false;
+function compatibilityMode(enable) {
+  if (enable !== undefined) {back_comp = !!enable;}
+  return back_comp;
+}
+
+// Detect availability of (functional) web storage
+function available(storage) {
+  try {
+    storage = global[storage];
+    var x = '_rhaboo_test_' + Date.now().toString();
+    storage.setItem(x, x);
+    var y = storage.getItem(x);
+    storage.removeItem(x);
+    if (x !== y) {throw new Error();}
+    return true;
+  }
+  catch(e) {
+    return false;
+  }
+}
+
+var ls_avail = available('localStorage');
+var ss_avail = available('sessionStorage');
+
 var ls_prefix = "_rhaboo_";
 
 var built = {};
@@ -56,6 +81,7 @@ var built = {};
 //The serialiser...
 
 var P = require('parunpar');
+var M = require('memorystorage');
 
 var tuple2 = P.sepByEsc('=',':')
 
@@ -122,8 +148,13 @@ var slot_o_pp  = P.tuple([left_o_pp, right_pp]);
 var slot_l_pp  = function ( storage) { return P.tuple([left_l_pp(storage), right_pp]); }
 //That takes something like [value,[nextprop,nextslot]]
 
-function persistent(key) { return construct(  localStorage, key); }
-function perishable(key) { return construct(sessionStorage, key); }
+function fallback(avail, key, strict) {
+	return !avail && ((strict !== undefined && !strict) || (!back_comp && !strict));
+}
+
+function persistent(key, strict) { return construct(fallback(ls_avail, key, strict) ? new M(key) : localStorage, key); }
+function perishable(key, strict) { return construct(fallback(ss_avail, key, strict) ? new M(key) : sessionStorage, key); }
+function inMemory  (key)         { return construct(new M(key), key); }
 
 function construct(storage, key) { 
   var praw = storage.getItem(ls_prefix+key); //Likely contains "&0" where 0 is the slot number with the root object in
@@ -349,13 +380,13 @@ Object.defineProperty(Object.prototype, 'erase', { value: function(prop) {
 var keyOfStoredNextSlot = '_RHABOO_NEXT_SLOT'
 var storedNextSlot=[0,0];
 for (var i =0; i<2; i++) { //0 is local, 1 is session
-  storedNextSlot[i] = localStorage.getItem(keyOfStoredNextSlot) || 0;
+  storedNextSlot[i] = (ls_avail && localStorage.getItem(keyOfStoredNextSlot)) || 0;
   storedNextSlot[i] = Number(storedNextSlot[i]);
 }
 
 //Grab a new slot
 function newSlot(storage) {
-  var i = (storage===localStorage) ? 0 : 1;
+  var i = (ls_avail && storage===localStorage) ? 0 : 1;
   var ret = storedNextSlot[i];
   storedNextSlot[i]++;
   storage.setItem(keyOfStoredNextSlot, storedNextSlot[i]);
@@ -363,8 +394,11 @@ function newSlot(storage) {
 }
 
 module.exports = {
+  compatibilityMode : compatibilityMode,
   persistent : persistent,
   perishable : perishable,
+  inMemory : inMemory,
+  construct: construct,
   addRef: addRef,
   release: release,
   storeProp : storeProp,

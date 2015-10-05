@@ -10,7 +10,8 @@ function countMembers(ob) {
 for (var k in localStorage)
   if (localStorage.hasOwnProperty(k))
     localStorage.removeItem(k);
-localStorage.setItem("nextPhase", 2);
+
+try {localStorage.setItem("nextPhase", 2);} catch(e) {/* ignore */}
 
 QUnit.test( "Write simple stuff", function( assert ) {
 
