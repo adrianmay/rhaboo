@@ -50,10 +50,12 @@ to check that it installed ok. Include the library in your HTML file:
 Installation for building or generating tests
 ---------------------------------------------
 
+First grunt should be instaled globally, e.g. with "sudo npm install -g grunt-cli"
+
 Clone the rhaboo repo and then in its directory do:
 
 ```
-   npm install grunt grunt-contrib-uglify grunt-browserify seedrandom ajon parunpar
+   npm install grunt-contrib-uglify grunt-contrib-copy grunt-browserify seedrandom ajon parunpar memorystorage
    grunt    # be patient with this
    firefox generate-tests/generated-pages/page.0.html
 ```

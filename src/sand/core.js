@@ -81,7 +81,7 @@ var built = {};
 //The serialiser...
 
 var P = require('parunpar');
-var M = require('memorystorage');
+//var M = require('memorystorage');
 
 var tuple2 = P.sepByEsc('=',':')
 
