@@ -29,11 +29,12 @@ Quick Installation
 
 1. Download <a class='download plain' href="https://raw.githubusercontent.com/adrianmay/rhaboo/master/rhaboo.min.js" download>rhaboo.min.js</a> and include it with a script tag.
 
-2. Install with 
+2. Install with npm:
 
 ```
    npm install rhaboo
 ```
+
 
 and point your browser at: 
 
@@ -45,6 +46,16 @@ to check that it installed ok. Include the library in your HTML file:
 
 ```
    <script src="node_modules/rhaboo/rhaboo.min.js"></script>
+```
+
+3. Install with Bower:
+```
+   bower install rhaboo --save
+```
+
+and then include the library in your HTML file:
+```
+   <script src="bower_components/rhaboo/rhaboo.min.js"></script>
 ```
 
 Installation for building or generating tests
