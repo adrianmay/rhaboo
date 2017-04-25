@@ -1,0 +1,24 @@
+{
+  "name": "rhaboo",
+  "description": "Persistent JS Objects",
+  "main": "./rhaboo.min.js",
+  "authors": [
+    "Adrian May"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "javascript",
+    "persistence",
+    "persistent",
+    "objects",
+    "localStorage"
+  ],
+  "homepage": "http://adrianmay.github.io/rhaboo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
