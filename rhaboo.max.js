@@ -154,7 +154,7 @@ Array.prototype.pop = function () {
   return ret;
 }
 
-Object.defineProperty(Array.prototype, 'write', { value: function(prop, val) {
+Object.defineProperty(Array.prototype, 'writeStore', { value: function(prop, val) {
   Object.prototype.write.call(this, prop, val);
   R.updateSlot(this); //for length
 }});

@@ -96,7 +96,7 @@ or equivalently:
 you should write:
 
 ```
-   mystore.write("foo", 123);  //Right!!!
+   mystore.writeStore("foo", 123);  //Right!!!
 ```
 
 It's an ugly substitution but at least it's one-to-one so it doesn't affect your overall design.
@@ -120,7 +120,7 @@ you should write:
 You can also pass a complex object to `write`:
 
 ```
-   mystore.write("foo", {   
+   mystore.writeStore("foo", {   
      pinky: [],   
      perky: true,   
      porky: [   
@@ -136,7 +136,7 @@ You can also pass a complex object to `write`:
 and apply `write` to its nested objects:
 
 ```
-   mystore.foo.porky.write(1, 4);
+   mystore.foo.porky.writeStore(1, 4);
 ```
 
 All the standard array modifying functions work persistently:
@@ -149,7 +149,7 @@ All the standard array modifying functions work persistently:
 There's no function to delete everything in a persistent, but that could be made simple by keeping everything in a single property of the persistent:
 
 ```
-   mystore.write('killable', { 
+   mystore.writeStore('killable', { 
       game: 'tiddlywinks', 
       player: { name: 'zorro', gender: 'm', hiscore: 10 
    } );
